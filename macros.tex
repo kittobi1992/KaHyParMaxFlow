@@ -1,0 +1,30 @@
+\newtheorem{definition}{Definition}[section]
+\newtheorem{sentence}{Sentence}[section]
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}{Lemma}[section]
+\newtheorem{problem}{Problem}[section]
+
+\newcommand{\BigO}[1]{$\mathcal O(#1)$}
+
+\newcommand{\HypergraphDef}{$H = (V,E,c,\omega)$}
+\newcommand{\FlowNetworkDef}{$G = (V',E',c')$}
+\newcommand{\ShortT}[1]{{$T_{#1}(H)$}}
+\newcommand{\ShortExT}[2]{{$T_{#1}(H,#2)$}}
+\newcommand{\T}[1]{{$T_{#1}(H) = (V_{#1}, E_{#1},c_{#1})$}}
+\newcommand{\ExtendedT}[2]{{$T_{#1}(H,#2) = (V_{#1}, E_{#1},c_{#1})$}}
+\newcommand{\Hybrid}{{$T_{\text{Hybrid}}(H,V') = (V_{\text{Hybrid}}, E_{\text{Hybrid}},c_{\text{Hybrid}})$}}
+\newcommand{\ShortHybrid}{{$T_{\text{Hybrid}}(H,V')$}}
+
+
+%Residual Capacity
+\newcommand{\R}[1]{{r_f({#1})}}
+%Vertex Seperator
+\newcommand{\V}[1]{V_S(#1)}
+
+\newcommand{\DFS}{\emph{DFS}}
+\newcommand{\BFS}{\emph{BFS}}
+
+\newcounter{todocount}
+\setcounter{todocount}{1}
+\newcommand{\todo}[1]{{\color{red}\textbf{TODO \the\value{todocount}:}
+        \emph{#1} \addtocounter{todocount}{1}}}
