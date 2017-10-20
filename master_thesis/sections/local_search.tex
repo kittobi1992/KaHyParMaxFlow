@@ -1,4 +1,14 @@
-
+We will give now a detailed description of our flow-based refinement framework. The main
+idea is to extract a subhypergraph $H_{V'}$ out of the original hypergraph $H$, which is already
+partitioned into $k$ blocks. $V'$ is choosen in such a way that it is a subset of two
+adjacent blocks $V_i$ and $V_j$. We will show how to configure
+the sources $S$ and sinks $T$ of the corresponding flow network such that
+a minimum $(S,T)$-bipartition of $H_{V'}$ improves the connectivity metric on $H$
+(see Section \ref{sec:source_and_sink}). Further, we describe how the ideas of
+the flow-based refinement framework on graphs proposed by Sanders and Schulz 
+\cite{sanders2011engineering} (see Section \ref{sec:flow_local_search_graph}) 
+can be adapted to work in a $n$-level hypergraph partitioner, called \emph{KaHyPar}
+(see Section \ref{sec:mbmc_hypergraphs} and \ref{sec:flow_local_search_hypergraph}). 
 
 \subsection{Modelling Sources and Sinks}
 \label{sec:source_and_sink}
@@ -367,6 +377,7 @@ path} on the flow network before. We are now able to compute all minimum-weight
 $(s,t)$-bipartitions the same way as on \ShortT{L}.
 
 \subsection{A Direct $K$-Way Flow-Based Refinement Framework}
+\label{sec:flow_local_search_hypergraph}
 
 We described how a hypergraph $H$ could be transformed into
 a flow network \ShortT{L} such that every minimum-capacity $(s,t)$-cutset on $G$ is a 
@@ -384,7 +395,8 @@ into the $n$-level hypergraph partitioner \emph{KaHyPar} \cite{heuer2017improvin
 (see Section \ref{sec:kahypar}). Our flow-based refinement approach optimizes
 the \emph{connectivity} metric. We used a similiar architecture as proposed
 by Sanders and Schulz \cite{sanders2011engineering} (see Section 
-\ref{sec:balanced_bipartitioning} - \ref{sec:abs}). \\
+\ref{sec:flow_local_search_graph}). The basic concepts of the framework are
+illustrated in \autoref{img:flow_framework}. \\
 Our maximum flow calculations are embedded into an \emph{Active Block Scheduling}
 refinement \cite{holtgrewe2010engineering} (see Section \ref{sec:abs}).
 Each time we use flows to improve the connectivity metric of
@@ -451,3 +463,10 @@ the runtime.
       of the multilevel hierarchy, we only execute flows in the first iteration of 
       \emph{Active Block Scheduling} on these blocks.
 \end{enumerate}
+
+\begin{figure}
+\centering 
+\includegraphics[width=1.0\textwidth]{../img/flow_local_search/flow_framework_hypergraph.eps}
+\caption{Illustration of our flow-based refinement framework on hypergraphs.}
+\label{img:flow_framework}
+\end{figure} 
