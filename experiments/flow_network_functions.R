@@ -104,3 +104,13 @@ max_flow_time_per_benchmark_type_plot <- function(db, title="") {
   return(plot)
 }
 
+max_flow_time_per_instance_plot <- function(db, title="") {
+  plot <- ggplot(db, aes( x = factor(db$flow_network), y = db$avg_max_flow_time, fill = db$flow_algorithm )) + 
+          geom_bar(stat = "identity", position = "dodge")  +
+          facet_wrap( ~ hypergraph, scales="free") + 
+          ggtitle(title) +
+          ylab("Time [ms]") +
+          xlab("Flow Network") +
+          theme_complete_bw()
+  return(plot)
+}

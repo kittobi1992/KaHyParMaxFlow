@@ -28,8 +28,20 @@ alphas <- c(1,2,4,8,16)
 for (a in alphas) {
   flow_network_alpha <- subset(flow_network_db, flow_network_db$alpha == a)
   plot_title <- paste("Runtime of max flow algorithm per benchmark type in ms (alpha=",toString(a),")",sep="")
-  plot(max_flow_time_per_benchmark_type_plot(flow_network_alpha, title=plot_title))
+  plot(max_flow_time_per_benchmark_type_plot(flow_network_db, title=plot_title))
 }
+
+plot(max_flow_time_per_benchmark_type_plot(flow_network_alpha, title="Runtime of max flow algorithm per benchmark type in ms"))
+
+
+for (a in alphas) {
+  flow_network_alpha <- subset(flow_network_db, flow_network_db$alpha == a)
+  plot_title <- paste("Runtime of max flow algorithm per instance in ms (alpha=",toString(a),")",sep="")
+  plot(max_flow_time_per_instance_plot(flow_network_alpha, title=plot_title))
+}
+
+plot(max_flow_time_per_instance_plot(flow_network_db, title="Runtime of max flow algorithm per instance in ms"))
+
 
 flow_network_small_edge_size_small_hn_degree <- subset(flow_network_db, flow_network_db$avgHyperedgeSize < 3 & flow_network_db$avgHypernodeDegree < 4)
 flow_network_small_edge_size_large_hn_degree <- subset(flow_network_db, flow_network_db$avgHyperedgeSize < 3 & flow_network_db$avgHypernodeDegree >= 4)
