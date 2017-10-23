@@ -10,6 +10,9 @@ library(dplyr)
 library(dtplyr)
 library(grid)
 
+
+
+
 theme_complete_bw <- function(base_size = 11, base_family = "") {
   theme(
     line =               element_line(colour = "black", size = 0.5, linetype = 1,
@@ -82,35 +85,57 @@ graphclass = function(row) {
   }
 }
 
-max_flow_time_per_network_plot <- function(db, title="") {
-  plot <- ggplot(db, aes( x= factor(db$flow_network), y = db$avg_max_flow_time, fill = factor(db$flow_algorithm) )) + 
-          geom_bar(stat = "identity", position = "dodge") +
-          facet_wrap( ~ alpha, scales="free") + 
+gm_mean = function(x, na.rm=TRUE, zero.propagate = FALSE){
+  if(any(x < 0, na.rm = TRUE)){
+    return(NaN)
+  }
+  if(zero.propagate){
+    if(any(x == 0, na.rm = TRUE)){
+      return(0)
+    }
+    return(exp(mean(log(x), na.rm = na.rm)))
+  } else {
+    return(exp(sum(log(x[x > 0]), na.rm=na.rm) / length(x)))
+  }
+}
+
+max_flow_time_per_network_plot <- function(db, aggreg_by=c("flow_network", "flow_algorithm", "num_hypernodes", "type"), title="") {
+  aggreg <- function(df) data.frame(objective=mean(df$avg_max_flow_time))
+  df <- ddply(db, aggreg_by, aggreg)
+  
+  plot <- ggplot(df, aes( x= flow_network, y = objective)) + 
+          geom_bar(aes(fill = flow_algorithm ), stat = "identity", position="dodge") +
+          geom_text(aes(label=round(objective, digits=2), group = flow_algorithm), vjust=0, position=position_dodge(width = 1), check_overlap = TRUE ) +
           ggtitle(title) +
           ylab("Time [ms]") +
           xlab("Flow Network") +
           theme_complete_bw()
+  
   return(plot)
 }
 
-max_flow_time_per_benchmark_type_plot <- function(db, title="") {
-  plot <- ggplot(db, aes( x = factor(db$flow_network), y = db$avg_max_flow_time, fill = db$flow_algorithm )) + 
-          geom_bar(stat = "identity", position = "dodge")  +
-          facet_wrap( ~ type, scales="free") + 
-          ggtitle(title) +
-          ylab("Time [ms]") +
-          xlab("Flow Network") +
-          theme_complete_bw()
-  return(plot)
-}
-
-max_flow_time_per_instance_plot <- function(db, title="") {
-  plot <- ggplot(db, aes( x = factor(db$flow_network), y = db$avg_max_flow_time, fill = db$flow_algorithm )) + 
-          geom_bar(stat = "identity", position = "dodge")  +
-          facet_wrap( ~ hypergraph, scales="free") + 
-          ggtitle(title) +
-          ylab("Time [ms]") +
-          xlab("Flow Network") +
-          theme_complete_bw()
-  return(plot)
+gmean_network_algorithm_table <- function(db) {
+  algorithms <- levels(factor(db$flow_algorithm))
+  networks <- levels(factor(db$flow_network))
+  
+  aggreg = function(df) data.frame(min_network_build_time=gm_mean(df$min_network_build_time), 
+                                   avg_network_build_time=gm_mean(df$avg_network_build_time), 
+                                   min_max_flow_time=gm_mean(df$min_max_flow_time), 
+                                   avg_max_flow_time=gm_mean(df$avg_max_flow_time))
+  
+  df <- data.frame()
+  for (algorithm in algorithms) {
+    for(network in networks) {
+      df <- rbind(df, ddply(db[db$flow_network == network & db$flow_algorithm == algorithm,],
+                            c("flow_network", "flow_algorithm"),aggreg))
+    }
+  }
+  
+  df <- df[order(df$avg_max_flow_time),]
+  
+  for(i in c(2:nrow(df))) {
+    df[i,3:6] <- (df[i, 3:6]/df[1,3:6] - 1.0)*100.0
+  }
+  
+  return(df)
 }
