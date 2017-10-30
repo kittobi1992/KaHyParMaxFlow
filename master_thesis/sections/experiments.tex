@@ -1,3 +1,33 @@
+\subsection{Flow Algorithms and Networks}
+
+\begin{enumerate}
+
+\item Node and Edge Distribution for different networks
+
+\begin{figure}
+\centering
+\input{experiments/node_edge_distribution.tex} %
+\caption{Comparison of the number of nodes and edges of the resulting flow graph 
+         for flow problems with size $|V'| = 25000$ for the different flow networks and
+         instance types.}
+\label{fig:node_edge_distribution}
+\end{figure} 
+
+\item Running time of flow algorithms and flow networks for different instance sizes and
+      types
+
+\begin{figure}
+\centering
+\input{experiments/speed_up_flow_network.tex} %
+\caption{Speed up of our flow algorithms and networks relative to \EdmondKarp~on
+         $\ExpLawler$ for different instance sizes and types. The red dashed line indicates the
+         $($\EdmondKarp$,\ExpLawler)$ implementation and the blue dashed line
+         indicates a speed up by a factor of $2$.}
+\label{fig:max_flow_network_algo}
+\end{figure} 
+
+\item Summary Table of running times on all instances
+
 \begin{table}
 \renewcommand{\arraystretch}{1.15}
 \centering
@@ -5,14 +35,49 @@
 \toprule
  \multirow{2}{*}{\rotatebox{90}{\footnotesize{Instance}}} & \quad\quad & \multicolumn{4}{c}{\GoldbergTarjan} & \multicolumn{4}{c}{\EdmondKarp} \\
 \cmidrule{3-10}
- &  & $T_{\text{Hybrid}}$ & $T_{\text{G}}$ & $T_{\text{H}}$ & $T_{\text{L}}$ & $T_{\text{Hybrid}}$ & $T_{\text{G}}$ & $T_{\text{H}}$ & $T_{\text{L}}$ \\
+ &  & $\ExpHybrid$ & $\ExpEdgeSize$ & $\ExpNodeDegree$ & $\ExpLawler$ & $\ExpHybrid$ & $\ExpEdgeSize$ & $\ExpNodeDegree$ & $\ExpLawler$ \\
  & $|V'|$ &  \tiny{$t[ms]$} & \tiny{$t[\%]$} & \tiny{$t[\%]$} & \tiny{$t[\%]$} & \tiny{$t[\%]$} & \tiny{$t[\%]$} & \tiny{$t[\%]$} & \tiny{$t[\%]$}
 \\\midrule%
-\csname @@input\endcsname experiments/flow_network_max_flow_table.tex 
+\csname @@input\endcsname experiments/flow_network_max_flow_summary_table.tex 
 \bottomrule
 \end{tabular}
 \caption{Running time comparison of maximum flow algorithms on different flow networks.
-         Note, all values in the table are in percentage relative to Goldberg-Tarjan 
-         on flow network $T_{Hybrid}$. In each line the fastest variant is marked bold.}
+         Note, all values in the table are in percentage relative to \GoldbergTarjan
+         on flow network $\ExpHybrid$. In each line the fastest variant is marked bold.}
 \label{tbl:space}
 \end{table}
+
+\end{enumerate}
+
+\subsection{Flow Configuration}
+
+\begin{enumerate}
+\item For $k = 2$ on the benchmark subset and $\alpha = \{1,2,4,8,16\}$ test variants:\\
+($\text{MBMC} = $ \emph{most balanced minimum cut}, $\text{CHE} = $ \emph{cut border hyperededges})
+\begin{enumerate}
+\item \FlowVariant{+}{-}{-}{-}
+\item \FlowVariant{+}{+}{-}{-}
+\item \FlowVariant{+}{+}{+}{-}
+\item \FlowVariant{+}{+}{+}{+}
+\end{enumerate}
+\end{enumerate}
+
+\subsection{Flow Heuristics}
+
+\begin{enumerate}
+\item For all $k$ on the benchmark subset test variants:
+\begin{enumerate}
+\item Without any speed up heuristic
+\item than add one heuristic and show quality is equal and time is less
+\end{enumerate}
+\item Show which quality is possible with \emph{constant} flow execution policy
+\end{enumerate}
+
+\subsection{Final Flow Refiner}
+
+\begin{enumerate}
+\item Compare final configuration of flow refiner against sea config on the full benchmark set
+\end{enumerate}
+
+
+

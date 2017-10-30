@@ -1,0 +1,22 @@
+\begin{appendix}
+
+\begin{table}
+\renewcommand{\arraystretch}{1.15}
+\centering
+\begin{tabular}{lr|*{4}{r@{\hspace{3mm}}}|*{4}{r@{\hspace{3mm}}}}
+\toprule
+ \multirow{2}{*}{\rotatebox{90}{\footnotesize{Instance}}} & \quad\quad & \multicolumn{4}{c}{\GoldbergTarjan} & \multicolumn{4}{c}{\EdmondKarp} \\
+\cmidrule{3-10}
+ &  & $\ExpHybrid$ & $\ExpEdgeSize$ & $\ExpNodeDegree$ & $\ExpLawler$ & $\ExpHybrid$ & $\ExpEdgeSize$ & $\ExpNodeDegree$ & $\ExpLawler$ \\
+ & $|V'|$ &  \tiny{$t[ms]$} & \tiny{$t[\%]$} & \tiny{$t[\%]$} & \tiny{$t[\%]$} & \tiny{$t[\%]$} & \tiny{$t[\%]$} & \tiny{$t[\%]$} & \tiny{$t[\%]$}
+\\\midrule%
+\csname @@input\endcsname experiments/flow_network_max_flow_table.tex 
+\bottomrule
+\end{tabular}
+\caption{Running time comparison of maximum flow algorithms on different flow networks.
+         Note, all values in the table are in percentage relative to Goldberg-Tarjan 
+         on flow network $T_{Hybrid}$. In each line the fastest variant is marked bold.}
+\label{tbl:space}
+\end{table}
+
+\end{appendix}

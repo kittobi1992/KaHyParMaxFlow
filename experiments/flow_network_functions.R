@@ -1,3 +1,19 @@
+if ( !exists( "tikzDeviceLoaded" ) ) {  
+  library(tikzDevice) #if not installed call install.packages("tikzDevice", repos="http://R-Forge.R-project.org")
+  
+  options(tikzLatexPackages = c(getOption('tikzLatexPackages')
+                                , "\\usepackage[utf8]{inputenc}"
+                                , "\\usepackage[T1]{fontenc}"
+                                , "\\usepackage{preview} "
+                                , "\\usepackage{latexsym,amsmath,amssymb,mathtools,textcomp}"
+                                , "\\usepackage{xcolor}"
+                                ,paste("\\input{/home/theuer/macros.tex}",sep="")
+  )
+  )
+  tikzDeviceLoaded = T
+}
+
+
 library(ggplot2)
 library(scales)
 library(RSQLite)
@@ -9,6 +25,24 @@ library(plyr)
 library(dplyr)
 library(dtplyr)
 library(grid)
+
+num_hn_revalue = c("500" = "$500$",
+                   "1000" = "$1000$",
+                   "5000" = "$5000$",
+                   "10000" = "$10000$",
+                   "25000" = "$25000$")
+type_revalue = c("DAC" = "\\DAC",
+                 "ISPD" = "\\ISPD",
+                 "Dual" = "\\Dual",
+                 "Primal" = "\\Primal",
+                 "Literal" = "\\Literal",
+                 "SPM"="\\SPM")
+algo_revalue = c("goldberg_tarjan" = "\\GoldbergTarjan",
+                 "edmond_karp" = "\\EdmondKarp")
+network_revalue = c("lawler" = "$\\ExpLawler$",
+                    "node_degree" = "$\\ExpNodeDegree$",
+                    "edge_size" = "$\\ExpEdgeSize$",
+                    "hybrid" = "$\\ExpHybrid$")
 
 
 
@@ -36,15 +70,15 @@ theme_complete_bw <- function(base_size = 11, base_family = "") {
                                       hjust = 0.5, 
                                       margin = margin(10,0,0,0)),
     axis.title.y =       element_text(size = base_size * 0.9, angle = 90,
-                                      vjust = 0.5, margin = margin(0,10,0,0)),
+                                      vjust = 0.5, margin = margin(5,10,5,0)),
     axis.ticks.length =  unit(0.05, "cm"),
     #axis.ticks.margin =  unit(0.1, "cm"),
     
     legend.background =  element_blank(),
-    legend.margin =      unit(0.25, "cm"),
-    legend.key.height =  unit(1.0, "cm"),
-    legend.key.width =   unit(1.0, "cm"),
-    legend.text =        element_text(size = rel(0.85),margin=margin(3,3,3,10)),
+    legend.margin =      unit(0, "cm"),
+    legend.key.height =  unit(0.5, "cm"),
+    legend.key.width =   unit(0.5, "cm"),
+    legend.text =        element_text(size = rel(0.75),margin=margin(3,20,3,10)),
     legend.text.align =  NULL,
     legend.title =       element_blank(),
     legend.title.align = NULL,
@@ -58,11 +92,11 @@ theme_complete_bw <- function(base_size = 11, base_family = "") {
     panel.border =       element_blank(),
     panel.grid.major =   element_line(colour = "grey90", size = 0.7),
     panel.grid.minor =   element_line(colour = "grey90", size = 0.3),
-    panel.margin =       unit(0.1, "lines"),
+    panel.margin =       unit(0.25, "lines"),
     
     strip.background =   element_rect(fill = "grey90", colour = "grey90"),
-    strip.text.x =       element_text(colour = "black", size = base_size * 0.9, margin=margin(3,10,3,10)),
-    strip.text.y =       element_text(colour = "black", size = base_size * 1.0, angle = -90),
+    strip.text.x =       element_text(colour = "black", size = base_size * 1.0, margin=margin(5,10,5,10)),
+    strip.text.y =       element_text(colour = "black", size = base_size * 1.0, angle = -90, margin=margin(5,10,5,10)),
     
     plot.background =    element_rect(colour = NA, fill = "white"),
     plot.title =         NULL,#element_text(size = base_size * 1.2),
@@ -101,14 +135,59 @@ gm_mean = function(x, na.rm=TRUE, zero.propagate = FALSE){
   }
 }
 
+revalue_columns_to_latex <- function(db) {
+  if("num_hypernodes" %in% colnames(db)) {
+    db$num_hypernodes <- revalue(as.character(db$num_hypernodes), num_hn_revalue)
+    db$num_hypernodes <- factor(db$num_hypernodes)
+    db$num_hypernodes <- factor(db$num_hypernodes, levels = levels(db$num_hypernodes)[c(4,1,5,2,3)])
+  }
+  if("type" %in% colnames(db)) {
+    db$type <- revalue(as.character(db$type), type_revalue) 
+    db$type <- factor(db$type)
+    db$type <- factor(db$type, levels = levels(db$type)[c(1,3,2,5,4,6)])
+  }
+  if("flow_algorithm" %in% colnames(db)) {
+    db$flow_algorithm <- revalue(as.character(db$flow_algorithm), algo_revalue) 
+    db$flow_algorithm <- factor(db$flow_algorithm)
+    db$flow_algorithm <- factor(db$flow_algorithm, levels = levels(db$flow_algorithm)[c(2,1)])
+  }
+  if("flow_network" %in% colnames(db)) {
+    db$flow_network <- revalue(as.character(db$flow_network), network_revalue) 
+    db$flow_network <- factor(db$flow_network)
+    db$flow_network <- factor(db$flow_network, levels = levels(db$flow_network)[c(3,4,1,2)])
+  }
+
+  return(db)
+}
+
+speed_up_plot <- function(db) {
+  speed_up_db <- speedup_relative_to(db, "edmond_karp", "lawler")
+  speed_up_db <- revalue_columns_to_latex(speed_up_db)
+  
+  speed_up_db$speedup1 <- 1.0
+  speed_up_db$speedup2 <- 2.0
+  speed_up_db$speedup3 <- 3.0
+    
+  plot <- ggplot(speed_up_db, aes( x= flow_network, y = avg_max_flow_time)) + 
+    geom_bar(aes(fill = flow_algorithm), stat = "identity", position="dodge") +
+    #geom_text(aes(label=round(avg_max_flow_time, digits=1), group = flow_algorithm), vjust=0, position=position_dodge(width = 1), check_overlap = TRUE ) +
+    facet_grid(type ~ num_hypernodes, scales = "free") +
+    geom_hline(aes(yintercept = speedup1), color="red", linetype="dashed") +
+    geom_hline(aes(yintercept = speedup2), color="blue", linetype="dashed") +
+    ylab("Speed up $\\frac{\\ExpLawler}{T_X}$") +
+    xlab("Flow Network") +
+    theme_complete_bw()
+  
+  return(plot)
+}
+
 max_flow_time_per_network_plot <- function(db, aggreg_by=c("flow_network", "flow_algorithm", "num_hypernodes", "type"), title="") {
-  aggreg <- function(df) data.frame(objective=mean(df$avg_max_flow_time),
-                                    num_nodes=gm_mean(df$avg_num_nodes))
+  aggreg <- function(df) data.frame(objective=mean(df$avg_max_flow_time))
   df <- ddply(db, aggreg_by, aggreg)
   
   plot <- ggplot(df, aes( x= flow_network, y = objective)) + 
           geom_bar(aes(fill = flow_algorithm), stat = "identity", position="dodge") +
-          geom_text(aes(label=round(objective, digits=2), group = flow_algorithm), vjust=0, position=position_dodge(width = 1), check_overlap = TRUE ) +
+          geom_text(aes(label=round(objective, digits=1), group = flow_algorithm), vjust=0, position=position_dodge(width = 1), check_overlap = TRUE ) +
           ggtitle(title) +
           ylab("Time [ms]") +
           xlab("Flow Network") +
@@ -118,14 +197,14 @@ max_flow_time_per_network_plot <- function(db, aggreg_by=c("flow_network", "flow
 }
 
 
-node_edge_distribution_plot <- function(db, aggreg_by=c("flow_network", "num_hypernodes", "type"), title="") {
+node_edge_distribution_plot <- function(db) {
   aggreg <- function(df) data.frame(num_nodes=gm_mean(df$avg_num_nodes),
                                     num_edges=gm_mean(df$avg_num_edges))
-  df <- ddply(db, aggreg_by, aggreg)
+  df <- ddply(db, c("flow_network", "flow_algorithm", "num_hypernodes", "type"), aggreg)
+  df <- revalue_columns_to_latex(df)
   
   plot <- ggplot(df, aes( x= num_nodes, y = num_edges)) + 
     geom_point(aes(color = flow_network, shape = type ), size = 10) +
-    ggtitle(title) +
     coord_trans(x="sqrt", y="sqrt") +
     ylab("Number of Edges") +
     xlab("Number of Nodes") +
@@ -163,9 +242,6 @@ gmean_network_algorithm_table <- function(db) {
   return(df)
 }
 
-test <- "+ads"
-test[1]
-
 to_latex_math_mode <- function(x) {
   sign <- '+'
   if(substring(x,1,1) == "-") {
@@ -197,6 +273,18 @@ create_flow_network_max_flow_table <- function(df, instance_type = "ALL") {
     cat(paste(column, collapse = " & "))
     cat(" \\\\ \n")
   }
+}
+
+speedup_relative_to <- function(db, algo, network) {
+  aggreg <- function(df) data.frame(avg_max_flow_time=gm_mean(df$avg_max_flow_time))
+  df <- ddply(db, c("num_hypernodes", "type", "flow_algorithm", "flow_network"), aggreg) 
+  for( num_hn in levels(factor(df$num_hypernodes)) ) {
+    for( type in levels(factor(df$type))) {
+      df[df$num_hypernodes == num_hn & df$type == type,]$avg_max_flow_time <- df[df$num_hypernodes == num_hn & df$type == type & df$flow_network == network & df$flow_algorithm == algo,]$avg_max_flow_time /
+                                                                              df[df$num_hypernodes == num_hn & df$type == type,]$avg_max_flow_time 
+    }
+  }
+  return(df)
 }
 
 sanityCheck <- function(db) {

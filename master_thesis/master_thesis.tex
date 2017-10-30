@@ -3,7 +3,7 @@
 % Dies ist nur eine Vorlage. Strikte Vorgaben wie die Bachelorarbeit auszusehen
 % hat gibt es nicht. Darum können auch alle Teile angepasst werden.
 
-\documentclass[12pt,a4paper,twoside]{scrartcl}
+\documentclass[12pt,a4paper,twoside, enabledeprecatedfontcommands]{scrartcl}
 
 % Diese (und weitere) Eingabedateien sind in UTF-8
 \usepackage[utf8]{inputenc}
@@ -132,7 +132,7 @@
     Masterthesis
     \vspace*{2cm}
 
-    {\bf\huge High Quality Hypergraph Partitioning \\ via Max-Flow-Min-Cut Computations \par}
+    {\textbf{\huge High Quality Hypergraph Partitioning \\ via Max-Flow-Min-Cut Computations} \par}
     % Siehe auch oben die Felder pdftitle={}
     % mit \par am Ende stimmt der Zeilenabstand
 
@@ -192,7 +192,7 @@ Ort, den Datum
 
 \selectlanguage{german}
 \begin{abstract}
-\centerline{\bf Zusammenfassung}
+\centerline{\textbf{Zusammenfassung}}
 
 Hier die deutsche Zusammenfassung.
 
@@ -206,7 +206,7 @@ Ich bin Blindtext. Von Geburt an. Es hat lange gedauert, bis ich begriffen habe,
 
 \selectlanguage{english}
 \begin{abstract}
-\centerline{\bf Abstract}
+\centerline{\textbf{Abstract}}
 
 And here an English translation of the German abstract.
 
@@ -310,5 +310,9 @@ Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula 
 
 \bibliographystyle{plain}
 \bibliography{../literature}
+
+\input{sections/appendix}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \end{document}
