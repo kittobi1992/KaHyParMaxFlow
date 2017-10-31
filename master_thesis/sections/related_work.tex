@@ -24,18 +24,16 @@ The capacity constraint restricts the flow on an edge $(u,v)$ by its capacity
 $c(u,v)$. Whereas the conservation of flow constraint ensures that the amount
 of flow entering a node $v \in V \setminus \{s,t\}$ is the same as leaving a node.
 The value of the flow is defined as $|f| = \sum_{(s,v) \in E} f(s,v) = \sum_{(v,t) \in E} f(v,t)$.
-A flow $f$ is maximal, if there exists no other flow $f'$ in $G$ with $|f'| > |f|$. \\
+A flow $f$ is maximal, if there exists no other flow $f'$ with $|f'| > |f|$. \\
 Another useful construct in connection with maximum flows, is the concept of the
 \emph{residual graph} $G_f$ and the \emph{residual capacity} $r_f$ of a flow function $f$ on graph $G$.
 The \emph{residual capacity} $r_f: V \times V \rightarrow \mathbb{R}_+$ is defined as follows:
 \begin{enumerate}
 \item $\forall (u,v) \in E: r_f(u,v) = c(u,v) - f(u,v)$
-\item $\forall (u,v) \in E:$ If $(v,u) \notin E$, then $r_f(v,u) = f(u,v)$
-\item For all $(u,v) \in V \times V$ with $(u,v) \notin E$ and $(v,u) \notin E$ the
-      \emph{residual capacity} is $r_f(u,v) = 0$. 
+\item $\forall (u,v) \in E:$ If $f(u,v) > 0$ and $c(v,u) = 0$, then $r_f(v,u) = f(u,v)$
 \end{enumerate}
 For a edge $e = (u,v) \in E$ the residual capacity $r_f(u,v)$ is the remaining amount of 
-flow which could be send over edge $e$. For each reverse edge $\overleftarrow{e} \notin E$ the
+flow which can be send over edge $e$. For each reverse edge $\overleftarrow{e} \notin E$ the
 residual capacity $r_f(\overleftarrow{e})$ is the amount of flow which is send over $e$.
 The \emph{residual graph} $G_f = (V,E_f,r_f)$ is the network containing all $(u,v) \in V \times V$
 with $r_f(u,v) > 0$. More formal $E_f = \{(u,v)\ |\ r_f(u,v) > 0, (u,v) \in V \times V\}$.
@@ -68,7 +66,7 @@ consists of two phases. First, we search for an \emph{augmenting path} $P = \{v_
 from $s$ to $t$, e.g. with a simple \DFS. In the \emph{augmentation} step, we increase the flow on each
 edge $(v_i,v_{i+1})$ by $\Delta f$ and decrease the flow on each reverse edge $(v_{i+1},v_i)$
 by $\Delta f$. If the capacities are integral, the algorithm always terminates. Since, we can find an \emph{augmenting
-path} in $G_f$ with a simple \DFS~in time \BigO{|V|+|E|} and we can increase the
+path} in $G_f$ with a simple \DFS~in \BigO{|V|+|E|} and increase the
 flow on every path by at least one, the running time of the algorithm can be bounded by \BigO{|E||f_{max}|}.
 We can construct instances, where the running time is \BigO{|E||f_{max}|} or even the maximum flow $|f_{max}|$ 
 is exponential in the problem size. \\
@@ -89,8 +87,6 @@ is presented in \autoref{img:edmond_karp_example}.
          by a red path. }
 \label{img:edmond_karp_example}
 \end{figure}
-
-\todo{recap cacapcity scaling}
 
 
 \subsubsection{Push-Relabel Algorithm}
@@ -138,8 +134,9 @@ calculation in the following flow network (\todo{reference}):
 
 \begin{definition}
 \label{def:vertex_seperator_transformation}
-Let's denote with $T_V$ the transformation of a graph $G = (V,E,c)$ into 
-a flow network $T_V(G) = (V_V, E_V, c_V)$. $T_V$ is defined as follows:
+Let $T_V$ be a transformation of a graph $G = (V,E,c)$ into 
+a flow network $T_V(G) = (V_V, E_V, c_V)$ (with $c_V: E_V \rightarrow \mathbb{R}_+$). 
+$T_V$ is defined as follows:
 \begin{enumerate}
 \item $V_V = \bigcup\limits_{v \in V}\ \{v', v''\}$
 \item $\forall v \in V$ we add a directed edge $(v',v'')$
@@ -154,7 +151,7 @@ Obviously no edge between two adjacent nodes can be in a minimum-capacity $(s,t)
 because for all those edges the capacity is $\infty$. Therefore, the cutset must consist
 of edges of the form $(v',v'')$. A minimum-weight $(s,t)$-vertex seperator can be calculated by
 finding a maximum flow in $T_V(G)$, finding the minimum-capacity $(s,t)$-cutset with the procedure
-described above and then map each cut edge $(v',v'')$ to their corresponding node in $v$.
+described above and then map each cut edge $(v',v'')$ to their corresponding node $v$.
 
 \todo{Describing multi-source and multi-sink flow problems}
 
@@ -181,13 +178,13 @@ Let's consider the \emph{bipartite graph} representation $G$ of a hypergraph $H$
 Each hyperedge $e$ is modeled as a star node with an edge to all $v \in e$.
 Hu and Moerder \cite{HuMoerder85} introduced node capacities in $G$. Each hyperedge
 node $e$ has a capacity equal to $\omega(e)$ and each hypernode node infinity capacity. 
-Further, they showed that a minimum-weight $(S,T)$-vertex seperator in $G$
-is equal with a minimum-weight $(S,T)$-cutset of a hypergraph $H$. 
+Further, they showed that a minimum-weight $(s,t)$-vertex seperator in $G$
+is equal with a minimum-weight $(s,t)$-cutset of a hypergraph $H$. 
 Finding such a seperator is a flow problem and can be calculated with the flow network \ShortT{L} 
 presented by Lawler \cite{lawler1973}:
 
 \begin{definition}
-Let's denote with $T_L$ the transformation of a hypergraph \HypergraphDef~into 
+Let $T_L$ be the transformation of a hypergraph \HypergraphDef~into 
 a flow network \T{L} proposed by Lawler \cite{lawler1973}. \ShortT{L} is defined as follows:
 \begin{enumerate}
 \item $V_L = V \cup \bigcup\limits_{e \in E}\ \{e', e''\}$
@@ -202,18 +199,18 @@ a flow network \T{L} proposed by Lawler \cite{lawler1973}. \ShortT{L} is defined
 An example of this transformation is shown in \autoref{img:lawler_transformation}.
 \ShortT{L} is nearly equivalent to the transformation $T_V(G)$ described in Defintion \autoref{def:vertex_seperator_transformation}
 except that we do not have to split the hypernodes $v \in V$ into $(v',v'')$. This is due to the fact, that
-a hypernode cannot be in a minimum-capacity $(S,T)$-vertex seperator, because each $v \in V$ has
+a hypernode cannot be in a minimum-capacity $(s,t)$-vertex seperator, because each $v \in V$ has
 infinity capacity \cite{HuMoerder85}.
-Therefore, a minimum-capacity $(S,T)$-cutset in \ShortT{L} is equal to a minimum $(S,T)$-vertex seperator $G$.
+Therefore, a minimum-capacity $(s,t)$-cutset in \ShortT{L} is equal to a minimum $(s,t)$-vertex seperator $G$.
 The resulting graph \ShortT{L} has $|V_L| = 2|V| + |E|$ nodes and $|E_L| = 2(\bar{e}+1)|E|$ edges, where
 $\bar{e}$ is the average size of a hyperedge \cite{pistorius2003}. Using \emph{Edmond-Karps}
 maximum flow algorithm (see Section \ref{sec:aug_path}) on flow network \ShortT{L} 
 takes time \BigO{|V|^2|E|^2} \cite{lawler1973}. \\
-A minimum-weight $(S,T)$-cutset of $H$ can be found by simlpy mapping the minimum-capacity
-$(S,T)$-cutset to their corresponding hyperedges in $H$ (see Section \ref{sec:applications}). 
-The corresponding bipartition are all hypernodes $v \in V$ \emph{reachable} from $S$ in the 
+A minimum-weight $(s,t)$-cutset of $H$ can be found by simlpy mapping the minimum-capacity
+$(s,t)$-cutset to their corresponding hyperedges in $H$ (see Section \ref{sec:applications}). 
+The corresponding bipartition are all hypernodes $v \in V$ \emph{reachable} from $s$ in the 
 \emph{residual graph} of \ShortT{L} and the counterpart are all hypernodes not \emph{reachable}
-from $S$ (\todo{proof? reference?}). \\
+from $s$ (\todo{proof? reference?}). \\
 In this thesis we often have to mix up nodes and edges of $H$ and \ShortT{L}. If we use
 $v \in V_L$, there also exist a corresponding $v \in V$. $v$ can be used in both contexts.
 For all $e \in E$ there exists two corresponding nodes $e',e'' \in V_L$. $e'$ 
@@ -238,8 +235,8 @@ capacity of the black edges in the flow network is $\infty$.}
 \subsection{Max-Flow-Min-Cut Based Local Search on Graphs}
 \label{sec:flow_local_search_graph}
 
-It seems naturals to utilize maximum flow computations to improve a 
-partition of a graph. Lang and Rao \cite{lang2004flow} uses an approach,
+It seems naturals to utilize maximum flow computations to improve the cut metric of a 
+given partition of a graph. Lang and Rao \cite{lang2004flow} uses an approach,
 called \emph{Max-Flow Qoutient-cut Improvement} (MQI), to improve the cut
 of a graph when metrics such as \emph{expansion} or \emph{conductance}
 are used. For a given bipartition $(S,\bar{S})$, they find the best 
@@ -253,20 +250,20 @@ Schulz and Sanders \cite{sanders2011engineering} integrate flow-based approaches
 in their \emph{multilevel graph partitioning} framework \emph{KaFFPa}. In general,
 they build a flow problem around a region $B$ of the cut and connect the \emph{border} 
 of $B$ with the source resp. sink. $B$ is defined in such a way that the flow computation
-yields to a feasible cut in the original graph. Many ideas from this work are used in this
-thesis and adapted to work on hypergraphs. Therefore, we will give a detailed description
-of the fundamental concepts and advanced techniques to improve the cut of a graph.
+yields to a feasible cut in the original graph. Many ideas of this work are used in this
+thesis and adapted to hypergraphs. Therefore, we will give a detailed description
+of the concepts and advanced techniques to improve the cut of a graph.
 
 \todo{define expansion and conductance in preliminaries for graphs}
 
-\subsubsection{Flow-Based Balanced Partitioning}
+\subsubsection{Balanced Flow-Based Bipartitioning}
 \label{sec:balanced_bipartitioning}
-Let $(V_1,V_2)$ be a balanced bipartition of a graph $G = (V,E,c,\omega)$ such that $V_1$ and
-$V_2$ is smaller than $(1+\epsilon)\frac{c(V)}{2}$ for $\epsilon > 0$. Further, $P(v) = 1$, if $v \in V_1$ and
+Let $(V_1,V_2)$ be a balanced bipartition of a graph $G = (V,E,c,\omega)$. 
+Further, $P(v) = 1$, if $v \in V_1$ and
 $P(v) = 2$, otherwise. We will now explain how to improve a given
-bipartition with flow computations. This technique can also be used on a $k$-way 
+bipartition with flow computations. This technique can also be applied on a $k$-way 
 partition by applying the approach on two adjacent blocks in the qoutient graph \cite{sanders2011engineering}. \\
-Let's define with $\delta := \{ u\ |\ \exists (u,v) \in E: P(u) \neq P(v) \}$ the set of nodes
+Let $\delta := \{ u\ |\ \exists (u,v) \in E: P(u) \neq P(v) \}$ be the set of nodes
 around the cut of $G$. For a set $B \subseteq V$ we define its border 
 $\delta B := \{u \in B\ |\ \exists (u,v) \in E: v \notin B\}$ and the induced subgraph
 $G(B) = (B,E_B,c,\omega)$ with $E_B = \{(u,v) \in E\ |\ u, v \in B\}$. 
@@ -283,7 +280,7 @@ and $B_2$ guarantees that the bipartition is still balanced after a \emph{Max-Fl
 computation. Connecting $s$ resp. $t$ to all border nodes $\delta B \cap V_1$ resp.
 $\delta B \cap V_2$ ensures that a non-cut edge not contained in $G(B)$ is not a cut edge after
 assigning the \emph{Min-Cut} of $G(B)$ to $G$. This also yields to the conclusion that each
-$(s,t)$ \emph{Min-Cut} in $G(B)$ leads to a cut smaller or equal to the old cut of $G$. All
+minimum $(s,t)$-cutset in $G(B)$ leads to a cut smaller or equal to the old cut of $G$. All
 concepts are illustrated in \autoref{img:balanced_bipartition}.
 
 \begin{figure}
@@ -300,23 +297,22 @@ concepts are illustrated in \autoref{img:balanced_bipartition}.
 
 Sanders and Schulz \cite{sanders2011engineering} suggested several heuristics to improve
 their basic approach. If the \emph{Max-Flow-Min-Cut} computation on $G(B)$ leads to an
-improvement on the cut metric of $G$, we can again apply the method described in Section 
-\ref{sec:balanced_bipartitioning}. An extension of this approach is to iteratively adapt the
+improvement in cut, we can apply the method described in Section 
+\ref{sec:balanced_bipartitioning} again. An extension of this approach is to iteratively adapt the
 size of the flow problem based on the result of the maximum flow computation. For this propose
 we define $\epsilon' := \alpha\epsilon$ for a $\alpha \ge 1$ and let the size of $B$ depend
-on $\epsilon'$ rather than on $\epsilon$. If we found an improvement on $G$ with $G(B)$, we
+on $\epsilon'$ rather than on $\epsilon$. If we found an improvement on $G$, we
 increase $\alpha$ to $\min\{2\alpha, \alpha'\}$ where $\alpha'$ is a predefined upper bound
-for $\alpha$. If the \emph{Max-Flow-Min-Cut} computation on $G(B)$ did not yield to an 
-improved cut on $G$ or the resulting bipartition did not fullfill the balance constraints we
-decrease the size of $\alpha$ to $\max\{\frac{\alpha}{2},1\}$. This approach is called
+for $\alpha$. If not, we decrease the size of $\alpha$ to 
+$\max\{\frac{\alpha}{2},1\}$. This approach is called
 \emph{adaptive flow iterations} \cite{sanders2011engineering}.
 
 \subsubsection{Most Balanced Minimum Cut}
 \label{sec:related_mbmc}
 
-Picard and Queyranne \cite{picard1980structure} showed that all minimum $(s,t)$-cuts 
-are computable with one $(s,t)$ maximum flow computations on the residual graph of $G$.
-To understand the main theorem and the algorithm to compute all minimum $(s,t)$-cuts we
+Picard and Queyranne \cite{picard1980structure} showed that all minimum $(s,t)$-cutsets 
+are computable with one maximum $(s,t)$-flow computations.
+To understand the main theorem and the algorithm to compute all minimum $(s,t)$-cutsets we
 need the definition of a \emph{closed node set} $C \subseteq V$ of a graph $G$.
 
 \begin{definition}
@@ -326,10 +322,10 @@ condition $u \in C$ implies that for all edges $(u,v) \in E$ also $v \in C$.
 
 A \emph{closed node set} is illustrated in \autoref{img:closed_node_set}. A simple observation
 is that all nodes on a cycle have to be in the same \emph{closed node set} per definition. Therefore,
-we can contract all \emph{Strongly Connected Components} (SCC) in $G$ with a simple linear time algorithm
+we can contract all \emph{Strongly Connected Components} (SCC) of $G$ with a linear time algorithm
 proposed by Tarjan (\todo{reference see \cite{sanders2011engineering}}) and sweep to the reverse
 topological order of the contracted graph to enumerate all \emph{closed node sets}. Note, if
-we contract all SCC in $G$ the resulting graph is a \emph{Directed Acyclic Graph} (DAC), therefore 
+we contract all SCC of $G$ the resulting graph is a \emph{Directed Acyclic Graph} (DAC), therefore 
 a topological order exists.
 \begin{figure}
 \centering
@@ -340,7 +336,6 @@ a topological order exists.
          contracted graph (right side).}
 \label{img:closed_node_set}
 \end{figure}
-
 With the Theorem of Picard and Queyranne \cite{picard1980structure} we are able to enumerate
 all minimum $(s,t)$-cuts of $G$ with one maximum flow computation.
 
@@ -350,13 +345,13 @@ There is a $1$-$1$ correspondence between the minimum $(s,t)$-cuts of a graph an
 sets containing $s$ in the residual graph of a maximum $(s,t)$-flow.
 \end{theorem}
 
-All \emph{closed node sets} in the residual graph of $G$ induced a minimum $(s,t)$-cut on $G$.
+All \emph{closed node sets} in the residual graph of $G$ induced a minimum $(s,t)$-cutset on $G$.
 They can be calculated with the algorithm described above having the residual graph of
 $G$ as input. The running time of the algorithm is \BigO{|V| + |E|}. \\
 A common problem of the \emph{adaptive flow iteration} approach (see Section \ref{sec:adaptive_flow_iterations}) is
-that searching with a large $\alpha$ often leads to cuts which violates the balanced constraints
-in $G$. We are able with this technique to make a infeasible solution feasible by finding
-a \emph{Most Balanced Minimum Cut} (MBMC) in $G$ with one maximum flow computation on $G(B)$.
+that searching with a large $\alpha$ often leads to cuts in $G$ which violates the balanced constraints. 
+We are able with this technique to convert a infeasible solution into a feasible by finding
+the \emph{Most Balanced Minimum Cut} (MBMC) with one maximum flow computation.
 
 
 \todo{define contraction, strongly connected components and cycles in graph in preliminaries}
@@ -372,12 +367,12 @@ Initial all blocks are \emph{active}. A block becomes \emph{inactive},
 if its boundary did not change in a round. The algorithm
 terminates, if all blocks are \emph{inactive}. \\
 Fiduccia and Mattheyses \cite{fiduccia1988linear} introduces a linear time
-two-way local search heuristic, called \emph{FM} local search, 
-which is fundamental for many graph partitioning refinement algorithms.
+two-way local search heuristic, called \emph{FM}, 
+which is fundamental for many graph partitioning algorithms.
 They define the gain $g(v)$ of a node $v \in V$ as the reduction of the cut metric, when
 moving $v$ from its current block to its counterpart block. By maintaining the gains of the
 nodes in a special datastructure, called \emph{bucket queue}, they are able to find a maximum
-gain node in constant time. After moving a maximum gain node they are also able to update their
+gain node in constant time. After moving a maximum gain node they are also able to update the
 datastructure in time equal to the number of adjacent nodes.\\
 The local improvement algorithm (for \emph{Active Block Scheduling}) can either 
 be a \emph{FM} local search or a flow-based approach or even a combination of 

@@ -5,8 +5,8 @@ minimum-capacity $(S,T)$-cutset in \ShortT{L} \cite{lawler1973}. However, the re
 network has significantly more nodes and edges than the original hypergraph. Finding a
 $(S,T)$-maximum flow is usually a very computation intensive problem. 
 Therefore, different modelling approaches, which reduce the number of nodes and edges,
-can have a crucial impact on the running time of a flow algorithm. \\
-In this section we will present techniques to sparsify the flow network 
+can have a crucial impact on the running time of the flow algorithm. \\
+We will present techniques to sparsify the flow network 
 propose by Lawler. First, we will show how any subset $V' \subseteq V$ of hypernodes could be removed 
 from \ShortT{L} (see Section \ref{sec:heuer_network}). This approach minimizes
 the number of nodes, but in some cases the number of edges can be
@@ -92,15 +92,12 @@ in \ShortT{L} (with $S,T \subseteq V$), we can e.g. remove any $s \in S$ resp. $
 (and even from \ShortT{L}) and instead add all incident 
 hyperedges $e' \in I(s)$ resp. $e'' \in I(t)$ as sources resp. sinks. The resulting 
 minimum-capacity $(S',T')$-cutset in \ShortT{L} is equal with a minimum-capacity $(S,T)$-cutset
-in \ShortT{L}. In Section \ref{sec:source_and_sink} we apply this observation to
-use hyperedge nodes as sources or sinks, which in our use case on some instances
-leads to smaller minimum-weight cutsets. Further, we will use this Lemma in the
-proof of the following Theorem.
+in \ShortT{L}. 
 
 \begin{theorem}
 \label{theorem:st_cutset_equal}
 A minimum-weight $(S,T)$-cutset of a hypergraph \HypergraphDef~(with $S,T \subseteq V,
-S \cap T = \emptyset$) is equal with a minimum-capacity $(S',T')$-cutset of the
+S \cap T = \emptyset$) is equivalent with a minimum-capacity $(S',T')$-cutset of the
 flow network \ExtendedT{H}{V'} ($V' \subseteq V$), where $S' = S \setminus V'\ \cup \bigcup\limits_{e \in I(V' \cap S)} \{e'\}$ and 
 $T' = T \setminus V'\ \cup \bigcup\limits_{e \in I(V'\cap T)} \{e''\}$.
 \label{theorem:heuer_network}
@@ -141,7 +138,7 @@ hyperedges. The predecessor and successor of a hypernode $v \in P_L \cap V''$ mu
 $e_1$ and $e_2$. If $v \in V''$, then $v$ is not contained $G_H$. Instead, there is
 a clique between all $e \in I(V) \Rightarrow$ $(e_1,e_2)$ is contained in $G_H$.
 $P_H$ not contain any vertex of $\V{G_H}$, because we removed all $v \in \V{G_H}$ from $\V{G_L}$ 
-and we removed only nodes from $P_L$. $P_H$ connects $S$ and $T$ in $G_H$, which is a contradiction 
+and we removed only hypernodes from $P_L$. $P_H$ connects $S$ and $T$ in $G_H$, which is a contradiction 
 that $\V{G_H}$ is a vertex seperator in $G_H$.
 
 A minimum-weight $(S,T)$-vertex seperator in $G_L$ and $G_H$ only contains hyperedges, because
@@ -280,7 +277,7 @@ As a consequence of this Theorem a minimum-weight $(S,T)$-cutset of $H$ can be c
 \ShortExT{H}{V'} the same way as with \ShortT{L} (see Section \ref{sec:related_lawler}). A open
 problem is how to obtain the corresponding bipartition. In \ShortT{L} all hypernodes
 reachable from nodes in $S$ are part of the first and all not reachable are part of the
-second partition. Since we delete all nodes $v \in V'$ from \ShortT{L} in \ShortExT{H}{V'}, this
+second partition. Since we delete all nodes $v \in V'$ from \ShortT{L} in \ShortExT{H}{V'} this
 relationship is no longer valid. 
 
 \begin{lemma}
@@ -299,7 +296,7 @@ form $P = (\ldots,e',v)$. For at least one $e \in I(v)$ there must be a positive
 otherwise edge $(e',v)$ is not in the \emph{residual graph} of \ShortT{L} ($c_L(e',v) = 0$).
 There is a positive flow leaving node $v$, but there is no flow entering node $v$, because
 $\forall e \in I(v): f(e'',v) = 0$. This violates the conservation of flow
-constraint for node $v$ and therefore $f$ is not a valid flow function. It must exist at least one $e \in I(v)$
+constraint for node $v$ and therefore $f$ is not a valid flow function. There must exist at least one $e \in I(v)$
 with $f(e'',v) > 0 \Rightarrow r_f(v,e'') > 0 \Rightarrow e'' \in A$.
 \end{proof}
 
@@ -322,9 +319,9 @@ hyperedges of $I(v)$. The number of edges inserted in \ShortExT{H}{V} depends on
 $v$. Every hypernode $v \in V$ induce $d(v)(d(v) - 1)$ edges in \ShortExT{H}{V}. In \ShortT{L} a hypernode adds $2d(v)$ edges to the network with the drawback
 of an additional node. A simple observation is that for all hypernodes with $d(v) \le 3$ the inequality
 $d(v)(d(v) - 1) \le 2d(v)$ is satisfied. Removing such low degree hypernodes not only reduce
-the number of nodes, but also the number of edges in some cases (for $d(v) < 3$). \\
-Let's denote with $V_{d}(n) = \{v\ |\ v \in V\ \land\ d(v) \le n\}$ the set of all hypernodes
-with degree smaller or equal $n$. Then our suggested flow network is denoted with \ShortExT{H}{V_d(3)}.
+the number of nodes, but also the number of edges. \\
+Let $V_{d}(n) = \{v\ |\ v \in V\ \land\ d(v) \le n\}$ be the set of all hypernodes
+with degree smaller or equal $n$. Then our suggested flow network is \ShortExT{H}{V_d(3)}.
 
 \begin{enumerate}
 \item \todo{Think about removing node via Clique Expansion, e.g. $e_1 \cap e_2 = \{v_1,v_2\}$}
@@ -404,7 +401,7 @@ there exists a path $P_L = \{v_1,\ldots,v_k\}$ connecting $S$ and $T$ in \ShortT
 edge $e \in \Phi^{-1}(A_G)$. Let $P_G$ be the path in \ShortT{G} obtained by removing each edge
 $(v_i,v_{i+1})$ with $v_i = e'$ and $v_{i+1} = e''$ and $|e| = 2$ from $P_L$. Based on the construction
 of \ShortT{L} the predecessor of $v_i$ and successor of $v_{i+1}$ must be a hypernode.
-Therefore, $P_G$ is valid path in \ShortT{G} connecting $S$ and $T$, which not contains any edge in 
+Therefore, $P_G$ is a valid path in \ShortT{G} connecting $S$ and $T$, which not contains any edge in 
 $A_G$. This is a contradiction to the assumption that $A_G$ is a $(S,T)$-cutset.
 
 %We will use a similiar proof technique as in \autoref{theorem:st_cutset_equal}. However,
@@ -478,7 +475,7 @@ where this inversely proportional relationship can not be observed, but on real 
 we often find the described behaviour. \\
 Currently, we have two differenct modelling approaches which either perform better on low hypernode degree
 instances or on small hyperedge size instances. Taking our observation from real world instances 
-into account this means that either \ShortT{G} or \ShortExT{H}{V_d(3)} performs significantly better on
+into account means that either \ShortT{G} or \ShortExT{H}{V_d(3)} performs significantly better on
 a specific real world instance. It would be preferable to combine the two approaches into one network 
 which performs on the most instances best. \\
 
@@ -506,7 +503,7 @@ The proof of \autoref{theorem:st_cutset_equal_graph} can be used one-to-one to s
 $(S',T')$-cutset of \ShortExT{H}{V'} is equal with a minimum-capacity $(S',T')$-cutset of \ShortHybrid~
 (for definition of $S'$ and $T'$ see \autoref{theorem:st_cutset_equal}). It follows with Lemma \ref{lemma:lemma1}
 that this is equal with a minimum-weight $(S,T)$-cutset of $H$. \\
-In the definition of \ShortHybrid~we prefer a hyperedge removal before a hypernode removal. E.g., if
+In the definition of \ShortHybrid~we prefer a hyperedge removal over a hypernode removal. E.g., if
 a hypernode has a degree smaller or equal than $3$, we only remove it, if there is no hyperedge
 $e \in I(v)$ with $|e| = 2$. The reason is that a hyperedge removal always decrease the number of nodes
 and edges more than a hypernode removal. \\
