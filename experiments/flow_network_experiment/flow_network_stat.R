@@ -47,12 +47,12 @@ flow_network_db$flow_algorithm <- factor(flow_network_db$flow_algorithm, levels 
 
 ##############################################################################################################################
 
-table_file <- paste(working_dir, "master_thesis/experiments/flow_network_max_flow_summary_table.tex", sep="/")
+table_file <- paste(working_dir, "master_thesis/experiments/flow_network/flow_network_max_flow_summary_table.tex", sep="/")
 sink(table_file)
 create_flow_network_max_flow_table(flow_network_db)
 sink()
 
-table_file <- paste(working_dir, "master_thesis/experiments/flow_network_max_flow_table.tex", sep="/")
+table_file <- paste(working_dir, "master_thesis/experiments/flow_network/flow_network_max_flow_table.tex", sep="/")
 sink(table_file)
 create_flow_network_max_flow_table(flow_network_db)
 for( type in levels(factor(flow_network_db$type))) {
@@ -66,7 +66,7 @@ sink()
 
 source(paste(working_dir, "experiments/flow_network_functions.R", sep="/"))
 flow_network_subset_db <- flow_network_db[flow_network_db$num_hypernodes==25000 & flow_network_db$flow_algorithm=="goldberg_tarjan",]
-node_edge_file <- paste(working_dir, "master_thesis/experiments/node_edge_distribution.tex", sep="/")
+node_edge_file <- paste(working_dir, "master_thesis/experiments/flow_network/node_edge_distribution.tex", sep="/")
 tikz(node_edge_file, width=7, height=6)
 plot(node_edge_distribution_plot(flow_network_subset_db) )
 dev.off()
@@ -74,7 +74,7 @@ dev.off()
 ##############################################################################################################################
 
 source(paste(working_dir, "experiments/flow_network_functions.R", sep="/"))
-speed_up_file <- paste(working_dir, "master_thesis/experiments/speed_up_flow_network.tex", sep="/")
+speed_up_file <- paste(working_dir, "master_thesis/experiments/flow_network/speed_up_flow_network.tex", sep="/")
 tikz(speed_up_file, width=7, height=8)
 plot(speed_up_plot(flow_network_db))
 dev.off()
