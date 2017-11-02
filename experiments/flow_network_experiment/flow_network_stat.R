@@ -74,6 +74,17 @@ dev.off()
 ##############################################################################################################################
 
 source(paste(working_dir, "experiments/flow_network_functions.R", sep="/"))
+table_file <- paste(working_dir, "master_thesis/experiments/flow_network/instance_type_properties.tex", sep="/")
+sink(table_file)
+instance_db <- create_instance_type_table(flow_network_db)
+for( type in factor(levels(instance_db$type)) ) {
+  cat(paste(type,"&",instance_db[instance_db$type == type,]["avg_hn_degree"],"&",instance_db[instance_db$type == type,]["avg_he_size"], "\\\\ \n", sep=" "))
+}
+sink()
+
+##############################################################################################################################
+
+source(paste(working_dir, "experiments/flow_network_functions.R", sep="/"))
 speed_up_file <- paste(working_dir, "master_thesis/experiments/flow_network/speed_up_flow_network.tex", sep="/")
 tikz(speed_up_file, width=7, height=8)
 plot(speed_up_plot(flow_network_db))
@@ -81,5 +92,14 @@ dev.off()
 
 ##############################################################################################################################
 
+source(paste(working_dir, "experiments/flow_network_functions.R", sep="/"))
+edmond_karp_goldberg_tarjan_comparison(flow_network_db,"hybrid")
+hybrid <- build_hybrid_flow_algo(flow_network_db, 2^15)
+gmean_network_algorithm_table(hybrid)
+
+for(num_hn in levels(factor(hybrid$num_hypernodes))) {
+  print(num_hn)
+  print(gmean_network_algorithm_table(hybrid[hybrid$num_hypernodes == num_hn,]))
+}
 
 sanityCheck(flow_network_db)

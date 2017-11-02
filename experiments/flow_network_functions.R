@@ -135,6 +135,7 @@ gm_mean = function(x, na.rm=TRUE, zero.propagate = FALSE){
   }
 }
 
+
 revalue_columns_to_latex <- function(db) {
   if("num_hypernodes" %in% colnames(db)) {
     db$num_hypernodes <- revalue(as.character(db$num_hypernodes), num_hn_revalue)
@@ -202,10 +203,14 @@ node_edge_distribution_plot <- function(db) {
                                     num_edges=gm_mean(df$avg_num_edges))
   df <- ddply(db, c("flow_network", "flow_algorithm", "num_hypernodes", "type"), aggreg)
   df <- revalue_columns_to_latex(df)
-  
+
   plot <- ggplot(df, aes( x= num_nodes, y = num_edges)) + 
     geom_point(aes(color = flow_network, shape = type ), size = 10) +
-    coord_trans(x="sqrt", y="sqrt") +
+    geom_vline(aes(xintercept = 25000), color="red", linetype="dashed") +
+    scale_x_sqrt() +
+    scale_y_sqrt() +
+    #xlim(0,600000) +
+    #ylim(0,1200000) +
     ylab("Number of Edges") +
     xlab("Number of Nodes") +
     theme_complete_bw()
@@ -285,6 +290,69 @@ speedup_relative_to <- function(db, algo, network) {
     }
   }
   return(df)
+}
+
+create_instance_type_table <- function(db) {
+  aggreg <- function(df) data.frame(avg_hn_degree=mean(df$avg_hn_degree),
+                                    avg_he_size=mean(df$avg_he_size))
+  
+  to_math <- function(x) {
+    return(paste("$",x,"$",sep=""))
+  }
+  
+  instance_db <- ddply(db, c("hypergraph"),aggreg)
+  instance_db$type <- as.factor(apply(instance_db, 1, function(x) graphclass(x)))
+  instance_db <- ddply(db, c("type"), aggreg)
+  instance_db$avg_hn_degree <- sapply(round(instance_db$avg_hn_degree, digits = 2), to_math)
+  instance_db$avg_he_size <- sapply(round(instance_db$avg_he_size, digits = 2), to_math)
+  instance_db <- revalue_columns_to_latex(instance_db)
+  return(instance_db)
+}
+
+edmond_karp_goldberg_tarjan_comparison <- function(db, network = "hybrid") {
+  edmond_karp <- db[db$flow_algorithm == "edmond_karp" & db$flow_network == network,]
+  goldberg_tarjan <- db[db$flow_algorithm == "goldberg_tarjan" & db$flow_network == network,]
+  edmond_karp <- edmond_karp[order(edmond_karp$avg_num_nodes),]
+  goldberg_tarjan <- goldberg_tarjan[order(goldberg_tarjan$avg_num_nodes),]
+  
+  prefix_gmean_max_flow_time <- function(df) {
+    df$flow_size_type <- 0
+    for(i in c(1:nrow(df))) {
+      df$gmean_max_flow_time[i] <- gm_mean(df$avg_max_flow_time[c(1:i)])
+    }
+    return(df)
+  }
+  
+  edmond_karp <- prefix_gmean_max_flow_time(edmond_karp)
+  goldberg_tarjan <- prefix_gmean_max_flow_time(goldberg_tarjan)
+  df <- edmond_karp
+  df$gmean_max_flow_time <- goldberg_tarjan$gmean_max_flow_time - edmond_karp$gmean_max_flow_time
+  df$ratio <- edmond_karp$avg_max_flow_time / goldberg_tarjan$avg_max_flow_time
+  df$num_edges <- ifelse(edmond_karp$avg_num_edges <= 125000, "EdmondKarp", "GoldbergTarjan")
+  
+  plot <- ggplot(df, aes(x = avg_num_nodes, y = ratio )) + 
+    geom_point(aes(color=num_edges)) +
+    #geom_line(aes(x = avg_num_nodes, y = gmean_max_flow_time), size=2, color="pink") +
+    geom_hline(aes(yintercept = 1), color="red") +
+    #geom_hline(aes(yintercept = 0), color="red") +
+    geom_vline(aes(xintercept = 2^15), color="blue") +
+    xlab("Number of Nodes") +
+    ylab("Edmond Karp / Goldberg Tarjan (in t[ms])") +
+    #xlim(0,1000000) +
+    scale_x_continuous(trans="log2") +
+    ylim(0,3) +
+    theme_complete_bw()
+  
+  return(plot)
+}
+
+build_hybrid_flow_algo <- function(db, num_nodes_threshold = 2^15) {
+  edmond_karp <- db[db$flow_algorithm == "edmond_karp" & db$flow_network == "hybrid",]
+  goldberg_tarjan <- db[db$flow_algorithm == "goldberg_tarjan" & db$flow_network == "hybrid",]
+  hybrid <- rbind(edmond_karp[edmond_karp$avg_num_nodes <= num_nodes_threshold,],goldberg_tarjan[goldberg_tarjan$avg_num_nodes > num_nodes_threshold,])
+  hybrid$flow_algorithm <- "hybrid"
+  hybrid <- rbind(edmond_karp,goldberg_tarjan,hybrid)
+  return(hybrid)
 }
 
 sanityCheck <- function(db) {
