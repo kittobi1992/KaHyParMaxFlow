@@ -13,8 +13,7 @@ could be adapted to work in a $n$-level hypergraph partitioner, called \emph{KaH
 \label{sec:source_and_sink}
 
 Let $H = (V,E,c,\omega)$ be a hypergraph and $B_1 := (V_1, V_2)$ be a bipartition.
-$H_{V'} = (V',E_{V'},c,\omega)$ is the subhypergraph
-induced by $V' \subseteq V$ with $E_{V'} = \{ e \cap V'\ |\ e \in E: e \cap V' \neq \emptyset\}$. 
+$H_{V'}$ is the subhypergraph induced by $V' \subseteq V$. 
 Further, let $E_{\emptyset} = \{ e \cap V'\ |\ e \in E: e \cap V' = \emptyset\} $
 be the set of all hyperedges contained in $H$, but not in $H_{V'}$. $T_L(H_{V'})$ 
 (see Section \ref{sec:related_lawler}) is the flow problem induced by $H_{V'}$ with a

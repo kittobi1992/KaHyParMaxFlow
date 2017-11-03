@@ -62,7 +62,6 @@ resulting flow problems of these instances are still the smallest among all benc
 (see \autoref{fig:node_edge_distribution}). On the largest flow network instances \Primal~and
 \Literal~for $|V'| = 25000$ \GoldbergTarjan~is up to a factor of $4$-$7$ faster than \EdmondKarp.
 Further, both algorithms perform best on $\ExpHybrid$.
-
 \begin{figure}
 \centering
 \input{experiments/flow_network/speed_up_flow_network.tex} %
@@ -72,8 +71,13 @@ Further, both algorithms perform best on $\ExpHybrid$.
          indicates a speed up by a factor of $2$.}
 \label{fig:max_flow_network_algo}
 \end{figure} 
-
-
+\autoref{tbl:flow_algo_network_summary}~shows the summary of our flow algorithm and network experiment
+on all benchmark instances. This proofs our assumption that \EdmondKarp~works best on small instances
+and \GoldbergTarjan~on large instances. However, our \emph{Max-Flow-Min-Cut} computations
+are embedded in a \emph{Adapative Flow Iteration} strategy (see Section \ref{sec:adaptive_flow_iterations}).
+Therefore, the running time of flow instances generated with a large $\alpha$ will dominate the
+ones with small $\alpha$. Therefore, we choose \GoldbergTarjan~in combination with our flow network
+$\ExpHybrid$ in the following experiments.
 \begin{table}
 \renewcommand{\arraystretch}{1.15}
 \centering
@@ -93,10 +97,6 @@ Further, both algorithms perform best on $\ExpHybrid$.
 \label{tbl:flow_algo_network_summary}
 \end{table}
 
-
-\todo{discuss final configuration}
-
-
 \subsection{Configuration of the $k$-way Flow-based Refiner}
 
 In this Section we examine the quality of our $k$-way flow-based refinement algorithm with
@@ -112,17 +112,45 @@ There are several configurations and tunning parameters which we have to evaluat
 In the following we will denote a configuration e.g. with \FlowVariant{+}{-}{-}{-} which indicates
 which heuristic resp. technique is enabled $(+)$ or disabled $(-)$. The meaning of the 
 abbreviations are explained in the enumeration above (see letters inside parenthesis). We evaluate
-several configurations for $k \in \{2,4,8,16,32,64,128\}$, $\alpha' \in \{1,2,4,8,16\}$
+a configuration for $k \in \{2,4,8,16,32,64,128\}$, $\alpha' \in \{1,2,4,8,16\}$
 and $10$ different seeds on our parameter tuning benchmark subset ($\epsilon = 3\%$). 
-Our flow-based refinement is embedded in a $k$-way \emph{Active Block Scheduling}
+Our pairwise flow-based refinement is embedded in a $k$-way \emph{Active Block Scheduling}
 refinement which is executed on each level $i$ with $i = 2^j$ ($j \in \mathbb{N}_+$) 
 (see Section \ref{sec:flow_local_search_hypergraph}). As reference we use the 
 latest quality configuration of \emph{KaHyPar} \cite{heuer2017improving}. \\
 The results are summarized in \autoref{tbl:alpha_exp}. The values
 in the column \emph{Gmean} are improvements of the connectivity metric
 relative to our baseline configuration \FlowVariant{-}{-}{-}{+}. The running
-time are absolute values in seconds.
-
+time are absolute values in seconds. The first observation is that flows on
+its own as refinement strategy are not strong enough to outperform the
+\emph{FM} heuristic. Our strongest configuration with $\alpha' = 16$
+is $2.5\%$ worse than our \emph{FM} baseline. But the result 
+is still remarkable, because we only execute flows on $\log{n}$ levels
+instead on $n$ as the \emph{FM} algorithm do. The running time of
+scales nearly linear with parameter $\alpha'$. Using our improved source 
+and sink modelling approach with \emph{Cut Border Hyperedges} (see Equation
+\ref{S_final_border_hyperedges} and \ref{T_final_border_hyperedges})
+significantly improves the solution quality especially for small $\alpha'$.
+For small $\alpha$ most of the hypernodes are either a source or a sink. 
+Introducing \emph{Cut Border Hyperedges} reduces the number of hypernode
+sources and sinks by adding hyperedge sources and sinks. The quality 
+improvement with this technique is therefore more effective
+for small $\alpha'$, because it significantly increase the possibilities
+of moving hypernodes between the blocks compared to the source and sink set
+modelling approach with Equation \ref{S_border_hyperedges} and \ref{T_border_hyperedges}.
+The opposite effect can be observed, if we use the \emph{Most Balanced Minimum Cut} heuristic
+without \emph{Cut Border Hyperedges}. The quality improvement is more significant for large
+$\alpha'$. The larger the flow problem, the higher is the number of different minimum 
+$(S,T)$-cutsets and this increases the possibility to find a feasible solution according to 
+our balanced constraint. If we combine both techniques, we obtain a configuration which significantly
+improves the solution quality for all $\alpha'$ compared to our baseline flow configuration.
+Also it outperforms our baseline \emph{FM} configuration for $\alpha' = 16$ by $0.51\%$.
+If we enable \emph{FM} refinement in all levels where no flow is executed, we improve the solution
+quality by nearly $2\%$ (for $\alpha' = 16$). Also the running time of this variant is faster
+than all previous flow configurations, because we transfer more work to the \emph{FM} refinement.
+This has as consequence that a block becomes faster \emph{inactive} during \emph{Active Block 
+Scheduling} and this decreases the number of rounds of complete pairwise flow-based refinements
+on the quotient graph.
 
 \begin{table}
 \renewcommand{\arraystretch}{1.15}

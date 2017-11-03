@@ -1,39 +1,140 @@
-\subsection{Definitions and Terminology}\label{sec:prelim}
-\subparagraph*{Notation and Definitions.}
-An \textit{undirected hypergraph} $H=(V,E,c,\omega)$ is defined as a set of $n$ vertices $V$ and a
-set of $m$ hyperedges/nets $E$ with vertex weights $c:V \rightarrow \mathbb{R}_{>0}$ and net 
-weights $\omega:E \rightarrow \mathbb{R}_{>0}$, where each net is a subset of the vertex set $V$ (i.e., $e \subseteq V$). The vertices of a net are called \emph{pins}.
-We use $P$ to denote the multiset of all pins in $H$.
-We extend $c$ and $\omega$ to sets, i.e., $c(U) :=\sum_{v\in U} c(v)$ and $\omega(F) :=\sum_{e \in F} \omega(e)$.
-A vertex $v$ is \textit{incident} to a net $e$ if $v \in e$. $\mathrm{I}(v)$ denotes the set of all incident nets of $v$. 
-The \textit{degree} of a vertex $v$ is $d(v) := |\mathrm{I}(v)|$. 
-The set $\Gamma(v) := \{ u~|~\exists~e \in E : \{v,u\} \subseteq e\}$ denotes the neighbors of $v$.
-The \textit{size} $|e|$ of a net $e$ is the number of its pins. Nets of size one are called \emph{single-vertex} nets.
-A \emph{$k$-way partition} of a hypergraph $H$ is a partition of its vertex set into $k$ \emph{blocks} $\mathrm{\Pi} = \{V_1, \dots, V_k\}$ 
-such that $\bigcup_{i=1}^k V_i = V$, $V_i \neq \emptyset $ for $1 \leq i \leq k$ and $V_i \cap V_j = \emptyset$ for $i \neq j$.
-We call a $k$-way partition $\mathrm{\Pi}$ \emph{$\mathrm{\varepsilon}$-balanced} if each block $V_i \in \mathrm{\Pi}$ satisfies the \emph{balance constraint}:
-$c(V_i) \leq L_{\max} := (1+\varepsilon)\lceil \frac{c(V)}{k} \rceil$ for some parameter $\mathrm{\varepsilon}$. 
-Given a $k$-way partition $\mathrm{\Pi}$, the number of pins of a net $e$ in block $V_i$ is defined as
-$\mathrm{\Phi}(e,V_i) := |\{v \in V_i~|~v \in e \}|$. 
-For each net $e$, $\mathrm{\Lambda}(e) := \{V_i~|~ \mathrm{\Phi}(e, V_i) > 0\}$ denotes the \emph{connectivity set} of $e$.
-The \emph{connectivity} of a net $e$ is the cardinality of its connectivity set: $\mathrm{\lambda}(e) := |\mathrm{\Lambda}(e)|$.
-A net is called \emph{cut net} if $\mathrm{\lambda}(e) > 1$.
-The \emph{$k$-way hypergraph partitioning problem} is to find an $\varepsilon$-balanced $k$-way partition $\mathrm{\Pi}$ of a hypergraph $H$ that
-minimizes an objective function over the cut nets for some $\varepsilon$.
-Several objective functions exist in the literature~\cite{Alpert19951,Lengauer:1990}.
-The most commonly used cost functions are the \emph{cut-net} metric $\text{cut}(\mathrm{\Pi}) := \sum_{e \in E'} \omega(e)$ and the
-\emph{connectivity} metric $(\mathrm{\lambda} - 1)(\mathrm{\Pi}) := \sum_{e\in E'} (\mathrm{\lambda}(e) -1)~\omega(e)$, where $E'$ is the set of all cut nets~\cite{donath1988logic}.
-In this paper, we use the connectivity-metric, which accurately models the total communication volume of parallel sparse matrix-vector multiplication~\cite{PaToH}.
-Optimizing both objective functions is known to be NP-hard \cite{Lengauer:1990}.
-\emph{Contracting} a pair of vertices $(u, v)$ means merging $v$ into $u$.
-The weight of $u$ becomes $c(u) := c(u) + c(v)$.  We connect $u$ to the former neighbors $\Gamma(v)$ of $v$ by replacing 
-$v$ with $u$ in all nets $e \in \mathrm{I}(v) \setminus \mathrm{I}(u)$ and remove $v$ from all nets $e \in \mathrm{I}(u) \cap \mathrm{I}(v)$.
-\emph{Uncontracting} a vertex $u$ reverses the contraction.
-The two most common ways to represent a hypergraph $H=(V,E,c,\omega)$ as an undirected graph are the \textit{clique} and the \textit{bipartite} representation~\cite{HuMoerder85}.
-In the following, we use \emph{nodes} and \emph{edges} when referring to a graph representation and \emph{vertices}
-and \emph{nets} when referring to $H$.
-In the \textit{clique} graph $G_x(V,E_x \subseteq V^2)$ of $H$, each net is replaced with an edge for each
-pair of vertices in the net: $E_x := \{(u,v) : u,v \in e, e \in E\}$. Thus the pins of a net $e$ with size $|e|$ form a $|e|$-clique in $G_x$.
-In the \textit{bipartite} graph $G_*(V \dot\cup E, F)$ the vertices and nets of $H$ form the node set and for each net $e$ incident to a vertex $v$, we
-add an edge $(e,v)$ to $G_*$. The edge set $F$ is thus defined as $F := \{(e,v)~|~e \in E, v \in e \}$. Each net in $E$ therefore corresponds to a star in $G_*$.
-In both models, node weights $c$ and edge weights $\omega$ are chosen according to the problem domain~\cite{Hadley95}.
+\subsection{Graphs}
+
+\begin{definition}
+A directed weighted graph $G = (V,E,c,\omega)$ is a set of nodes $V$ 
+and a set of edges $E$ with a node weight function 
+$c: V \rightarrow \mathbb{R}_{\ge 0}$ and an edge weight 
+function $\omega: E \rightarrow \mathbb{R}_{\ge 0}$. A edge $e = (u,v)$ 
+is a relation between two nodes $u,v \in V$.
+\label{def:hypergraph}
+\end{definition}
+
+Two vertices $u$ and $v$ are \emph{adjacent}, if there exists an edge
+$(u,v) \in E$. Two edges $e_1$ and $e_2$ are \emph{incident} to each other, if they
+share a node. $I(v)$ denotes the set of all \emph{adjacent} nodes of 
+$v$. The \emph{degree} of a node $v$ is $d(v) = |I(v)|$.
+
+\begin{definition}
+Given a directed graph $G = (V,E)$. A contraction of two nodes
+$u$ and $v$ results in a new graph $G_{(u,v)} = (V\setminus\{v\},E')$, where
+each edge of the form $(v,w)$ or $(w,v)$ in $E$ is replaced with an edge 
+$(u,w)$ or $(w,u)$ in $E'$.
+\label{def:contraction}
+\end{definition}
+
+A \emph{path} $P = (v_1,\ldots,v_k)$ is a sequence of nodes, where for
+each $i \in [1,k-1]: (v_i,v_{i+1}) \in E$. A \emph{cycle} is \emph{path}
+$P = (v_1,\ldots,v_k)$ with $v_1 = v_k$. A \emph{strongly connected 
+component} $C \subseteq V$ is a set of nodes where for each $u,v \in C$
+exists a \emph{path} from $u$ to $v$. We can enumerate all \emph{strongly
+connected components} (\emph{SCC}) in a directed graph $G$ with a linear time algorithm
+proposed by Tarjan \cite{tarjan1972depth}. A directed graph $G$ without
+any \emph{cycles} is called \emph{directed acyclic graph} (\emph{DAG}). On such
+graphs we can define a \emph{topological order} $\gamma: V \rightarrow \mathbb{N}_+$ such
+that for each $(u,v) \in E: \gamma(u) < \gamma(v)$. A \emph{topological order}
+of a \emph{DAG} can be found in linear time with Kahn's algorithm \cite{kahn1962topological}.
+We can transform a general directed graph $G$ into a \emph{DAG}, if we contract
+each \emph{strongly connected component}. All concepts are illustrated in 
+\autoref{img:scctoposort}.
+
+\begin{figure}
+\centering
+\includegraphics[width=0.9\textwidth]{../img/preliminaries/scctoposort.eps}
+\caption{Example of \emph{strongly connected components} of a directed graph and
+         a \emph{topological order} on a \emph{directed acyclic graph}. Each 
+         \emph{SCC} is marked in the same color.} 
+\label{img:scctoposort}
+\end{figure}
+
+\subsection{Hypergraphs}
+\label{sec:hypergraph}
+
+\begin{definition}
+An undirected weighted hypergraph $H = (V,E,c,\omega)$ is a set of hypernodes $V$ 
+and a set of hyperedges $E$ with a hypernode weight function 
+$c: V \rightarrow \mathbb{R}_{\ge 0}$ and a hyperedge weight 
+function $\omega: E \rightarrow \mathbb{R}_{\ge 0}$. A hyperedge $e$ 
+is a subset of $V$ (formally: $\forall e \in E: e \subseteq V$).
+\label{def:hypergraph}
+\end{definition}
+
+A hypergraph generalizes a graph by extending the definition of an edge, which 
+can contain more than two nodes. Hyperedges are also called \emph{nets} and the hypernodes
+of a net are called \emph{pins}. For a subset $V' \subseteq V$ and $E' \subseteq E$ we
+define
+\begin{align*}
+c(V') = \sum_{v \in V'} c(v) \\
+\omega(E') = \sum_{e \in E'} \omega(e)
+\end{align*}
+
+A vertex $v$ is \emph{incident} to a hyperedge $e$, if $v \in e$.
+Two vertices $u$ and $v$ are \emph{adjacent}, if there exists an 
+$e \in E$ such that $u,v \in e$. $I(v)$ denotes the set of all 
+\emph{incident} nets of $v$. The \emph{degree} of a hypernode 
+$v$ is $d(v) = |I(v)|$. The size of a net $e$ is the cardinality $|e|$.
+
+\begin{definition}
+Let $H_{V'} = (V',E_{V'},c,\omega)$ be the subhypergraph of a hypergraph $H$
+induced by $V' \subseteq V$ with $E_{V'} = \{e \cap V'\ |\ e \in E: e 
+\cap V' \neq \emptyset\}$.
+\label{def:subhypergraph}
+\end{definition}
+
+A hypergraph $H = (V,E,c,\omega)$ can be represented as an undirected graph. 
+There are two common transformations, called \emph{clique} and \emph{bipartite} 
+representation \cite{HuMoerder85}. The \emph{clique} graph $G_x(H) = (V,E_x)$ models
+each net $e$ as a clique between its pins. The \emph{bipartite} graph $G_*(H) = 
+(V \cup E, E_*)$ contains all hypernodes and hyperedges as nodes and connects each
+net $e$ with an undirected edge $\{e,v\}$ to all its pins $v \in e$. The two transformations
+are illustrated in \autoref{img:hypergraph_transformation}.
+
+\begin{figure}
+\centering
+\includegraphics[width=1.0\textwidth]{../img/preliminaries/hypergraph_transformation.eps}
+\caption{Example of a hypergraph $H$ and its two corresponding graph representations.} 
+\label{img:hypergraph_transformation}
+\end{figure}
+
+\subsection{Hypergraph Partitioning}
+
+\begin{definition}
+A $k$-way partition of a hypergraph $H$ is a partition of its hypernodes into
+$k$ disjoint blocks $\Pi = \{V_1,\ldots,V_k\}$ such that $\bigcup_{i=1}^{k} V_i = V$
+and $V_i \neq \emptyset$.
+\label{def:kway_partition}
+\end{definition}
+
+For a $k$-way partition $\Pi = \{V_1,\ldots,V_k\}$, we define the \emph{connectivity set} of a
+hyperedge $e$ with $\Lambda(e,\Pi) = \{V_i \in \Pi\ |\ V_i \cap e \neq \emptyset\}$. The \emph{connectivity}
+of a net $e$ is $\lambda(e,\Pi) = |\Lambda(e,\Pi)|$. A hyperedge $e$ is \emph{cut}, if
+$\lambda(e,\Pi) > 1$. $E(\Pi) = \{e\ |\ \lambda(e,\Pi) > 1\}$ is the set of all \emph{cut} 
+nets. We say two blocks $V_i$ and $V_j$ are adjacent, if there exists a hyperedge
+$e$ with $V_i,V_j \in \Lambda(e,\Pi)$.
+
+\begin{definition}
+For a $k$-way partition $\Pi = \{V_1,\ldots,V_k\}$ of a hypergraph $H$ 
+the quotient graph $Q = (\Pi,E')$ is a undirected graph containing an 
+edge between each pair of adjacent blocks of $\Pi$.
+More formal, $E' = \{(V_i,V_j)\ |\ \exists e \in E: V_i,V_j \in \Lambda(e,\Pi)\}$
+\label{def:quotient_graph}
+\end{definition}
+
+We say a $k$-way partition is $\epsilon$-balanced, if each block 
+$V_i \in \Pi$ satisfies the \emph{balance constraint} 
+$c(V_i) \le (1+\epsilon)\lceil\frac{c(V)}{k}\rceil$.
+
+\begin{definition}
+The $k$-way hypergraph partitioning problem is to find an $\epsilon$-balanced $k$-way
+partition $\Pi$ of a hypergraph $H$ such that a certain objective function is minimized.
+\label{def:kway_partitioning_problem}
+\end{definition}
+
+There exists several objective function in the hypergraph partitioning context,
+which should either be minimized or maximized. The most popular objective function 
+is the $\text{cut}$ metric (especially for \emph{graph partitioning}), which is defined as
+\[\text{cut}(\Pi) = \sum_{e \in E(\Pi)} \omega(e)\]
+The goal is to minimize the sum of all \emph{cut} hyperedges. Another important metric
+for this work is the $(\lambda - 1)$-metric or \emph{connectivity} metric, 
+which is defined as
+\[(\lambda - 1)(\Pi) = \sum_{e \in E} (\lambda(e) - 1)\omega(e)\]
+The idea behind this function is to minimize the \emph{connectivity} of all hyperedges.

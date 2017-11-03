@@ -168,15 +168,12 @@ described above and then map each cut edge $(v',v'')$ to their corresponding nod
 \subsection{Modelling Flows on Hypergraphs}
 \label{sec:related_model_flow}
 
-\subsubsection{Model Hypergraphs as Graphs}
-\label{sec:hypergraph_to_graph}
 
 \subsubsection{Transforming Hypergraphs to Flow Networks}
 \label{sec:related_lawler}
 
-Let's consider the \emph{bipartite graph} representation $G$ of a hypergraph $H$ \cite{HuMoerder85}.
-Each hyperedge $e$ is modeled as a star node with an edge to all $v \in e$.
-Hu and Moerder \cite{HuMoerder85} introduced node capacities in $G$. Each hyperedge
+Consider the \emph{bipartite graph} representation $G_*(H)$ of a hypergraph $H$ (see Section \ref{sec:hypergraph}).
+Hu and Moerder \cite{HuMoerder85} introduced node capacities in $G_*(H)$. Each hyperedge
 node $e$ has a capacity equal to $\omega(e)$ and each hypernode node infinity capacity. 
 Further, they showed that a minimum-weight $(s,t)$-vertex seperator in $G$
 is equal with a minimum-weight $(s,t)$-cutset of a hypergraph $H$. 
@@ -290,7 +287,6 @@ concepts are illustrated in \autoref{img:balanced_bipartition}.
 \label{img:balanced_bipartition}
 \end{figure}
 
-\todo{define qoutient graph and subgraph in preliminaries}
 
 \subsubsection{Adaptive Flow Iterations}
 \label{sec:adaptive_flow_iterations}
@@ -353,8 +349,6 @@ that searching with a large $\alpha$ often leads to cuts in $G$ which violates t
 We are able with this technique to convert a infeasible solution into a feasible by finding
 the \emph{Most Balanced Minimum Cut} (MBMC) with one maximum flow computation.
 
-
-\todo{define contraction, strongly connected components and cycles in graph in preliminaries}
 
 \subsubsection{Active Block Scheduling}
 \label{sec:abs}
