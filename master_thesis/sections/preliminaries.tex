@@ -46,6 +46,12 @@ each \emph{strongly connected component}. All concepts are illustrated in
 \label{img:scctoposort}
 \end{figure}
 
+\begin{definition}
+Let $G_{V'} = (V',E_{V'},c,\omega)$ be the subgraph of a graph $G$
+induced by $V' \subseteq V$ with $E_{V'} = \{(u,v) \in E\ |\ u,v \in V'\}$.
+\label{def:subgraph}
+\end{definition}
+
 \subsection{Hypergraphs}
 \label{sec:hypergraph}
 
@@ -132,9 +138,9 @@ partition $\Pi$ of a hypergraph $H$ such that a certain objective function is mi
 There exists several objective function in the hypergraph partitioning context,
 which should either be minimized or maximized. The most popular objective function 
 is the $\text{cut}$ metric (especially for \emph{graph partitioning}), which is defined as
-\[\text{cut}(\Pi) = \sum_{e \in E(\Pi)} \omega(e)\]
+\[\omega_H(\Pi) = \sum_{e \in E(\Pi)} \omega(e)\]
 The goal is to minimize the sum of all \emph{cut} hyperedges. Another important metric
 for this work is the $(\lambda - 1)$-metric or \emph{connectivity} metric, 
 which is defined as
-\[(\lambda - 1)(\Pi) = \sum_{e \in E} (\lambda(e) - 1)\omega(e)\]
+\[(\lambda - 1)_H(\Pi) = \sum_{e \in E} (\lambda(e) - 1)\omega(e)\]
 The idea behind this function is to minimize the \emph{connectivity} of all hyperedges.

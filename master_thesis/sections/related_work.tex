@@ -262,9 +262,8 @@ bipartition with flow computations. This technique can also be applied on a $k$-
 partition by applying the approach on two adjacent blocks in the qoutient graph \cite{sanders2011engineering}. \\
 Let $\delta := \{ u\ |\ \exists (u,v) \in E: P(u) \neq P(v) \}$ be the set of nodes
 around the cut of $G$. For a set $B \subseteq V$ we define its border 
-$\delta B := \{u \in B\ |\ \exists (u,v) \in E: v \notin B\}$ and the induced subgraph
-$G(B) = (B,E_B,c,\omega)$ with $E_B = \{(u,v) \in E\ |\ u, v \in B\}$. 
-The basic idea is to build a flow problem $G(B)$ around all cut nodes $\delta$ of 
+$\delta B := \{u \in B\ |\ \exists (u,v) \in E: v \notin B\}$.
+The basic idea is to build a flow problem on subgraph $G_B$ around all cut nodes $\delta$ of 
 $G$ and connect all nodes in $\delta B \cap V_1$ to a source node $s$ and all nodes in 
 $\delta B \cap V_2$ to a sink node $t$. \\
 We can construct $B := B_1 \cup B_2$ with two \emph{Breadth First Searches} (\BFS). 
@@ -275,9 +274,9 @@ $(1+\epsilon)\frac{c(V)}{2} - c(V_1)$. The two \BFS~only touch nodes of $V_1$ re
 $B_1 \subseteq V_1$ and $B_2 \subseteq V_2$. The constraints for the weights of $B_1$
 and $B_2$ guarantees that the bipartition is still balanced after a \emph{Max-Flow-Min-Cut}
 computation. Connecting $s$ resp. $t$ to all border nodes $\delta B \cap V_1$ resp.
-$\delta B \cap V_2$ ensures that a non-cut edge not contained in $G(B)$ is not a cut edge after
-assigning the \emph{Min-Cut} of $G(B)$ to $G$. This also yields to the conclusion that each
-minimum $(s,t)$-cutset in $G(B)$ leads to a cut smaller or equal to the old cut of $G$. All
+$\delta B \cap V_2$ ensures that a non-cut edge not contained in $G_B$ is not a cut edge after
+assigning the \emph{Min-Cut} of $G_B$ to $G$. This also yields to the conclusion that each
+minimum $(s,t)$-cutset in $G_B$ leads to a cut smaller or equal to the old cut of $G$. All
 concepts are illustrated in \autoref{img:balanced_bipartition}.
 
 \begin{figure}
@@ -292,7 +291,7 @@ concepts are illustrated in \autoref{img:balanced_bipartition}.
 \label{sec:adaptive_flow_iterations}
 
 Sanders and Schulz \cite{sanders2011engineering} suggested several heuristics to improve
-their basic approach. If the \emph{Max-Flow-Min-Cut} computation on $G(B)$ leads to an
+their basic approach. If the \emph{Max-Flow-Min-Cut} computation on $G_B$ leads to an
 improvement in cut, we can apply the method described in Section 
 \ref{sec:balanced_bipartitioning} again. An extension of this approach is to iteratively adapt the
 size of the flow problem based on the result of the maximum flow computation. For this propose
@@ -319,7 +318,7 @@ condition $u \in C$ implies that for all edges $(u,v) \in E$ also $v \in C$.
 A \emph{closed node set} is illustrated in \autoref{img:closed_node_set}. A simple observation
 is that all nodes on a cycle have to be in the same \emph{closed node set} per definition. Therefore,
 we can contract all \emph{Strongly Connected Components} (SCC) of $G$ with a linear time algorithm
-proposed by Tarjan (\todo{reference see \cite{sanders2011engineering}}) and sweep to the reverse
+proposed by Tarjan \cite{tarjan1972depth} and sweep to the reverse
 topological order of the contracted graph to enumerate all \emph{closed node sets}. Note, if
 we contract all SCC of $G$ the resulting graph is a \emph{Directed Acyclic Graph} (DAC), therefore 
 a topological order exists.
