@@ -1,6 +1,6 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\subsection{Maximum Flow Problem}
+\subsection{Maximum Flow Algorithms}
 \label{sec:max_flow}
 
 The first serious analysis of the maximum flow problem emerged in 1955 during 
@@ -11,45 +11,8 @@ intermediate cities, where each link of the network has a number assigned to
 it representing its capacity. Assuming a steady state condition, find a maximal
 flow from one given city to the other.} \\
 He generalizes his model of railway traffic flow to the today known maximum 
-flow problem. \\
-Given a graph $G = (V,E,c)$ with capacity function $c: E \rightarrow \mathbb{R}_+$ and a source 
-$s \in V$ and a sink $t \in V$. The maximum flow problem is about finding 
-the maximum amount of flow from $s$ to $t$ in $G$. A flow is a function 
-$f: E \rightarrow \mathbb{R}_+$, which have to satisfy the following constraints:
-\begin{enumerate}
-\item $\forall (u,v) \in E: f(u,v) \le c(u,v)$ (capacity constraint)
-\item $\forall v \in V \setminus \{s,t\}: \sum_{(u,v) \in E} f(u,v) = \sum_{(v,u) \in E} f(v,u)$ (conservation of flow constraint)
-\end{enumerate}
-The capacity constraint restricts the flow on an edge $(u,v)$ by its capacity 
-$c(u,v)$. Whereas the conservation of flow constraint ensures that the amount
-of flow entering a node $v \in V \setminus \{s,t\}$ is the same as leaving a node.
-The value of the flow is defined as $|f| = \sum_{(s,v) \in E} f(s,v) = \sum_{(v,t) \in E} f(v,t)$.
-A flow $f$ is maximal, if there exists no other flow $f'$ with $|f'| > |f|$. \\
-Another useful construct in connection with maximum flows, is the concept of the
-\emph{residual graph} $G_f$ and the \emph{residual capacity} $r_f$ of a flow function $f$ on graph $G$.
-The \emph{residual capacity} $r_f: V \times V \rightarrow \mathbb{R}_+$ is defined as follows:
-\begin{enumerate}
-\item $\forall (u,v) \in E: r_f(u,v) = c(u,v) - f(u,v)$
-\item $\forall (u,v) \in E:$ If $f(u,v) > 0$ and $c(v,u) = 0$, then $r_f(v,u) = f(u,v)$
-\end{enumerate}
-For a edge $e = (u,v) \in E$ the residual capacity $r_f(u,v)$ is the remaining amount of 
-flow which can be send over edge $e$. For each reverse edge $\overleftarrow{e} \notin E$ the
-residual capacity $r_f(\overleftarrow{e})$ is the amount of flow which is send over $e$.
-The \emph{residual graph} $G_f = (V,E_f,r_f)$ is the network containing all $(u,v) \in V \times V$
-with $r_f(u,v) > 0$. More formal $E_f = \{(u,v)\ |\ r_f(u,v) > 0, (u,v) \in V \times V\}$.
-\autoref{img:maximum_flow_example}~illustrates all presented concepts.
-
-\begin{figure}
-\centering
-\includegraphics[width=0.9\textwidth]{../img/maximum_flow/maximum_flow_example.eps}
-\caption{Figure illustrates concepts related to the maximum flow problem. A valid flow $f$ 
-(red values) from $s$ to $t$ on a graph $G$ is shown on the left side. The corresponding
-\emph{residual graph} $G_f$ with its \emph{residual capacities} (black values) 
-is illustrated on the right side. The red highlighted path represents an \emph{augmenting path}
-in $G$.}
-\label{img:maximum_flow_example}
-\end{figure}
-
+flow problem. In this Section we present two types of algorithms to solve the
+maximum flow problem defined in Section \ref{sec:applications}
 
 \subsubsection{Augmenting-Path Algorithms}
 \label{sec:aug_path}
@@ -88,80 +51,8 @@ is presented in \autoref{img:edmond_karp_example}.
 \label{img:edmond_karp_example}
 \end{figure}
 
-
 \subsubsection{Push-Relabel Algorithm}
 \label{sec:push_relabel}
-
-\subsubsection{Applications}
-\label{sec:applications}
-
-The \emph{Max-Flow-Min-Cut}-Theorem is fundamental for many applications related to the maximum
-flow problem \cite{ford1956maximal}.
-
-\begin{theorem}
-The value of a maximum $(s,t)$-flow obtainable in a graph $G$ is equal with the weight
-of the minimum cutset in $G$ seperating $s$ and $t$.
-\end{theorem}
-
-Let $f$ be a maximum flow in a graph $G = (V,E,\omega)$ with $s \in V$ and $t \in V$. 
-Further, let $A$ be the set containing all $v \in V$, which are \emph{reachable} from $s$
-in $G_f$. A node $v$ is \emph{reachable} from a node $u$, if there exists a path from $u$
-to $v$. Then the set of all cut edges between the bipartition $(A,V\setminus A)$ 
-is a minimum-weight $(s,t)$-cutset \cite{ford2015flows}. $A$ can be calculated with a simple \BFS~in $G_f$ starting
-from $s$. \\
-From this analogy many solutions for related problems arose. Samples are listed below:
-\begin{enumerate}
-\item Maximum Bipartite-Matching
-\item Minimum-Weight Vertex Seperator
-\item Number of Edge-Disjoint Paths
-\item Number of Vertex-Disjoint Paths
-\end{enumerate}
-Solutions for those problems sometimes involves a transformation $T$ of the graph $G$
-into a flow network $T(G)$, such that the \emph{Max-Flow-Min-Cut}-Theorem is applicable. 
-A problem important for this work is to find a minimum-weight $(s,t)$-vertex seperator
-in a graph $G = (V,E,c)$ with $c: V \rightarrow \mathbb{R}_+$.
-
-\begin{definition}
-Let $G = (V,E,c)$ be a graph with $c: V \rightarrow \mathbb{R}_+$. $S \subseteq V$
-is a vertex seperator for non-adjacent verticies $s \in V$ and $t \in V$ if the
-removal of $S$ from graph $G$ seperates $s$ and $t$ ($s$ not \emph{reachable} from $t$).
-A vertex seperator $S$ is a minimum-weight $(s,t)$-vertex seperator, if for all $S' \subseteq V$
-$c(S) \le c(S')$.
-\end{definition}
-
-We can calculate a minimum-weight $(s,t)$-vertex seperator with a maximum flow
-calculation in the following flow network (\todo{reference}):
-
-\begin{definition}
-\label{def:vertex_seperator_transformation}
-Let $T_V$ be a transformation of a graph $G = (V,E,c)$ into 
-a flow network $T_V(G) = (V_V, E_V, c_V)$ (with $c_V: E_V \rightarrow \mathbb{R}_+$). 
-$T_V$ is defined as follows:
-\begin{enumerate}
-\item $V_V = \bigcup\limits_{v \in V}\ \{v', v''\}$
-\item $\forall v \in V$ we add a directed edge $(v',v'')$
-      with capacity $c_V(v',v'') = c(v)$
-\item $\forall (u,v) \in E$ we add two directed edges $(u'', v')$ and 
-      $(v'', u')$ with capacity $c_V(u'', v') = c_V(v'', u') = \infty$.
-\end{enumerate} 
-\end{definition}
-
-The vertex seperator problem and transformation $T_V(G)$ are illustrated in \autoref{img:vertex_seperator_example}.
-Obviously no edge between two adjacent nodes can be in a minimum-capacity $(s,t)$-cutset of $T_V(G)$,
-because for all those edges the capacity is $\infty$. Therefore, the cutset must consist
-of edges of the form $(v',v'')$. A minimum-weight $(s,t)$-vertex seperator can be calculated by
-finding a maximum flow in $T_V(G)$, finding the minimum-capacity $(s,t)$-cutset with the procedure
-described above and then map each cut edge $(v',v'')$ to their corresponding node $v$.
-
-\todo{Describing multi-source and multi-sink flow problems}
-
-\begin{figure}
-\centering
-\includegraphics[width=0.9\textwidth]{../img/maximum_flow/vertex_seperator_example.eps}
-\caption{ Illustration of the vertex seperator problem and the transformation $T_V(G)$ in which
-          we can find a minimum vertex seperator with maximum flow computation. }
-\label{img:vertex_seperator_example}
-\end{figure}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 

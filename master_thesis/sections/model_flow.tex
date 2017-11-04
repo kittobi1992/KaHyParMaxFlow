@@ -110,7 +110,7 @@ where for all $v \in V: c_*(v) = \infty$ and for all $e \in E: c_*(e) =
 \omega(e)$. A minimum-weight $(S,T)$-vertex seperator in $G_*$ is equal
 with a minimum-weight $(S,T)$-cutset in $H$. A minimum-weight $(S,T)$-vertex seperator can be calculated
 by finding a minimum-capacity $(S,T)$-cutset in \ShortT{L}. Let $G_H$ be the graph obtained by removing
-all $v \in V'\setminus (S \cup T)$ of $G_*$ and insert a clique between all $e \in I(v)$. 
+all $v \in V'\setminus (S \cup T)$ of $G_*$ and adding a clique between all $e \in I(v)$. 
 A minimum-weight $(S,T)$-vertex seperator in $G_H$ can be calculated by finding a 
 minimum-capacity $(S,T)$-cutset in our new network \ShortExT{H}{V'\setminus (S \cup T)}.
 We will show that each vertex seperator in $G_*$ is also a vertex seperator in $G_H$ and
@@ -119,7 +119,7 @@ denote a vertex seperator of a graph $G$ with $\V{G}$ and define $V'' := V' \set
 We will show, that $\V{G_*} = \V{G_H}$ with the restriction $\V{G_*} \subseteq E$ and
 $\V{G_H} \subseteq E$.
 
-Let's assume, that $\V{G_*} \subseteq E$ is not a vertex seperator in $G_H$. After removing all $e \in \V{G}$ in
+Assume that $\V{G_*} \subseteq E$ is not a vertex seperator in $G_H$. After removing all $e \in \V{G_*}$ in
 $G_H$, there exists still a path $P_H = \{v_1, \ldots, v_k\}$ with $v_1 \in S$ and
 $v_k \in T$ in $G_H$. We can extend $P_H$ to a path $P_*$ in $G_*$.
 We define $P_* := P_H$ and replaces every occurence of a sequence $v_i = e_1 \in E$ and
@@ -128,7 +128,7 @@ $v_{i+1} = e_2 \in E$ with a triple $(e_1,v,e_2)$ in $P_*$, where $v \in e_1 \ca
 we removed all $v \in \V{G_*}$ from $G_H$ and only hypernodes are added to $P_*$. $P_*$ connects $S$ and 
 $T$ in $G_*$, which is a contradiction that $\V{G_*}$ is a vertex seperator in $G_*$.
 
-Let's assume, that $\V{G_H} \subseteq E$ is not a vertex seperator in $G_*$. After removing all $e \in \V{G_H}$ in
+Assume that $\V{G_H} \subseteq E$ is not a vertex seperator in $G_*$. After removing all $e \in \V{G_H}$ in
 $G_*$, there exists still a path $P_* = \{v_1, \ldots, v_k\}$ with $v_1 \in S$ and
 $v_k \in T$ in $G_*$. We can extend $P_*$ to a path $P_H$ in $G_H$.
 We define $P_H := P_*$ and remove all $v \in P_* \cap V''$ from $P_H$. $G_*$ is a bipartite
@@ -143,7 +143,7 @@ that $\V{G_H}$ is a vertex seperator in $G_H$.
 A minimum-weight $(S,T)$-vertex seperator in $G_*$ and $G_H$ only contains hyperedges, because
 the weight of all hypernodes in $G_*$ and $G_H$ is $\infty$. Therefore, each minimum
 $(S,T)$-vertex seperator in $G_*$ is also a minimum-weight $(S,T)$-vertex seperator in $G_H$,
-because $\V{G_*} = \V{G_H}$. With Lemma \ref{lemma:lemma1} follows that we can calculate
+because $c(\V{G_*}) = c(\V{G_H})$. With Lemma \ref{lemma:lemma1} follows that we can calculate
 a minimum-weight $(S,T)$-vertex seperator in $G_*$ resp. $G_H$ by calculating a minimum-capacity
 $(S',T')$-cutset in \ShortT{L} resp. \ShortExT{H}{V'}. Therefore, there exists a equivalence
 between a minimum-weight $(S,T)$-cutset $E_{min}$ of $H$ and the following statements: 
@@ -165,8 +165,8 @@ As a consequence of this Theorem a minimum-weight $(S,T)$-cutset of $H$ can be c
 \ShortExT{H}{V'} the same way as with \ShortT{L} (see Section \ref{sec:related_lawler}). A open
 problem is how to obtain the corresponding bipartition. In \ShortT{L} all hypernodes
 reachable from nodes in $S$ are part of the first and all not reachable are part of the
-second partition. Since we delete all nodes $v \in V'$ from \ShortT{L} in \ShortExT{H}{V'} this
-relationship is no longer valid. 
+second block of the partition. Since we delete all nodes $v \in V'$ from \ShortT{L} 
+in \ShortExT{H}{V'} this relationship is no longer valid. 
 
 \begin{lemma}
 \label{lemma:bipartition_construction}
@@ -177,7 +177,7 @@ from a node $s \in S$ in the residual graph of \ShortT{L}.
 
 \begin{proof}
 If $e'' \in A$, then $v \in A$, because $c_L(e'',v) = \infty$ and $r_f(e'',v) = \infty$.
-Let's assume, if $v \in A$, then $\forall e \in I(v): e'' \notin A \Rightarrow f(e'',v) = 0$. 
+Assume, if $v \in A$, then $\forall e \in I(v): e'' \notin A \Rightarrow f(e'',v) = 0$. 
 Otherwise $r_f(v, e'')$ would be greater than zero and this would imply $e'' \in A$. Each path 
 $P$ in the \emph{residual graph} of \ShortT{L} from $s \in S$ to $v$ must be of the 
 form $P = (\ldots,e',v)$. For at least one $e \in I(v)$ there must be a positive flow $f(v,e') > 0$,
