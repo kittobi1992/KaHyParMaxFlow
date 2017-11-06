@@ -12,7 +12,7 @@ it representing its capacity. Assuming a steady state condition, find a maximal
 flow from one given city to the other.} \\
 He generalizes his model of railway traffic flow to the today known maximum 
 flow problem. In this Section we present two types of algorithms to solve the
-maximum flow problem defined in Section \ref{sec:applications}
+maximum flow problem as defined in Section \ref{sec:applications}
 
 \subsubsection{Augmenting-Path Algorithms}
 \label{sec:aug_path}
@@ -53,6 +53,38 @@ is presented in \autoref{img:edmond_karp_example}.
 
 \subsubsection{Push-Relabel Algorithm}
 \label{sec:push_relabel}
+
+Goldberg and Tarjan \cite{goldberg1988new} implements the first maximum flow algorithm
+not based on finding an \emph{augmenting path} in the \emph{residual graph}. The idea is
+to maintain a \emph{preflow} during the execution of the algorithm which satisfies the capacity 
+constraints, but only a weakened form of the conservation of flow constraint:
+\[\forall v \in V \setminus \{s,t\}: \sum_{u \in V} f(u,v)\]
+The algorithm maintains a \emph{distance labeling} $d: V \rightarrow \mathbb{N}$ and an 
+\emph{excess function} $e_f: V \rightarrow \mathbb{N}$. The \emph{distance labeling} satisfies
+the following condition: $d(t) = 0$ and foreach $(u,v) \in E_f$, $d(u) \le d(v) + 1$. We say an
+residual edge $(u,v)$ is \emph{admissible} if $d(u) = d(v) + 1$. A node $v$ is \emph{active}
+if $v \notin \{s,t\}$ and $e_f(v) > 0$.\\
+Initially, all \emph{labels} and \emph{excess} values are set to zero except for $s$, $d(s) = 1$
+and $e_f(s) = \infty$. Foreach \emph{active} node $u$ the algorithm performs two update
+operations, called \emph{push} and \emph{relabel}. The first operation pushes flow
+over each \emph{admissible} edge $(u,v)$. After a \emph{push} $e_f(u) = e_f(u) - 
+\min{(e_f(u),r_f(u,v))}$ and $e_f(v) = e_f(v) + \min{(e_f(u),r_f(u,v))}$. If there is no
+\emph{admissible} edge a \emph{relabel} operation is performed, which replaces $d(u)$ by
+$\min_{(u,v) \in E_f} d(v) + 1$. The algorithm terminates, if no node is \emph{active}.
+The worst case complexity of the algorithm is \BigO{n^3}. The running time could be reduced
+to \BigO{n^2\log{n}} with \emph{Dynamic Tree} \cite{goldberg1988new, sleator1981data}, but this
+implementation is not practical due to a large hidden constant factor.\\
+The \emph{push-relabel} algorithm is one of the fastest maximum flow algorithms in practice,
+because we can speed up the runnig time with two useful heuristics. The first one is
+the \emph{global relabeling} heuristic which frequently updates the \emph{distance labels} by computing
+the shortest path in the residual graph from all nodes to the sink \cite{cherkassky1997implementing}.
+This can be done with a backward \emph{BFS} in linear time. This heuristic is performed periodically,
+e.g. after every $n$ relabelings. \\
+The second heuristic is the \emph{gap heuristic} \cite{cherkassky1994fast,derigs1989implementing}.
+If at a certain stage of the algorithm there is no node $u$ with $d(u) = g < n$, then for each node
+$v$ with $g < d(v) < n$ the sink is not reachable any more. Therefore, we can increase the \emph{distance
+label} of all those nodes to $n$. In order to implement this heuristic we maintain a linked list of
+nodes with distance label $i$.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -268,7 +300,71 @@ boths as proposed by Sanders and Schulz \cite{sanders2011engineering}. \\
 
 \subsection{Hypergraph Partitioning}
 
+In this Section we review how most hypergraph partitioner solves the \emph{hypergraph
+partitioning problem} (see Section \ref{sec:hypergraph_partitioning}). The most succesful
+way to solve this problem is the \emph{multilevel paradigm} \cite{alpert1995recent,
+bader2013graph,papa2007hypergraph} which we describe in Section \ref{sec:multilevel_paradigm}.
+We implemented this work in the $n$-level hypergraph partitioner \emph{KaHyPar}. Therefore, we
+give a brief overview on implementation details of this framework (see Section \ref{sec:kahypar}).
+
 \subsubsection{Multilevel Paradigm}
+\label{sec:multilevel_paradigm}
+
+The \emph{multilevel paradigm} is a three stages algorithm to solve the \emph{hypergraph 
+partitioning problem} (see \autoref{img:multilevel_paradigm}). In the first stage, called
+\emph{coarsening phase}, pairs of hypernodes are choosen to be contracted. This process is
+repeated until a predefined number of hypernodes remains. The sequence of successively
+smaller hypergraphs are called \emph{levels}. If the hypergraph $H$ is small enough we can use
+expensive algorithms to \emph{initial partition} $H$ into $k$ blocks. Afterwards, we can
+\emph{uncontract} each \emph{level} in reverse order of \emph{contraction} and project
+the partition to the next \emph{level}. After unpacking we
+can use \emph{refinement} heuristics to improve the quality of the current partition according
+to an objective function. The most common used \emph{refinement} algorithm is the \emph{FM}
+algorithm \cite{fiduccia1988linear} (see Section \ref{sec:abs}).
+
+\begin{figure}
+\centering
+\includegraphics[width=1.0\textwidth]{../img/hypergraph_partitioning/multilevel.eps}
+\caption{Multilevel Hypergraph Partitioning}
+\label{img:multilevel_paradigm}
+\end{figure}
+
 
 \subsubsection{KaHyPar - $n$-Level Hypergraph Partitioning}
 \label{sec:kahypar}
+
+\emph{KaHyPar} is a multilevel hypergraph partitioner in its most extreme version by
+removing only a single vertex in one \emph{level} of the hierarchy. It seems to be the method
+of choice for optimizing cut- and the $(\lambda - 1)$-metric unless speed is more important than
+quality \cite{heuer2017improving}. The framework provides a \emph{direct $k$-way} \cite{akhremtsev2017engineering} 
+and a \emph{recursive bisection} mode, which recursively calculates bipartions 
+(with \emph{multilevel paradigm}) until the hypergraph is divided into $k$ blocks 
+\cite{schlag2016k}. \emph{KaHyPar} consists of four phases: \emph{Preprocessing}
+and the three stages of the \emph{multilevel paradigm}. \\
+The \emph{preprocessing} step detects community structures of a hypergraph. To do this, the
+hypergraph is transformed into a bipartite graph $G_*(H)$ (see Section \ref{sec:hypergraph}) and
+a community detection algorithm is executed which optimize \emph{modularity} \cite{fortunato2010community,
+heuer2017improving}. During the \emph{coarsening phase} contractions are restricted to vertices within the same 
+community. The contraction partners are choosen according to the \emph{heavy-edge} rating function
+$r(u,v) := \sum_{e \in I(u) \cap I(v)} \frac{\omega(e)}{|e|-1}$ \cite{karypis1999multilevel}. The
+function prefers vertices which shares a large number of heavy nets with small size. The rating
+function is evaluated \emph{lazy} which means that after a contraction of two hypernodes $u$ and
+$v$ all ratings related to those vertices are \emph{invalid} \cite{schlag2016k}. If the PQ returns
+an \emph{invalid} rating we immediately recalculate $r(u,v)$ and insert the new rating in the
+PQ. The \emph{initial partitioning} uses the \emph{recursive bisection} approach to calculate
+a $k$-way partition in combination with a portfolio of initial partitioning techniques 
+\cite{heuer2015engineering}. In the \emph{refinement phase} a localized \emph{FM} search is started \cite{fiduccia1988linear},
+initialized with the current uncontracted vertices. The \emph{local search} maintains $k$ \emph{priority
+queues} for each block $V_i$ \cite{akhremtsev2017engineering}. A hypernode $v$ contained in 
+$\text{PQ}_i$ with gain $g$ means that moving vertex $v$ to block $V_i$ has gain $g$. After a move
+the gains of all adjacent hypernodes are updated with a \emph{delta-gain} update strategy \cite{papa2007hypergraph}.
+The recalculation of all gain values at the beginning of a \emph{FM} pass is one of the main bottlenecks
+of the algorithm \cite{papa2007hypergraph}. Therefore, Schlag \cite{akhremtsev2017engineering,
+schlag2016k} introduces a \emph{Gain Cache} over the multilevel hierarchy, which prevents
+expensive recalculations of the corresponding gain function. The \emph{Gain Cache} is maintained
+with \emph{delta-gain} updates in the same way as the \emph{PQs}. Further, the \emph{local search}
+is stopped, when an improvement during a \emph{FM} pass becomes unlikely. This model is
+called \emph{Adaptive Stopping Rule} \cite{akhremtsev2017engineering}. Sanders and
+Osipov \cite{osipov2010n} showed that it is unlikely that \emph{local search} gives an improvement if
+$p > \frac{\sigma^2}{4\mu^2}$, where $p$ is the number of moves in the current \emph{FM} pass
+and $\mu$ is the average gain and $\sigma^2$ the corresponding variance.

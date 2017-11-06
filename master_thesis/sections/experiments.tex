@@ -178,14 +178,21 @@ $\alpha'$ & Gmean$[\%]$ & $t[s]$ & Gmean$[\%]$ & $t[s]$ \\
 
 \subsection{Speed-Up Heuristics}
 
-\begin{enumerate}
-\item For all $k$ on the benchmark subset test variants:
-\begin{enumerate}
-\item Without any speed up heuristic
-\item than add one heuristic and show quality is equal and time is less
-\end{enumerate}
-\item Show which quality is possible with \emph{constant} flow execution policy
-\end{enumerate}
+
+
+\begin{table}
+\renewcommand{\arraystretch}{1.15}
+\centering
+\begin{tabular}{l|ccc}
+\toprule
+Variant & Gmean Avg.$[\%]$ & Gmean Min.$[\%]$ & Gmean $t[s]$ \\
+\midrule%
+\csname @@input\endcsname experiments/speed_up_heuristics/heuristic_table.tex 
+\bottomrule
+\end{tabular}
+\caption{}
+\label{tbl:heuristics}
+\end{table}
 
 \subsection{Comparison against other Hypergraph Partitioner}
 

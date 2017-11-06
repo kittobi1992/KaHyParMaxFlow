@@ -448,13 +448,13 @@ unnecessary flow executions to improve the effectiveness ratio by simultanously 
 the runtime.
 
 \begin{enumerate}
-\item If the cut between two adjacent blocks in the quotient graph is small (e.g. $\le 10$) we
-      skip the flow-based refinement on these blocks except on the last level of the hierarchy.
-\item If the value of the cut of a minimum $(S,T)$-bipartition on $H_{V'}$ is the same 
-      as the cut before, we stop the pairwise refinement on these blocks.
-\item If a flow-based refinement did not lead to an improvement on two blocks in all levels
-      of the multilevel hierarchy, we only execute flows in the first iteration of 
-      \emph{Active Block Scheduling} on these blocks.
+\item[(R1)] If a flow-based refinement did not lead to an improvement on two blocks in all levels
+            of the multilevel hierarchy, we only execute flows in the first iteration of 
+            \emph{Active Block Scheduling} on these blocks.
+\item[(R2)] If the cut between two adjacent blocks in the quotient graph is small (e.g. $\le 10$) we
+            skip the flow-based refinement on these blocks except on the last level of the hierarchy.
+\item[(R3)] If the value of the cut of a minimum $(S,T)$-bipartition on $H_{V'}$ is the same 
+            as the cut before, we stop the pairwise refinement on these blocks.
 \end{enumerate}
 
 \begin{figure}
