@@ -201,11 +201,12 @@ max_flow_time_per_network_plot <- function(db, aggreg_by=c("flow_network", "flow
 node_edge_distribution_plot <- function(db) {
   aggreg <- function(df) data.frame(num_nodes=gm_mean(df$avg_num_nodes),
                                     num_edges=gm_mean(df$avg_num_edges))
-  df <- ddply(db, c("flow_network", "flow_algorithm", "num_hypernodes", "type"), aggreg)
+  df <- ddply(db, c("flow_network", "flow_algorithm", "num_hypernodes","type"), aggreg)
   df <- revalue_columns_to_latex(df)
 
   plot <- ggplot(df, aes( x= num_nodes, y = num_edges)) + 
-    geom_point(aes(color = flow_network, shape = type ), size = 10) +
+    geom_line(aes(fill = type), alpha=0.25) + 
+    geom_point(aes(color = flow_network, shape = type), size = 7) +
     geom_vline(aes(xintercept = 25000), color="red", linetype="dashed") +
     scale_x_sqrt() +
     scale_y_sqrt() +

@@ -65,6 +65,8 @@ sink()
 ##############################################################################################################################
 
 source(paste(working_dir, "experiments/flow_network_functions.R", sep="/"))
+plot(node_edge_distribution_plot(flow_network_subset_db) )
+
 flow_network_subset_db <- flow_network_db[flow_network_db$num_hypernodes==25000 & flow_network_db$flow_algorithm=="goldberg_tarjan",]
 node_edge_file <- paste(working_dir, "master_thesis/experiments/flow_network/node_edge_distribution.tex", sep="/")
 tikz(node_edge_file, width=7, height=6)

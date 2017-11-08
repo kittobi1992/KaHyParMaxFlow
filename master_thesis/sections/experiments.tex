@@ -1,3 +1,51 @@
+\subsection{Instances}
+
+Our full benchmark set consists of $488$ hypergraphs. We choose our benchmarks 
+from three different research areas. For VLSI design we use instances from
+the \emph{ISPD98 VLSI Circuit Benchmark Suite} (\ISPD) \cite{alpert1998ispd98} and add more recent
+instances of the \emph{DAC 2012 Routability-Driven Placement Contest} (\DAC) \cite{viswanathan2012dac}.
+Further, we interprete the Sparse Matrix instances of the \emph{Florida Sparse Matrix 
+collection} (\SPM) \cite{davis2011university} as hypergraphs using the row-net model \cite{catalyurek1999hypergraph}.
+The rows of each matrix are treated as hyperedges and the columns are the vertices of
+the hypergraph. Our last benchmark type are SAT formulas of the \emph{International SAT
+Competition 2014} \cite{belov2014application}. A common interpretation of a SAT formula 
+as hypergraph is to interprete the literals as vertices and each clause as a net (\Literal) \cite{papa2007hypergraph}.
+Mann and Papp \cite{mann2014formula} suggested two other hypergraph representation of
+SAT formulas, called \Primal~and \Dual. The \Primal~representation treats each variable
+as vertex and each clause as hyperedge. The \Dual~representation treats each clause as
+vertex and the variables induced nets containing all clauses where the corresponding
+variable occurs. A statiscal summary of the different instance types is presented in
+Table \ref{tbl:type_properties}. \\
+We divide our full benchmark set in two smaller subsets. Our \emph{parameter tunning}
+benchmark set consists of $25$ hypergraphs, $5$ of each instance type (except \DAC). Additionally,
+we choose a benchmark subset of $165$ instances. On our general experiments we partition
+each hypergraph into $k \in \{2,4,8,16,32,64,128\}$ blocks and use for each $k$ $10$ different
+\emph{seeds} with $\epsilon = 3\%$.
+
+\begin{table}
+\renewcommand{\arraystretch}{1.15}
+\centering
+\begin{tabular}{r|cc}
+\toprule
+Instance-Type & Avg. $d(v)$ & Avg. $|e|$ \\
+\midrule%
+\csname @@input\endcsname experiments/flow_network/instance_type_properties.tex 
+\bottomrule
+\end{tabular}
+\caption{Average hypernode degree and hyperedge size of the different benchmark types in
+         our benchmark subset.}
+\label{tbl:type_properties}
+\end{table}
+
+\subsection{System and Methodology}
+
+\begin{enumerate}
+\item Used Compiler + Flags
+\item Configuration of \emph{hMetis} and \emph{PaToH}
+\item Describe \emph{cuber} plots
+\end{enumerate}
+
+
 \subsection{Flow Algorithms and Networks}
 
 In the first experiment we want examine the impact of our sparsifying techniques (see Section \ref{sec:opt_flow_network})
@@ -23,20 +71,6 @@ nodes and edges on \Primal~and \Literal~instances and $\ExpNodeDegree$ on \Dual~
 comparison to a our baseline $\ExpLawler$. Also both should sparsify the resulting flow network
 of \ISPD~and \DAC~instances. Further, we expect that $\ExpHybrid$ combines the advantages of
 both networks and performs best on all bechmark instances.\\
-\begin{table}
-\renewcommand{\arraystretch}{1.15}
-\centering
-\begin{tabular}{r|cc}
-\toprule
-Instance-Type & Avg. $d(v)$ & Avg. $|e|$ \\
-\midrule%
-\csname @@input\endcsname experiments/flow_network/instance_type_properties.tex 
-\bottomrule
-\end{tabular}
-\caption{Average hypernode degree and hyperedge size of the different benchmark types in
-         our benchmark subset.}
-\label{tbl:type_properties}
-\end{table}
 \autoref{fig:node_edge_distribution}~shows the predicted behaviour for flow problems of size
 $25000$ hypernodes. A point on the grid is the \emph{geometric mean} of the number of 
 nodes resp. edges (in the flow network) of all intances for the corresponding benchmark type.
@@ -98,6 +132,7 @@ $\ExpHybrid$ in the following experiments.
 \end{table}
 
 \subsection{Configuration of the $k$-way Flow-based Refiner}
+\label{sec:flow_configuration}
 
 In this Section we examine the quality of our $k$-way flow-based refinement algorithm with
 different configurations on our parameter tuning benchmark subset (\todo{ref to appendix}).
@@ -170,7 +205,8 @@ $\alpha'$ & Gmean$[\%]$ & $t[s]$ & Gmean$[\%]$ & $t[s]$ \\
 \csname @@input\endcsname experiments/flow_alpha/flow_alpha_table2.tex 
 \cmidrule{1-5}
 \end{tabular}
-\caption{ Not final experiments still running }
+\caption{ Table contains results for different configurations of our flow algorithm with
+          increasing $\alpha'$. }
 \label{tbl:alpha_exp}
 \end{table}
 
@@ -178,19 +214,34 @@ $\alpha'$ & Gmean$[\%]$ & $t[s]$ & Gmean$[\%]$ & $t[s]$ \\
 
 \subsection{Speed-Up Heuristics}
 
-
+At the end of Section \ref{sec:flow_local_search_hypergraph} we present several heuristics
+to prevent unnecessary flow executions during \emph{Active Block Scheduling} ((R1)-(R3)).
+The main assumption is that only a minority of \emph{Max-Flow-Min-Cut} computations
+lead to an improvement on $H$. To prove that we execute \KaHyPar{MF} on our benchmark subset
+(\todo{ref to appendix}) and enable one heuristic after another.\\
+Table \ref{tbl:heuristics} summarizes the results of the experiment. \KaHyPar{CA} is the currently
+best configuration of \emph{KaHyPar} and \KaHyPar{MF} is our baseline flow configuration of
+Section \ref{sec:flow_configuration}. The index of the remaining variants of \KaHyPar{MF} 
+describes which speed-up heuristics are enabled (see Section \ref{sec:flow_local_search_hypergraph}).
+The values inside the table are \emph{geometric means} over the corresponding metric. On average,
+enabling all speed up heuristics worsen the quality of \KaHyPar{MF} only by $0.07\%$. On the other
+hand the \emph{Max-Flow-Min-Cut} computations are significantly faster by a factor of $\approx 2$.
+In its final configuration \KaHyParConfig{MF}{R1,R2,R3} computes partitions with $\approx 2\%$ better
+quality ($(\lambda - 1)$-metric) than \KaHyPar{CA} by a slowdown only of a factor of $\approx 2$.
+In the following we will denote our final configuration \KaHyParConfig{MF}{R1,R2,R3} with
+\KaHyPar{MF}.
 
 \begin{table}
 \renewcommand{\arraystretch}{1.15}
 \centering
-\begin{tabular}{l|ccc}
+\begin{tabular}{l|cccc}
 \toprule
-Variant & Gmean Avg.$[\%]$ & Gmean Min.$[\%]$ & Gmean $t[s]$ \\
+Variant & Avg.$[\%]$ & Min.$[\%]$ & $t_{\text{flow}}[s]$ & $t[s]$ \\
 \midrule%
 \csname @@input\endcsname experiments/speed_up_heuristics/heuristic_table.tex 
 \bottomrule
-\end{tabular}
-\caption{}
+\end{tabular} 
+\caption{Table shows results for our flow algorithm with different speed up heuristics.}
 \label{tbl:heuristics}
 \end{table}
 

@@ -19,13 +19,23 @@ penalty_fuc = function(row) {
 }
 
 graphclass = function(row) {
-  if(grepl("*sat14*", row['graph'])){
-    return("SAT14")
-  } else if (grepl("*ISPD98*", row['graph'])) {
-    return("ISPD98")
+  if(grepl("*dual*", row['graph'])){
+    return("Dual")
+  } else if (grepl("*primal*", row['graph'])) {
+    return("Primal")
+  } else if (grepl("sat14*", row['graph'])) {
+    return("Literal")
+  } else if (grepl("dac*", row['graph'])) {
+    return("DAC")
+  }  else if (grepl("*ISPD98*", row['graph'])) {
+    return("ISPD")
   } else {
     return("SPM")
   }
+}
+
+to_latex_math_mode <- function(x) {
+  return(paste("$",x,"$", sep=""))
 }
 
 gm_mean = function(x, na.rm=TRUE, zero.propagate = FALSE){
