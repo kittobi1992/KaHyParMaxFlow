@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <link rel="stylesheet"; href="https://unpkg.com/ng-table@2.0.2/bundles/ng-table.min.css">
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.css">
+</head>
+
+<body>
+
+<div ng-app="instanceApp" ng-controller="instanceCtrl"> 
+
+<form>
+<md-button ng-click="goToBenchmark('benchmark_set_stats.json')">Full Benchmark Set</md-button>
+<md-button ng-click="goToBenchmark('benchmark_subset_stats.json')">Benchmark Subset</md-button>
+<md-button ng-click="goToBenchmark('parameter_tuning_subset_stats.json')">Parameter Tunning Benchmark Set</md-button>
+</form>
+
+<table ng-table="tableParams" class="table">
+    <tr ng-repeat="instance in $data">
+        <td title="'graph'" filter="{ graph: 'text'}"  sortable="'graph'">
+            {{instance.graph}}</td>
+        <td title="'HNs'" sortable="'HNs'" align="right">
+            {{instance.HNs}}</td>
+        <td title="'HEs'" sortable="'HEs'" align="right">
+            {{instance.HEs}}</td>
+        <td title="'pins'" sortable="'pins'" align="right">
+            {{instance.pins}}</td>
+        <td title="'avgHEsize'" sortable="'avgHEsize'" align="right">
+            {{instance.avgHEsize}}</td>
+        <td title="'sdHEsize'" sortable="'sdHEsize'" align="right">
+            {{instance.sdHEsize}}</td>
+        <td title="'minHEsize'" sortable="'minHEsize'" align="right">
+            {{instance.minHEsize}}</td>
+        <td title="'heSize90thPercentile'" sortable="'heSize90thPercentile'" align="right">
+            {{instance.heSize90thPercentile}}</td>
+        <td title="'Q1HEsize'" sortable="'Q1HEsize'" align="right">
+            {{instance.Q1HEsize}}</td>
+        <td title="'medHEsize'" sortable="'medHEsize'" align="right">
+            {{instance.medHEsize}}</td>
+        <td title="'Q3HEsize'" sortable="'Q3HEsize'" align="right">
+            {{instance.Q3HEsize}}</td>
+        <td title="'maxHEsize'" sortable="'maxHEsize'" align="right">
+            {{instance.Q1HEsize}}</td>
+        <td title="'maxHEsize'" sortable="'maxHEsize'" align="right">
+            {{instance.Q1HEsize}}</td>
+        <td title="'avgHNdegree'" sortable="'avgHNdegree'" align="right">
+            {{instance.avgHNdegree}}</td>
+        <td title="'sdHNdegree'" sortable="'sdHNdegree'" align="right">
+            {{instance.sdHNdegree}}</td>
+        <td title="'minHNdegree'" sortable="'minHNdegree'" align="right">
+            {{instance.minHNdegree}}</td>
+        <td title="'hnDegree90thPercentile'" sortable="'hnDegree90thPercentile'" align="right">
+            {{instance.hnDegree90thPercentile}}</td>
+        <td title="'Q1HNdegree'" sortable="'Q1HNdegree'" align="right">
+            {{instance.Q1HNdegree}}</td>
+        <td title="'medHNdegree'" sortable="'medHNdegree'" align="right">
+            {{instance.medHNdegree}}</td>
+        <td title="'Q3HNdegree'" sortable="'Q3HNdegree'" align="right">
+            {{instance.Q3HNdegree}}</td>
+        <td title="'density'" sortable="'density'" align="right">
+            {{instance.density}}</td>
+    </tr>
+</table>
+
+</div>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.js"></script>
+  <script src="https://unpkg.com/ng-table@2.0.2/bundles/ng-table.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-animate.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-aria.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-messages.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.js"></script>
+
+<script>
+
+var url = new URL(window.location.href);
+var file = url.searchParams.get("file");
+if(file == null) file = 'benchmark_set_stats.json';
+
+var App = angular.module('instanceApp', ['ngTable', 'ngMaterial']);
+
+App.controller('instanceCtrl', ['$scope', '$http','NgTableParams', function ($scope, $http, NgTableParams) {
+    $scope.loadBenchmarkSet = function(benchmark_set_file) {
+        $http.get(benchmark_set_file).then(function(response) {
+            $scope.tableParams = new NgTableParams({page:1, count: 10}, { dataset: response.data});
+            $scope.tableParams.total($scope.tableParams.settings().dataset.length);
+            $scope.tableParams.reload();
+        });
+    } 
+
+    $scope.goToBenchmark = function(benchmark) {
+        location.href = "index.html?file=" + benchmark;
+    }
+
+    $scope.loadBenchmarkSet(file)
+}]);
+
+</script>
+
+</body>
+</html>
