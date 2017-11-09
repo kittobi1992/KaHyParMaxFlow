@@ -4,7 +4,7 @@ import json
 ############## Convert Full Benchmark Set to JSON ##############
 
 csvfile = open('benchmark_set_stats.csv', 'r')
-jsonfile = open('benchmark_set_stats.json', 'w')
+jsonfile = open('full_benchmark_set_stats.json', 'w')
 
 fieldnames = ["graph","HNs","HEs","pins","avgHEsize","sdHEsize","minHEsize","heSize90thPercentile","Q1HEsize","medHEsize","Q3HEsize","maxHEsize",
               "avgHNdegree", "sdHNdegree","minHNdegree","hnDegree90thPercentile","maxHNdegree","Q1HNdegree","medHNdegree","Q3HNdegree","density"]
@@ -34,8 +34,8 @@ jsonfile.close()
 
 ############## Convert Parameter Tunning Benchmark Set to JSON ##############
 
-parameterfile = open('parameter_tuning_subset.txt', 'r')
-jsonfile = open('parameter_tuning_subset_stats.json', 'w')
+parameterfile = open('parameter_tunning_subset.txt', 'r')
+jsonfile = open('parameter_tunning_subset_stats.json', 'w')
 
 subset = set([x.strip() for x in parameterfile.readlines()])
 parameter_subset = [x for x in full_benchmark_set if x['graph'] in subset]

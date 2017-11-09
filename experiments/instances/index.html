@@ -5,6 +5,7 @@
   <link rel="stylesheet"; href="https://unpkg.com/ng-table@2.0.2/bundles/ng-table.min.css">
   <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.css">
+
 </head>
 
 <body>
@@ -12,12 +13,12 @@
 <div ng-app="instanceApp" ng-controller="instanceCtrl"> 
 
 <form>
-<md-button ng-click="goToBenchmark('benchmark_set_stats.json')">Full Benchmark Set</md-button>
-<md-button ng-click="goToBenchmark('benchmark_subset_stats.json')">Benchmark Subset</md-button>
-<md-button ng-click="goToBenchmark('parameter_tuning_subset_stats.json')">Parameter Tunning Benchmark Set</md-button>
+<md-button ng-click="goToBenchmark('full_benchmark_set')">Full Benchmark Set</md-button>
+<md-button ng-click="goToBenchmark('benchmark_subset')">Benchmark Subset</md-button>
+<md-button ng-click="goToBenchmark('parameter_tunning_subset')">Parameter Tunning Benchmark Set</md-button>
 </form>
 
-<table ng-table="tableParams" class="table">
+<table fix-table-header ng-table="tableParams" class="table">
     <tr ng-repeat="instance in $data">
         <td title="'graph'" filter="{ graph: 'text'}"  sortable="'graph'">
             {{instance.graph}}</td>
@@ -76,14 +77,15 @@
 <script>
 
 var url = new URL(window.location.href);
-var file = url.searchParams.get("file");
-if(file == null) file = 'benchmark_set_stats.json';
+var benchmark_file = url.searchParams.get("benchmark");
+if(benchmark_file == null) benchmark_file = 'full_benchmark_set';
+benchmark_file = benchmark_file + '_stats.json'
 
 var App = angular.module('instanceApp', ['ngTable', 'ngMaterial']);
 
 App.controller('instanceCtrl', ['$scope', '$http','NgTableParams', function ($scope, $http, NgTableParams) {
-    $scope.loadBenchmarkSet = function(benchmark_set_file) {
-        $http.get(benchmark_set_file).then(function(response) {
+    $scope.loadBenchmarkSet = function() {
+        $http.get(benchmark_file).then(function(response) {
             $scope.tableParams = new NgTableParams({page:1, count: 10}, { dataset: response.data});
             $scope.tableParams.total($scope.tableParams.settings().dataset.length);
             $scope.tableParams.reload();
@@ -91,10 +93,10 @@ App.controller('instanceCtrl', ['$scope', '$http','NgTableParams', function ($sc
     } 
 
     $scope.goToBenchmark = function(benchmark) {
-        location.href = "index.html?file=" + benchmark;
+        location.href = location.href.split('?')[0] + "?benchmark=" + benchmark;
     }
 
-    $scope.loadBenchmarkSet(file)
+    $scope.loadBenchmarkSet()
 }]);
 
 </script>
