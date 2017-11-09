@@ -1,3 +1,14 @@
+In this Secton we evaluate the performance of our flow-based refinement framework proposed
+in Section \ref{sec:opt_flow_network} and \ref{sec:flow_refinement}. We examine
+the impact of our sparsifying techniques of the \emph{Lawler}-Network \cite{lawler1973} on the
+performance of a maximum flow algorithm (see Section \ref{sec:exp_flow_network}). Further,
+several configurations with different heuristics enabled or disabled are
+compared against the baseline configuration of \emph{KaHyPar} in order to optimally
+configure our flow-based refinement algorithm (see Section \ref{sec:flow_configuration} and
+\ref{sec:speed_up}). Finally, we compare our final configuration against other
+state-of-the-art hypergraph partitioner (see Section \ref{sec:final_comparison}).
+
+
 \subsection{Instances}
 
 Our full benchmark set consists of $488$ hypergraphs. We choose our benchmarks 
@@ -39,14 +50,40 @@ Instance-Type & Avg. $d(v)$ & Avg. $|e|$ \\
 
 \subsection{System and Methodology}
 
-\begin{enumerate}
-\item Used Compiler + Flags
-\item Configuration of \emph{hMetis} and \emph{PaToH}
-\item Describe \emph{cuber} plots
-\end{enumerate}
-
+Our experiments run on a single core of a machine consisting of two \emph{Intel Xeon E5-
+2670 Octa-Core} processors clocked at $2.6$ GHz. The machine has $64$ GB main memory,
+$20$ MB L$3$- and $8\times256$ KB L$2$-Cache. The code is written in C++ and compiled using
+\lstinline{g++-5.2} with flags \lstinline{-O3 -mtune=nactive -march=native}. We refer to
+our new implementation of \emph{KaHyPar} with \emph{(M)ax-(F)low-Min-Cut} computations 
+as \KaHyPar{MF} and the latest configuration with \emph{(c)ommunity-(a)ware} coarsening as
+\KaHyPar{CA}. \\
+We compare \KaHyPar{MF} against the state-of-the-art hypergraph partitioner \emph{hMetis} 
+\cite{karypis1999multilevel,karypis2000multilevel} and \emph{PaToH} \cite{catalyurek1999hypergraph}.
+\emph{hMetis} provides a direct $k$-way (\hMetis{K}) and recursive bisection (\hMetis{R}) implementation.
+Further, we also use the default configuration (\PaToH{D}) and quality preset (\PaToH{Q}) of
+\emph{PaToH}. We configure \emph{hMetis} to optimize the \emph{sum-of-externel-degree}-metric
+(SOED) and calculate $(\lambda-1)(\Pi) = \text{SOED}(\Pi) - \text{cut}(\Pi)$. This is also
+suggested by the authors of \emph{hMetis} \cite{karypis2000multilevel}. Further, we have
+to adapt the imbalance definition of \hMetis{R}. An imbalance value of $5$ means that the weight
+of each bisected block is allowed to be between $0.45 \cdot c(V)$ and $0.55 \cdot c(V)$. In order
+to ensure that \hMetis{R} produces a valid $\epsilon$-balanced partition after $\log_2(k)$
+bisections we have to adapt $\epsilon$ to
+\[\epsilon' = 100 \cdot \Bigg( \left( (1 + \epsilon) \frac{\lceil \frac{c(V)}{k} \rceil}{c(V)} \right)^{\frac{1}{\log_2(k)}} - 0.5 \Bigg)\]
+If we evaluate the performance of our hypergraph partitioner 
+we first calculate the average (or minimum) of the different \emph{seeds} of a hypergraph
+instance and than the \emph{geometric mean} between all instances in order to give every instance
+comparable influence on the final result. In order to compare the performance of different 
+hypergraph partitioner more detailed we use performance plots introduced in \cite{schlag2016k}.
+For each partitioner $P$ and instance $H$ we calculate the values $q_{H,P} := 1 - \text{best$_H$}/\text{algorithm$_{H,P}$}$ 
+where $\text{best$_{H}$}$ is the best quality achieved by a partitioner for instance $H$ and
+$\text{algorithm$_{H,P}$}$ refers to the quality achieved by partitioner $P$ for instance
+$H$. Afterwards, we sort all values $q_{H,P}$ of a partitioner $P$ in decreasing order. For each
+partitioner $P$ we plot the points $(H,q_{H,P})$. The faster the $q_{H,P}$ values intersect
+the zero line the better the performance of a partitioner in comparison to the others. If a partition
+of a partitioner $P$ is not $\epsilon$-balanced we set $q_{H,P} = 1 + \beta$ (with $\beta > 0$).
 
 \subsection{Flow Algorithms and Networks}
+\label{sec:exp_flow_network}
 
 In the first experiment we want examine the impact of our sparsifying techniques (see Section \ref{sec:opt_flow_network})
 on the performance of our maximum flow algorithms \GoldbergTarjan~and \EdmondKarp. 
@@ -152,9 +189,9 @@ and $10$ different seeds on our parameter tuning benchmark subset ($\epsilon = 3
 Our pairwise flow-based refinement is embedded in a $k$-way \emph{Active Block Scheduling}
 refinement which is executed on each level $i$ with $i = 2^j$ ($j \in \mathbb{N}_+$) 
 (see Section \ref{sec:flow_local_search_hypergraph}). As reference we use the 
-latest quality configuration of \emph{KaHyPar} \cite{heuer2017improving}. \\
+latest quality configuration of \emph{KaHyPar} (\KaHyPar{CA}) \cite{heuer2017improving}. \\
 The results are summarized in \autoref{tbl:alpha_exp}. The values
-in the column \emph{Gmean} are improvements of the connectivity metric
+in the column \emph{Avg} are improvements of the connectivity metric
 relative to our baseline configuration \FlowVariant{-}{-}{-}{+}. The running
 time are absolute values in seconds. The first observation is that flows on
 its own as refinement strategy are not strong enough to outperform the
@@ -194,13 +231,13 @@ on the quotient graph.
 \toprule
  Config. & \multicolumn{2}{c||}{\FlowVariant{+}{-}{-}{-}} & \multicolumn{2}{c||}{\FlowVariant{+}{+}{-}{-}}  & \multicolumn{2}{c|}{\FlowVariant{+}{-}{+}{-}} \\
 \midrule
-$\alpha'$ & Gmean$[\%]$ & $t[s]$ & Gmean$[\%]$ & $t[s]$ & Gmean$[\%]$ & $t[s]$ \\
+$\alpha'$ & Avg.$[\%]$ & $t[s]$ & Avg.$[\%]$ & $t[s]$ & Avg.$[\%]$ & $t[s]$ \\
 \midrule%
 \csname @@input\endcsname experiments/flow_alpha/flow_alpha_table1.tex 
 \cmidrule[1.25pt]{1-5}%
  Config. & \multicolumn{2}{c||}{\FlowVariant{+}{+}{+}{-}} & \multicolumn{2}{c||}{\FlowVariant{+}{+}{+}{+}} \\
 \cmidrule{1-5}
-$\alpha'$ & Gmean$[\%]$ & $t[s]$ & Gmean$[\%]$ & $t[s]$ \\
+$\alpha'$ & Avg.$[\%]$ & $t[s]$ & Avg.$[\%]$ & $t[s]$ \\
 \cmidrule{1-5}%
 \csname @@input\endcsname experiments/flow_alpha/flow_alpha_table2.tex 
 \cmidrule{1-5}
@@ -213,6 +250,7 @@ $\alpha'$ & Gmean$[\%]$ & $t[s]$ & Gmean$[\%]$ & $t[s]$ \\
 \todo{evaluate effectiveness of flows}
 
 \subsection{Speed-Up Heuristics}
+\label{sec:speed_up}
 
 At the end of Section \ref{sec:flow_local_search_hypergraph} we present several heuristics
 to prevent unnecessary flow executions during \emph{Active Block Scheduling} ((R1)-(R3)).
@@ -223,13 +261,12 @@ Table \ref{tbl:heuristics} summarizes the results of the experiment. \KaHyPar{CA
 best configuration of \emph{KaHyPar} and \KaHyPar{MF} is our baseline flow configuration of
 Section \ref{sec:flow_configuration}. The index of the remaining variants of \KaHyPar{MF} 
 describes which speed-up heuristics are enabled (see Section \ref{sec:flow_local_search_hypergraph}).
-The values inside the table are \emph{geometric means} over the corresponding metric. On average,
-enabling all speed up heuristics worsen the quality of \KaHyPar{MF} only by $0.07\%$. On the other
-hand the \emph{Max-Flow-Min-Cut} computations are significantly faster by a factor of $\approx 2$.
-In its final configuration \KaHyParConfig{MF}{R1,R2,R3} computes partitions with $\approx 2\%$ better
-quality ($(\lambda - 1)$-metric) than \KaHyPar{CA} by a slowdown only of a factor of $\approx 2$.
-In the following we will denote our final configuration \KaHyParConfig{MF}{R1,R2,R3} with
-\KaHyPar{MF}.
+On average, enabling all speed up heuristics worsen the quality of \KaHyPar{MF} only by 
+$0.07\%$. On the other hand the \emph{Max-Flow-Min-Cut} computations are significantly faster 
+by a factor of $\approx 2$. In its final configuration \KaHyParConfig{MF}{R1,R2,R3} computes 
+partitions with $\approx 2\%$ better quality ($(\lambda - 1)$-metric) than \KaHyPar{CA} by a 
+slowdown only of a factor of $\approx 2$. In the following we will denote our final 
+configuration \KaHyParConfig{MF}{R1,R2,R3} with \KaHyPar{MF}.
 
 \begin{table}
 \renewcommand{\arraystretch}{1.15}
@@ -245,8 +282,8 @@ Variant & Avg.$[\%]$ & Min.$[\%]$ & $t_{\text{flow}}[s]$ & $t[s]$ \\
 \label{tbl:heuristics}
 \end{table}
 
-\subsection{Comparison against other Hypergraph Partitioner}
-
+\subsection{Comparison with other Hypergraph Partitioner}
+\label{sec:final_comparison}
 \begin{enumerate}
 \item Compare final configuration of flow refiner against sea config on the full benchmark set
 \end{enumerate}
