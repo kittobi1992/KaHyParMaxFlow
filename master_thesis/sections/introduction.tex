@@ -1,0 +1,96 @@
+Hypergraphs are generalization of graphs, where each (hyper)edge can connect 
+more than two (hyper)nodes. The $k$-way hypergraph partitioning problem is to 
+patition the vertices of a hypergraph into $k$ disjoint non-empty blocks such
+that the size of each block satisfy a lower and upper bound, while we simultanously 
+want to minimize an objective function. \\
+Classical application areas can be found in \emph{VLSI} design, parallelization of
+the \emph{Sparse Matrix Vector Product} and simplying \emph{SAT} formulas 
+\cite{karypis1999multilevel, mann2014formula, papa2007hypergraph}. The goal 
+in \emph{VLSI} design is to partition a circuit into smaller units such that
+the wires between the gates are as short as possible \cite{bulucc2016recent}.
+Since a wire can connect more than two gates a hypergraph models a circuit more
+accurate than a graph. In \emph{SAT} solving hypergraph partitioning is used to
+decompose a formula into smaller subformulas, which can be solved easier \cite{mann2014formula}.
+Beneath the classical application areas hypergraph partitioning can also be found
+in more vivid areas like \emph{Warehouse Planning}. A warehouse consists of several
+storage spaces where products can be placed. If we have a list of orders of the
+past, we can interprete the products as vertices and the orders as hyperedges. If we
+partition the hypergraph into $k$ blocks, where $k$ is the number of storage spaces,
+we can place products in the warehouse such that products are close to each other if
+they are often ordered together.\\
+Hypergraph partitioning is a NP-hard problem \cite{lengauer2012combinatorial} and
+it is even hard NP-hard to find a good approximation of solutions \cite{bui1992finding}.
+The most common used heuristic in state-of-the-art hypergraph partitioner is the
+\emph{multilevel paradigm} \cite{catalyurek1999hypergraph, heuer2017improving, karypis1999multilevel}.
+First a sequence of smaller hypergraphs are calculated by contracting a set of hypernode pairs
+in each step (\emph{coarsening phase}). If the hypergraph is small enough we can use expensive
+heuristics to \emph{initial partition} the hypergraph into $k$ blocks. Afterwards, the sequence
+of smaller hypergraphs is \emph{uncontracted} in reverse order and, at each level, a 
+\emph{local search} heuristic is used to improve the quality of a partition 
+(\emph{refinement phase}). \\
+There exists several \emph{local search} heuristics for improving a partition of a hypergraph,
+but only the \emph{FM} algorithm leads to a practical performance of a multilevel hypergraph
+partitioner for large benchmarks \cite{papa2007hypergraph}. In general, the \emph{FM}
+heuristics maintains gain values (according to the objective function) of moving a node
+from its current block to an other block \cite{fiduccia1988linear}. A move is performed, 
+if its gain value is maximum among all possible moves. The algorithm can be implemented 
+in linear time. Since a move is performed greedily the algorithm tends to find local
+optimal solutions. \\
+Sanders and Schulz \cite{sanders2011engineering} successfully integrated a \emph{flow}-based refinement
+algorithm in their multilevel graph partitioner. It is well known that a maximum $(s,t)$-flow
+calculation yields to a minimum $(s,t)$-cutset on graphs \cite{ford1956maximal}. Their general
+approach was to extract a subhypergraph around the cut and configure the source and sink sets
+of the flow problem such that a maximum flow calculation on the subhypergraph leads to a 
+smaller cut on the original graph. In combination with the \emph{FM} heurisitc their \emph{local
+search} algorithm has the ability to find out of local optimal solutions and produces
+the best partitions for a wide range of graph partitioning benchmarks.
+
+\subsection{Problem Statement}
+
+Currently their are no competitive alternatives to the \emph{FM} heuristic as \emph{local search}
+algorithm for a multilevel hypergraph partitioner. Sanders and Schulz \cite{sanders2011engineering}
+showed that \emph{flow}-based approaches can be used in a multilevel graph partitioner to obtain
+high quality partitions. Their algorithm is a generic framework, which basic ideas can be
+applied one-to-one to hypergraphs. However, several key challanges remain.\\
+First, we have to find an appropriate model of a hypergraph as flow network. Each maximum
+$(s,t)$-flow on this model should induced a minimum $(s,t)$-cutset on the hypergraph.
+Further, our \emph{flow}-based approach should improve a bipartition of a subhypergraph in such
+a way that the resulting bipartition yields to an improved $k$-way partition on the 
+original hypergraph. Therefore, we have to find a source and sink set modelling approach
+such that the above formulated contraints are satisfied. \\
+The framework should be integrated into the $n$-level hypergraph partitioner 
+\emph{KaHyPar}. \emph{KaHyPar} is a multilevel hypergraph partitioner in its most extreme 
+version by only contracting two vertices in one level of the multilevel hierarchy
+\cite{akhremtsev2017engineering,heuer2017improving,schlag2016k}. In the \emph{refinement 
+phase} $n$ \emph{local searches} are instantiated. Therefore, the most challenging part is
+to implement the framework in such a way that we obtain
+high quality partitions and simultanously ensure that the performance reduction is within
+constant factor.
+
+\subsection{Contributions}
+
+We present several sparsifying techniques of the state-of-the-art hypergraph flow network
+modelling approach proposed by Lawler \cite{lawler1973}. Our experiments indicates that
+maximum flow algorithms are up to a factor of $3$ faster with our new network. Further, 
+we show that the source and sink sets of the resulting flow network of a subhypergraph 
+of a already partitioned hypergraph can be configured more flexible than on graphs. More 
+precisely, applying the approach of Sanders and Schulz \cite{sanders2011engineering}
+directly on hypergraphs results in a minimum $(S,T)$-cutset greater or equal as with
+our new technique. We integrate the framework of \cite{sanders2011engineering} into 
+\emph{KaHyPar} and show that \emph{flow}-based refinement in combination with the
+\emph{FM} algorithm produces on a large majority of a wide range of real world
+benchmarks the best known partitions in comparison to other state-of-the-art hypergraph
+partitioner. In comparison to latest quality preset of \emph{KaHyPar} our new approach
+produces on average $2\%$ better partitions and is only slower by a factor of $2$.
+
+\subsection{Outline}
+
+We first introduce important notations and summarize related work in Section \ref{sec:preliminaries}
+and \ref{sec:related_work}. Afterwards, we describe sparsifying techniques of the flow network
+proposed by Lawler \cite{lawler1973} in Section \ref{sec:opt_flow_network}. In Section
+\ref{sec:flow_refinement} we present our optimized source and sink set modelling
+approach and describe the integration of our \emph{flow}-based refinement framework into
+the $n$-level hypergraph partitioner \emph{KaHyPar}. The evaluation of our new flow network
+proposed in Section \ref{sec:opt_flow_network} and framework proposed in Section 
+\ref{sec:flow_refinement} is presented in Section \ref{sec:experiments}. 
+Section \ref{sec:conclusion} concludes this thesis.

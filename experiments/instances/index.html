@@ -79,7 +79,7 @@
 var url = new URL(window.location.href);
 var benchmark_file = url.searchParams.get("benchmark");
 if(benchmark_file == null) benchmark_file = 'full_benchmark_set';
-benchmark_file = benchmark_file + '_stats.json'
+benchmark_file = benchmark_file.split('/')[0] + '_stats.json'
 
 var App = angular.module('instanceApp', ['ngTable', 'ngMaterial']);
 
