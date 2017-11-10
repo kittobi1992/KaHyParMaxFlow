@@ -14,7 +14,7 @@ full_benchmark_set = []
 for row in reader:
     for name in fieldnames:
         if name != "graph":
-            row[name] = float(row[name])
+            row[name] = float(row[name].replace(',','.'))
     full_benchmark_set = full_benchmark_set + [row]
 out = json.dumps( full_benchmark_set )
 jsonfile.write(out)
