@@ -1,3 +1,19 @@
+if ( !exists( "tikzDeviceLoaded" ) ) {  
+  library(tikzDevice) #if not installed call install.packages("tikzDevice", repos="http://R-Forge.R-project.org")
+  
+  options(tikzLatexPackages = c(getOption('tikzLatexPackages')
+                                , "\\usepackage[utf8]{inputenc}"
+                                , "\\usepackage[T1]{fontenc}"
+                                , "\\usepackage{preview} "
+                                , "\\usepackage{latexsym,amsmath,amssymb,mathtools,textcomp}"
+                                , "\\usepackage{xcolor}"
+                                ,paste("\\input{/home/theuer/macros.tex}",sep="")
+  )
+  )
+  tikzDeviceLoaded = T
+}
+
+
 library(ggplot2)
 library(scales)
 library(RSQLite)
@@ -65,9 +81,7 @@ calculateGmeans = function(avg_obj, min_obj,kahypar, ...) {
   result = data.frame(algo= as.factor("baseline"), 
                       gmean_avg=gm_mean(kahypar[[avg_obj]]), avg_imp=(gm_mean(kahypar[[avg_obj]]) - gm_mean(kahypar[[avg_obj]])) / gm_mean(kahypar[[avg_obj]]) *100,
                       gmean_min=gm_mean(kahypar[[min_obj]]), min_imp=(gm_mean(kahypar[[min_obj]]) - gm_mean(kahypar[[min_obj]])) / gm_mean(kahypar[[min_obj]]) *100,
-                      avg_imbalance=mean(kahypar$avg_imbalance), gmean_time=gm_mean(kahypar$avg_time),
-                      gmean_ctime = gm_mean(kahypar$avg_ctime),
-                      gmean_rtime = gm_mean(kahypar$avg_rtime))
+                      avg_imbalance=mean(kahypar$avg_imbalance), gmean_time=gm_mean(kahypar$avg_time))
   
   for(name in names(dataframes)) {
     df = dataframes[[name]]
@@ -77,9 +91,7 @@ calculateGmeans = function(avg_obj, min_obj,kahypar, ...) {
                                         gmean_min = gm_mean(df[[min_obj]]),
                                         min_imp = (gm_mean(df[[min_obj]]) - gm_mean(kahypar[[min_obj]])) / gm_mean(kahypar[[min_obj]]) *100,
                                         avg_imbalance = mean(df$avg_imbalance),
-                                        gmean_time = gm_mean(df$avg_time),
-                                        gmean_ctime = gm_mean(df$avg_ctime),
-                                        gmean_rtime = gm_mean(df$avg_rtime)))
+                                        gmean_time = gm_mean(df$avg_time)))
   }
   return(result)
 }
@@ -101,9 +113,7 @@ calculateGmeansFilter = function(filter,avg_obj, min_obj, kahypar, ...) {
                       gmean_min=gm_mean(kahypar[[min_obj]]), min_imp=(gm_mean(kahypar[[min_obj]]) - gm_mean(kahypar[[min_obj]])) / gm_mean(kahypar[[min_obj]]) *100,
                       avg_imbalance=mean(kahypar$avg_imbalance), 
                       gmean_time=gm_mean(kahypar$avg_time),
-                      avg_time = mean(kahypar$avg_time),
-                      gmean_ctime = gm_mean(kahypar$avg_ctime),
-                      gmean_rtime = gm_mean(kahypar$avg_rtime))
+                      avg_time = mean(kahypar$avg_time))
   
   for(name in names(dataframes)) {
     df = dataframes[[name]]
@@ -116,9 +126,7 @@ calculateGmeansFilter = function(filter,avg_obj, min_obj, kahypar, ...) {
                                         min_imp = (gm_mean(df[[min_obj]]) - gm_mean(kahypar[[min_obj]])) / gm_mean(kahypar[[min_obj]]) *100,
                                         avg_imbalance = mean(df$avg_imbalance),
                                         gmean_time = gm_mean(df$avg_time),
-                                        avg_time = mean(df$avg_time),
-                                        gmean_ctime = gm_mean(df$avg_ctime),
-                                        gmean_rtime = gm_mean(df$avg_rtime)))
+                                        avg_time = mean(df$avg_time)))
   }
   return(result)
 }
@@ -143,10 +151,10 @@ ids_trans = function() trans_new('ids',
 # kahypar-R = #a65628
 # kahypar-r* = #999999
 
-cuberootplot = function(data, title, xbreaks,yexpand=c(0.0,0.1), legendPos=c(0.225,0.15), colors = c("#e41a1c","#a65628","#377eb8", "#4daf4a", "#984ea3", "#ff7f00")) {
+cuberootplot = function(data, title, xbreaks,yexpand=c(0.0,0.1), legendPos=c(0.285,0.2), colors = c("#e41a1c","#a65628","#377eb8", "#4daf4a", "#984ea3", "#ff7f00"), showLegend = FALSE) {
   fntsize = 11
   return(ggplot(data, aes(x=x, y=1-ratio, color=algo)) +
-           geom_point(size=1) + 
+           geom_point( size=0.75 ) + 
            geom_hline(yintercept = 1) +
            annotate("text", Inf,Inf,  label="infeasible solutions", size=3, hjust = 1.05, vjust = 1.5)+
            xlab("\\# Instances") +
@@ -157,21 +165,20 @@ cuberootplot = function(data, title, xbreaks,yexpand=c(0.0,0.1), legendPos=c(0.2
            scale_color_manual(values=colors) +
            theme_bw() +
            theme(aspect.ratio = 2/(1+sqrt(5)),
-                 legend.position = legendPos,
-                 legend.background = element_rect(),
+                 legend.position = if(showLegend) legendPos else "none",
+                 legend.background = element_blank(),
                  legend.title = element_text(face="bold",size=8),
                  legend.text=element_text(size=8),
                  panel.grid.major = element_line(linetype="dotted",size = 0.5, color = "grey"),
                  panel.grid.minor = element_line(),
                  panel.border = element_rect(colour = "black"),
-                 axis.text=element_text(size = fntsize),
+                 axis.text=element_text(size = 8),
                  axis.text.x=element_text(angle = 50,hjust = 1),
                  axis.line = element_line(size = 0.2, color = "black"),
-                 axis.title.y = element_text(vjust=1.5, size = fntsize),
+                 axis.title.y = element_text(vjust=1.5, margin = margin(10,10,10,10), size = fntsize),
                  axis.title.x = element_text(vjust=1, size = fntsize),
-                 plot.title = element_text(size=fntsize, vjust=.5, face="bold")) +
-           #scale_color_brewer(name="Algorithm", palette = "Set1") +
-           guides(colour = guide_legend(title="Algorithm", override.aes = list(size=2), ncol = 2, byrow = F, keywidth = .5, keyheight = .5, legend.margin =-.5)))
+                 plot.title = element_text(size=12, vjust=.5)) +
+                 guides(colour = guide_legend(title="Algorithm", override.aes = list(size=2), ncol = 2, byrow = F, keywidth = .5, keyheight = .5, legend.margin =-.5)))
   
 }
 

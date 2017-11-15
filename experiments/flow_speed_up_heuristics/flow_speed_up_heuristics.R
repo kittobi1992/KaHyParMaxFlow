@@ -1,4 +1,5 @@
 setwd("/home/theuer/Dropbox/Studium Informatik/10. Semester/KaHyParMaxFlow/experiments")
+#setwd("C:\\Users\\tobia\\Dropbox\\Studium Informatik\\10. Semester\\KaHyParMaxFlow\\experiments")
 source("plot_functions.R")
 
 dbs <- c( "flow_speed_up_heuristics/db/flow-000.db",
@@ -29,9 +30,14 @@ aggreg = function(df) data.frame(min_km1=min(df$km1),
                                  avg_time=mean(df$totalPartitionTime),
                                  cnt=length(df$seed))
 
-kahypar_sea <- ddply(dbGetQuery(dbConnect(SQLite(), dbname="kahypar_sea.db"),
+kahypar_sea <- ddply(dbGetQuery(dbConnect(SQLite(), dbname="common_dbs/kahypar_sea.db"),
                                 select_soed), c("graph","k"), aggreg)
 
+hmetis_r = ddply(dbGetQuery(dbConnect(SQLite(), dbname="common_dbs/subset_hmetis-r.db"),
+                            select_soed), c("graph","k"), aggreg)
+
+full_instance_stats = dbGetQuery(dbConnect(SQLite(), dbname="common_dbs/hgr_stats.db"),
+                                 "Select * from experiments")
 
 flow_dbs <- list()
 for(i in 1:length(dbs)) {
@@ -51,32 +57,42 @@ changename = function(row) {
   }
 }
 
+hmetis_r$graph <- as.factor(apply(hmetis_r, 1, function(x) changename(x)))
 
 #extract graph classes from graph names
 kahypar_sea$type <- as.factor(apply(kahypar_sea, 1, function(x) graphclass(x)))
+hmetis_r$type <- as.factor(apply(hmetis_r, 1, function(x) graphclass(x)))
 for(i in 1:length(dbs)) {
   flow_dbs[[i]]$type <- as.factor(apply(flow_dbs[[i]], 1, function(x) graphclass(x)))
 }
 
 
 # restrict benchmark set to all instances for which we currently have results
-semi_join_filter = semi_join(kahypar_sea, flow_dbs[[1]], by=c('graph','k'))
-for(i in 2:length(dbs)) {
+semi_join_filter = semi_join(kahypar_sea, hmetis_r, by=c('graph','k'))
+for(i in 1:length(dbs)) {
   semi_join_filter = semi_join(semi_join_filter, flow_dbs[[i]], by=c('graph','k'))
 }
 
 
 # apply the semi_join_filter to all data frames
 kahypar_sea = semi_join(kahypar_sea, semi_join_filter, by=c('graph','k'))
+hmetis_r = semi_join(hmetis_r, semi_join_filter, by=c('graph','k'))
 for(i in 1:length(dbs)) {
   flow_dbs[[i]]= semi_join(flow_dbs[[i]], semi_join_filter, by=c('graph','k'))
 }
 
 # give each DF a name to identify the algorithm
 kahypar_sea$algorithm = "kahypar_sea"
+hmetis_r$algorithm = "hmetis_r"
 for(i in 1:length(dbs)) {
   flow_dbs[[i]]$algorithm <- algo[i]
 }
+
+kahypar_sea = merge(kahypar_sea,full_instance_stats,by='graph')
+for(i in 1:length(dbs)) {
+  flow_dbs[[i]] = merge(flow_dbs[[i]],full_instance_stats,by='graph')
+}
+hmetis_r = merge(hmetis_r,full_instance_stats,by='graph')
 
 flow_000 <- flow_dbs[[1]]
 flow_001 <- flow_dbs[[2]]
@@ -142,9 +158,18 @@ for (class in instance_classes) {
                                           avg_obj = "avg_km1", min_obj = "min_km1",
                                           UsePenalty = TRUE,
                                           kahypar = kahypar_sea,
-                                          #flow_000 = flow_000,
-                                          #flow_001 = flow_001,
-                                          #flow_011 = flow_011,
-                                          flow_111 = flow_111
+                                          flow_111 = flow_111,
+                                          hmetis_r = hmetis_r
   )$min_ratios, paste("FULL min km1 Ratios (cubic root scale) ", filter),pretty_breaks(n=10)))
 }
+
+filter <- "*"
+t1 <- 0
+t2 <- 3
+print(cuberootplot(createRatioDFsFilter(filter = filter,
+                                        avg_obj = "avg_km1", min_obj = "min_km1",
+                                        UsePenalty = TRUE,
+                                        kahypar = kahypar_sea[kahypar_sea$medHEsize >= t1 & kahypar_sea$medHEsize <= t2,],
+                                        flow_111 = flow_111[flow_111$medHEsize >= t1 & flow_111$medHEsize <= t2,],
+                                        hmetis_r = hmetis_r[hmetis_r$medHEsize >= t1 & hmetis_r$medHEsize <= t2,]
+)$min_ratios, paste("FULL min km1 Ratios (cubic root scale) ", filter),pretty_breaks(n=10)))
