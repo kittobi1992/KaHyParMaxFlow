@@ -13,7 +13,6 @@ if ( !exists( "tikzDeviceLoaded" ) ) {
   tikzDeviceLoaded = T
 }
 
-
 library(ggplot2)
 library(scales)
 library(RSQLite)
@@ -43,6 +42,8 @@ network_revalue = c("lawler" = "$\\ExpLawler$",
                     "node_degree" = "$\\ExpNodeDegree$",
                     "edge_size" = "$\\ExpEdgeSize$",
                     "hybrid" = "$\\ExpHybrid$")
+indicator_revalue = c("num_nodes" = "Number of Nodes",
+                      "num_edges" = "Number of Edges")
 
 
 
@@ -157,6 +158,11 @@ revalue_columns_to_latex <- function(db) {
     db$flow_network <- factor(db$flow_network)
     db$flow_network <- factor(db$flow_network, levels = levels(db$flow_network)[c(3,4,1,2)])
   }
+  if("ind" %in% colnames(db)) {
+    db$ind <- revalue(as.character(db$ind), indicator_revalue) 
+    db$ind <- factor(db$ind)
+    db$ind <- factor(db$ind, levels = levels(db$ind)[c(2,1)])
+  }
 
   return(db)
 }
@@ -215,6 +221,25 @@ node_edge_distribution_plot <- function(db) {
     ylab("Number of Edges") +
     xlab("Number of Nodes") +
     theme_complete_bw()
+  
+  return(plot)
+}
+
+node_edge_distribution_plot2 <- function(db) {
+  aggreg <- function(df) data.frame(num_nodes=gm_mean(df$avg_num_nodes),
+                                    num_edges=gm_mean(df$avg_num_edges))
+  df <- ddply(db, c("flow_network", "flow_algorithm", "num_hypernodes","type"), aggreg)
+  df <- cbind(df[1:4],stack(df[5:6]))
+  df <- revalue_columns_to_latex(df)
+  
+  plot <- ggplot(df) + 
+          geom_bar(aes( x= flow_network, y = values, fill = ind), stat = "identity", position="dodge") +
+          geom_hline(aes(yintercept = 25000), color="red", linetype="dashed") +
+          facet_wrap( ~ type ) + 
+          ylab("Number of Nodes/Edges") +
+          xlab("Flow Network") +
+          
+          theme_complete_bw()
   
   return(plot)
 }
