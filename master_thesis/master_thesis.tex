@@ -60,6 +60,10 @@
 \usepackage{tikz}
 \usetikzlibrary{calc}
 
+\usepackage{pgfplots}
+\usepgfplotslibrary{external}
+\tikzexternalize[prefix=experiments/]
+
 % Aktuelle Section und Untersection am Seitenkopf
 \usepackage{fancyhdr}
 
@@ -85,6 +89,8 @@
 
 % Hyperref für Hyperlink und Sprungtexte
 \usepackage{xcolor,hyperref}
+\usepackage{subcaption}
+\usepackage{graphicx}
 
 \hypersetup{
   pdftitle={High Quality Hypergraph Partitioning via Max-Flow-Min-Cut Computations},
@@ -128,11 +134,11 @@
   \begin{center}\large
  
     \quad\includegraphics[height=17mm]{../img/logo/kit_logo_en.pdf} \hfill
-    \includegraphics[height=20mm]{../img/logo/grouplogo-algo-blue.pdf}\quad\null
+    %\includegraphics[height=20mm]{../img/logo/grouplogo-algo-blue.pdf}\quad\null
 
     \vfill
 
-    Masterthesis
+    Master-Thesis
     \vspace*{2cm}
 
     {\textbf{\huge High Quality Hypergraph Partitioning \\ via Max-Flow-Min-Cut Computations} \par}
@@ -143,27 +149,27 @@
 
     Tobias Heuer
 
-    \vspace*{15mm}
-
-    Abgabedatum: 19.10.2012
-
     \vspace*{45mm}
 
     \begin{tabular}{rl}
-      Betreuer: & Prof. Dr. Peter Sanders \\
-      & Sebastian Schlag\\
+      Advisors: & Prof. Dr. Peter Sanders \\
+      & M. Sc. Sebastian Schlag\\
     \end{tabular}
     
     \vspace*{10mm}
 
-    Institut für Theoretische Informatik, Algorithmik \\
-    Fakultät für Informatik \\
-    Karlsruher Institut für Technologie
+    %Institut für Theoretische Informatik, Algorithmik \\
+    %Fakultät für Informatik \\
+    %Karlsruher Institut für Technologie
 
     % English:
-    % Institute of Theoretical Informatics, Algorithmics \\
-    % Department of Informatics \\
-    % Karlsruhe Institute of Technology
+    Institute of Theoretical Informatics, Algorithmics \\
+    Department of Informatics \\
+    Karlsruhe Institute of Technology
+
+    \vspace*{15mm}
+
+    Date of submission: 22.12.2017
 
     \vspace*{12mm}
   \end{center}
@@ -176,12 +182,16 @@
 
 \hrule\medskip
 
-Hiermit versichere ich, dass ich diese Arbeit selbständig verfasst und keine anderen, als die angegebenen Quellen und Hilfsmittel benutzt, die wörtlich oder inhaltlich übernommenen Stellen als solche kenntlich gemacht und die Satzung des Karlsruher Instituts für Technologie zur Sicherung guter wissenschaftlicher Praxis in der jeweils gültigen Fassung beachtet habe.
+Hiermit versichere ich, dass ich diese Arbeit selbständig verfasst und keine anderen, 
+als die angegebenen Quellen und Hilfsmittel benutzt, die wörtlich oder inhaltlich 
+übernommenen Stellen als solche kenntlich gemacht und die Satzung des Karlsruher 
+Instituts für Technologie zur Sicherung guter wissenschaftlicher Praxis in der jeweils 
+gültigen Fassung beachtet habe.
 
 \bigskip
 
 \noindent
-Ort, den Datum
+Karlsruhe, den 22.12.2017
 
 % Unterschrift (handgeschrieben)
 
@@ -199,9 +209,19 @@ Ort, den Datum
 
 Hier die deutsche Zusammenfassung.
 
-Ich bin Blindtext. Von Geburt an. Es hat lange gedauert, bis ich begriffen habe, was es bedeutet, ein blinder Text zu sein: Man macht keinen Sinn. Man wirkt hier und da aus dem Zusammenhang gerissen. Oft wird man gar nicht erst gelesen. Aber bin ich deshalb ein schlechter Text? Ich weiß, dass ich nie die Chance haben werde im Stern zu erscheinen. Aber bin ich darum weniger wichtig? Ich bin blind! Aber ich bin gerne Text. Und sollten Sie mich jetzt tatsächlich zu Ende lesen, dann habe ich etwas geschafft, was den meisten ,,normalen`` Texten nicht gelingt.
+Ich bin Blindtext. Von Geburt an. Es hat lange gedauert, bis ich begriffen habe, 
+was es bedeutet, ein blinder Text zu sein: Man macht keinen Sinn. Man wirkt hier 
+und da aus dem Zusammenhang gerissen. Oft wird man gar nicht erst gelesen. Aber 
+bin ich deshalb ein schlechter Text? Ich weiß, dass ich nie die Chance haben werde 
+im Stern zu erscheinen. Aber bin ich darum weniger wichtig? Ich bin blind! Aber ich 
+bin gerne Text. Und sollten Sie mich jetzt tatsächlich zu Ende lesen, dann habe ich 
+etwas geschafft, was den meisten normalen Texten nicht gelingt.
 
-Ich bin Blindtext. Von Geburt an. Es hat lange gedauert, bis ich begriffen habe, was es bedeutet, ein blinder Text zu sein: Man macht keinen Sinn. Man wirkt hier und da aus dem Zusammenhang gerissen. Oft wird man gar nicht erst gelesen. Aber bin ich deshalb ein schlechter Text? Ich weiß, dass ich nie die Chance haben werde im Stern zu erscheinen. Aber bin ich darum weniger wichtig? Ich bin blind! Aber ich bin gerne Text.
+Ich bin Blindtext. Von Geburt an. Es hat lange gedauert, bis ich begriffen habe, 
+was es bedeutet, ein blinder Text zu sein: Man macht keinen Sinn. Man wirkt hier 
+und da aus dem Zusammenhang gerissen. Oft wird man gar nicht erst gelesen. Aber bin
+ich deshalb ein schlechter Text? Ich weiß, dass ich nie die Chance haben werde im Stern 
+zu erscheinen. Aber bin ich darum weniger wichtig? Ich bin blind! Aber ich bin gerne Text.
 
 \end{abstract}
 
@@ -213,9 +233,18 @@ Ich bin Blindtext. Von Geburt an. Es hat lange gedauert, bis ich begriffen habe,
 
 And here an English translation of the German abstract.
 
-I'm blind text. From birth. It took a long time until I realized what it means to be random text: You make no sense. You stand here and there out of context. Frequently, they do not even read. But I have a bad copy? I know that I will never have the chance of appearing in the. But I'm any less important? I'm blind! But I like to text. And you should see me now actually over, then I have accomplished something that is not possible in most ``normal'' copies.
+I'm blind text. From birth. It took a long time until I realized what it means 
+to be random text: You make no sense. You stand here and there out of context. 
+Frequently, they do not even read. But I have a bad copy? I know that I will 
+never have the chance of appearing in the. But I'm any less important? I'm blind! 
+But I like to text. And you should see me now actually over, then I have accomplished 
+something that is not possible in most normal copies.
 
-I'm blind text. From birth. It took a long time until I realized what it means to be random text: You make no sense. You stand here and there out of context. Frequently, they do not even read. But I have a bad copy? I know that I will never have the chance of appearing in the. But I'm any less important? I'm blind! But I like to text.
+I'm blind text. From birth. It took a long time until I realized what it means t
+o be random text: You make no sense. You stand here and there out of context. 
+Frequently, they do not even read. But I have a bad copy? I know that I will 
+never have the chance of appearing in the. But I'm any less important? I'm blind! 
+But I like to text.
 
 \end{abstract}
 
@@ -228,7 +257,12 @@ I'm blind text. From birth. It took a long time until I realized what it means t
 
 \section*{Acknowledgements}
 
-Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo.
+Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo 
+ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis 
+parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, 
+ellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede 
+justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, 
+imperdiet a, venenatis vitae, justo.
 
 \vfill\vfill\vfill
 \clearpage

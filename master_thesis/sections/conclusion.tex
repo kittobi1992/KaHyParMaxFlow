@@ -1,9 +1,49 @@
-\begin{enumerate}
-\item Summarize contribution with \emph{deep insights}
-\item Summarzie experimental results
- \end{enumerate}
+In this thesis we developed a novel \emph{local search} technique based on \emph{Max-Flow-Min-Cut}
+computations for multilevel hypergraph partitioning. We integrated our \emph{flow}-based
+refinement framework into the $n$-level hypergraph partitioner \emph{KaHyPar} and show that
+in combination with the \emph{FM} heurisitc our new approach produces the best known partitions
+for a wide range of applications.\\
+On the road to a practical implementation we developed several concepts to speed up flow
+computations on a flow network of a hypergraph (see Section \ref{sec:related_lawler}).
+One is to remove low-degree hypernodes from the network and instead insert a clique 
+between all incident hyperedge nodes. We show that the number of nodes and edges could
+be reduced, if the degree of a hypernode is smaller or equal than $3$. Further, we model a hyperedge
+of size $2$ as an undirected flow edge. We combine both techniques in a \emph{Hybrid}-Network 
+and show that maximum flow algorithms are up to a factor of $3$ faster compared to
+the execution on the \emph{Lawler}-Network \cite{lawler1973} on real world benchmarks. \\
+Our \emph{flow}-based refinement framework is based on the ideas of Sanders and Schulz
+\cite{sanders2011engineering} (developed for multilevel graph partitioning). Given an already bipartitioned
+hypergraph, we show how to configure the source and sink sets of the flow network 
+of a subhypergraph such that a \emph{Max-Flow-Min-Cut} computation yields to a cut smaller 
+or equal than the cut before on the original hypergraph. A main contribution is that we proof
+that applying the source and sink set modelling approach of Sanders and Schulz one-to-one on 
+hypergraphs results in cuts greater or equal than with our optimized defintion. This is due to
+the fact that \emph{border hyperdges}, which induced sources and sinks, can be
+splitted into three different disjoint subsets on hypergraphs. This distinction enables a more effective
+configuration of the sources and sinks. Additionally, we explain how one can find all 
+minimum $(s,t)$-cutsets with one maximum $(s,t)$-flow calculation on hypergraphs. \\
+We integrated our framework into the $n$-level hypergraph partitioner
+\emph{KaHyPar}. A \emph{flow}-based refinement is executed in $\log{n}$ levels of the multilevel
+hierarchy between each adjacent block in the quotient graph. The pairwise block scheduling 
+refinement is executed in rounds and terminates if none of the blocks changes anymore.
+The sizes of the flow problems are choosen adaptively. If a \emph{flow} computation on two blocks
+yields to an improvement the flow problem size is increased, otherwise it is decreased. 
+Additionally, we try to automatically balance the partition after \emph{Max-Flow-Min-Cut}
+computation by iterating over each minimum $(S,T)$-cutset. In the remaining levels, 
+where no flow is performed, the classical \emph{FM} heuristic is used to improve the quality 
+of a partition. An observation during implementation was that only a minority of 
+the \emph{Max-Flow-Min-Cut} computations leads to an improvement of the original partition. 
+Therefore, we implement several speed up heuristics which prevents the
+execution of unnecessary pairwise \emph{flow} refinements. \\
+Our new quality configuration \KaHyPar{MF} produced on $95\%$ of our benchmark instances
+better partitions than our old baseline configuration \KaHyPar{CA}. On average the solution 
+quality is $2\%$ better and only within a factor of $2$ slower. In comparison with other 
+state-of-the-art hypergraph partitioner, \KaHyPar{MF} produced on $70\%$ of the benchmark instances
+the best known partitions with a running time comparable to the direct $k$-way implementation
+of \emph{hMetis}.
 
- \subsection{Future Work}
+
+\subsection{Future Work}
 
  \begin{enumerate}
 \item Minimize number of edges with clique expansion ($k \rightarrow k + 1$ clique

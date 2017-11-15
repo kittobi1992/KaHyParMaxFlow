@@ -49,6 +49,7 @@ Instance-Type & Avg. $d(v)$ & Avg. $|e|$ \\
 \end{table}
 
 \subsection{System and Methodology}
+\label{sec:methodology}
 
 Our experiments run on a single core of a machine consisting of two \emph{Intel Xeon E5-
 2670 Octa-Core} processors clocked at $2.6$ GHz. The machine has $64$ GB main memory,
@@ -284,9 +285,51 @@ Variant & Avg.$[\%]$ & Min.$[\%]$ & $t_{\text{flow}}[s]$ & $t[s]$ \\
 
 \subsection{Comparison with other Hypergraph Partitioner}
 \label{sec:final_comparison}
+
+Finally, we compare our new approach \KaHyPar{MF} with different state-of-the-art hypergraph
+partitioner on our full benchmark set.
 \begin{enumerate}
-\item Compare final configuration of flow refiner against sea config on the full benchmark set
+\item describe which benchmarks are excluded
 \end{enumerate}
 
-
-
+\autoref{fig:final_flow}~summarizes the results of the experiment. \KaHyPar{MF}
+produced on $\approx 70\%$ of all benchmark instances the best partition. It is followed by
+\hMetis{R} ($14\%$), \hMetis{K} ($11\%$), \KaHyPar{CA} ($2.5\%$),
+\PaToH{Q} ($1.8\%$) and \PaToH{D} ($1.2\%$). Since \KaHyPar{MF} build on top 
+of \KaHyPar{CA} it outperforms \KaHyPar{CA} on most of the instances. Comparing \KaHyPar{MF} 
+individually with each partitioner, \KaHyPar{MF} produced better partitions than ...
+\begin{itemize}
+\item ...\KaHyPar{CA} in $96\%$ of the instances.
+\item ...\hMetis{R} in $80\%$ of the instances.
+\item ...\hMetis{K} in $82\%$ of the instances.
+\item ...\PaToH{Q} in $95\%$ of the instances.
+\item ...\PaToH{D} in $95\%$ of the instances.
+\end{itemize}
+Especially on \emph{VLSI} instances \KaHyPar{MF} calculates significantly better partitions
+than all other hypergraph partitioner (see \DAC~and \ISPD~in \autoref{fig:final_flow}).\\
+\begin{figure}
+\centering
+\input{experiments/final_flow/fullset.tex} %
+\caption{Min-Cut performance plots comparing \KaHyPar{MF} with \KaHyPar{CA} and
+         other systems. The plots are explained in Section \ref{sec:methodology}.}
+\label{fig:final_flow}
+\end{figure} 
+Table \ref{tbl:running_time} shows the running time of all partitioner on the different benchmark
+types. The running time of \KaHyPar{MF} is within a factor of $2$ slower than \KaHyPar{CA} and
+is comparable to the running time of \hMetis{K}. 
+\begin{table}
+\renewcommand{\arraystretch}{1.15}
+\centering
+\begin{tabular}{c|ccccccc}
+\toprule
+\multirow{2}{*}{Partitioner} & \multicolumn{7}{c}{Running Time [s]} \\
+\cmidrule{2-8}
+ & \ALL & \DAC & \ISPD & \Primal & \Literal & \Dual & \SPM \\
+\midrule%
+\csname @@input\endcsname experiments/final_flow/final_flow_running_time.tex 
+\bottomrule
+\end{tabular} 
+\caption{Comparing the average running time of \KaHyPar{MF} with \KaHyPar{CA} and
+         other tools.}
+\label{tbl:running_time} 
+\end{table}
