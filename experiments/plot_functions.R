@@ -41,12 +41,12 @@ graphclass = function(row) {
     return("Primal")
   } else if (grepl("sat14*", row['graph'])) {
     return("Literal")
-  } else if (grepl("dac*", row['graph'])) {
-    return("DAC")
+  } else if (grepl("*mtx*", row['graph'])) {
+    return("SPM")
   }  else if (grepl("*ISPD98*", row['graph'])) {
     return("ISPD")
   } else {
-    return("SPM")
+    return("DAC")
   }
 }
 

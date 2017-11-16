@@ -206,7 +206,7 @@ print(calculateGmeansFilter(filter = "*",
                             patoh_d = patoh_d
 ))
 
-####################### Running Time ####################### 
+####################### Running Time per Instance Type ####################### 
 
 kahypar_mf <- kahypar_mf[c("graph", "type", "k", "min_km1", "avg_km1", "avg_imbalance", "avg_time", "algorithm")]
 
@@ -230,8 +230,6 @@ for(type in instance_classes) {
   running_time <- cbind(running_time, calculateGmeanRunningTime(kahypar_mf, kahypar_ca, hmetis_r, hmetis_k, patoh_q, patoh_d, type=type)["time"])
 }
 
-print(running_time)
-
 table_file <- "master_thesis/experiments/final_flow/final_flow_running_time.tex"
 sink(table_file)
 for( algo in levels(factor(running_time$algorithm))) {
@@ -241,6 +239,107 @@ for( algo in levels(factor(running_time$algorithm))) {
   cat("\\\\ \n")
 }
 sink()
+
+####################### Running Time per K ####################### 
+
+kahypar_mf <- kahypar_mf[c("graph", "type", "k", "min_km1", "avg_km1", "avg_imbalance", "avg_time", "algorithm")]
+
+calculateGmeanRunningTimePerK <- function(..., k) {
+  df <- rbind(...)
+  df$algorithm <- factor(df$algorithm, levels = levels(factor(df$algorithm))[c(4,3,2,1,6,5)])
+  df <- df[df$k == k,]
+  aggreg = function(df) data.frame(time=to_latex_math_mode(round(gm_mean(df$avg_time), digits = 2)))
+  df <- ddply(df, c("algorithm"), aggreg)
+}
+
+K <- c(4,8,16,32,64,128)
+running_time <- calculateGmeanRunningTimePerK(kahypar_mf, kahypar_ca, hmetis_r, hmetis_k, patoh_q, patoh_d, k=2)
+for(k in K) {
+  running_time <- cbind(running_time, calculateGmeanRunningTimePerK(kahypar_mf, kahypar_ca, hmetis_r, hmetis_k, patoh_q, patoh_d, k=k)["time"])
+}
+
+table_file <- "master_thesis/experiments/final_flow/final_flow_running_time_per_k.tex"
+sink(table_file)
+for( algo in levels(factor(running_time$algorithm))) {
+  algo_df <- running_time[running_time$algorithm == algo,]
+  names(algo_df) <- NULL
+  cat(paste(unlist(c(algo_df)), collapse=" & "))
+  cat("\\\\ \n")
+}
+sink()
+
+####################### Gmean Km1 per Instance Type ####################### 
+
+kahypar_mf <- kahypar_mf[c("graph", "type", "k", "min_km1", "avg_km1", "avg_imbalance", "avg_time", "algorithm")]
+
+calculateGmeanAvgKm1 <- function(..., type="ALL") {
+  df <- rbind(...)
+  df$algorithm <- factor(df$algorithm, levels = levels(factor(df$algorithm))[c(4,3,2,1,6,5)])
+  if(type != "ALL") {
+    df <- df[df$type == type,]
+  }
+  aggreg = function(df) data.frame(km1=gm_mean(df$avg_km1))
+  df <- ddply(df, c("algorithm"), aggreg)
+  df$km1[2:6] <- round((df$km1[2:6]/df$km1[1] - 1.0)*100.0, digits = 2)
+  df$km1[1] <- round(df$km1[1], digits = 2)
+  df$km1[1:6] <- to_latex_math_mode(df$km1[1:6])
+  return(df)
+}
+
+instance_classes <- c("DAC","ISPD","Primal","Literal","Dual","SPM")
+km1_table <- calculateGmeanAvgKm1(kahypar_mf, kahypar_ca, hmetis_r, hmetis_k, patoh_q, patoh_d, type="ALL")
+for(type in instance_classes) {
+  km1_table <- cbind(km1_table, calculateGmeanAvgKm1(kahypar_mf, kahypar_ca, hmetis_r, hmetis_k, patoh_q, patoh_d, type=type)["km1"])
+}
+
+km1_table$algorithm <- as.character(km1_table$algorithm)
+partitioner <- c("\\KaHyPar{MF}","\\KaHyPar{CA}","\\hMetis{R}","\\hMetis{K}","\\PaToH{Q}","\\PaToH{D}")
+
+table_file <- "master_thesis/experiments/final_flow/final_flow_km1_per_instance.tex"
+sink(table_file)
+for( algo in partitioner) {
+  algo_df <- km1_table[km1_table$algorithm == algo,]
+  names(algo_df) <- NULL
+  cat(paste(unlist(c(algo_df)), collapse=" & "))
+  cat("\\\\ \n")
+}
+sink()
+
+####################### Gmean Km1 per k ####################### 
+
+kahypar_mf <- kahypar_mf[c("graph", "type", "k", "min_km1", "avg_km1", "avg_imbalance", "avg_time", "algorithm")]
+
+calculateGmeanAvgKm1PerK <- function(..., k) {
+  df <- rbind(...)
+  df$algorithm <- factor(df$algorithm, levels = levels(factor(df$algorithm))[c(4,3,2,1,6,5)])
+  df <- df[df$k == k,]
+  aggreg = function(df) data.frame(km1=gm_mean(df$avg_km1))
+  df <- ddply(df, c("algorithm"), aggreg)
+  df$km1[2:6] <- round((df$km1[2:6]/df$km1[1] - 1.0)*100.0, digits = 2)
+  df$km1[1] <- round(df$km1[1], digits = 2)
+  df$km1[1:6] <- to_latex_math_mode(df$km1[1:6])
+  return(df)
+}
+
+K <- c(4,8,16,32,64,128)
+km1_table <- calculateGmeanAvgKm1PerK(kahypar_mf, kahypar_ca, hmetis_r, hmetis_k, patoh_q, patoh_d, k=2)
+for(k in K) {
+  km1_table <- cbind(km1_table, calculateGmeanAvgKm1PerK(kahypar_mf, kahypar_ca, hmetis_r, hmetis_k, patoh_q, patoh_d, k = k)["km1"])
+}
+
+km1_table$algorithm <- as.character(km1_table$algorithm)
+partitioner <- c("\\KaHyPar{MF}","\\KaHyPar{CA}","\\hMetis{R}","\\hMetis{K}","\\PaToH{Q}","\\PaToH{D}")
+
+table_file <- "master_thesis/experiments/final_flow/final_flow_km1_per_k.tex"
+sink(table_file)
+for( algo in partitioner) {
+  algo_df <- km1_table[km1_table$algorithm == algo,]
+  names(algo_df) <- NULL
+  cat(paste(unlist(c(algo_df)), collapse=" & "))
+  cat("\\\\ \n")
+}
+sink()
+
 
 
 ####################### Number of Best Instance ####################### 

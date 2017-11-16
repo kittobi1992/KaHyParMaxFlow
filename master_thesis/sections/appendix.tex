@@ -1,7 +1,74 @@
-\begin{appendix}
+\section{Benchmark Instances}
+\label{sec:benchmark_instances}
 
-\begin{table}
+\subsection{Parameter Tunning Benchmark Set}
+\label{sec:parameter_tunning_set}
+
+\begin{table}[ht!]
 \renewcommand{\arraystretch}{1.15}
+\centering
+\begin{tabular}{l|cccccc}
+\toprule
+Type & Num & $\min{|V|}$ & Avg.$|V|$ & $\max{|V|}$ & $\min{|E|}$ & Avg.$|E|$ \\
+\midrule%
+\csname @@input\endcsname experiments/instances/parameter_tunning_stats1.tex 
+\midrule
+Type & $\max{|E|}$ & Avg.$|e|$ & Med.$|e|$ & Avg.$d(v)$ & Med.$d(v)$ & Avg.$\frac{|E|}{|V|}$ \\
+\midrule%
+\csname @@input\endcsname experiments/instances/parameter_tunning_stats2.tex 
+\bottomrule
+\end{tabular} 
+\caption{Statistical summary of the parameter tunning instances.}
+\label{tbl:parameter_tunning_set}
+\end{table}
+
+\subsection{Benchmark Subset}
+\label{sec:benchmark_subset}
+
+\begin{table}[ht!]
+\renewcommand{\arraystretch}{1.15}
+\centering
+\begin{tabular}{l|cccccc}
+\toprule
+Type & Num & $\min{|V|}$ & Avg.$|V|$ & $\max{|V|}$ & $\min{|E|}$ & Avg.$|E|$ \\
+\midrule%
+\csname @@input\endcsname experiments/instances/subset_benchmark_stats1.tex 
+\midrule
+Type & $\max{|E|}$ & Avg.$|e|$ & Med.$|e|$ & Avg.$d(v)$ & Med.$d(v)$ & Avg.$\frac{|E|}{|V|}$ \\
+\midrule%
+\csname @@input\endcsname experiments/instances/subset_benchmark_stats2.tex 
+\bottomrule
+\end{tabular} 
+\caption{Statistical summary of the benchmark subset instances.}
+\label{tbl:benchmark_subset}
+\end{table}
+
+\newpage
+\subsection{Full Benchmark Set}
+\label{sec:full_benchmark_set}
+
+\begin{table}[ht!]
+\renewcommand{\arraystretch}{1.15}
+\centering
+\begin{tabular}{l|cccccc}
+\toprule
+Type & Num & $\min{|V|}$ & Avg.$|V|$ & $\max{|V|}$ & $\min{|E|}$ & Avg.$|E|$ \\
+\midrule%
+\csname @@input\endcsname experiments/instances/full_benchmark_stats1.tex 
+\midrule
+Type & $\max{|E|}$ & Avg.$|e|$ & Med.$|e|$ & Avg.$d(v)$ & Med.$d(v)$ & Avg.$\frac{|E|}{|V|}$ \\
+\midrule%
+\csname @@input\endcsname experiments/instances/full_benchmark_stats2.tex 
+\bottomrule
+\end{tabular} 
+\caption{Statistical summary of the full benchmark set instances.}
+\label{tbl:full_benchmark_set}
+\end{table}
+
+\newpage
+\section{Detailed Flow Network and Algorithm Evaluation}
+\begin{table}[ht]
+\renewcommand{\arraystretch}{0.8}
 \centering
 \begin{tabular}{lr|*{4}{r@{\hspace{3mm}}}|*{4}{r@{\hspace{3mm}}}}
 \toprule
@@ -19,4 +86,84 @@
 \label{tbl:space}
 \end{table}
 
-\end{appendix}
+\newpage
+\section{Detailed Speed Up Heuristic Evaluation}
+\begin{figure}[h!]
+\centering
+\input{experiments/speed_up_heuristics/subset.tex} %
+\caption{Min-Cut performance plots comparing \KaHyPar{MF} with \KaHyPar{CA}. 
+         The plots are explained in Section \ref{sec:methodology}.}
+\label{fig:subset_flow}
+\end{figure}  
+
+\begin{table}[ht!]
+\renewcommand{\arraystretch}{1.15}
+\centering
+\begin{tabular}{l|ccccccc}
+\toprule
+\multirow{2}{*}{Partitioner} & \multicolumn{7}{c}{Running Time $t[s]$} \\
+\cmidrule{2-8}
+ & \ALL & \DAC & \ISPD & \Primal & \Literal & \Dual & \SPM \\
+\midrule%
+\csname @@input\endcsname experiments/speed_up_heuristics/subset_flow_running_time.tex 
+\bottomrule
+\end{tabular} 
+\caption{Comparing the average running time of \KaHyPar{MF} with \KaHyPar{CA}.}
+\label{tbl:running_time} 
+\end{table}
+
+\newpage
+\section{Detailed Comparison with other Systems}
+
+\begin{table}[ht!]
+\renewcommand{\arraystretch}{1.15}
+\centering
+\begin{tabular}{l|rrrrrrr}
+\toprule
+\multirow{2}{*}{Partitioner} & \multicolumn{7}{c}{Average $\lambda - 1$} \\
+\cmidrule{2-8}
+ & \ALL & \DAC & \ISPD & \Primal & \Literal & \Dual & \SPM \\
+\midrule%
+\csname @@input\endcsname experiments/final_flow/final_flow_km1_per_instance.tex 
+\bottomrule
+\end{tabular} 
+\caption{Comparison of average $(\lambda - 1)$ metric of \KaHyPar{MF} with \KaHyPar{CA} and
+         other systems on different benchmark types. The results are in percentage 
+         relative to \KaHyPar{MF}.}
+\label{tbl:full_quality} 
+\end{table}
+
+\begin{table}[ht!]
+\renewcommand{\arraystretch}{1.15}
+\centering
+\begin{tabular}{l|rrrrrrr}
+\toprule
+\multirow{2}{*}{Partitioner} & \multicolumn{7}{c}{Average $\lambda - 1$} \\
+\cmidrule{2-8}
+ & $k = 2$ & $k = 4$ & $k = 8$ & $k = 16$ & $k = 32$ & $k = 64$ & $k = 128$ \\
+\midrule%
+\csname @@input\endcsname experiments/final_flow/final_flow_km1_per_k.tex 
+\bottomrule
+\end{tabular} 
+\caption{Comparison of average $(\lambda - 1)$ metric of \KaHyPar{MF} with \KaHyPar{CA} and
+         other systems for different values of $k$. The results are in percentage 
+         relative to \KaHyPar{MF}.}
+\label{tbl:full_quality_k} 
+\end{table}
+
+\begin{table}[ht!]
+\renewcommand{\arraystretch}{1.15}
+\centering
+\begin{tabular}{l|rrrrrrr}
+\toprule
+\multirow{2}{*}{Partitioner} & \multicolumn{7}{c}{Running Time $t[s]$} \\
+\cmidrule{2-8}
+ & $k = 2$ & $k = 4$ & $k = 8$ & $k = 16$ & $k = 32$ & $k = 64$ & $k = 128$ \\
+\midrule%
+\csname @@input\endcsname experiments/final_flow/final_flow_running_time_per_k.tex
+\bottomrule
+\end{tabular} 
+\caption{Comparing the average running time of \KaHyPar{MF} with \KaHyPar{CA} and
+         other systems for different values of $k$.}
+\label{tbl:full_running_time_k} 
+\end{table}
