@@ -167,8 +167,9 @@ cuberootplot = function(data, title, xbreaks,yexpand=c(0.0,0.1), legendPos=c(0.2
            theme(aspect.ratio = 2/(1+sqrt(5)),
                  legend.position = if(showLegend) legendPos else "none",
                  legend.background = element_blank(),
-                 legend.title = element_text(face="bold",size=8),
-                 legend.text=element_text(size=8),
+                 legend.title = element_text(face="bold",size=10),
+                 legend.text=element_text(size=10),
+                 legend.key=element_blank(),
                  panel.grid.major = element_line(linetype="dotted",size = 0.5, color = "grey"),
                  panel.grid.minor = element_line(),
                  panel.border = element_rect(colour = "black"),
@@ -178,7 +179,7 @@ cuberootplot = function(data, title, xbreaks,yexpand=c(0.0,0.1), legendPos=c(0.2
                  axis.title.y = element_text(vjust=1.5, margin = margin(10,10,10,10), size = fntsize),
                  axis.title.x = element_text(vjust=1, size = fntsize),
                  plot.title = element_text(size=12, vjust=.5)) +
-                 guides(colour = guide_legend(title="Algorithm", override.aes = list(size=2), ncol = 2, byrow = F, keywidth = .5, keyheight = .5, legend.margin =-.5)))
+                 guides(colour = guide_legend(title="Algorithm", override.aes = list(size=2), ncol = 1, byrow = F, keywidth = .5, keyheight = 0.85, legend.margin =-.5)))
   
 }
 

@@ -2,6 +2,8 @@ setwd("/home/theuer/Dropbox/Studium Informatik/10. Semester/KaHyParMaxFlow")
 #setwd("C:\\Users\\tobia\\Dropbox\\Studium Informatik\\10. Semester\\KaHyParMaxFlow")
 source("experiments/plot_functions.R")
 
+library(gridExtra)
+library(grid)
 
 select_km1_soed = 'select graph,k,epsilon,seed,km1,soed,imbalance,coarseningTime,uncoarseningRefinementTime, totalPartitionTime from experiments'
 select_km1 = 'select graph,k,epsilon,seed,1 AS soed, kMinusOne AS km1, imbalance,coarseningTime,uncoarseningRefinementTime, totalPartitionTime from experiments'
@@ -74,137 +76,64 @@ patoh_d$algorithm = "\\PaToH{D}"
 #patoh_d = merge(patoh_d,full_instance_stats,by='graph')
 
 
-##############################
-# performance plots
-##############################
-# UsePenalty = TRUE offsets imbalanced solutions
-# same filters can be used here: *, SPM, ISPD98, SAT14
-# this plot shows the min km1 ratios
-
-#Quality
-multiplot <- function(..., plotlist=NULL, cols) {
-  require(grid)
-  
-  # Make a list from the ... arguments and plotlist
-  plots <- c(list(...), plotlist)
-  
-  numPlots = length(plots)
-  
-  # Make the panel
-  plotCols = cols                          # Number of columns of plots
-  plotRows = ceiling(numPlots/plotCols) # Number of rows needed, calculated from # of cols
-  
-  # Set up the page
-  grid.newpage()
-  pushViewport(viewport(layout = grid.layout(plotRows, plotCols)))
-  vplayout <- function(x, y)
-    viewport(layout.pos.row = x, layout.pos.col = y)
-  
-  # Make each plot, in the correct location
-  for (i in 1:numPlots) {
-    curRow = ceiling(i/plotCols)
-    curCol = (i-1) %% plotCols + 1
-    print(plots[[i]], vp = vplayout(curRow, curCol ))
-  }
-  
+get_legend_as_seperate_plot <- function(plot) {
+  g <- ggplotGrob(plot + 
+                  theme(legend.position = "right"))$grobs
+  legend <- g[[which(sapply(g, function(x) x$name) == "guide-box")]]
+  return(legend)
 }
 
-source("experiments/plot_functions.R")
+####################### Performance Plots for instance types ####################### 
+instance_classes <- c("*","DAC","ISPD","Primal","Dual","Literal","SPM")
+i <- 1
+type_plots <- list()
+for(type in instance_classes) {
+  filter <- type
+  plot <- cuberootplot(createRatioDFsFilter(filter = filter,
+                                            avg_obj = "avg_km1", min_obj = "min_km1",
+                                            UsePenalty = TRUE,
+                                            kahypar = kahypar_ca,
+                                            kahypar_mf = kahypar_mf,
+                                            hmetis_r = hmetis_r,
+                                            hmetis_k = hmetis_k,
+                                            patoh_q = patoh_q,
+                                            patoh_d = patoh_d)$min_ratios, 
+                       if(type == "*") "\\ALL" else paste("\\",filter,sep=""), 
+                       pretty_breaks(n=7),
+                       showLegend = FALSE)
+  type_plots[[i]] <- plot
+  i <- i + 1
+}
 
-filter <- "DAC"
-dac <- cuberootplot(createRatioDFsFilter(filter = filter,
-                                           avg_obj = "avg_km1", min_obj = "min_km1",
-                                           UsePenalty = TRUE,
-                                           kahypar = kahypar_ca,
-                                           kahypar_mf = kahypar_mf,
-                                           hmetis_r = hmetis_r,
-                                           hmetis_k = hmetis_k,
-                                           patoh_q = patoh_q,
-                                           patoh_d = patoh_d)$min_ratios, paste("\\",filter,sep=""), pretty_breaks(n=10))
-
-filter <- "ISPD"
-ispd <- cuberootplot(createRatioDFsFilter(filter = filter,
-                                           avg_obj = "avg_km1", min_obj = "min_km1",
-                                           UsePenalty = TRUE,
-                                           kahypar = kahypar_ca,
-                                           kahypar_mf = kahypar_mf,
-                                           hmetis_r = hmetis_r,
-                                           hmetis_k = hmetis_k,
-                                           patoh_q = patoh_q,
-                                           patoh_d = patoh_d)$min_ratios, paste("\\",filter,sep=""), pretty_breaks(n=10))
-
-filter <- "Primal"
-primal <- cuberootplot(createRatioDFsFilter(filter = filter,
-                                          avg_obj = "avg_km1", min_obj = "min_km1",
-                                          UsePenalty = TRUE,
-                                          kahypar = kahypar_ca,
-                                          kahypar_mf = kahypar_mf,
-                                          hmetis_r = hmetis_r,
-                                          hmetis_k = hmetis_k,
-                                          patoh_q = patoh_q,
-                                          patoh_d = patoh_d)$min_ratios, paste("\\",filter,sep=""), pretty_breaks(n=5))
-
-filter <- "Dual"
-dual <- cuberootplot(createRatioDFsFilter(filter = filter,
-                                          avg_obj = "avg_km1", min_obj = "min_km1",
-                                          UsePenalty = TRUE,
-                                          kahypar = kahypar_ca,
-                                          kahypar_mf = kahypar_mf,
-                                          hmetis_r = hmetis_r,
-                                          hmetis_k = hmetis_k,
-                                          patoh_q = patoh_q,
-                                          patoh_d = patoh_d)$min_ratios, paste("\\",filter,sep=""), pretty_breaks(n=5))
-
-filter <- "Literal"
-literal <- cuberootplot(createRatioDFsFilter(filter = filter,
-                                          avg_obj = "avg_km1", min_obj = "min_km1",
-                                          UsePenalty = TRUE,
-                                          kahypar = kahypar_ca,
-                                          kahypar_mf = kahypar_mf,
-                                          hmetis_r = hmetis_r,
-                                          hmetis_k = hmetis_k,
-                                          patoh_q = patoh_q,
-                                          patoh_d = patoh_d)$min_ratios, paste("\\",filter,sep=""), pretty_breaks(n=5))
-
-
-filter <- "SPM"
-spm <- cuberootplot(createRatioDFsFilter(filter = filter,
-                                          avg_obj = "avg_km1", min_obj = "min_km1",
-                                          UsePenalty = TRUE,
-                                          kahypar = kahypar_ca,
-                                          kahypar_mf = kahypar_mf,
-                                          hmetis_r = hmetis_r,
-                                          hmetis_k = hmetis_k,
-                                          patoh_q = patoh_q,
-                                          patoh_d = patoh_d)$min_ratios, paste("\\",filter,sep=""), pretty_breaks(n=5))
-
-filter <- "*"
-all <- cuberootplot(createRatioDFsFilter(filter = filter,
-                                         avg_obj = "avg_km1", min_obj = "min_km1",
-                                         UsePenalty = TRUE,
-                                         kahypar = kahypar_ca,
-                                         kahypar_mf = kahypar_mf,
-                                         hmetis_r = hmetis_r,
-                                         hmetis_k = hmetis_k,
-                                         patoh_q = patoh_q,
-                                         patoh_d = patoh_d)$min_ratios, "\\ALL", pretty_breaks(n=7), showLegend=TRUE)
-
-####################### Performance Plots ####################### 
-
-speed_up_file <- paste("master_thesis/experiments/final_flow/fullset.tex", sep="")
-tikz(speed_up_file, width=7, height=9, pointsize=12)
-multiplot(all,dac,ispd,primal,dual,literal,spm,cols=2)
+fullset_file <- paste("master_thesis/experiments/final_flow/fullset.tex", sep="")
+tikz(fullset_file, width=7, height=9, pointsize=12)
+grid.arrange(type_plots[[1]],type_plots[[2]],type_plots[[3]],type_plots[[4]],type_plots[[5]],type_plots[[6]],type_plots[[7]],get_legend_as_seperate_plot(type_plots[[1]]),ncol=2)
 dev.off()
 
-print(calculateGmeansFilter(filter = "*",
-                            avg_obj = "avg_km1", min_obj = "min_km1",
-                            kahypar = kahypar_ca,
-                            kahypar_mf = kahypar_mf,
-                            hmetis_r = hmetis_r,
-                            hmetis_k = hmetis_k,
-                            patoh_q = patoh_q,
-                            patoh_d = patoh_d
-))
+####################### Performance Plots per k ####################### 
+
+K <- c(2,4,8,16,32,64,128)
+k_plots <- list()
+i <- 1
+for(k in K) {
+  filter <- "*"
+  plot <- cuberootplot(createRatioDFsFilter(filter = filter,
+                                            avg_obj = "avg_km1", min_obj = "min_km1",
+                                            UsePenalty = TRUE,
+                                            kahypar = kahypar_ca[kahypar_ca$k == k,],
+                                            kahypar_mf = kahypar_mf[kahypar_mf$k == k,],
+                                            hmetis_r = hmetis_r[hmetis_r$k == k,],
+                                            hmetis_k = hmetis_k[hmetis_k$k == k,],
+                                            patoh_q = patoh_q[patoh_q$k == k,],
+                                            patoh_d = patoh_d[patoh_d$k == k,])$min_ratios, paste("$k=",k,"$",sep=""), pretty_breaks(n=7), showLegend=FALSE)
+  k_plots[[i]] <- plot
+  i <- i + 1
+}
+
+fullset_k_file <- paste("master_thesis/experiments/final_flow/fullset-k.tex", sep="")
+tikz(fullset_k_file, width=7, height=9, pointsize=12)
+grid.arrange(k_plots[[1]],k_plots[[2]],k_plots[[3]],k_plots[[4]],k_plots[[5]],k_plots[[6]],k_plots[[7]],get_legend_as_seperate_plot(k_plots[[1]]),ncol=2)
+dev.off()
 
 ####################### Running Time per Instance Type ####################### 
 
@@ -367,3 +296,31 @@ print(absolut_number_of_best_partitions(kahypar_mf, patoh_q))
 print(absolut_number_of_best_partitions(kahypar_mf, patoh_d))
 print(absolut_number_of_best_partitions(kahypar_mf, hmetis_r))
 print(absolut_number_of_best_partitions(kahypar_mf, hmetis_k))
+
+####################### Missing Instances ####################### 
+
+ca <- read.csv("experiments/common_dbs/kahypar_ca_detailed.csv")
+mf <- ddply(dbGetQuery(dbConnect(SQLite(), dbname="experiments/final_flow/db/kahypar_mf.db"),
+                       select_soed), c("graph","k"), aggreg)
+ca <- ca[c("graph","k")]
+mf <- mf[c("graph","k")]
+
+in_pipe <- c("sat14_q_query_3_L100_coli.sat.cnf.primal.hgr",
+             "sat14_q_query_3_L200_coli.sat.cnf.dual.hgr",
+             "sat14_atco_enc3_opt2_10_12.cnf.dual.hgr",
+             "sat14_atco_enc3_opt1_04_50.cnf.dual.hgr",
+             "sat14_q_query_3_L200_coli.sat.cnf.primal.hgr",
+             "sat14_11pipe_q0_k.cnf.dual.hgr",
+             "sat14_q_query_3_L80_coli.sat.cnf.dual.hgr",
+             "sat14_q_query_3_L100_coli.sat.cnf.dual.hgr",
+             "sat14_atco_enc3_opt2_05_21.cnf.dual.hgr",
+             "sat14_q_query_3_L150_coli.sat.cnf.primal.hgr",
+             "sat14_q_query_3_L150_coli.sat.cnf.dual.hgr",
+             "sat14_q_query_3_L200_coli.sat.cnf.hgr",
+             "sat14_q_query_3_L150_coli.sat.cnf.hgr")
+
+missing <- rbind(ca,mf)
+missing <- missing[! duplicated(missing, fromLast = TRUE) & seq(nrow(missing)) <= nrow(ca),]
+missing_instances <- setdiff(missing$graph, in_pipe)
+print(missing_instances)
+print(paste("Hypergraphs with Missing Instances:",length(levels(factor(missing_instances)))),sep=" ")

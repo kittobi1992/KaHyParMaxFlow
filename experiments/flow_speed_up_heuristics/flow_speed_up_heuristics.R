@@ -2,6 +2,10 @@ setwd("/home/theuer/Dropbox/Studium Informatik/10. Semester/KaHyParMaxFlow/exper
 #setwd("C:\\Users\\tobia\\Dropbox\\Studium Informatik\\10. Semester\\KaHyParMaxFlow\\experiments")
 source("plot_functions.R")
 
+library(gridExtra)
+library(grid)
+
+
 dbs <- c( "flow_speed_up_heuristics/db/flow-000.db",
           "flow_speed_up_heuristics/db/flow-001.db",
           "flow_speed_up_heuristics/db/flow-011.db",
@@ -100,6 +104,14 @@ flow_011 <- flow_dbs[[3]]
 flow_111 <- flow_dbs[[4]]
 
 
+get_legend_as_seperate_plot <- function(plot) {
+  g <- ggplotGrob(plot + 
+                    theme(legend.position = "bottom"))$grobs
+  legend <- g[[which(sapply(g, function(x) x$name) == "guide-box")]]
+  return(legend)
+}
+
+
 ##############################
 # geometric mean calculation
 ##############################
@@ -147,37 +159,7 @@ sink()
 ##############################
 # performance plots
 ##############################
-# UsePenalty = TRUE offsets imbalanced solutions
-# same filters can be used here: *, SPM, ISPD98, SAT14
-# this plot shows the min km1 ratios
 
-#Quality
-multiplot <- function(..., plotlist=NULL, cols) {
-  require(grid)
-  
-  # Make a list from the ... arguments and plotlist
-  plots <- c(list(...), plotlist)
-  
-  numPlots = length(plots)
-  
-  # Make the panel
-  plotCols = cols                          # Number of columns of plots
-  plotRows = ceiling(numPlots/plotCols) # Number of rows needed, calculated from # of cols
-  
-  # Set up the page
-  grid.newpage()
-  pushViewport(viewport(layout = grid.layout(plotRows, plotCols)))
-  vplayout <- function(x, y)
-    viewport(layout.pos.row = x, layout.pos.col = y)
-  
-  # Make each plot, in the correct location
-  for (i in 1:numPlots) {
-    curRow = ceiling(i/plotCols)
-    curCol = (i-1) %% plotCols + 1
-    print(plots[[i]], vp = vplayout(curRow, curCol ))
-  }
-  
-}
 
 kahypar_sea$algorithm <- "\\KaHyPar{CA}"
 flow_000$algorithm <- "\\KaHyPar{MF}"
@@ -185,79 +167,29 @@ flow_001$algorithm <- "\\KaHyParConfig{MF}{R1}"
 flow_011$algorithm <- "\\KaHyParConfig{MF}{R1,R2}"
 flow_111$algorithm <- "\\KaHyParConfig{MF}{R1,R2,R3}"
 
-filter <- "DAC"
-dac <- cuberootplot(createRatioDFsFilter(filter = filter,
-                                         avg_obj = "avg_km1", min_obj = "min_km1",
-                                         UsePenalty = TRUE,
-                                         kahypar = kahypar_sea,
-                                         flow_000 = flow_000,
-                                         flow_001 = flow_001,
-                                         flow_011 = flow_011,
-                                         flow_111 = flow_111)$min_ratios, paste("\\",filter,sep=""), pretty_breaks(n=10))
-
-filter <- "ISPD"
-ispd <- cuberootplot(createRatioDFsFilter(filter = filter,
-                                         avg_obj = "avg_km1", min_obj = "min_km1",
-                                         UsePenalty = TRUE,
-                                         kahypar = kahypar_sea,
-                                         flow_000 = flow_000,
-                                         flow_001 = flow_001,
-                                         flow_011 = flow_011,
-                                         flow_111 = flow_111)$min_ratios, paste("\\",filter,sep=""), pretty_breaks(n=10))
-
-filter <- "Primal"
-primal <- cuberootplot(createRatioDFsFilter(filter = filter,
-                                         avg_obj = "avg_km1", min_obj = "min_km1",
-                                         UsePenalty = TRUE,
-                                         kahypar = kahypar_sea,
-                                         flow_000 = flow_000,
-                                         flow_001 = flow_001,
-                                         flow_011 = flow_011,
-                                         flow_111 = flow_111)$min_ratios, paste("\\",filter,sep=""), pretty_breaks(n=7))
-
-filter <- "Dual"
-dual <- cuberootplot(createRatioDFsFilter(filter = filter,
-                                         avg_obj = "avg_km1", min_obj = "min_km1",
-                                         UsePenalty = TRUE,
-                                         kahypar = kahypar_sea,
-                                         flow_000 = flow_000,
-                                         flow_001 = flow_001,
-                                         flow_011 = flow_011,
-                                         flow_111 = flow_111)$min_ratios, paste("\\",filter,sep=""), pretty_breaks(n=7))
-
-filter <- "Literal"
-literal <- cuberootplot(createRatioDFsFilter(filter = filter,
-                                         avg_obj = "avg_km1", min_obj = "min_km1",
-                                         UsePenalty = TRUE,
-                                         kahypar = kahypar_sea,
-                                         flow_000 = flow_000,
-                                         flow_001 = flow_001,
-                                         flow_011 = flow_011,
-                                         flow_111 = flow_111)$min_ratios, paste("\\",filter,sep=""), pretty_breaks(n=7))
-
-filter <- "SPM"
-spm <- cuberootplot(createRatioDFsFilter(filter = filter,
-                                         avg_obj = "avg_km1", min_obj = "min_km1",
-                                         UsePenalty = TRUE,
-                                         kahypar = kahypar_sea,
-                                         flow_000 = flow_000,
-                                         flow_001 = flow_001,
-                                         flow_011 = flow_011,
-                                         flow_111 = flow_111)$min_ratios, paste("\\",filter,sep=""), pretty_breaks(n=5))
-
-filter <- "*"
-all <- cuberootplot(createRatioDFsFilter(filter = filter,
-                                         avg_obj = "avg_km1", min_obj = "min_km1",
-                                         UsePenalty = TRUE,
-                                         kahypar = kahypar_sea,
-                                         flow_000 = flow_000,
-                                         flow_001 = flow_001,
-                                         flow_011 = flow_011,
-                                         flow_111 = flow_111)$min_ratios, "\\ALL", pretty_breaks(n=7), showLegend=TRUE)
+instance_classes <- c("*","DAC","ISPD","Primal","Dual","Literal","SPM")
+i <- 1
+type_plots <- list()
+for(type in instance_classes) {
+  filter <- type
+  plot <- cuberootplot(createRatioDFsFilter(filter = filter,
+                                            avg_obj = "avg_km1", min_obj = "min_km1",
+                                            UsePenalty = TRUE,
+                                            kahypar = kahypar_sea,
+                                            flow_000 = flow_000,
+                                            flow_001 = flow_001,
+                                            flow_011 = flow_011,
+                                            flow_111 = flow_111)$min_ratios, 
+                       if(type == "*") "\\ALL" else paste("\\",filter,sep=""), 
+                       pretty_breaks(n=7),
+                       showLegend = FALSE)
+  type_plots[[i]] <- plot
+  i <- i + 1
+}
 
 speed_up_file <- paste("../master_thesis/experiments/speed_up_heuristics/subset.tex", sep="")
 tikz(speed_up_file, width=7, height=8.5, pointsize=12)
-multiplot(all,dac,ispd,primal,dual,literal,spm,cols=2)
+grid.arrange(type_plots[[1]],type_plots[[2]],type_plots[[3]],type_plots[[4]],type_plots[[5]],type_plots[[6]],type_plots[[7]],get_legend_as_seperate_plot(type_plots[[1]]),ncol=2)
 dev.off()
 
 ####################### Running Time ####################### 
