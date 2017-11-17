@@ -4,7 +4,7 @@
 A directed weighted graph $G = (V,E,c,\omega)$ is a set of nodes $V$ 
 and a set of edges $E$ with a node weight function 
 $c: V \rightarrow \mathbb{R}_{\ge 0}$ and an edge weight 
-function $\omega: E \rightarrow \mathbb{R}_{\ge 0}$. A edge $e = (u,v)$ 
+function $\omega: E \rightarrow \mathbb{R}_{\ge 0}$. An edge $e = (u,v)$ 
 is a relation between two nodes $u,v \in V$.
 \label{def:hypergraph}
 \end{definition}
@@ -37,7 +37,7 @@ We can transform a general directed graph $G$ into a \emph{DAG}, if we contract
 each \emph{strongly connected component}. All concepts are illustrated in 
 \autoref{img:scctoposort}.
 
-\begin{figure}
+\begin{figure}[ht!]
 \centering
 \includegraphics[width=0.9\textwidth]{../img/preliminaries/scctoposort.eps}
 \caption{Example of \emph{strongly connected components} of a directed graph and
@@ -69,8 +69,8 @@ $c(u,v)$. Whereas the conservation of flow constraint ensures that the amount
 of flow entering a node $v \in V \setminus \{s,t\}$ is the same as leaving a node.
 The value of the flow is defined as $|f| = \sum_{(s,v) \in E} f(s,v) = \sum_{(v,t) \in E} f(v,t)$.
 A flow $f$ is maximal, if there exists no other flow $f'$ with $|f'| > |f|$. \\
-Another useful construct in connection with maximum flows, is the concept of the
-\emph{residual graph} $G_f$ and the \emph{residual capacity} $r_f$ of a flow function $f$ on graph $G$.
+Further, we define the \emph{residual graph} $G_f$ and the 
+\emph{residual capacity} $r_f$ of a flow function $f$ on graph $G$.
 The \emph{residual capacity} $r_f: V \times V \rightarrow \mathbb{R}_+$ is defined as follows:
 \begin{enumerate}
 \item $\forall (u,v) \in E: r_f(u,v) = c(u,v) - f(u,v)$
@@ -80,9 +80,8 @@ For a edge $e = (u,v) \in E$ the residual capacity $r_f(u,v)$ is the remaining a
 flow which can be send over edge $e$. For each reverse edge $\overleftarrow{e} \notin E$ the
 residual capacity $r_f(\overleftarrow{e})$ is the amount of flow which is send over $e$.
 The \emph{residual graph} $G_f = (V,E_f,r_f)$ is the network containing all $(u,v) \in V \times V$
-with $r_f(u,v) > 0$. More formal $E_f = \{(u,v)\ |\ r_f(u,v) > 0, (u,v) \in V \times V\}$.
-\autoref{img:maximum_flow_example}~illustrates all presented concepts.
-
+with $r_f(u,v) > 0$. More formal $E_f = \{(u,v) \in V \times V\ |\ r_f(u,v) > 0\}$.
+\autoref{img:maximum_flow_example}~illustrates all presented concepts. \\
 \begin{figure}
 \centering
 \includegraphics[width=0.9\textwidth]{../img/maximum_flow/maximum_flow_example.eps}
@@ -93,7 +92,6 @@ is illustrated on the right side. The red highlighted path represents an \emph{a
 in $G$.}
 \label{img:maximum_flow_example}
 \end{figure}
-
 The \emph{Max-Flow-Min-Cut}-Theorem is fundamental for many applications related to the maximum
 flow problem \cite{ford1956maximal}.
 
@@ -102,7 +100,7 @@ The value of a maximum $(s,t)$-flow obtainable in a graph $G$ is equal with the 
 of the minimum cutset in $G$ seperating $s$ and $t$.
 \end{theorem}
 
-Let $f$ be a maximum flow in a graph $G = (V,E,\omega)$ with $s \in V$ and $t \in V$. 
+Let $f$ be a maximum $(s,t)$-flow in a graph $G = (V,E,\omega)$ with $s \in V$ and $t \in V$. 
 Further, let $A$ be the set containing all $v \in V$, which are \emph{reachable} from $s$
 in $G_f$. A node $v$ is \emph{reachable} from a node $u$, if there exists a path from $u$
 to $v$. Then the set of all cut edges between the bipartition $(A,V\setminus A)$ 
@@ -124,12 +122,12 @@ in a graph $G = (V,E,c)$ with $c: V \rightarrow \mathbb{R}_+$.
 Let $G = (V,E,c)$ be a graph with $c: V \rightarrow \mathbb{R}_+$. $S \subseteq V$
 is a vertex seperator for non-adjacent verticies $s \in V$ and $t \in V$ if the
 removal of $S$ from graph $G$ seperates $s$ and $t$ ($s$ not \emph{reachable} from $t$).
-A vertex seperator $S$ is a minimum-weight $(s,t)$-vertex seperator, if for all $S' \subseteq V$
-$c(S) \le c(S')$.
+A vertex seperator $S$ is a minimum-weight $(s,t)$-vertex seperator, if for all 
+$(s,t)$-vertex seperators $S' \subseteq V$ follows that $c(S) \le c(S')$.
 \end{definition}
 
 We can calculate a minimum-weight $(s,t)$-vertex seperator with a maximum flow
-calculation in the following flow network (\todo{reference}):
+calculation on the following flow network \cite{west2001introduction}:
 
 \begin{definition}
 \label{def:vertex_seperator_transformation}
@@ -138,9 +136,9 @@ a flow network $T_V(G) = (V_V, E_V, c_V)$ (with $c_V: E_V \rightarrow \mathbb{R}
 $T_V$ is defined as follows:
 \begin{enumerate}
 \item $V_V = \bigcup\limits_{v \in V}\ \{v', v''\}$
-\item $\forall v \in V$ we add a directed edge $(v',v'')$
+\item $\forall v \in V$ add a directed edge $(v',v'')$
       with capacity $c_V(v',v'') = c(v)$
-\item $\forall (u,v) \in E$ we add two directed edges $(u'', v')$ and 
+\item $\forall (u,v) \in E$ add two directed edges $(u'', v')$ and 
       $(v'', u')$ with capacity $c_V(u'', v') = c_V(v'', u') = \infty$.
 \end{enumerate} 
 \end{definition}
@@ -148,9 +146,13 @@ $T_V$ is defined as follows:
 The vertex seperator problem and transformation $T_V(G)$ are illustrated in \autoref{img:vertex_seperator_example}.
 Obviously no edge between two adjacent nodes can be in a minimum-capacity $(s,t)$-cutset of $T_V(G)$,
 because for all those edges the capacity is $\infty$. Therefore, the cutset must consist
-of edges of the form $(v',v'')$. A minimum-weight $(s,t)$-vertex seperator can be calculated by
-finding a maximum flow in $T_V(G)$, finding the minimum-capacity $(s,t)$-cutset with the procedure
-described above and then map each cut edge $(v',v'')$ to their corresponding node $v$.\\
+of edges of the form $(v',v'')$. A minimum-weight $(s,t)$-vertex seperator can be calculated with
+the following algorithm:
+\begin{enumerate}
+\item Calculate a maximum flow  on $T_V(G)$
+\item Find the corresponding minimum $(s,t)$-cutset.
+\item Map each cut edge $(v',v'')$ to the corresponding node $v$ in $G$
+\end{enumerate}
 Given a set of sources $S$ and sinks $T$. The \emph{multi-source multi-sink} maximum flow problem is
 about finding a maximum flow $f$ from all source nodes $s \in S$ to all sink nodes $t \in T$.
 We can transform such a problem into a \emph{single-source single-sink} problem by adding
