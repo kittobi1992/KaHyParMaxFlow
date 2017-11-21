@@ -305,22 +305,7 @@ mf <- ddply(dbGetQuery(dbConnect(SQLite(), dbname="experiments/final_flow/db/kah
 ca <- ca[c("graph","k")]
 mf <- mf[c("graph","k")]
 
-in_pipe <- c("sat14_q_query_3_L100_coli.sat.cnf.primal.hgr",
-             "sat14_q_query_3_L200_coli.sat.cnf.dual.hgr",
-             "sat14_atco_enc3_opt2_10_12.cnf.dual.hgr",
-             "sat14_atco_enc3_opt1_04_50.cnf.dual.hgr",
-             "sat14_q_query_3_L200_coli.sat.cnf.primal.hgr",
-             "sat14_11pipe_q0_k.cnf.dual.hgr",
-             "sat14_q_query_3_L80_coli.sat.cnf.dual.hgr",
-             "sat14_q_query_3_L100_coli.sat.cnf.dual.hgr",
-             "sat14_atco_enc3_opt2_05_21.cnf.dual.hgr",
-             "sat14_q_query_3_L150_coli.sat.cnf.primal.hgr",
-             "sat14_q_query_3_L150_coli.sat.cnf.dual.hgr",
-             "sat14_q_query_3_L200_coli.sat.cnf.hgr",
-             "sat14_q_query_3_L150_coli.sat.cnf.hgr")
 
 missing <- rbind(ca,mf)
 missing <- missing[! duplicated(missing, fromLast = TRUE) & seq(nrow(missing)) <= nrow(ca),]
-missing_instances <- setdiff(missing$graph, in_pipe)
-print(missing_instances)
-print(paste("Hypergraphs with Missing Instances:",length(levels(factor(missing_instances)))),sep=" ")
+print(paste("Hypergraphs with Missing Instances:",length(levels(factor(missing$graph)))),sep=" ")

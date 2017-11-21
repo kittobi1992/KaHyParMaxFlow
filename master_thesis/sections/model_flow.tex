@@ -3,27 +3,27 @@ In Section \ref{sec:related_lawler} we have shown how a hypergraph $H$ could be 
 a flow network \ShortT{L} such that every minimum-weight $(S,T)$-cutset in $H$ is a
 minimum-capacity $(S,T)$-cutset in \ShortT{L} \cite{lawler1973}. However, the resulting flow
 network has significantly more nodes and edges than the original hypergraph. Finding a
-$(S,T)$-maximum flow is usually a very computation intensive problem. 
+maximum $(S,T)$-flow is usually a very computation intensive task. 
 Therefore, different modelling approaches, which reduce the number of nodes and edges,
 can have a crucial impact on the running time of the flow algorithm. \\
 We will present techniques to sparsify the flow network 
-propose by Lawler. First, we will show how any subset $V' \subseteq V$ of hypernodes could be removed 
+proposed by Lawler. First, we will show how any subset $V' \subseteq V$ of hypernodes could be removed 
 from \ShortT{L} (see Section \ref{sec:heuer_network}). This approach minimizes
 the number of nodes, but in some cases the number of edges can be
 significantly higher than in \ShortT{L}. But the basic idea of this technique 
 can still be applied to remove low degree hypernodes from the \emph{Lawler}-Network without 
 increasing the number of edges (see Section \ref{sec:degree_network}). Additionally, we show
-how we can remove every hyperedge $e$ of size $2$ by an undirected flow edge between
-the corresponding nodes $v_1,v_2 \in e$, which further reduce the
-number of nodes and edges (see Section \ref{sec:edge_size_network}). Finally, we combine
-the two suggested approaches in a \emph{Hybrid}-Network (see Section \ref{sec:hybrid_network}).
+how every hyperedge $e$ of size $2$ could be removed by inserting an undirected flow edge between
+the corresponding nodes $v_1,v_2 \in e$  (see Section \ref{sec:edge_size_network}). 
+Finally, we combine the two suggested approaches in a \emph{Hybrid}-Network 
+(see Section \ref{sec:hybrid_network}).
 
 
 
 \subsection{Removing Hypernodes via Clique-Expansion}
 \label{sec:heuer_network}
 
-In this Section we show how we can remove all hypernodes of \ShortT{L}. If a hypernode $v \in V$
+In this Section we show how all hypernodes of \ShortT{L} could be removed. If a hypernode $v \in V$
 occurs in an augmenting path $P$ the previous node in the path must be a hyperedge node either
 $e'$ or $e''$. Further, for all $e \in I(v)$ the capacity $c_L(v,e')$ is $\infty$. This leads to
 the conclusion, if we push flow over a hypernode $v$, comming from a hyperedge node, we can redirect
@@ -32,12 +32,12 @@ $c_L(v,e') = \infty$. A hypernode $v$ acts as a \emph{bridge} between all incide
 \emph{Lawler}-Network. Therefore, the idea is to remove all hypernodes from \ShortT{L} and instead
 inserting for all $v \in V$ a clique between all $e_1, e_2 \in I(v)$ with $e_1 \neq e_2$.
 In the following we will define our new network more general and show how to remove
-any $V' \subseteq V$.
+any subset $V' \subseteq V$.
 
 
 \begin{definition}
 Let $T_H$ be a transformation that converts a hypergraph \HypergraphDef~into 
-a flow network \ExtendedT{H}{V'}, where $V' \subseteq V$. \ShortExT{H}{V'} is defined as follows:
+a flow network \ExtendedT{H}{V'} with $V' \subseteq V$. \ShortExT{H}{V'} is defined as follows:
 \begin{enumerate}
 \item $V_H = V\setminus V' \bigcup\limits_{e \in E}\ \{e', e''\}$
 \item $\forall v \in V'$ we add a directed edge $(e_1'', e_2'),\ \forall e_1, e_2 \in I(v)$ 
@@ -86,10 +86,10 @@ If the minimum-capacity $(S,T)$-cutset in $G$ is $\infty$, every cutset seperati
 $(S,T)$ resp. $(S',T')$ is a minimum $(S,T)$- resp. $(S',T')$-cutset.
 \end{proof}
 
-The conclusion of this lemma is, if we want to determine a minimum-capacity $(S,T)$-cutset
+In conclusion, if we want to determine a minimum-capacity $(S,T)$-cutset
 in \ShortT{L} (with $S,T \subseteq V$), we can e.g. remove any $s \in S$ resp. $t \in T$ 
 (and even from \ShortT{L}) and instead add all incident 
-hyperedges $e' \in I(s)$ resp. $e'' \in I(t)$ as sources resp. sinks. The resulting 
+hyperedges $e' \in I(S)$ resp. $e'' \in I(T)$ as sources resp. sinks. The resulting 
 minimum-capacity $(S',T')$-cutset in \ShortT{L} is equal with a minimum-capacity $(S,T)$-cutset
 in \ShortT{L}. 
 
@@ -125,8 +125,10 @@ $v_k \in T$ in $G_H$. We can extend $P_H$ to a path $P_*$ in $G_*$.
 We define $P_* := P_H$ and replaces every occurence of a sequence $v_i = e_1 \in E$ and
 $v_{i+1} = e_2 \in E$ with a triple $(e_1,v,e_2)$ in $P_*$, where $v \in e_1 \cap e_2 \cap V''$
 (not empty per construction). $P_*$ not contain any vertex of $\V{G_*}$, because
-we removed all $v \in \V{G_*}$ from $G_H$ and only hypernodes are added to $P_*$. $P_*$ connects $S$ and 
-$T$ in $G_*$, which is a contradiction that $\V{G_*}$ is a vertex seperator in $G_*$.
+we have removed all hyperedge nodes $e \in \V{G_*}$ from $G_H$ before construction of $P_*$ 
+and a hypernode is not part of  the vertex seperator $\V{G_*} \subseteq E$ per defintion. 
+$P_*$ connects $S$ and $T$ in $G_*$, which is a contradiction that $\V{G_*}$ 
+is a vertex seperator in $G_*$.
 
 Assume that $\V{G_H} \subseteq E$ is not a vertex seperator in $G_*$. After removing all $e \in \V{G_H}$ in
 $G_*$, there exists still a path $P_* = \{v_1, \ldots, v_k\}$ with $v_1 \in S$ and
@@ -136,17 +138,18 @@ graph per definition. Therefore, every path $P_*$ in $G_*$ is an alternating pat
 hyperedges. The predecessor and successor of a hypernode $v \in P_* \cap V''$ must be hyperedges
 $e_1$ and $e_2$. If $v \in V''$, then $v$ is not contained $G_H$. Instead, there is
 a clique between all $e \in I(V) \Rightarrow$ $(e_1,e_2)$ is contained in $G_H$.
-$P_H$ not contain any vertex of $\V{G_H}$, because we removed all $v \in \V{G_H}$ from $\V{G_*}$ 
-and we removed only hypernodes from $P_*$. $P_H$ connects $S$ and $T$ in $G_H$, which is a contradiction 
-that $\V{G_H}$ is a vertex seperator in $G_H$.
+$P_H$ not contain any vertex of $\V{G_H}$, because we have removed all hyperedge nodes $e \in \V{G_H}$ 
+from $G_*$. $P_H$ connects $S$ and $T$ in $G_H$, which is a contradiction that 
+$\V{G_H}$ is a vertex seperator in $G_H$.
 
 A minimum-weight $(S,T)$-vertex seperator in $G_*$ and $G_H$ only contains hyperedges, because
 the weight of all hypernodes in $G_*$ and $G_H$ is $\infty$. Therefore, each minimum
 $(S,T)$-vertex seperator in $G_*$ is also a minimum-weight $(S,T)$-vertex seperator in $G_H$,
-because $c(\V{G_*}) = c(\V{G_H})$. With Lemma \ref{lemma:lemma1} follows that we can calculate
-a minimum-weight $(S,T)$-vertex seperator in $G_*$ resp. $G_H$ by calculating a minimum-capacity
-$(S',T')$-cutset in \ShortT{L} resp. \ShortExT{H}{V'}. Therefore, there exists a equivalence
-between a minimum-weight $(S,T)$-cutset $E_{min}$ of $H$ and the following statements: 
+because $c(\V{G_*}) = c(\V{G_H})$. With Lemma \ref{lemma:lemma1} follows that
+a minimum-weight $(S,T)$-vertex seperator in $G_*$ resp. $G_H$  can be determined by 
+calculating a minimum-capacity $(S',T')$-cutset in \ShortT{L} resp. \ShortExT{H}{V'}. 
+Therefore, there exists a equivalence between a minimum-weight $(S,T)$-cutset 
+$E_{min}$ of $H$ and the following statements: 
 
 $E_{min}$ is a minimum-$\ldots$
 \begin{enumerate}
@@ -165,7 +168,7 @@ As a consequence of this Theorem a minimum-weight $(S,T)$-cutset of $H$ can be c
 \ShortExT{H}{V'} the same way as with \ShortT{L} (see Section \ref{sec:related_lawler}). A open
 problem is how to obtain the corresponding bipartition. In \ShortT{L} all hypernodes
 reachable from nodes in $S$ are part of the first and all not reachable are part of the
-second block of the partition. Since we delete all nodes $v \in V'$ from \ShortT{L} 
+second block of the bipartition. Since we delete all nodes $v \in V'$ from \ShortT{L} 
 in \ShortExT{H}{V'} this relationship is no longer valid. 
 
 \begin{lemma}
@@ -177,18 +180,18 @@ from a node $s \in S$ in the residual graph of \ShortT{L}.
 
 \begin{proof}
 If $e'' \in A$, then $v \in A$, because $c_L(e'',v) = \infty$ and $r_f(e'',v) = \infty$.
-Assume, if $v \in A$, then $\forall e \in I(v): e'' \notin A \Rightarrow f(e'',v) = 0$. 
-Otherwise $r_f(v, e'')$ would be greater than zero and this would imply $e'' \in A$. Each path 
+Assume, if $v \in A$, then $\forall e \in I(v): e'' \notin A \Rightarrow f(e'',v) = 0$ (Note, $c(e'',v) = \infty$). 
+Otherwise $r_f(v, e'')$ would be greater than zero and this would imply that $e'' \in A$. Each path 
 $P$ in the \emph{residual graph} of \ShortT{L} from $s \in S$ to $v$ must be of the 
 form $P = (\ldots,e',v)$. For at least one $e \in I(v)$ there must be a positive flow $f(v,e') > 0$,
-otherwise edge $(e',v)$ is not in the \emph{residual graph} of \ShortT{L} ($c_L(e',v) = 0$).
+otherwise edge $(e',v)$ would be not contained in the \emph{residual graph} of \ShortT{L} (Note, $c_L(e',v) = 0$).
 There is a positive flow leaving node $v$, but there is no flow entering node $v$, because
 $\forall e \in I(v): f(e'',v) = 0$. This violates the conservation of flow
 constraint for node $v$ and therefore $f$ is not a valid flow function. There must exist at least one $e \in I(v)$
 with $f(e'',v) > 0 \Rightarrow r_f(v,e'') > 0 \Rightarrow e'' \in A$.
 \end{proof}
 
-Lemma \ref{lemma:bipartition_construction} gives us an alternative construction technique for the minimum-weight $(S,T)$-bipartition
+Lemma \ref{lemma:bipartition_construction} gives us an alternative construction method for the minimum-weight $(S,T)$-bipartition
 of $H$ with both networks \ShortT{L} and \ShortExT{H}{V'}. Regardless of the flow network, we can 
 calculate a maximum flow on it and define the set $E''$, which contains all \emph{outgoing hyperedge
 nodes} $e''$ \emph{reachable} from a source node $s \in S$ in the \emph{residual graph} of the flow network. 
@@ -201,14 +204,14 @@ minimum-weight $(S,T)$-bipartition of $H$.
 
 The resulting flow network \ShortExT{H}{V} proposed in Section \ref{sec:heuer_network} has significantly
 less nodes than the network \ShortT{L} suggested by Lawler. On the other hand, the number of
-edges can be much larger. \\
+edges could be much larger. \\
 Let's consider a hypernode $v \in V$. We replace $v$ in \ShortT{L} with a clique between all
-hyperedges of $I(v)$. The number of edges inserted in \ShortExT{H}{V} depends on the degree of
+hyperedges of $I(v)$. The number of edges added to \ShortExT{H}{V} depends on the degree of
 $v$. Every hypernode $v \in V$ induce $d(v)(d(v) - 1)$ edges in \ShortExT{H}{V}. In \ShortT{L} a hypernode adds $2d(v)$ edges to the network with the drawback
 of an additional node. A simple observation is that for all hypernodes with $d(v) \le 3$ the inequality
-$d(v)(d(v) - 1) \le 2d(v)$ is satisfied. Removing such low degree hypernodes not only reduce
+$d(v)(d(v) - 1) \le 2d(v)$ holds. Removing such low degree hypernodes not only reduce
 the number of nodes, but also the number of edges. \\
-Let $V_{d}(n) = \{v\ |\ v \in V\ \land\ d(v) \le n\}$ be the set of all hypernodes
+Let $V_{d}(n) = \{v \in V\ |\ d(v) \le n\}$ be the set of all hypernodes
 with degree smaller or equal $n$. Then our suggested flow network is \ShortExT{H}{V_d(3)}.
 
 \subsection{Removing Hyperedges via Undirected Flow-Edges}
@@ -237,7 +240,7 @@ a flow network \T{G}. \ShortT{G} is defined as follows:
 \end{definition}
 
 An example of transformation \ShortT{G} is shown in \autoref{img:graph_transformation}. A hyperedge
-$e$ of size $2$ consists in \ShortT{L} exactly of $4$ nodes and $5$ edges (see \autoref{img:lawler_transformation}).
+$e$ of size $2$ consists exactly of $4$ nodes and $5$ edges in \ShortT{L} (see \autoref{img:lawler_transformation}).
 The same hyperedge induce $2$ nodes and $2$ edges in \ShortT{G}. 
  
 \begin{figure}
@@ -259,7 +262,7 @@ flow network \T{G}.
 
 \begin{proof}
 
-We define a bijective function $\Phi: E_L \rightarrow E_G$ as follows
+We define the bijective function $\Phi: E_L \rightarrow E_G$ as follows
 \[ \Phi(e',e'') = 
    \begin{cases}
       (e',e''), \text{if } |e| \neq 2, \\
@@ -271,71 +274,21 @@ We will show that each $(S,T)$-cutset $A_L$ in \ShortT{L} is a $(S,T)$-cutset $\
 $A_G$ in \ShortT{G} $c_G(A_G) = c_L(\Phi^{-1}(A_G))$. Therefore, each minimum-capacity $(S,T)$-cutset
 in \ShortT{L} must be a minimum-capacity $(S,T)$-cutset in \ShortT{G} and vice versa. In the following 
 let $E^* = \bigcup_{e \in E} \{(e',e'')\}$. \\
-Let $A_L \subseteq E^*$ be a $(S,T)$-cutset in \ShortT{L}. Let's assume $\Phi(A_L)$ is not a $(S,T)$-cutset
-in \ShortT{G} after removing all edges $e \in \Phi(A_L)$ from \ShortT{G}. Then there exists a path
+Let $A_L \subseteq E^*$ be a $(S,T)$-cutset of \ShortT{L}. Assume $\Phi(A_L)$ is not a $(S,T)$-cutset
+of \ShortT{G} after removing all edges $e \in \Phi(A_L)$ of \ShortT{G}. Then there exists a path
 $P_G = \{v_1,\ldots,v_k\}$ connecting $S$ and $T$ in \ShortT{G} not containing any edge $e \in \Phi(A_L)$.
-Let $P_L$ be the path in \ShortT{L} obtained by inserting edge $\Phi^{-1}(v_i,v_{i+1})$ between all
+Let $P_L$ be the path in \ShortT{L} obtained by adding edge $\Phi^{-1}(v_i,v_{i+1}) = (e',e'')$ between all
 $v_i = v_1 \in V$ and $v_{i+1} = v_2 \in V$ into $P_G$. $\Phi^{-1}(v_i,v_{i+1}) \notin A_L$, otherwise
-we would had removed edge $(v_i,v_{i+1})$ from \ShortT{G}. $P_G$ connects $S$ and $T$ in \ShortT{G} 
-$\Rightarrow$ $P_L$ connects $S$ and $T$ in \ShortT{L}, which is a contradiction to the assumption
-that $A_L$ is a $(S,T)$-cutset. \\
+we would had removed edge $\Phi(e',e'') = (v_i,v_{i+1})$ from \ShortT{G}. $P_L$ connects $S$ and
+$T$ in \ShortT{L}, which is a contradiction to the assumption that $A_L$ is a $(S,T)$-cutset. \\
 Let $A_G \subseteq \Phi(E^*)$ be a $(S,T)$-cutset in \ShortT{G}. Let's assume $\Phi^{-1}(A_G)$ is not
-a $(S,T)$-cutset in \ShortT{L} after removing all edges $e \in \Phi^{-1}(A_G)$ from \ShortT{L}. Then
+a $(S,T)$-cutset in \ShortT{L} after removing all edges $e \in \Phi^{-1}(A_G)$ of \ShortT{L}. Then
 there exists a path $P_L = \{v_1,\ldots,v_k\}$ connecting $S$ and $T$ in \ShortT{L} not containing any
 edge $e \in \Phi^{-1}(A_G)$. Let $P_G$ be the path in \ShortT{G} obtained by removing each edge
 $(v_i,v_{i+1})$ with $v_i = e'$ and $v_{i+1} = e''$ and $|e| = 2$ from $P_L$. Based on the construction
-of \ShortT{L} the predecessor of $v_i$ and successor of $v_{i+1}$ must be a hypernode.
-Therefore, $P_G$ is a valid path in \ShortT{G} connecting $S$ and $T$, which not contains any edge in 
+of \ShortT{L} the predecessor of $v_i$ and successor of $v_{i+1}$ must be hypernodes $v_1,v_2 \in e$.
+Therefore, $P_G$ is a valid path in \ShortT{G} connecting $S$ and $T$ not containing any edge of 
 $A_G$. This is a contradiction to the assumption that $A_G$ is a $(S,T)$-cutset.
-
-%We will use a similiar proof technique as in \autoref{theorem:st_cutset_equal}. However,
-%we have to adapt the mapping of a $(S,T)$-maximum flow $f_G$ in \ShortT{G} to a valid
-%flow function $f_L$ on \T{L}. Further, we will define $m_+(v_1,v_2) := 
-%\max{(f_G(v_1,v_2),f_G(v_2,v_1))}$ and $m_-(v_1,v_2) := \min{(f_G(v_1,v_2),
-%f_G(v_2,v_1))}$
-%\begin{enumerate}
-%\item $\forall \bar{e} \in E_G \cap E_L: f_L(\bar{e}) := f_G(\bar{e})$ and the 
-%      flow on the reverse edge $\overleftarrow{\bar{e}}$ is defined as
-%      $f_L(\overleftarrow{\bar{e}}) := f_G(\overleftarrow{\bar{e}})$.
-%\item $\forall e \in E$ with $|e| = 2$ and $v_1,v_2 \in e$ (with $v_1 \neq v_2$) we
-%      define
-%      \begin{enumerate}
-%      \item $f_L(v_1,e') = f_L(e'',v_2) := \frac{m_+(v_1,v_2)}{2}$
-%      \item $f_L(v_2,e') = f_L(e'',v_1) := \frac{m_+(v_1,v_2)}{2}$
-%      \item $f_L(e',e'') := m_+(v_1,v_2)$
-%      \end{enumerate}
-%\item $\forall e \in E$ with $|e| = 2$ and $v_1,v_2 \in e$ (with $v_1 \neq v_2$) we
-%      define
-%      \begin{enumerate}
-%      \item $f_L(v_1,e'') = f_L(e',v_2) := \frac{m_-(v_1,v_2)}{2}$
-%      \item $f_L(v_2,e'') = f_L(e',v_1) := \frac{m_-(v_1,v_2)}{2}$
-%      \item $f_L(e'',e') := m_-(v_1,v_2)$
-%      \end{enumerate}
-%\end{enumerate}
-%
-%We have to show that $f_L$ is a valid flow function for all nodes in \ShortT{L} that
-%are part of a hyperedge of size $2$. For all other nodes exists a one-one correspondence
-%between \ShortT{L} and \ShortT{G}. If we increase the flow of an edge $(v_1,v_2) \in E_G$, we
-%decrease the flow on $(v_2,v_1) \in E_G$ by the same amount and vice versa. 
-%Therefore, $f(v_1,v_2) = -f(v_2,v_1)$ for all $(v_1,v_2) \in E_G$ (Note, $v_1,v_2 \in V$).
-%It follows that $0 \le m_+(v_1,v_2) \le c_G(v_1,v_2) = \omega(e)$ and 
-%$m_-(v_1,v_2) \le 0$. Therefore, the capacity constraint is satisfied for all flows 
-%defined in (ii) and (iii). \\
-%Let $e \in E$ be a hyperedge of size $2$ with $v_1, v_2 \in e$ ($v_1 \neq v_2$).
-%\begin{align*}
-%f_L(v_1, e') + f_L(v_2, e') \stackrel{(ii)}{=} m_+(v_1,v_2) \stackrel{(ii)}{=} f_L(e',e'') \\
-%f_L(e', e'') \stackrel{(ii)}{=} m_+(v_1,v_2) \stackrel{(ii)}{=} f_L(e'', v_1) + f_L(e'', v_2)
-%\end{align*}
-%Let's assume for reasons of simplicity, that $e$ is the only hyperedge of size $2$ in $I(v_1)$.
-%\begin{align*}
-%\sum_{\substack{(e'',v_1) \in E_L \\ e'' \neq e}} f_L(\bar{e},v_1) + f_L(e'', v_1) 
-%\stackrel{(i) + (ii)}{=} \sum_{(e'',v_1) \in E_G} f_G(e'',v_1) + \frac{m_+(v_1,v_2)}{2} \\
-%= \sum_{(v_1, e') \in E_G} f_G(v_1, e') + \frac{m_+(v_1,v_2)}{2}
-%\stackrel{(i) + (ii)}{=} \sum_{\substack{(v_1, e') \in E_L \\ e' \neq e}} f_G(v_1, e') + f_L(v_1, e')
-%\end{align*}
-%The same equations can be applied on $v_2$. If $e$ is not the only hyperedge of 
-%size $2$ in $I(v_1)$, then we replace the last term by a summation over 
-%all incident hyperedges of $v_1$ of size $2$. \\
 \end{proof}
 
 A minimum-weight $(S,T)$-cutset of $H$ can be calculated in \ShortT{G} the same way as in
@@ -350,27 +303,27 @@ of \ShortT{G}.
 \label{sec:hybrid_network}
 
 On many real world instances the average hyperedge size and hypernode degree are inversely
-proportional to each other. E.g., if the number of hyperedges is much greater than the
+proportional to each other. E.g., if the number of hyperedges is significantly larger than the
 number of hypernodes the average hypernode degree is usually much larger than $3$. Whereas
 the average hyperedge size is often equal to $2$. If the number of hyperedges is nearly equal
 to the number of hypernodes the average hypernode degree is usually smaller or equal than $3$. Whereas
 the average hyperedge size is often much larger than $2$. Of course, we can construct instances
-where this inversely proportional relationship can not be observed, but on real world instances
+where this inversely proportional relationship can not be observed, but on many real world instances
 we often find the described behaviour. \\
-Currently, we have two differenct modelling approaches which either perform better on low hypernode degree
-instances or on small hyperedge size instances. Taking our observation from real world instances 
+Currently, we have two differenct modelling approaches which either perform better on low degree
+hypernode instances or on small hyperedge size instances. Taking our observation from real world instances 
 into account means that either \ShortT{G} or \ShortExT{H}{V_d(3)} performs significantly better on
-a specific real world instance. It would be preferable to combine the two approaches into one network 
-which performs on the most instances best. \\
+a specific instance. It would be preferable to combine the two approaches into one network 
+which performs on most instances best. \\
 
 \begin{definition}
 Let $T_{\text{Hybrid}}$ be a transformation that converts a hypergraph \HypergraphDef~into 
-a flow network \Hybrid, where $V' = \{v\ |\ v \in V_d(3)\ 
-\land\ \forall e \in I(v): |e| \neq 2\}$. \ShortHybrid~is defined as follows:
+a flow network \Hybrid, where $V' = \{v \in V_d(3)\ |\ \forall e \in I(v): |e| \neq 2\}$. 
+\ShortHybrid~is defined as follows:
 \begin{enumerate}
 \item $V_{\text{Hybrid}} = V\setminus V' \bigcup\limits_{\substack{e \in E \\ |e| \neq 2}}\ \{e', e''\}$
 \item $\forall v \in V'$ we add a directed edge $(e_1'', e_2'),\ \forall e_1, e_2 \in I(v)$ 
-      with $e_1 \neq e_2$ with capacity $c_{\text{Hybrid}}(e_1'', e_2') = \infty$ (clique expansion).
+      ($e_1 \neq e_2$) with capacity $c_{\text{Hybrid}}(e_1'', e_2') = \infty$ (clique expansion).
 \item $\forall e \in E$ with $|e| = 2$ and $v_1,v_2 \in e$ ($v_1 \neq v_2$) we add 
       two directed edges $(v_1,v_2)$ and $(v_2,v_1)$ with capacity $c_{\text{Hybrid}}(v_1,v_2) = \omega(e)$
       and $c_{\text{Hybrid}}(v_2,v_1) = \omega(e)$
@@ -382,12 +335,12 @@ a flow network \Hybrid, where $V' = \{v\ |\ v \in V_d(3)\
 \end{enumerate} 
 \end{definition}
 
-In \autoref{img:transformation_chain} all explained transformations of this section are illustrated.
+\autoref{img:transformation_chain} summarizes all explained transformations of this section.
 The proof of \autoref{theorem:st_cutset_equal_graph} can be used one-to-one to show that a minimum-capacity
 $(S',T')$-cutset of \ShortExT{H}{V'} is equal with a minimum-capacity $(S',T')$-cutset of \ShortHybrid~
 (for definition of $S'$ and $T'$ see \autoref{theorem:st_cutset_equal}). It follows with Lemma \ref{lemma:lemma1}
 that this is equal with a minimum-weight $(S,T)$-cutset of $H$. \\
-In the definition of \ShortHybrid~we prefer a hyperedge removal over a hypernode removal. E.g., if
+Per definition of \ShortHybrid~we prefer a hyperedge removal over a hypernode removal. E.g., if
 a hypernode has a degree smaller or equal than $3$, we only remove it, if there is no hyperedge
 $e \in I(v)$ with $|e| = 2$. The reason is that a hyperedge removal always decrease the number of nodes
 and edges more than a hypernode removal. \\
@@ -395,9 +348,7 @@ The minimum-weight $(S,T)$-cutset of $H$ can be calculated with the same techniq
 \ref{sec:edge_size_network}. Let's define with $(A,V\setminus A)$ the corresponding bipartition.
 $A$ is the union of all reachable hypernodes from $S'$ and the union of
 all reachable \emph{outgoing hyperedge nodes} $e''$ from $S'$ (see Section \ref{sec:heuer_network} 
-and Lemma \ref{lemma:bipartition_construction}).
-
-
+and Lemma \ref{lemma:bipartition_construction}). 
 
 \begin{figure}
 \centering
