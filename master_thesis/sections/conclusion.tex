@@ -1,68 +1,68 @@
-In this thesis we developed a novel \emph{local search} technique based on \emph{Max-Flow-Min-Cut}
+In this thesis, we developed a novel \emph{local search} technique based on \emph{Max-Flow-Min-Cut}
 computations for multilevel hypergraph partitioning. We integrated our \emph{flow}-based
 refinement framework into the $n$-level hypergraph partitioner \emph{KaHyPar} and show that
-in combination with the \emph{FM} heurisitc our new approach produces the best known partitions
+in combination with the \emph{FM} heurisitc our new approach produces the best-known partitions
 for a wide range of applications.\\
-On the road to a practical implementation we developed several concepts to speed up flow
+On the road to a practical implementation, we developed several concepts to speed up flow
 computations on a flow network of a hypergraph (see Section \ref{sec:related_lawler}).
 One is to remove low-degree hypernodes from the network and instead insert a clique 
 between all incident hyperedge nodes. We show that the number of nodes and edges could
-be reduced, if the degree of a hypernode is smaller or equal than $3$. Further, we model a hyperedge
+be reduced if the degree of a hypernode is smaller or equal than $3$. Further, we model a hyperedge
 of size $2$ as an undirected flow edge. We combine both techniques in a \emph{Hybrid}-Network 
 and show that maximum flow algorithms are up to a factor of $3$ faster compared to
-the execution on the \emph{Lawler}-Network \cite{lawler1973} on real world benchmarks. \\
+the execution on the \emph{Lawler}-Network \cite{lawler1973} on real-world benchmarks. \\
 Our \emph{flow}-based refinement framework is based on the ideas of Sanders and Schulz
 \cite{sanders2011engineering} (developed for multilevel graph partitioning). Given an already bipartitioned
 hypergraph, we show how to configure the source and sink sets of the flow network 
 of a subhypergraph such that a \emph{Max-Flow-Min-Cut} computation yields to a cut smaller 
 or equal than the cut before on the original hypergraph. A main contribution is that we proof
-that applying the source and sink set modelling approach of Sanders and Schulz one-to-one on 
-hypergraphs results in cuts greater or equal than with our optimized defintion. This is due to
+that applying the source and sink set modeling approach of Sanders and Schulz one-to-one on 
+hypergraphs results in cuts greater or equal than with our optimized definition. This is due to
 the fact that \emph{border hyperdges}, which induced sources and sinks, can be
-splitted into three different disjoint subsets on hypergraphs. This distinction enables a more effective
+split into three different disjoint subsets on hypergraphs. This distinction enables a more effective
 configuration of the sources and sinks. Additionally, we explain how one can find all 
 minimum $(s,t)$-cutsets with one maximum $(s,t)$-flow calculation on hypergraphs. \\
 We integrated our framework into the $n$-level hypergraph partitioner
 \emph{KaHyPar}. A \emph{flow}-based refinement is executed in $\log{n}$ levels of the multilevel
 hierarchy between each adjacent block in the quotient graph. The pairwise block scheduling 
 refinement is executed in rounds and terminates if none of the blocks changes anymore.
-The sizes of the flow problems are choosen adaptively. If a \emph{flow} computation on two blocks
+The sizes of the flow problems are chosen adaptively. If a \emph{flow} computation on two blocks
 yields to an improvement the flow problem size is increased, otherwise it is decreased. 
 Additionally, we try to automatically balance the partition after \emph{Max-Flow-Min-Cut}
 computation by iterating over each minimum $(S,T)$-cutset. In the remaining levels, 
 where no flow is performed, the classical \emph{FM} heuristic is used to improve the quality 
 of a partition. An observation during implementation was that only a minority of 
 the \emph{Max-Flow-Min-Cut} computations leads to an improvement of the original partition. 
-Therefore, we implement several speed up heuristics which prevents the
+Therefore, we implement several speed-up heuristics which prevents the
 execution of unnecessary pairwise \emph{flow} refinements. \\
 Our new quality configuration \KaHyPar{MF} produced on $95\%$ of our benchmark instances
 better partitions than our old baseline configuration \KaHyPar{CA}. On average the solution 
 quality is $2\%$ better and only within a factor of $2$ slower. In comparison with other 
-state-of-the-art hypergraph partitioner, \KaHyPar{MF} produced on $70\%$ of the benchmark instances
-the best known partitions with a running time comparable to the direct $k$-way implementation
+state-of-the-art hypergraph partitioners, \KaHyPar{MF} produced on $70\%$ of the benchmark instances
+the best-known partitions with a running time comparable to the direct $k$-way implementation
 of \emph{hMetis}.
 
 
 \subsection{Future Work}
 
-Due to the novelty of the approach their is a lot of potential in optimizing our basic 
-framework. We made a trade off between time and quality to obtain a \emph{High Quality 
+Due to the novelty of the approach, there is a lot of potential in optimizing our basic 
+framework. We made a trade-off between time and quality to obtain a \emph{High-Quality 
 Hypergraph Partitioner} which runs in reasonable time. The quality mainly depends
 on the number of flow executions through the multilevel hierarchy. The number of flow
 executions depends on the running time of the flow algorithm and the size of the flow
 problem. Optimizing those two basic building blocks of the framework will allow us to
 achieve better quality in the same amount of time.\\
 The flow network of a hypergraph proposed by Lawler \cite{lawler1973} has a bipartite 
-structure. Because of this structural regularity their might be other more specialized
-flow algorithms which run faster on these types of networks. Therefore, an useful work 
+structure. Because of this structural regularity, there might be other more specialized
+flow algorithms which run faster on these types of networks. Therefore, a useful work 
 would be to evaluate many different maximum flow algorithms on our benchmark set. Further,
 one could investigate if it is possible to maintain the whole flow network over the
 multilevel hierarchy without explicitly setting up the flow network before each flow
-execution. Also it would be interesting, if informations from previous flow calculations can 
-be used to speed up the current flow calculation. Pistorius \cite{pistorius2003} described
+execution. Also, it would be interesting if information from previous flow calculations can 
+be used to speed-up the current flow calculation. Pistorius \cite{pistorius2003} described
 an algorithm which implicitly executes \EdmondKarp~on a hypergraph using
-labels on the hypernodes. In our first version of the framework we also used a similiar 
-technique and implicitly executes a flow algorithm on a implicit representation of 
+labels on the hypernodes. In our first version of the framework, we also used a similar 
+technique and implicitly executes a flow algorithm on an implicit representation of 
 the underlying network. During experiments it turned out that the explicit representation
 was up to a factor of $2$-$3$ faster than the implicit version. We encountered several reasons
 for that behaviour:
@@ -88,7 +88,7 @@ where $v_2 \in e'$ and $v_1 \notin e'$. All hypernodes with $d(v) \le 3$ are rem
 hybrid flow network. Consequently, we would remove $v_1$ and insert a clique between all incident
 hyperedges. However, $v_2$ is part of the flow network and induced $2d(v_2) = 8$ edges.
 Alternatively, we could remove $v_2$ and expand the clique between all hyperedges of $I(v_1)$
-with $e'$. In that case we have to insert an edge from each hyperedge in $I(v_1)$ to $e'$ and vice
+with $e'$. In that case, we have to insert an edge from each hyperedge in $I(v_1)$ to $e'$ and vice
 versa. Since $|I(v_1)| = d(v_1) = 3$ only $2|I(v_1)| = 6$ edges are induced and we can remove
 one hypernode. In general, an expansion of a $k$-clique to a $(k+i)$-clique induced 
 $ik$ edges from the $k$ nodes already contained in the clique to the $i$ new nodes and
@@ -96,13 +96,13 @@ $i(k+1-1)$ edges from the $i$ new nodes to the $k$ nodes in the clique. If we ca
 hypernode from the flow network by expanding a $k$-clique between hyperedge nodes to a $(k+i)$-clique,
 it is beneficial if the following inequality holds 
 \[ik + i(k+i-1) = i^2 + 2ki - i \le 2(k+i)\]
-The inequality is only satisfied for $i = 1$. In this case we can exactly remove $2$ edges and
+The inequality is only satisfied for $i = 1$. In this case, we can exactly remove $2$ edges and
 $1$ node from the flow network. A possible algorithm could be to sort the hypernodes according
 to their degree and for each hypernode store a clique label which indicates between how many
 incident hyperedges already exist a clique. Afterwards, we iterate over the hypernodes and if we remove
 a hypernode we have to update the clique label of all hypernodes in the intersection of the
-current inserted clique. We iterate over the hypernodes until none of the hypernodes could
-be removed any more. However, we didn't find an efficient implementation of the above described
+currently inserted clique. We iterate over the hypernodes until none of the hypernodes could
+be removed anymore. However, we didn't find an efficient implementation of the above-described
 algorithm. The algorithm requires a fast calculation between the intersection of several
 hyperedges. An explicit construction of the intersection hypergraph would occupy too much
 memory. 
