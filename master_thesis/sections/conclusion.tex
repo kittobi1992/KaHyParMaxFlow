@@ -17,15 +17,15 @@ hypergraph, we show how to configure the source and sink sets of the flow networ
 of a subhypergraph such that a \emph{Max-Flow-Min-Cut} computation yields to a cut smaller 
 or equal than the cut before on the original hypergraph. A main contribution is that we proof
 that applying the source and sink set modeling approach of Sanders and Schulz one-to-one on 
-hypergraphs results in cuts greater or equal than with our optimized definition. This is due to
-the fact that \emph{border hyperdges}, which induced sources and sinks, can be
-split into three different disjoint subsets on hypergraphs. This distinction enables a more effective
+hypergraphs results in cuts greater or equal than with our optimized definition. This is because 
+\emph{border hyperdeges}, which induced sources and sinks, can be
+split into three different disjoint subsets on hypergraphs. This distinction enables a more efficient
 configuration of the sources and sinks. Additionally, we explain how one can find all 
 minimum $(s,t)$-cutsets with one maximum $(s,t)$-flow calculation on hypergraphs. \\
 We integrated our framework into the $n$-level hypergraph partitioner
 \emph{KaHyPar}. A \emph{flow}-based refinement is executed in $\log{n}$ levels of the multilevel
 hierarchy between each adjacent block in the quotient graph. The pairwise block scheduling 
-refinement is executed in rounds and terminates if none of the blocks changes anymore.
+refinement is implemented in rounds and terminates if none of the blocks changes anymore.
 The sizes of the flow problems are chosen adaptively. If a \emph{flow} computation on two blocks
 yields to an improvement the flow problem size is increased, otherwise it is decreased. 
 Additionally, we try to automatically balance the partition after \emph{Max-Flow-Min-Cut}
@@ -34,7 +34,7 @@ where no flow is performed, the classical \emph{FM} heuristic is used to improve
 of a partition. An observation during implementation was that only a minority of 
 the \emph{Max-Flow-Min-Cut} computations leads to an improvement of the original partition. 
 Therefore, we implement several speed-up heuristics which prevents the
-execution of unnecessary pairwise \emph{flow} refinements. \\
+execution of additional pairwise \emph{flow} refinements. \\
 Our new quality configuration \KaHyPar{MF} produced on $95\%$ of our benchmark instances
 better partitions than our old baseline configuration \KaHyPar{CA}. On average the solution 
 quality is $2\%$ better and only within a factor of $2$ slower. In comparison with other 
@@ -63,9 +63,9 @@ be used to speed-up the current flow calculation. Pistorius \cite{pistorius2003}
 an algorithm which implicitly executes \EdmondKarp~on a hypergraph using
 labels on the hypernodes. In our first version of the framework, we also used a similar 
 technique and implicitly executes a flow algorithm on an implicit representation of 
-the underlying network. During experiments it turned out that the explicit representation
+the underlying network. During experiments, it turned out that the explicit representation
 was up to a factor of $2$-$3$ faster than the implicit version. We encountered several reasons
-for that behaviour:
+for that behavior: 
 \begin{enumerate}
 \item Our flow network represents a subhypergraph of the original hypergraph. Iterating 
       over the edges of a node means to iterate also over hypernodes which are not part of 
@@ -74,11 +74,11 @@ for that behaviour:
       \emph{augmenting path}.
 \item Many labels have to be introduced which lead to a large number of 
       main memory accesses.
-\item Also the implicit flow network is not flexible enough. Introducing a new sparsifying
+\item Also the implicit flow network is not flexible enough. Adding a new sparsifying
       technique would require with great certainty a reimplementation of the flow network.
 \end{enumerate}
 In Section \ref{sec:flow_local_search_hypergraph} and \ref{sec:speed_up} we show that with
-$3$ simple speed up heuristics our \emph{flow}-based refinement framework is up to a factor
+three simple speed up heuristics our \emph{flow}-based refinement framework is up to a factor
 of $2$ faster with comparable quality. Therefore, it would be beneficial to further increase
 the effectiveness ratio of the flow computation by introducing more heuristics. \\
 It is also possible to further sparsify the flow network. Assume there exists two hypernodes
@@ -100,7 +100,7 @@ The inequality is only satisfied for $i = 1$. In this case, we can exactly remov
 $1$ node from the flow network. A possible algorithm could be to sort the hypernodes according
 to their degree and for each hypernode store a clique label which indicates between how many
 incident hyperedges already exist a clique. Afterwards, we iterate over the hypernodes and if we remove
-a hypernode we have to update the clique label of all hypernodes in the intersection of the
+a hypernode, we have to update the clique label of all hypernodes in the intersection of the
 currently inserted clique. We iterate over the hypernodes until none of the hypernodes could
 be removed anymore. However, we didn't find an efficient implementation of the above-described
 algorithm. The algorithm requires a fast calculation between the intersection of several

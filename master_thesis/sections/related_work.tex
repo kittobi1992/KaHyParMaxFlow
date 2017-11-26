@@ -4,7 +4,7 @@
 \label{sec:max_flow}
 
 In Section \ref{sec:applications} we introduce the concept of flows in a network. We
-will now present two algorithms in order to solve the maximum flow problem.
+will now present two algorithms to solve the maximum flow problem.
 
 \subsubsection{Augmenting-Path Algorithms}
 \label{sec:aug_path}
@@ -14,21 +14,21 @@ $v_k = t$ \cite{edmonds1972theoretical}. \autoref{img:maximum_flow_example}~illu
 Since all $(v_i,v_{i+1}) \in G_f$ it follows that $r_f(v_i,v_{i+1}) > 0$. 
 Therefore, we can increase the flow on all edges $(v_i,v_{i+1})$ by 
 $\Delta f = \min_{i \in [1,\ldots,k-1]} r_f(v_i,v_{i+1})$. It can be shown that $f$ is not a
-maximum flow, if an \emph{augmenting path} exists in $G_f$ \cite{edmonds1972theoretical}. \\
+maximum flow if an \emph{augmenting path} exists in $G_f$ \cite{edmonds1972theoretical}. \\
 One way to calculate a maximum flow $f$ is to find \emph{augmenting paths} in $G_f$ as
-long as their exist one. The algorithm was established by Ford and Fulkerson \cite{ford1956maximal} and
+long as there exists one. The algorithm was established by Ford and Fulkerson \cite{ford1956maximal} and
 consists of two phases. First, we search for an \emph{augmenting path} $P = \{v_1,\ldots,v_k\}$
-from $s$ to $t$, e.g. with a simple \DFS. Afterwards, we increase the flow on each
+from $s$ to $t$, e.g., with a simple \DFS. Afterwards, we increase the flow on each
 edge $(v_i,v_{i+1})$ by $\Delta f$ and decrease the flow on each reverse edge $(v_{i+1},v_i)$
-by $\Delta f$. If the capacities are integral, the algorithm always terminates. Since, we can find an \emph{augmenting
+by $\Delta f$. If the capacities are integral, the algorithm always terminates. Since we can find an \emph{augmenting
 path} in $G_f$ with a simple \DFS~in \BigO{|V|+|E|} and increase the
 flow on every path by at least one, the running time of the algorithm can be bounded by \BigO{|E||f_{max}|}.
 We can construct instances, where the running time is \BigO{|E||f_{max}|} or even the maximum flow $|f_{max}|$ 
 is exponential in the problem size. \\
 Edmond and Karp \cite{edmonds1972theoretical} improved Ford \& Fulkerson algorithm by increasing the flow
-along an \emph{augmenting path} of minimal length. A shortest path from $s$ to $t$ in a 
+along an \emph{augmenting path} of minimal length. The shortest path from $s$ to $t$ in a 
 graph with unit lengths can be found by a simple \BFS~calculation. It can be shown, that the
-total number of \emph{augmentations} is \BigO{|V||E|}. The running time of Edmond \& Karps
+total number of \emph{augmentations} is \BigO{|V||E|}. The running time of Edmond \& Karp's
 maximum flow algorithm is \BigO{|V||E|^2}. A sample execution of the algorithm
 is presented in \autoref{img:edmond_karp_example}.
 
@@ -53,29 +53,29 @@ constraints, but only a weakened form of the conservation of flow constraint:
 \[\forall v \in V \setminus \{s,t\}: \sum_{u \in V} f(v,u) \le \sum_{u \in V} f(u,v)\]
 The algorithm maintains a \emph{distance labeling} $d: V \rightarrow \mathbb{N}$ and an 
 \emph{excess function} $e_f: V \rightarrow \mathbb{N}$. The \emph{distance labeling} satisfies
-the following conditions: $d(s) = |V|$, $d(t) = 0$ and foreach $(u,v) \in E_f$, $d(u) \le d(v) + 1$. We say an
+the following conditions: $d(s) = |V|$, $d(t) = 0$ and for each $(u,v) \in E_f$, $d(u) \le d(v) + 1$. We say an
 residual edge $(u,v)$ is \emph{admissible} if $d(u) = d(v) + 1$. A node $v$ is \emph{active}
 if $v \notin \{s,t\}$ and $e_f(v) > 0$.\\
 Initially, all \emph{labels} and \emph{excess} values are set to zero except for $s$, $d(s) = 1$
-and $e_f(s) = \infty$. Foreach \emph{active} node $u$ the algorithm performs two update
+and $e_f(s) = \infty$. For each \emph{active} node $u$ the algorithm performs two update
 operations, called \emph{push} and \emph{relabel}. The first operation pushes flow
 over each \emph{admissible} edge $(u,v)$. After a \emph{push} $e_f(u) = e_f(u) - 
 \min{(e_f(u),r_f(u,v))}$ and $e_f(v) = e_f(v) + \min{(e_f(u),r_f(u,v))}$. If there is no
-\emph{admissible} edge a \emph{relabel} operation is performed, which replaces $d(u)$ by
+\emph{admissible} edge, a \emph{relabel} operation is performed, which replaces $d(u)$ by
 $\min_{(u,v) \in E_f} d(v) + 1$. The algorithm terminates, if none of the nodes is \emph{active}.
 The worst case complexity of the algorithm is \BigO{n^3}. The running time can be reduced
 to \BigO{n^2\log{n}} with \emph{Dynamic Trees} \cite{goldberg1988new, sleator1981data}, but this
 implementation is not practical due to a large hidden constant factor.\\
-The \emph{push-relabel} algorithm is one of the fastest maximum flow algorithms in practice,
-because their exist several speed up heuristics. The first one is
+The \emph{push-relabel} algorithm is one of the fastest maximum flow algorithms in practice
+because there exist several speed-up heuristics. The first one is
 the \emph{global relabeling} heuristic which frequently updates the \emph{distance labels} by computing
 the shortest path in the residual graph from all nodes to the sink \cite{cherkassky1997implementing}.
 This can be done with a backward \emph{BFS} in linear time. This heuristic is performed periodically,
-e.g. after every $n$ relabelings. \\
+e.g., after every $n$ relabeling. \\
 The second heuristic is the \emph{gap heuristic} \cite{cherkassky1994fast,derigs1989implementing}.
-If at a certain stage of the algorithm there is no node $u$ with $d(u) = g < n$, then for each node
-$v$ with $g < d(v) < n$ the sink is not reachable any more. Therefore, we can increase the \emph{distance
-label} of all those nodes to $n$. In order to implement this heuristic we maintain a linked list of
+If at a particular stage of the algorithm there is no node $u$ with $d(u) = g < n$, then for each node
+$v$ with $g < d(v) < n$ the sink is not reachable anymore. Therefore, we can increase the \emph{distance
+label} of all those nodes to $n$. To implement this heuristic, we maintain a linked list of
 nodes with distance label $i$.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -85,10 +85,10 @@ nodes with distance label $i$.
 
 Consider the \emph{bipartite graph} representation $G_*(H)$ of a hypergraph $H$ (see Section \ref{sec:hypergraph}).
 Hu and Moerder \cite{HuMoerder85} introduced node capacities in $G_*(H)$. Each hyperedge
-node $e$ has a capacity equal to $\omega(e)$ and each hypernode node has infinity capacity. 
-Further, they showed that a minimum-weight $(s,t)$-vertex seperator in $G_*(H)$
+node $e$ has a capacity equal to $\omega(e)$ and each hypernode node has infinite capacity. 
+Further, they showed that a minimum-weight $(s,t)$-vertex separator in $G_*(H)$
 is equal with a minimum-weight $(s,t)$-cutset of a hypergraph $H$. 
-Finding such a seperator is a flow problem and can be calculated with the flow network \ShortT{L} 
+Finding such a separator is a flow problem and can be calculated with the flow network \ShortT{L} 
 presented by Lawler \cite{lawler1973}:
 
 \begin{definition}
@@ -106,25 +106,25 @@ a flow network \T{L} proposed by Lawler \cite{lawler1973}. \ShortT{L} is defined
 
 An example of this transformation is shown in \autoref{img:lawler_transformation}.
 \ShortT{L} is nearly equivalent to the transformation $T_V(G)$ described in Defintion \autoref{def:vertex_seperator_transformation}
-except that we do not have to split the hypernodes $v \in V$. This is due to the fact, that
-a hypernode cannot be in a minimum-capacity $(s,t)$-vertex seperator, because each $v \in V$ has
+except that we do not have to split the hypernodes $v \in V$. Because
+a hypernode cannot be in a minimum-capacity $(s,t)$-vertex separator, because each $v \in V$ has
 infinity capacity \cite{HuMoerder85}. Therefore, a minimum-capacity $(s,t)$-cutset 
-of \ShortT{L} is equal to a minimum $(s,t)$-vertex seperator of $G_*(H)$.
+of \ShortT{L} is equal to a minimum $(s,t)$-vertex separator of $G_*(H)$.
 The resulting graph \ShortT{L} has $|V_L| = 2|V| + |E|$ nodes and $|E_L| = 2(\bar{e}+1)|E|$ edges, where
 $\bar{e}$ is the average size of a hyperedge \cite{pistorius2003}. Using \emph{Edmond-Karps}
 maximum flow algorithm (see Section \ref{sec:aug_path}) on flow network \ShortT{L} 
 takes time \BigO{|V|^2|E|^2} \cite{lawler1973}. \\
-A minimum-weight $(s,t)$-cutset of $H$ can be found by simlpy mapping the minimum-capacity
+A minimum-weight $(s,t)$-cutset of $H$ can be found by simply mapping the minimum-capacity
 $(s,t)$-cutset to their corresponding hyperedges in $H$ (see Section \ref{sec:applications}). 
 The corresponding bipartition are all hypernodes $v \in V$ \emph{reachable} from $s$ in the 
 \emph{residual graph} of \ShortT{L} and the counterpart are all hypernodes not \emph{reachable}
-from $s$. \\
-In this thesis we often have to mix up nodes and edges of $H$ and \ShortT{L}. If we use
-$v \in V_L$, there also exist a corresponding $v \in V$. $v$ can be used in both contexts.
+from $s$. \\ 
+In this thesis, we often have to mix up nodes and edges of $H$ and \ShortT{L}. If we use
+$v \in V_L$, there also exists a corresponding $v \in V$. $v$ can be used in both contexts.
 For all $e \in E$ there exists two corresponding nodes $e',e'' \in V_L$. $e'$ 
-is called \emph{incomming hyperedge node} and $e''$ is called \emph{outgoing hyperedge node}. 
+is called \emph{incoming hyperedge node} and $e''$ is called \emph{outgoing hyperedge node}. 
 In some cases we need to treat $e',e'' \in V_L$ the same way as their corresponding 
-hyperedge $e \in E$. E.g. $e_1' \cap e_2'$ or $e_1'' \cap e_2'$ should be the same as $e_1 \cap e_2$.
+hyperedge $e \in E$. E.g., $e_1' \cap e_2'$ or $e_1'' \cap e_2'$ should be the same as $e_1 \cap e_2$.
 However, it should be clear out of the context which terminology is used.
 
 
@@ -142,14 +142,14 @@ capacity of the black edges in the flow network is $\infty$.}
 \label{sec:flow_local_search_graph}
 
 It seems naturals to utilize maximum flow computations to improve the cut metric of a 
-given partition of a graph. Lang and Rao \cite{lang2004flow} uses an approach,
-called \emph{Max-Flow Qoutient-cut Improvement} (MQI), to improve the cut
+given partition of a graph. Lang and Rao \cite{lang2004flow} use an approach,
+called \emph{Max-Flow Quotient-cut Improvement} (MQI), to improve the cut
 of a graph when metrics such as \emph{expansion} or \emph{conductance}
 are used. For a given bipartition $(S,\bar{S})$, they find the best 
 improvement among all bipartitions $(S',\bar{S'})$ such that $S' \subset S$
 by constructing a flow problem. Andersen and Lang \cite{andersen2008algorithm}
 proposed a flow-based improvement algorithm, called \emph{Improve},
-which works similiar as MQI, but did not restrict the output of the 
+which works similar as MQI, but did not restrict the output of the 
 partition to $S' \subset S$. However, both techniques can not guarantee 
 that the resulting bipartition is balanced and only are applicable for $k=2$. \\
 Schulz and Sanders \cite{sanders2011engineering} integrate flow-based refinement algorithm 
@@ -174,15 +174,15 @@ The basic idea is to build a region $B$ around all cut nodes $\delta$ of
 $G$ and connect all nodes in $\delta B \cap V_1$ to the source node $s$ and all nodes in 
 $\delta B \cap V_2$ to the sink node $t$. \\
 We can construct $B := B_1 \cup B_2$ with two \emph{Breadth First Searches} (\BFS). 
-One is initialized with all nodes $\delta \cap V_1$ and stops, if $c(B_1)$ would 
+One is initialized with all nodes $\delta \cap V_1$ and stops if $c(B_1)$ would 
 exceed $(1+\epsilon)\frac{c(V)}{2} - c(V_2)$. The second is initialized with 
-all nodes $\delta \cap V_2$ and stops, if $c(B_2)$ would exceed 
+all nodes $\delta \cap V_2$ and stops if $c(B_2)$ would exceed 
 $(1+\epsilon)\frac{c(V)}{2} - c(V_1)$. The two \BFS~only touch nodes of $V_1$ resp. $V_2 \Rightarrow$
 $B_1 \subseteq V_1$ and $B_2 \subseteq V_2$. The constraints for the weights of $B_1$
 and $B_2$ guarantees that the bipartition is still balanced after a \emph{Max-Flow-Min-Cut}
 computation. Connecting $s$ resp. $t$ to all border nodes $\delta B \cap V_1$ resp.
 $\delta B \cap V_2$ ensures that a non-cut edge not contained in $G_B$ is not a cut edge after
-assigning the minimimum $(s,t)$-bipartition of subgraph $G_B$ to $G$. This also yields to 
+assigning the minimum $(s,t)$-bipartition of subgraph $G_B$ to $G$. This also yields to 
 the conclusion that each minimum $(s,t)$-cutset in $G_B$ leads to a cut smaller or 
 equal to the old cut of $G$. All concepts are illustrated in \autoref{img:balanced_bipartition}.
 
@@ -223,11 +223,11 @@ condition $u \in C$ implies that for all edges $(u,v) \in E$ also $v \in C$.
 \end{definition}
 
 A \emph{closed node set} is illustrated in \autoref{img:closed_node_set}. A simple observation
-is that all nodes on a cycle have to be in the same \emph{closed node set} per definition. Therefore,
+is that all nodes on a cycle have to be in the same \emph{closed node set} per definition. Therefore
 we can contract all \emph{Strongly Connected Components} (SCC) of $G$ with a linear time algorithm
 proposed by Tarjan \cite{tarjan1972depth} and sweep to the reverse
 topological order of the contracted graph to enumerate all \emph{closed node sets}. Note, if
-we contract all SCC of $G$ the resulting graph is a \emph{Directed Acyclic Graph} (DAC), therefore 
+we contract all SCC of $G$ the resulting graph is a \emph{Directed Acyclic Graph} (DAC). Therefore, 
 a topological order exists.
 \begin{figure}
 \centering
@@ -238,7 +238,7 @@ a topological order exists.
          contracted graph (right side).}
 \label{img:closed_node_set}
 \end{figure}
-With the Theorem of Picard and Queyranne \cite{picard1980structure} we are able to enumerate
+With the Theorem of Picard and Queyranne \cite{picard1980structure} we can enumerate
 all minimum $(s,t)$-cuts of $G$ with one maximum flow computation.
 
 \begin{theorem}
@@ -252,7 +252,7 @@ They can be calculated with the algorithm described above having the residual gr
 $G$ as input. The running time of the algorithm is \BigO{|V| + |E|}. \\
 A common problem of the \emph{adaptive flow iteration} approach (see Section \ref{sec:adaptive_flow_iterations}) is
 that searching with a large $\alpha$ often leads to cuts in $G$ which violates the balanced constraints. 
-We are able with this technique to convert a infeasible solution into a feasible by finding
+We are able with this technique to convert an infeasible solution into a feasible by finding
 the \emph{Most Balanced Minimum Cut} (MBMC) with one maximum flow computation. 
 
 
@@ -263,40 +263,40 @@ $k$-way partitions \cite{holtgrewe2010engineering,sanders2011engineering}.
 The algorithm is organized in rounds and executes a two-way 
 local improvement algorithm on each adjacent pair of 
 blocks in the \emph{quotient graph} where at least one of both is \emph{active}. 
-Initial all blocks are \emph{active}. A block becomes \emph{inactive}, 
+Initial all blocks are \emph{active}. A block becomes \emph{inactive}
 if its boundary did not change in a round. The algorithm
 terminates, if all blocks are \emph{inactive}. \\
 Fiduccia and Mattheyses \cite{fiduccia1988linear} introduces a linear time
 two-way local search heuristic, called \emph{FM} heuristic, 
 which is fundamental for many graph partitioning algorithms.
-They define the gain $g(v)$ of a node $v \in V$ as the reduction of the cut metric, when
+They define the gain $g(v)$ of a node $v \in V$ as the reduction of the cut metric when
 moving $v$ from its current block to its counterpart block. By maintaining the gains of the
-nodes in a special datastructure, called \emph{bucket queue}, they are able to find a maximum
-gain node in constant time. After moving a maximum gain node they are also able to update the
-datastructure in time equal to the number of adjacent nodes.\\
+nodes in a special data structure, called \emph{bucket queue}, they can find a maximum
+gain node in constant time. After moving a maximum gain node, they are also able to update the
+data structure in time equal to the number of adjacent nodes.\\
 The local improvement algorithm (for \emph{Active Block Scheduling}) can either 
-be a \emph{FM} local search or a flow-based approach or even a combination of 
-boths as proposed by Sanders and Schulz \cite{sanders2011engineering}.
+be an \emph{FM} local search or a flow-based approach or even a combination of 
+both as proposed by Sanders and Schulz \cite{sanders2011engineering}.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsection{Hypergraph Partitioning}
 
-In this Section we review how most hypergraph partitioner solves the \emph{hypergraph
+In this Section, we review how most hypergraph partitioner solves the \emph{hypergraph
 partitioning problem} (see Section \ref{sec:hypergraph_partitioning}). The most successful
 approach is the \emph{multilevel paradigm} \cite{alpert1995recent,bader2013graph,
 papa2007hypergraph} which we describe in Section \ref{sec:multilevel_paradigm}.
-This thesis is integrated in the $n$-level hypergraph partitioner \emph{KaHyPar}. Therefore, we
-give a brief overview on implementation details of this framework (see Section \ref{sec:kahypar}).
+The results of this thesis is integrated into $n$-level hypergraph partitioner \emph{KaHyPar}. Therefore, we
+give a brief overview of implementation details of this framework (see Section \ref{sec:kahypar}).
 
 \subsubsection{Multilevel Paradigm}
 \label{sec:multilevel_paradigm}
 
 The \emph{multilevel paradigm} is a three stages algorithm to solve the \emph{hypergraph 
 partitioning problem} (see \autoref{img:multilevel_paradigm}). In the first stage, called
-\emph{coarsening phase}, pairs of hypernodes are choosen to be contracted. This process is
+\emph{coarsening phase}, pairs of hypernodes are chosen to be contracted. This process is
 repeated until a predefined number of hypernodes remains. The sequence of successively
-smaller hypergraphs are called \emph{levels}. If the hypergraph $H$ is small enough we can use
+smaller hypergraphs is called \emph{levels}. If the hypergraph $H$ is small enough, we can use
 expensive algorithms to \emph{initial partition} $H$ into $k$ blocks. Afterwards, we can
 \emph{uncontract} each \emph{level} in reverse order of \emph{contraction} and project
 the partition to the next \emph{level}. After unpacking a \emph{refinement} heuristic can be
@@ -319,33 +319,33 @@ algorithm \cite{fiduccia1988linear} (see Section \ref{sec:abs}).
 removing only a single vertex in one \emph{level} of the hierarchy. It seems to be the method
 of choice for optimizing cut- and the $(\lambda - 1)$-metric unless speed is more important than
 quality \cite{heuer2017improving}. The framework provides a \emph{direct $k$-way} \cite{akhremtsev2017engineering} 
-and a \emph{recursive bisection} mode, which recursively calculates bipartions 
+and a \emph{recursive bisection} mode, which recursively calculates bipartitions 
 (with \emph{multilevel paradigm}) until the hypergraph is divided into $k$ blocks 
 \cite{schlag2016k}. \emph{KaHyPar} consists of four phases: \emph{Preprocessing}
 and the three stages of the \emph{multilevel paradigm}. \\
-The \emph{preprocessing} step detects community structures of a hypergraph. To do this, the
+The \emph{preprocessing} step detects community structures of a hypergraph. The
 hypergraph is transformed into a bipartite graph $G_*(H)$ (see Section \ref{sec:hypergraph}) and
 a community detection algorithm is executed which optimize \emph{modularity} \cite{fortunato2010community,
 heuer2017improving}. During the \emph{coarsening phase} contractions are restricted to vertices within the same 
-community. The contraction partners are choosen according to the \emph{heavy-edge} rating function
+community. The contraction partners are chosen according to the \emph{heavy-edge} rating function
 $r(u,v) := \sum_{e \in I(u) \cap I(v)} \frac{\omega(e)}{|e|-1}$ \cite{karypis1999multilevel}. The
-function prefers vertices which shares a large number of heavy nets with small size. The rating
-function is evaluated \emph{lazy} which means that after a contraction of two hypernodes $u$ and
+function prefers vertices which share a large number of heavy nets with small size. The rating
+function is evaluated \emph{lazily} which means that after a contraction of two hypernodes $u$ and
 $v$ all ratings related to those vertices are \emph{invalid} \cite{schlag2016k}. If the PQ returns
-an \emph{invalid} rating we immediately recalculate $r(u,v)$ and insert the new rating in the
+an \emph{invalid} rating, we immediately recalculate $r(u,v)$ and insert the new rating in the
 PQ. The \emph{initial partitioning} uses the \emph{recursive bisection} approach to calculate
 a $k$-way partition in combination with a portfolio of initial partitioning techniques 
-\cite{heuer2015engineering}. In the \emph{refinement phase} a localized \emph{FM} search is started \cite{fiduccia1988linear},
+\cite{heuer2015engineering}. In the \emph{refinement phase}, a localized \emph{FM} search is started \cite{fiduccia1988linear},
 initialized with the current uncontracted vertices. The \emph{local search} maintains $k$ \emph{priority
 queues} for each block $V_i$ \cite{akhremtsev2017engineering}. A hypernode $v$ contained in 
-$\text{PQ}_i$ with gain $g$ means that moving vertex $v$ to block $V_i$ has gain $g$. After a move
+$\text{PQ}_i$ with gain $g$ means that moving vertex $v$ to block $V_i$ has gain $g$. After a move,
 the gains of all adjacent hypernodes are updated with a \emph{delta-gain} update strategy \cite{papa2007hypergraph}.
 The recalculation of all gain values at the beginning of a \emph{FM} pass is one of the main bottlenecks
 of the algorithm \cite{papa2007hypergraph}. Therefore, Schlag \cite{akhremtsev2017engineering,
 schlag2016k} introduces a \emph{Gain Cache} over the multilevel hierarchy, which prevents
 expensive recalculations of the corresponding gain function. The \emph{Gain Cache} is maintained
 with \emph{delta-gain} updates in the same way as the \emph{PQs}. Further, the \emph{local search}
-is stopped, when an improvement during a \emph{FM} pass becomes unlikely. This model is
+is stopped, when an improvement during an \emph{FM} pass becomes unlikely. This model is
 called \emph{Adaptive Stopping Rule} \cite{akhremtsev2017engineering}. Sanders and
 Osipov \cite{osipov2010n} showed that it is unlikely that \emph{local search} gives an improvement if
 $p > \frac{\sigma^2}{4\mu^2}$, where $p$ is the number of moves in the current \emph{FM} pass

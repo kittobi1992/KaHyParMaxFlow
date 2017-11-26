@@ -10,7 +10,7 @@ is a relation between two nodes $u,v \in V$.
 \end{definition}
 
 Two vertices $u$ and $v$ are \emph{adjacent}, if there exists an edge
-$(u,v) \in E$. Two edges $e_1$ and $e_2$ are \emph{incident} to each other, if they
+$(u,v) \in E$. Two edges $e_1$ and $e_2$ are \emph{incident} to each other if they
 share a node. $I(v)$ denotes the set of all \emph{adjacent} nodes of 
 $v$. The \emph{degree} of a node $v$ is $d(v) = |I(v)|$.
 
@@ -33,7 +33,7 @@ any \emph{cycles} is called \emph{directed acyclic graph} (\emph{DAG}). On such
 graphs we can define a \emph{topological order} $\gamma: V \rightarrow \mathbb{N}_+$ such
 that for each $(u,v) \in E: \gamma(u) < \gamma(v)$. A \emph{topological order}
 of a \emph{DAG} can be found in linear time with Kahn's algorithm \cite{kahn1962topological}.
-We can transform a general directed graph $G$ into a \emph{DAG}, if we contract
+We can transform a general directed graph $G$ into a \emph{DAG} if we contract
 each \emph{strongly connected component}. All concepts are illustrated in 
 \autoref{img:scctoposort}.
 
@@ -64,7 +64,7 @@ $f: E \rightarrow \mathbb{R}_+$, which have to satisfy the following constraints
 \item $\forall (u,v) \in E: f(u,v) \le c(u,v)$ (capacity constraint)
 \item $\forall v \in V \setminus \{s,t\}: \sum_{(u,v) \in E} f(u,v) = \sum_{(v,u) \in E} f(v,u)$ (conservation of flow constraint)
 \end{enumerate}
-The capacity constraint restricts the flow on an edge $(u,v)$ by its capacity 
+The capacity constraint restricts the flow on edge $(u,v)$ by its capacity 
 $c(u,v)$. Whereas the conservation of flow constraint ensures that the amount
 of flow entering a node $v \in V \setminus \{s,t\}$ is the same as leaving a node.
 The value of the flow is defined as $|f| = \sum_{(s,v) \in E} f(s,v) = \sum_{(v,t) \in E} f(v,t)$.
@@ -97,36 +97,36 @@ flow problem \cite{ford1956maximal}.
 
 \begin{theorem}
 The value of a maximum $(s,t)$-flow obtainable in a graph $G$ is equal with the weight
-of the minimum cutset in $G$ seperating $s$ and $t$.
+of the minimum cutset in $G$ separating $s$ and $t$.
 \end{theorem}
 
 Let $f$ be a maximum $(s,t)$-flow in a graph $G = (V,E,\omega)$ with $s \in V$ and $t \in V$. 
 Further, let $A$ be the set containing all $v \in V$, which are \emph{reachable} from $s$
-in $G_f$. A node $v$ is \emph{reachable} from a node $u$, if there exists a path from $u$
+in $G_f$. A node $v$ is \emph{reachable} from a node $u$ if there exists a path from $u$
 to $v$. Then the set of all cut edges between the bipartition $(A,V\setminus A)$ 
-is a minimum-weight $(s,t)$-cutset \cite{ford2015flows}. $A$ can be calculated with a simple \BFS~in $G_f$ starting
+is a minimum-weight $(s,t)$-cutset \cite{ford2015flows}. $A$ can be calculated with a \BFS~in $G_f$ starting
 from $s$. \\
-From this analogy many solutions for related problems arose. Samples are listed below:
+From this analogy, many solutions for related problems arose. Samples are listed below:
 \begin{enumerate}
 \item Maximum Bipartite-Matching
-\item Minimum-Weight Vertex Seperator
+\item Minimum-Weight Vertex Separator
 \item Number of Edge-Disjoint Paths
 \item Number of Vertex-Disjoint Paths
 \end{enumerate}
 Solutions for those problems sometimes involves a transformation $T$ of the graph $G$
 into a flow network $T(G)$, such that the \emph{Max-Flow-Min-Cut}-Theorem is applicable. 
-A problem important for this work is to find a minimum-weight $(s,t)$-vertex seperator
+A problem essential for this work is to find a minimum-weight $(s,t)$-vertex separator
 in a graph $G = (V,E,c)$ with $c: V \rightarrow \mathbb{R}_+$.
 
 \begin{definition}
 Let $G = (V,E,c)$ be a graph with $c: V \rightarrow \mathbb{R}_+$. $S \subseteq V$
-is a vertex seperator for non-adjacent verticies $s \in V$ and $t \in V$ if the
-removal of $S$ from graph $G$ seperates $s$ and $t$ ($s$ not \emph{reachable} from $t$).
-A vertex seperator $S$ is a minimum-weight $(s,t)$-vertex seperator, if for all 
-$(s,t)$-vertex seperators $S' \subseteq V$ follows that $c(S) \le c(S')$.
+is a vertex separator for non-adjacent vertices $s \in V$ and $t \in V$ if the
+removal of $S$ from graph $G$ separates $s$ and $t$ ($s$ not \emph{reachable} from $t$).
+A vertex separator $S$ is a minimum-weight $(s,t)$-vertex separator, if for all 
+$(s,t)$-vertex separators $S' \subseteq V$ follows that $c(S) \le c(S')$.
 \end{definition}
 
-We can calculate a minimum-weight $(s,t)$-vertex seperator with a maximum flow
+We can calculate a minimum-weight $(s,t)$-vertex separator with a maximum flow
 calculation on the following flow network \cite{west2001introduction}:
 
 \begin{definition}
@@ -143,13 +143,13 @@ $T_V$ is defined as follows:
 \end{enumerate} 
 \end{definition}
 
-The vertex seperator problem and transformation $T_V(G)$ are illustrated in \autoref{img:vertex_seperator_example}.
-Obviously no edge between two adjacent nodes can be in a minimum-capacity $(s,t)$-cutset of $T_V(G)$,
+The vertex separator problem and transformation $T_V(G)$ is illustrated in \autoref{img:vertex_seperator_example}.
+Obviously, no edge between two adjacent nodes can be in a minimum-capacity $(s,t)$-cutset of $T_V(G)$,
 because for all those edges the capacity is $\infty$. Therefore, the cutset must consist
-of edges of the form $(v',v'')$. A minimum-weight $(s,t)$-vertex seperator can be calculated with
+of edges of the form $(v',v'')$. A minimum-weight $(s,t)$-vertex separator can be calculated with
 the following algorithm:
 \begin{enumerate}
-\item Calculate a maximum flow  on $T_V(G)$
+\item Calculate a maximum flow of $T_V(G)$
 \item Find the corresponding minimum $(s,t)$-cutset.
 \item Map each cut edge $(v',v'')$ to the corresponding node $v$ in $G$
 \end{enumerate}
@@ -163,8 +163,8 @@ $c(s,s') = c(t',t) = \infty$.
 \begin{figure}
 \centering
 \includegraphics[width=0.9\textwidth]{../img/maximum_flow/vertex_seperator_example.eps}
-\caption{ Illustration of the vertex seperator problem and the transformation $T_V(G)$ in which
-          we can find a minimum vertex seperator with maximum flow computation. }
+\caption{ Illustration of the vertex separator problem and the transformation $T_V(G)$ in which
+          we can find a minimum vertex separator with maximum flow computation. }
 \label{img:vertex_seperator_example}
 \end{figure}
 
@@ -189,7 +189,7 @@ c(V') = \sum_{v \in V'} c(v) \\
 \omega(E') = \sum_{e \in E'} \omega(e)
 \end{align*}
 
-A vertex $v$ is \emph{incident} to a hyperedge $e$, if $v \in e$.
+A vertex $v$ is \emph{incident} to a hyperedge $e$ if $v \in e$.
 Two vertices $u$ and $v$ are \emph{adjacent}, if there exists an 
 $e \in E$ such that $u,v \in e$. $I(v)$ denotes the set of all 
 \emph{incident} nets of $v$. The \emph{degree} of a hypernode 
@@ -203,7 +203,7 @@ induced by $V' \subseteq V$ with $E_{V'} = \{e \cap V'\ |\ e \in E: e
 \end{definition}
 
 A hypergraph $H = (V,E,c,\omega)$ can be represented as an undirected graph. 
-There are two common transformations, called \emph{clique} and \emph{bipartite} 
+There are two standard transformations, called \emph{clique} and \emph{bipartite} 
 representation \cite{HuMoerder85}. The \emph{clique} graph $G_x(H) = (V,E_x)$ models
 each net $e$ as a clique between its pins. The \emph{bipartite} graph $G_*(H) = 
 (V \cup E, E_*)$ contains all hypernodes and hyperedges as nodes and connects each
@@ -236,13 +236,13 @@ $e$ with $V_i,V_j \in \Lambda(e,\Pi)$.
 
 \begin{definition}
 For a $k$-way partition $\Pi = \{V_1,\ldots,V_k\}$ of a hypergraph $H$ 
-the quotient graph $Q = (\Pi,E')$ is a undirected graph containing an 
+the quotient graph $Q = (\Pi,E')$ is an undirected graph containing an 
 edge between each pair of adjacent blocks of $\Pi$.
 More formal, $E' = \{(V_i,V_j)\ |\ \exists e \in E: V_i,V_j \in \Lambda(e,\Pi)\}$
 \label{def:quotient_graph}
 \end{definition}
 
-We say a $k$-way partition is $\epsilon$-balanced, if each block 
+We say a $k$-way partition is $\epsilon$-balanced if each block 
 $V_i \in \Pi$ satisfies the \emph{balance constraint} 
 $c(V_i) \le (1+\epsilon)\lceil\frac{c(V)}{k}\rceil$.
 
@@ -252,7 +252,7 @@ partition $\Pi$ of a hypergraph $H$ such that a certain objective function is mi
 \label{def:kway_partitioning_problem}
 \end{definition}
 
-There exists several objective function in the hypergraph partitioning context,
+There exists several objective functions in the hypergraph partitioning context,
 which should either be minimized or maximized. The most popular objective function 
 is the $\text{cut}$ metric (especially for \emph{graph partitioning}), which is defined as
 \[\omega_H(\Pi) = \sum_{e \in E(\Pi)} \omega(e)\]

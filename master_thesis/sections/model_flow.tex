@@ -82,7 +82,7 @@ those edges $e$ the capacity $c(e) = \infty$. If $S' \cap T' = \emptyset$ every
 minimum-capacity $(S,T)$-cutset in $G$ is equal with a minimum-capacity $(S',T')$-cutset
 in $G'$. 
 Each $(S,T)$-cutset in $G$ is also a $(S',T')$-cutset in $G'$ and vice versa.
-If the minimum-capacity $(S,T)$-cutset in $G$ is $\infty$, every cutset seperating
+If the minimum-capacity $(S,T)$-cutset in $G$ is $\infty$, every cutset separating
 $(S,T)$ resp. $(S',T')$ is a minimum $(S,T)$- resp. $(S',T')$-cutset.
 \end{proof}
 
@@ -107,30 +107,30 @@ $T' = T \setminus V'\ \cup \bigcup\limits_{e \in I(V'\cap T)} \{e''\}$.
 Consider again the bipartite graph representation $G_* = (V_*,E_*,c_*)$ 
 of a hypergraph $H = (V,E,c,\omega)$ presented in Section \ref{sec:hypergraph} and \ref{sec:related_lawler}, 
 where for all $v \in V: c_*(v) = \infty$ and for all $e \in E: c_*(e) = 
-\omega(e)$. A minimum-weight $(S,T)$-vertex seperator in $G_*$ is equal
-with a minimum-weight $(S,T)$-cutset in $H$. A minimum-weight $(S,T)$-vertex seperator can be calculated
+\omega(e)$. A minimum-weight $(S,T)$-vertex separator in $G_*$ is equal
+with a minimum-weight $(S,T)$-cutset in $H$. A minimum-weight $(S,T)$-vertex separator can be calculated
 by finding a minimum-capacity $(S,T)$-cutset in \ShortT{L}. Let $G_H$ be the graph obtained by removing
 all $v \in V'\setminus (S \cup T)$ of $G_*$ and adding a clique between all $e \in I(v)$. 
-A minimum-weight $(S,T)$-vertex seperator in $G_H$ can be calculated by finding a 
+A minimum-weight $(S,T)$-vertex separator in $G_H$ can be calculated by finding a 
 minimum-capacity $(S,T)$-cutset in our new network \ShortExT{H}{V'\setminus (S \cup T)}.
-We will show that each vertex seperator in $G_*$ is also a vertex seperator in $G_H$ and
+We will show that each vertex separator in $G_*$ is also a vertex separator in $G_H$ and
 vice versa. Finally, with Lemma \ref{lemma:lemma1} follows our assumption. We will 
-denote a vertex seperator of a graph $G$ with $\V{G}$ and define $V'' := V' \setminus (S \cup T)$. 
+denote a vertex separator of a graph $G$ with $\V{G}$ and define $V'' := V' \setminus (S \cup T)$. 
 We will show, that $\V{G_*} = \V{G_H}$ with the restriction $\V{G_*} \subseteq E$ and
 $\V{G_H} \subseteq E$.
 
-Assume that $\V{G_*} \subseteq E$ is not a vertex seperator in $G_H$. After removing all $e \in \V{G_*}$ in
+Assume that $\V{G_*} \subseteq E$ is not a vertex separator in $G_H$. After removing all $e \in \V{G_*}$ in
 $G_H$, there exists still a path $P_H = \{v_1, \ldots, v_k\}$ with $v_1 \in S$ and
 $v_k \in T$ in $G_H$. We can extend $P_H$ to a path $P_*$ in $G_*$.
 We define $P_* := P_H$ and replaces every occurence of a sequence $v_i = e_1 \in E$ and
 $v_{i+1} = e_2 \in E$ with a triple $(e_1,v,e_2)$ in $P_*$, where $v \in e_1 \cap e_2 \cap V''$
 (not empty per construction). $P_*$ not contain any vertex of $\V{G_*}$, because
 we have removed all hyperedge nodes $e \in \V{G_*}$ from $G_H$ before construction of $P_*$ 
-and a hypernode is not part of  the vertex seperator $\V{G_*} \subseteq E$ per defintion. 
+and a hypernode is not part of  the vertex separator $\V{G_*} \subseteq E$ per defintion. 
 $P_*$ connects $S$ and $T$ in $G_*$, which is a contradiction that $\V{G_*}$ 
-is a vertex seperator in $G_*$.
+is a vertex separator in $G_*$.
 
-Assume that $\V{G_H} \subseteq E$ is not a vertex seperator in $G_*$. After removing all $e \in \V{G_H}$ in
+Assume that $\V{G_H} \subseteq E$ is not a vertex separator in $G_*$. After removing all $e \in \V{G_H}$ in
 $G_*$, there exists still a path $P_* = \{v_1, \ldots, v_k\}$ with $v_1 \in S$ and
 $v_k \in T$ in $G_*$. We can extend $P_*$ to a path $P_H$ in $G_H$.
 We define $P_H := P_*$ and remove all $v \in P_* \cap V''$ from $P_H$. $G_*$ is a bipartite
@@ -140,13 +140,13 @@ $e_1$ and $e_2$. If $v \in V''$, then $v$ is not contained $G_H$. Instead, there
 a clique between all $e \in I(V) \Rightarrow$ $(e_1,e_2)$ is contained in $G_H$.
 $P_H$ not contain any vertex of $\V{G_H}$, because we have removed all hyperedge nodes $e \in \V{G_H}$ 
 from $G_*$. $P_H$ connects $S$ and $T$ in $G_H$, which is a contradiction that 
-$\V{G_H}$ is a vertex seperator in $G_H$.
+$\V{G_H}$ is a vertex separator in $G_H$.
 
-A minimum-weight $(S,T)$-vertex seperator in $G_*$ and $G_H$ only contains hyperedges, because
+A minimum-weight $(S,T)$-vertex separator in $G_*$ and $G_H$ only contains hyperedges, because
 the weight of all hypernodes in $G_*$ and $G_H$ is $\infty$. Therefore, each minimum
-$(S,T)$-vertex seperator in $G_*$ is also a minimum-weight $(S,T)$-vertex seperator in $G_H$,
+$(S,T)$-vertex separator in $G_*$ is also a minimum-weight $(S,T)$-vertex separator in $G_H$,
 because $c(\V{G_*}) = c(\V{G_H})$. With Lemma \ref{lemma:lemma1} follows that
-a minimum-weight $(S,T)$-vertex seperator in $G_*$ resp. $G_H$  can be determined by 
+a minimum-weight $(S,T)$-vertex separator in $G_*$ resp. $G_H$  can be determined by 
 calculating a minimum-capacity $(S',T')$-cutset in \ShortT{L} resp. \ShortExT{H}{V'}. 
 Therefore, there exists a equivalence between a minimum-weight $(S,T)$-cutset 
 $E_{min}$ of $H$ and the following statements: 
@@ -154,10 +154,10 @@ $E_{min}$ of $H$ and the following statements:
 $E_{min}$ is a minimum-$\ldots$
 \begin{enumerate}
 \item $\ldots$-weight $(S,T)$-cutset in $H$
-\item $\ldots$-weight $(S,T)$-vertex seperator in $G_*$
+\item $\ldots$-weight $(S,T)$-vertex separator in $G_*$
 \item $\ldots$-capacity $(S,T)$-cutset in \ShortT{L}
 \item $\ldots$-capacity $(S',T')$-cutset in \ShortT{L} (follows from (iii) with Lemma \ref{lemma:lemma1})
-\item $\ldots$-weight $(S,T)$-vertex seperator in $G_H$
+\item $\ldots$-weight $(S,T)$-vertex separator in $G_H$
 \item $\ldots$-capacity $(S,T)$-cutset in \ShortExT{H}{V''}
 \item $\ldots$-capacity $(S',T')$-cutset in \ShortExT{H}{V'} (follows from (vi) with Lemma \ref{lemma:lemma1})
 \end{enumerate}
