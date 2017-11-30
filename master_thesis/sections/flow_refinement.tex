@@ -337,6 +337,23 @@ an improved cut quality of the minimum $(S,T)$-bipartition of the original hyper
          and \ref{T_final_border_hyperedges}. }
 \label{img:st_modelling_summary}
 \end{figure}
+In Section \ref{sec:edge_size_network} we described how to remove hyperedges of size $|e| = 2$ 
+by adding an undirected flow edge between the corresponding vertices $u,v \in e$. However, if
+the incomming or outgoing hyperedge node is a source or a sink node, we can not directly
+remove the hyperedge nodes. There are two special cases which are illustrated
+in \autoref{img:edge_size_two}. This situation occurs if one of the two vertices is part
+of the flow problem and one not. In case, if the incomming hyperedge node $e'$ is a source node, 
+we only remove the outgoing hyperedge node $e''$ and add a directed flow edge from $e'$ 
+to $v$ with capacity $\omega(e)$. In the second case, if the outgoing hyperedge node $e''$ is
+a sink node, we only remove the incomming hyperedge node $e'$ and add a directed flow edge from
+$v$ to $e''$ with capacity $\omega(e)$.
+\begin{figure}[ht!]
+\centering
+\includegraphics[width=0.95\textwidth]{../img/source_and_sink_set/edge_size_two.eps}
+\caption{Illustration of modelling hyperedges of size two if the incomming or outgoing
+         hyperedge node is a source or a sink node of the flow problem.}
+\label{img:edge_size_two}
+\end{figure}
 
 With the given approach we are able to optimize the cut metric of a given
 bipartition of a hypergraph $H$. We can transfer those results in order to improve

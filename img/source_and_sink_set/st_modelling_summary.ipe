@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE ipe SYSTEM "ipe.dtd">
 <ipe version="70107" creator="Ipe 7.1.10">
-<info created="D:20171009143434" modified="D:20171019123427"/>
+<info created="D:20171009143434" modified="D:20171130085604"/>
 <ipestyle name="basic">
 <symbol name="arrow/arc(spx)">
 <path stroke="sym-stroke" fill="sym-stroke" pen="sym-pen">
@@ -773,5 +773,33 @@ h
 <text matrix="1 0 0 1 576 16" transformations="translations" pos="368 1584" stroke="KITblack" type="label" width="81.635" height="17.215" depth="4.78" valign="baseline" size="Huge">$e \in \delta B_2$</text>
 <text matrix="1 0 0 1 576 -112" transformations="translations" pos="368 1584" stroke="KITblack" type="label" width="81.635" height="17.215" depth="4.78" valign="baseline" size="Huge">$e \in \delta B_3$</text>
 <text matrix="1 0 0 1 576 -240" transformations="translations" pos="368 1584" stroke="KITblack" type="label" width="81.635" height="17.215" depth="4.78" valign="baseline" size="Huge">$e \in \delta B_3$</text>
+<path stroke="black" rarrow="normal/normal">
+816 1568 m
+768 1568 l
+</path>
+<path matrix="1 0 0 1 0 -128" stroke="black" rarrow="normal/normal">
+816 1568 m
+768 1568 l
+</path>
+<path matrix="1 0 0 1 0 -256" stroke="black" rarrow="normal/normal">
+816 1568 m
+768 1568 l
+</path>
+<path matrix="1 0 0 1 0 -384" stroke="black" rarrow="normal/normal">
+816 1568 m
+768 1568 l
+</path>
+<path matrix="1 0 0 1 576 0" stroke="black" rarrow="normal/normal">
+816 1568 m
+768 1568 l
+</path>
+<path matrix="1 0 0 1 576 -128" stroke="black" rarrow="normal/normal">
+816 1568 m
+768 1568 l
+</path>
+<path matrix="1 0 0 1 576 -256" stroke="black" rarrow="normal/normal">
+816 1568 m
+768 1568 l
+</path>
 </page>
 </ipe>
