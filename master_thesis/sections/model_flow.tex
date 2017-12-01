@@ -400,21 +400,20 @@ a flow network \Hybrid, where $V' = \{v \in V_d(3)\ |\ \forall e \in I(v): |e| \
 \autoref{img:transformation_chain} summarizes all explained transformations of this section.
 The proof of \autoref{theorem:st_cutset_equal_graph} can be used one-to-one to show that a minimum-capacity
 $(S',T')$-cutset of \ShortExT{H}{V'} is equal with a minimum-capacity $(S',T')$-cutset of \ShortHybrid~
-(for definition of $S'$ and $T'$ see \autoref{theorem:st_cutset_equal}). It follows with Lemma \ref{lemma:lemma1}
+(for definition of $S'$ and $T'$ see \autoref{theorem:st_cutset_equal}). It follows with Lemma \ref{lemma:source_and_sink_removal}
 that this is equal with a minimum-weight $(S,T)$-cutset of $H$. \\
 Per definition of \ShortHybrid~we prefer a hyperedge removal over a hypernode removal. E.g., if
 a hypernode has a degree smaller or equal than $3$, we only remove it, if there is no hyperedge
 $e \in I(v)$ with $|e| = 2$. The reason is that a hyperedge removal always decrease the number of nodes
 and edges more than a hypernode removal. \\
-The minimum-weight $(S,T)$-cutset of $H$ can be calculated with the same technique described in Section
-\ref{sec:edge_size_network}. Let's define with $(A,V\setminus A)$ the corresponding bipartition.
-$A$ is the union of all reachable hypernodes from $S'$ and the union of
-all reachable \emph{outgoing hyperedge nodes} $e''$ from $S'$ (see Section \ref{sec:heuer_network} 
-and Lemma \ref{lemma:bipartition_construction}). 
-
-\begin{figure}
+\begin{figure}[ht!]
 \centering
 \includegraphics[width=0.95\textwidth]{../img/network_transformation/hybrid_transformation.eps}
 \caption{Illustration of all presented transformations of a hypergraph into a flow network.}
 \label{img:transformation_chain}
 \end{figure}
+The minimum-weight $(S,T)$-cutset of $H$ can be calculated with the same technique described in Section
+\ref{sec:edge_size_network}. Let $(A,V\setminus A)$ be the corresponding bipartition.
+$A$ is the union of all reachable hypernodes from $S'$ and the union of
+all reachable \emph{outgoing hyperedge nodes} $e''$ from $S'$ (see Section \ref{sec:heuer_network} 
+and Lemma \ref{lemma:bipartition_construction}). 
