@@ -1,12 +1,12 @@
-In this Secton we evaluate the performance of our flow-based refinement framework proposed
+In this Section, we evaluate the performance of our flow-based refinement framework proposed
 in Section \ref{sec:opt_flow_network} and \ref{sec:flow_refinement}. We examine
 the impact of our sparsifying techniques of the \emph{Lawler}-Network \cite{lawler1973} on the
 performance of a maximum flow algorithm (see Section \ref{sec:exp_flow_network}). Further,
 several configurations with different heuristics enabled or disabled are
-compared against the baseline configuration of \emph{KaHyPar} in order to optimally
+compared against the baseline configuration of \emph{KaHyPar} to optimally
 configure our flow-based refinement algorithm (see Section \ref{sec:flow_configuration} and
 \ref{sec:speed_up}). Finally, we compare our final configuration against other
-state-of-the-art hypergraph partitioner (see Section \ref{sec:final_comparison}).
+state-of-the-art hypergraph partitioners (see Section \ref{sec:final_comparison}).
 
 
 \subsection{Instances}
@@ -15,19 +15,19 @@ Our full benchmark set consists of $488$ hypergraphs. We choose our benchmarks
 from three different research areas. For VLSI design we use instances from
 the \emph{ISPD98 VLSI Circuit Benchmark Suite} (\ISPD) \cite{alpert1998ispd98} and add more recent
 instances of the \emph{DAC 2012 Routability-Driven Placement Contest} (\DAC) \cite{viswanathan2012dac}.
-Further, we interprete the Sparse Matrix instances of the \emph{Florida Sparse Matrix 
+Further, we interpret the Sparse Matrix instances of the \emph{Florida Sparse Matrix 
 collection} (\SPM) \cite{davis2011university} as hypergraphs using the row-net model \cite{catalyurek1999hypergraph}.
 The rows of each matrix are treated as hyperedges and the columns are the vertices of
 the hypergraph. Our last benchmark type are SAT formulas of the \emph{International SAT
 Competition 2014} \cite{belov2014application}. A common interpretation of a SAT formula 
-as hypergraph is to interprete the literals as vertices and each clause as a net (\Literal) \cite{papa2007hypergraph}.
+as hypergraph is to interpret the literals as vertices and each clause as a net (\Literal) \cite{papa2007hypergraph}.
 Mann and Papp \cite{mann2014formula} suggested two other hypergraph representation of
 SAT formulas, called \Primal~and \Dual. The \Primal~representation treats each variable
 as vertex and each clause as hyperedge. The \Dual~representation treats each clause as
 vertex and the variables induced nets containing all clauses where the corresponding
-variable occurs. A statiscal summary of the different instance types is presented in
+variable occurs. A statistical summary of the different instance types is presented in
 Table \ref{tbl:full_benchmark_set}. \\
-We divide our full benchmark set in two smaller subsets. Our \emph{parameter tunning}
+We divide our full benchmark set into two smaller subsets. Our \emph{parameter tuning}
 benchmark set consists of $25$ hypergraphs, $5$ of each instance type (except \DAC). Additionally,
 we choose a benchmark subset of $165$ instances. On our general experiments we partition
 each hypergraph into $k \in \{2,4,8,16,32,64,128\}$ blocks and use for each $k$ $10$ different
@@ -47,18 +47,18 @@ We compare \KaHyPar{MF} against the state-of-the-art hypergraph partitioner \emp
 \cite{karypis1999multilevel,karypis2000multilevel} and \emph{PaToH} \cite{catalyurek1999hypergraph}.
 \emph{hMetis} provides a direct $k$-way (\hMetis{K}) and recursive bisection (\hMetis{R}) implementation.
 Further, we also use the default configuration (\PaToH{D}) and quality preset (\PaToH{Q}) of
-\emph{PaToH}. We configure \emph{hMetis} to optimize the \emph{sum-of-externel-degree}-metric
+\emph{PaToH}. We configure \emph{hMetis} to optimize the \emph{sum-of-external-degree}-metric
 (SOED) and calculate $(\lambda-1)(\Pi) = \text{SOED}(\Pi) - \text{cut}(\Pi)$. This is also
 suggested by the authors of \emph{hMetis} \cite{karypis2000multilevel}. Further, we have
 to adapt the imbalance definition of \hMetis{R}. An imbalance value of $5$ means that the weight
-of each bisected block is allowed to be between $0.45 \cdot c(V)$ and $0.55 \cdot c(V)$. In order
-to ensure that \hMetis{R} produces a valid $\epsilon$-balanced partition after $\log_2(k)$
+of each bisected block is allowed to be between $0.45 \cdot c(V)$ and $0.55 \cdot c(V)$.
+To ensure that \hMetis{R} produces a valid $\epsilon$-balanced partition after $\log_2(k)$
 bisections we have to adapt $\epsilon$ to
 \[\epsilon' = 100 \cdot \Bigg( \left( (1 + \epsilon) \frac{\lceil \frac{c(V)}{k} \rceil}{c(V)} \right)^{\frac{1}{\log_2(k)}} - 0.5 \Bigg)\]
-If we evaluate the performance of our hypergraph partitioner 
+If we evaluate the performance of our hypergraph partitioner,
 we first calculate the average (or minimum) of the different \emph{seeds} of a hypergraph
-instance and than the \emph{geometric mean} between all instances in order to give every instance
-comparable influence on the final result. In order to compare the performance of different 
+instance and then the \emph{geometric mean} between all instances to give every instance
+comparable influence on the final result. To compare the performance of different 
 hypergraph partitioner more detailed we use performance plots introduced in \cite{schlag2016k}.
 For each partitioner $P$ and instance $H$ we calculate the values $q_{H,P} := 1 - \text{best$_H$}/\text{algorithm$_{H,P}$}$ 
 where $\text{best$_{H}$}$ is the best quality achieved by a partitioner for instance $H$ and
@@ -71,30 +71,30 @@ of a partitioner $P$ is not $\epsilon$-balanced we set $q_{H,P} = 1 + \beta$ (wi
 \subsection{Flow Algorithms and Networks}
 \label{sec:exp_flow_network}
 
-In the first experiment we want examine the impact of our sparsifying techniques (see Section \ref{sec:opt_flow_network})
+In the first experiment, we want to examine the impact of our sparsifying techniques (see Section \ref{sec:opt_flow_network})
 on the performance of our maximum flow algorithms \GoldbergTarjan~and \EdmondKarp. 
 Therefore, we first take a look at the reduction of the number of nodes and edges on different benchmark types
 when using $\ExpLawler$ (see Section \ref{sec:related_lawler}), $\ExpNodeDegree$ (see Section 
 \ref{sec:degree_network}), $\ExpEdgeSize$ (see Section \ref{sec:edge_size_network})
-and $\ExpHybrid$ (see Section \ref{sec:hybrid_network}) . Further, we
+and $\ExpHybrid$ (see Section \ref{sec:hybrid_network}). Further, we
 want to evaluate the performance of the two implemented maximum flow algorithms on these
 networks. \\
 We evaluate the performance of the different flow networks on flow problems with size
 $|V'| \in \{500,1000,5000,10000,25000\}$ hypernodes. The instances are generated by executing
 \emph{KaHyPar} on our benchmark subset (see Table \ref{tbl:benchmark_subset}) for $k = 2$ and five different 
 seeds. After an instance is bipartitioned, we generate flow problem instances
-with the above mentioned sizes and execute each possible combination of flow algorithm and
+with the above-mentioned sizes and execute each possible combination of flow algorithm and
 network on it. \\
-The benchmark instances can be splitted into $6$ different benchmark types. The properties of these instances
-in terms of the average hypernode degree and average hyperedge size is shown in \autoref{tbl:benchmark_subset}.
+The benchmark instances can be split into $6$ different benchmark types. The properties of these instances
+regarding the average hypernode degree and average hyperedge size is shown in \autoref{tbl:benchmark_subset}.
 Remember, $\ExpEdgeSize$ should perform best on instances with a small average hyperedge size and
-$\ExpNodeDegree$ should perform best on instances with a small average hypernode degree. Based on 
+$\ExpNodeDegree$ should perform best on instances with a low average hypernode degree. Based on 
 \autoref{tbl:benchmark_subset}, $\ExpEdgeSize$ should significantly reduce the number of
 nodes and edges on \Primal~and \Literal~instances and $\ExpNodeDegree$ on \Dual~instances in
-comparison to a our baseline $\ExpLawler$. Also both should sparsify the resulting flow network
+comparison to our baseline $\ExpLawler$. Also both should sparsify the resulting flow network
 of \ISPD~and \DAC~instances. Further, we expect that $\ExpHybrid$ combines the advantages of
-both networks and performs best on all bechmark instances.\\
-\autoref{fig:node_edge_distribution}~shows the predicted behaviour for flow problems of size
+both networks and performs best on all benchmark instances.\\
+\autoref{fig:node_edge_distribution}~shows the predicted behavior for flow problems of size
 $25000$ hypernodes. $\ExpHybrid$ reduces the number of nodes of nearly every benchmark type 
 by at least a factor of $2$, except on \SPM~instances. Another observation is that instances 
 with a large average  hypernode degree, like \Primal~or \Literal, yield to big flow problem 
@@ -108,11 +108,11 @@ instances and vice versa (see \Dual~instances).\\
 \label{fig:node_edge_distribution}
 \end{figure} 
 In \autoref{fig:max_flow_network_algo} we compare the performance of our flow algorithms on
-different flow networks. The bars in the plot indicates speed ups relative to the flow algorithm
+different flow networks. The bars in the plot indicates speedups relative to the flow algorithm
 \EdmondKarp~on flow network $\ExpLawler$. The main observation is that \EdmondKarp~performs
 better on small flow network instances and \GoldbergTarjan~on large flow network instances. For $|V'| \le 1000$
-\EdmondKarp~is faster than \GoldbergTarjan~in most of different bechmark types. For
-$|V'| > 1000$ we can observe the opposite behaviour except for \DAC~and \Dual~instances. But the
+\EdmondKarp~is faster than \GoldbergTarjan~in most of the different benchmark types. For
+$|V'| > 1000$ we can observe the opposite behavior except for \DAC~and \Dual~instances. But the
 resulting flow problems of these instances are still the smallest among all benchmark types
 (see \autoref{fig:node_edge_distribution}). On the largest flow network instances \Primal~and
 \Literal~for $|V'| = 25000$ \GoldbergTarjan~is up to a factor of $4$-$7$ faster than \EdmondKarp.
@@ -120,18 +120,18 @@ Further, both algorithms perform best on $\ExpHybrid$.
 \begin{figure}
 \centering
 \input{experiments/flow_network/speed_up_flow_network.tex} %
-\caption{Speed up of our flow algorithms and networks relative to \EdmondKarp~on
+\caption{Speed-up of our flow algorithms and networks relative to \EdmondKarp~on
          $\ExpLawler$ for different instance sizes and types. The red dashed line indicates the
          $($\EdmondKarp$,\ExpLawler)$ implementation and the blue dashed line
-         indicates a speed up by a factor of $2$.}
+         indicates a speed-up by a factor of $2$.}
 \label{fig:max_flow_network_algo}
 \end{figure} 
 \autoref{tbl:flow_algo_network_summary}~shows the summary of our flow algorithm and network experiment
-on all benchmark instances. This proofs our assumption that \EdmondKarp~works best on small instances
+on all benchmark instances. It proofs our assumption that \EdmondKarp~works best on small instances
 and \GoldbergTarjan~on large instances. However, our \emph{Max-Flow-Min-Cut} computations
-are embedded in a \emph{Adapative Flow Iteration} strategy (see Section \ref{sec:adaptive_flow_iterations}).
+are embedded in an \emph{Adaptive Flow Iteration} strategy (see Section \ref{sec:adaptive_flow_iterations}).
 Therefore, the running time of flow instances generated with a large $\alpha$ will dominate the
-ones with small $\alpha$. Therefore, we choose \GoldbergTarjan~in combination with our flow network
+ones with small $\alpha$. Thus, we choose \GoldbergTarjan~in combination with our flow network
 $\ExpHybrid$ in the following experiments.
 \begin{table}
 \renewcommand{\arraystretch}{1.15}
@@ -155,9 +155,9 @@ $\ExpHybrid$ in the following experiments.
 \subsection{Configuration of the $k$-way Flow-based Refiner}
 \label{sec:flow_configuration}
 
-In this Section we examine the quality of our $k$-way flow-based refinement algorithm with
+In this Section, we examine the quality of our $k$-way flow-based refinement algorithm with
 different configurations on our parameter tuning benchmark subset (see Table \ref{tbl:parameter_tunning_set}).
-There are several configurations and tunning parameters which we have to evaluate:
+There are several configurations and tuning parameters which we have to evaluate:
 \begin{itemize}
 \item \emph{Max-(F)low-Min-Cut} computations as refinement algorithm (see Section \ref{sec:flow_local_search_hypergraph})
 \item \emph{Adaptive Flow Iteration} parameter $\alpha'$ (see Section \ref{sec:adaptive_flow_iterations})
@@ -165,14 +165,14 @@ There are several configurations and tunning parameters which we have to evaluat
 \item \emph{(M)ost Balanced Minimum Cut} heuristic (see Section \ref{sec:mbmc_hypergraphs})
 \item Combining \emph{Max-(F)low-Min-Cut} computations with \emph{(FM)} refinement
 \end{itemize}
-In the following we will denote a configuration e.g. with \FlowVariant{+}{-}{-}{-} which indicates
+In the following, we will denote a configuration e.g. with \FlowVariant{+}{-}{-}{-} which indicates
 which heuristic resp. technique is enabled $(+)$ or disabled $(-)$. The meaning of the 
-abbreviations are explained in the enumeration above (see letters inside parenthesis). We evaluate
+abbreviations is explained in the enumeration above (see letters inside parenthesis). We evaluate
 a configuration for $k \in \{2,4,8,16,32,64,128\}$, $\alpha' \in \{1,2,4,8,16\}$
 and $10$ different seeds on our parameter tuning benchmark subset ($\epsilon = 3\%$). 
 Our pairwise flow-based refinement is embedded in a $k$-way \emph{Active Block Scheduling}
 refinement which is executed on each level $i$ with $i = 2^j$ ($j \in \mathbb{N}_+$) 
-(see Section \ref{sec:flow_local_search_hypergraph}). As reference we use the 
+(see Section \ref{sec:flow_local_search_hypergraph}). As a reference, we use the 
 latest quality configuration of \emph{KaHyPar} (\KaHyPar{CA}) \cite{heuer2017improving}. \\
 The results are summarized in \autoref{tbl:alpha_exp}. The values
 in the column \emph{Avg} are improvements of the connectivity metric
@@ -181,30 +181,30 @@ time are absolute values in seconds. The first observation is that flows on
 its own as refinement strategy are not strong enough to outperform the
 \emph{FM} heuristic. Our strongest configuration with $\alpha' = 16$
 is $2.5\%$ worse than our \emph{FM} baseline. But the result 
-is still remarkable, because we only execute flows on $\log{n}$ levels
-instead on $n$ as the \emph{FM} algorithm does. The running time
+is still remarkable because we only execute flows on $\log{n}$ levels
+instead of $n$ as the \emph{FM} algorithm does. The running time
 scales nearly linear with parameter $\alpha'$. Using our improved source 
-and sink modelling approach with \emph{Cut Border Hyperedges} (see Equation
+and sink modeling approach with \emph{Cut Border Hyperedges} (see Equation
 \ref{S_final_border_hyperedges} and \ref{T_final_border_hyperedges})
 significantly improves the solution quality especially for small $\alpha'$.
 For small $\alpha$ most of the hypernodes are either a source or a sink. 
 Introducing \emph{Cut Border Hyperedges} reduces the number of hypernode
 sources and sinks by adding hyperedge sources and sinks. The quality 
-improvement with this technique is therefore more effective
-for small $\alpha'$, because it significantly increase the possibilities
+improvement with this technique is more effective
+for small $\alpha'$, because it significantly increases the possibilities
 of moving hypernodes between the blocks compared to the source and sink set
-modelling approach with Equation \ref{S_border_hyperedges} and \ref{T_border_hyperedges}.
-The opposite effect can be observed, if we use the \emph{Most Balanced Minimum Cut} heuristic
+modeling approach with Equation \ref{S_border_hyperedges} and \ref{T_border_hyperedges}.
+The opposite effect can be observed if we use the \emph{Most Balanced Minimum Cut} heuristic
 without \emph{Cut Border Hyperedges}. The quality improvement is more significant for large
 $\alpha'$. The larger the flow problem, the larger is the number of different minimum 
 $(S,T)$-cutsets and this increases the possibility to find a feasible solution according to 
 our balanced constraint. If we combine both techniques, we obtain a configuration which significantly
 improves the solution quality for all $\alpha'$ compared to our baseline flow configuration.
 Also it outperforms our baseline \emph{FM} configuration for $\alpha' = 16$ by $0.51\%$.
-If we enable \emph{FM} refinement in all levels where no flow is executed, we improve the solution
-quality by nearly $2\%$ (for $\alpha' = 16$). Also the running time of this variant is faster
-than all previous flow configurations, because we transfer more work to the \emph{FM} refinement.
-This has as consequence that a block becomes faster \emph{inactive} during \emph{Active Block 
+If we enable \emph{FM} refinement at all levels where no flow is executed, we improve the solution
+quality by nearly $2\%$ (for $\alpha' = 16$). Also, the running time of this variant is faster
+than all previous flow configurations because we transfer more work to the \emph{FM} refinement.
+It has as consequence that a block becomes faster \emph{inactive} during \emph{Active Block 
 Scheduling} and this decreases the number of rounds of complete pairwise flow-based refinements
 on the quotient graph.
 
@@ -218,13 +218,13 @@ on the quotient graph.
 $\alpha'$ & Avg.$[\%]$ & $t[s]$ & Avg.$[\%]$ & $t[s]$ & Avg.$[\%]$ & $t[s]$ \\
 \midrule%
 \csname @@input\endcsname experiments/flow_alpha/flow_alpha_table1.tex 
-\cmidrule[1.25pt]{1-5}%
- Config. & \multicolumn{2}{c||}{\FlowVariant{+}{+}{+}{-}} & \multicolumn{2}{c||}{\FlowVariant{+}{+}{+}{+}} \\
-\cmidrule{1-5}
-$\alpha'$ & Avg.$[\%]$ & $t[s]$ & Avg.$[\%]$ & $t[s]$ \\
-\cmidrule{1-5}%
+\midrule[1.25pt]%
+ Config. & \multicolumn{2}{c||}{\FlowVariant{+}{+}{+}{-}} & \multicolumn{2}{c||}{\FlowVariant{+}{+}{+}{+}} & \multicolumn{2}{c|}{\Constant{128}} \\
+\midrule
+$\alpha'$ & Avg.$[\%]$ & $t[s]$ & Avg.$[\%]$ & $t[s]$ & Avg.$[\%]$ & $t[s]$ \\
+\midrule%
 \csname @@input\endcsname experiments/flow_alpha/flow_alpha_table2.tex 
-\cmidrule{1-5}
+\bottomrule
 \end{tabular}
 \caption{ Table contains results for different configurations of our flow algorithm with
           increasing $\alpha'$. }
@@ -236,7 +236,7 @@ $\alpha'$ & Avg.$[\%]$ & $t[s]$ & Avg.$[\%]$ & $t[s]$ \\
 \subsection{Speed-Up Heuristics}
 \label{sec:speed_up}
 
-At the end of Section \ref{sec:flow_local_search_hypergraph} we present several heuristics
+At the end of Section \ref{sec:flow_local_search_hypergraph}, we present several heuristics
 to prevent unnecessary flow executions during \emph{Active Block Scheduling} ((R1)-(R3)).
 The main assumption is that only a minority of \emph{Max-Flow-Min-Cut} computations
 lead to an improvement on $H$. To prove that we execute \KaHyPar{MF} on our benchmark subset
@@ -245,11 +245,11 @@ Table \ref{tbl:heuristics} summarizes the results of the experiment. \KaHyPar{CA
 best configuration of \emph{KaHyPar} and \KaHyPar{MF} is our baseline flow configuration of
 Section \ref{sec:flow_configuration}. The index of the remaining variants of \KaHyPar{MF} 
 describes which speed-up heuristics are enabled (see Section \ref{sec:flow_local_search_hypergraph}).
-On average, enabling all speed up heuristics worsen the quality of \KaHyPar{MF} only by 
-$0.09\%$. On the other hand the \emph{Max-Flow-Min-Cut} computations are significantly faster 
+On average, enabling all speed-up heuristics worsen the quality of \KaHyPar{MF} only by 
+$0.09\%$. On the other hand, the \emph{Max-Flow-Min-Cut} computations are significantly faster 
 by a factor of $\approx 2$. In its final configuration \KaHyParConfig{MF}{R1,R2,R3} computes 
 partitions with $2\%$ better quality ($(\lambda - 1)$-metric) than \KaHyPar{CA} by a 
-slowdown only of a factor of $\le 2$. In the following we will denote our final 
+slowdown only of a factor of $\le 2$. In the following, we will denote our final 
 configuration \KaHyParConfig{MF}{R1,R2,R3} with \KaHyPar{MF}.
 
 \begin{table}
@@ -262,7 +262,7 @@ Variant & Avg.$[\%]$ & Min.$[\%]$ & $t_{\text{flow}}[s]$ & $t[s]$ \\
 \csname @@input\endcsname experiments/speed_up_heuristics/heuristic_table.tex 
 \bottomrule
 \end{tabular} 
-\caption{Table shows results for our flow algorithm with different speed up heuristics.}
+\caption{Table shows results for our flow algorithm with different speed-up heuristics.}
 \label{tbl:heuristics}
 \end{table}
 
@@ -276,18 +276,12 @@ excluded instances are shown in Table \ref{tbl:excluded}. \\
 \autoref{fig:final_flow}~summarizes the results of the experiment. \KaHyPar{MF}
 produced on $\approx 70\%$ of all benchmark instances the best partition. It is followed by
 \hMetis{R} ($14\%$), \hMetis{K} ($11\%$), \KaHyPar{CA} ($2.4\%$),
-\PaToH{Q} ($1.9\%$) and \PaToH{D} ($1.4\%$). Since \KaHyPar{MF} build on top 
-of \KaHyPar{CA} it outperforms \KaHyPar{CA} on most of the instances. Comparing \KaHyPar{MF} 
-individually with each partitioner, \KaHyPar{MF} produced better partitions than ...
-\begin{itemize}
-\item ...\KaHyPar{CA} in $96\%$ of the instances.
-\item ...\hMetis{R} in $80\%$ of the instances.
-\item ...\hMetis{K} in $82\%$ of the instances.
-\item ...\PaToH{Q} in $95\%$ of the instances.
-\item ...\PaToH{D} in $95\%$ of the instances.
-\end{itemize}
-Especially on \emph{VLSI} instances \KaHyPar{MF} calculates significantly better partitions
-than all other hypergraph partitioner (see \DAC~and \ISPD~in \autoref{fig:final_flow}).\\
+\PaToH{Q} ($1.9\%$) and \PaToH{D} ($1.4\%$). Since \KaHyPar{MF} builds on top 
+of \KaHyPar{CA}, it outperforms \KaHyPar{CA} on most of the instances. Comparing \KaHyPar{MF} 
+individually with each partitioner, \KaHyPar{MF} produced better partitions than \KaHyPar{CA},
+\hMetis{R}, \hMetis{K}, \PaToH{Q}, \PaToH{Q} in $96\%$, $80\%$, $82\%$, $95\%$, $95\%$ cases.
+Especially on \emph{VLSI} instances, \KaHyPar{MF} calculates significantly better partitions
+than all other hypergraph partitioners (see \DAC~and \ISPD~in \autoref{fig:final_flow}).\\
 \begin{figure}
 \centering
 \input{experiments/final_flow/fullset.tex} %
@@ -295,7 +289,7 @@ than all other hypergraph partitioner (see \DAC~and \ISPD~in \autoref{fig:final_
          other systems. The plots are explained in Section \ref{sec:methodology}.}
 \label{fig:final_flow}
 \end{figure} 
-Table \ref{tbl:running_time} shows the running time of all partitioner on the different benchmark
+Table \ref{tbl:running_time} shows the running time of all partitioner on different benchmark
 types. The running time of \KaHyPar{MF} is within a factor of $2$ slower than \KaHyPar{CA} and
 is comparable to the running time of \hMetis{K}. 
 \begin{table}[ht!]

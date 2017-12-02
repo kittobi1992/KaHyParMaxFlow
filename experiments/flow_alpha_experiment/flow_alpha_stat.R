@@ -5,9 +5,10 @@ dbs <- c( "flow_alpha_experiment/db/flow.db",
           "flow_alpha_experiment/db/flow_cut_he.db",
           "flow_alpha_experiment/db/flow_mbmc.db",
           "flow_alpha_experiment/db/flow_cut_he_mbmc.db",
-          "flow_alpha_experiment/db/flow_fm.db")
+          "flow_alpha_experiment/db/flow_fm.db",
+          "flow_alpha_experiment/db/constant.db")
 
-algo <- c( "flow","flow_cut_he","flow_mbmc","flow_cut_he_mbmc","flow_fm")
+algo <- c( "flow","flow_cut_he","flow_mbmc","flow_cut_he_mbmc","flow_fm","constant")
 
 select_km1_soed = 'select graph,k,epsilon,flow_region_size_alpha AS alpha, seed,km1,soed,imbalance,coarseningTime,uncoarseningRefinementTime, totalPartitionTime from experiments'
 select_km1 = 'select graph,k,epsilon,flow_region_size_alpha AS alpha,seed,1 AS soed, kMinusOne AS km1, imbalance,coarseningTime,uncoarseningRefinementTime, totalPartitionTime from experiments'
@@ -53,6 +54,15 @@ for(i in 1:length(dbs)) {
  flow_mbmc <- flow_dbs[[3]]
  flow_cut_he_mbmc <- flow_dbs[[4]]
  flow_fm <- flow_dbs[[5]]
+ constant <- flow_dbs[[6]]
+ 
+ kahypar_sea <- kahypar_sea[!(kahypar_sea$graph == "sat14_dated-10-17-u.cnf.dual.hgr" & kahypar_sea$k > 32),]
+ flow <- flow[!(flow$graph == "sat14_dated-10-17-u.cnf.dual.hgr" & flow$k > 32),]
+ flow_cut_he <- flow_cut_he[!(flow_cut_he$graph == "sat14_dated-10-17-u.cnf.dual.hgr" & flow_cut_he$k > 32),]
+ flow_mbmc <- flow_mbmc[!(flow_mbmc$graph == "sat14_dated-10-17-u.cnf.dual.hgr" & flow_mbmc$k > 32),]
+ flow_cut_he_mbmc <- flow_cut_he_mbmc[!(flow_cut_he_mbmc$graph == "sat14_dated-10-17-u.cnf.dual.hgr" & flow_cut_he_mbmc$k > 32),]
+ flow_fm <- flow_fm[!(flow_fm$graph == "sat14_dated-10-17-u.cnf.dual.hgr" & flow_fm$k > 32),]
+ constant <- constant[!(constant$graph == "sat14_dated-10-17-u.cnf.dual.hgr" & constant$k > 32),]
  
  ############################################################################################
  
@@ -68,7 +78,8 @@ for(i in 1:length(dbs)) {
    ref <- ddply(kahypar,c(),aggreg)
    ref_vec <- c("Ref.", "\\multicolumn{2}{c||}{\\FlowVariant{-}{-}{-}{+}}", 
                          to_latex_math_mode(round(ref$gmean_km1[1], digits=2)), 
-                         to_latex_math_mode(round(ref$gmean_time[1],digits=2)))
+                         to_latex_math_mode(round(ref$gmean_time[1],digits=2)),
+                         "\\multicolumn{2}{c||}{}")
 
    alpha_vec <- list(c(1),c(2),c(4),c(8),c(16))
    for(df in dataframes) {
@@ -94,7 +105,7 @@ for(i in 1:length(dbs)) {
  sink("../master_thesis/experiments/flow_alpha/flow_alpha_table1.tex")
  flow_alpha_table(kahypar_sea, flow, flow_cut_he, flow_mbmc)
  sink("../master_thesis/experiments/flow_alpha/flow_alpha_table2.tex")
- flow_alpha_table(kahypar_sea, flow_cut_he_mbmc, flow_fm)
+ flow_alpha_table(kahypar_sea, flow_cut_he_mbmc, flow_fm, constant)
  sink()
  
  

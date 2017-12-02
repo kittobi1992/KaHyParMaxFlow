@@ -4,12 +4,12 @@ a flow network \ShortT{L} such that every minimum-weight $(S,T)$-cutset in $H$ i
 minimum-capacity $(S,T)$-cutset in \ShortT{L} \cite{lawler1973}. However, the resulting flow
 network has significantly more nodes and edges than the original hypergraph. Finding a
 maximum $(S,T)$-flow is usually a very computation intensive task. 
-Therefore, different modelling approaches, which reduce the number of nodes and edges,
+Therefore, different modeling approaches, which reduce the number of nodes and edges,
 can have a crucial impact on the running time of the flow algorithm. \\
 We will present techniques to sparsify the flow network 
 proposed by Lawler. First, we will show how any subset $V' \subseteq V$ of hypernodes could be removed 
 from \ShortT{L} (see Section \ref{sec:heuer_network}). This approach minimizes
-the number of nodes, but in some cases the number of edges can be
+the number of nodes, but in some cases, the number of edges can be
 significantly higher than in \ShortT{L}. But the basic idea of this technique 
 can still be applied to remove low degree hypernodes from the \emph{Lawler}-Network without 
 increasing the number of edges (see Section \ref{sec:degree_network}). Additionally, we show
@@ -23,13 +23,13 @@ Finally, we combine the two suggested approaches in a \emph{Hybrid}-Network
 \subsection{Removing Hypernodes via Clique-Expansion}
 \label{sec:heuer_network}
 
-In this Section we show how all hypernodes of \ShortT{L} could be removed. If a hypernode $v \in V$
+In this Section, we show how all hypernodes of \ShortT{L} could be removed. If a hypernode $v \in V$
 occurs in an augmenting path $P$ the previous node in the path must be a hyperedge node either
 $e'$ or $e''$. Further, for all $e \in I(v)$ the capacity $c_L(v,e')$ is $\infty$. Therefore, 
-if we push flow over a hypernode $v$, comming from a hyperedge node, we can redirect
+if we push flow over a hypernode $v$, coming from a hyperedge node, we can redirect
 the flow to any hyperedge node $e' \in I(v)$ during the whole maximum flow calculation, because 
-$c_L(v,e') = \infty$. The following lemma is central for our first sparsifying 
-technique. We will denote all incomming edges of a node $u$ with
+$c_L(v,e') = \infty$. The following lemma is central to our first sparsifying 
+technique. We will denote all incoming edges of a node $u$ with
 $in(u) := \{v\ |\ (v,u) \in E\}$ and all outgoing edges with 
 $out(u) := \{v\ |\ (u,v) \in E\}$. 
 
@@ -73,8 +73,8 @@ $f'$ is redirected over $u$ in $f$. Therefore, $f$ is an valid flow function.
 Since $v \notin S\cup T$, it follows that $|f| = |f'|$.
 \end{proof}
 
-In \ShortT{L} all incomming and outgoing edges of a hypernode $v$ have 
-capacity equal to $\infty$. The incomming edges are all $e'' \in I(v)$ and
+In \ShortT{L} all incoming and outgoing edges of a hypernode $v$ have a
+capacity equal to $\infty$. The incoming edges are all $e'' \in I(v)$ and
 the outgoing edges are all $e' \in I(v)$. Therefore, we can construct the
 following network with Lemma \ref{lemma:node_removal}:
 
@@ -101,7 +101,7 @@ we need a preparing lemma in the correctness proof.
 \begin{figure}
 \centering
 \includegraphics[width=0.8\textwidth]{../img/network_transformation/heuer_transformation.eps}
-\caption{Transformation of a hypergraph into a equivalent flow network by removing
+\caption{Transformation of a hypergraph into an equivalent flow network by removing
          all hypernodes. Note, capacity of the black edges in the flow network is $\infty$.}
 \label{img:heuer_network}
 \end{figure}
@@ -130,8 +130,8 @@ and sink set. The proof for $G(t)$ is equivalent.
 
 As a consequence of this lemma, we could replace (or even remove) 
 e.g. a source hypernode $v \in S$ of \ShortT{L} and instead add all
-incomming hyperedge nodes $e' \in I(v)$ as source nodes to the flow 
-problem. Because for all incomming resp. outgoing edges of vertices $v$ of 
+incoming hyperedge nodes $e' \in I(v)$ as source nodes to the flow 
+problem. Because for all incoming resp. outgoing edges of vertices $v$ of 
 \ShortT{L} the capacity is $\infty$.
 
 \begin{theorem}
@@ -217,7 +217,7 @@ is equal with a minimum-weight $(S,T)$-cutset of $H$.
 \end{proof}
 
 Consequently, we can find a minimum-weight $(S,T)$-cutset of $H$ by calculating
-a minimum-capacity $(S',T')$-cutset of \ShortExT{H}{V'}. A open problem is how to obtain the 
+a minimum-capacity $(S',T')$-cutset of \ShortExT{H}{V'}. An open problem is how to obtain the 
 corresponding minimum-weight $(S,T)$-bipartition. In \ShortT{L} all hypernodes
 reachable from source nodes in the residual graph are part of the first and 
 all not reachable are part of the second block of the bipartition. Since we removed 
@@ -256,7 +256,7 @@ minimum-weight $(S,T)$-bipartition of $H$.
 \label{sec:degree_network}
 
 The resulting flow network \ShortExT{H}{V} proposed in Section \ref{sec:heuer_network} has significantly
-less nodes than the network \ShortT{L} suggested by Lawler. On the other hand, the number of
+fewer nodes than the network \ShortT{L} suggested by Lawler. On the other hand, the number of
 edges could be much larger. \\
 Let's consider a hypernode $v \in V$. We replace $v$ in \ShortT{L} with a clique between all
 hyperedges of $I(v)$. The number of edges added to \ShortExT{H}{V} depends on the degree of
@@ -271,8 +271,8 @@ with degree smaller or equal $n$. Then our suggested flow network is \ShortExT{H
 \label{sec:edge_size_network}
 
 If we want to find a minimum-weight $(S,T)$-cutset in a graph $G = (V,E,\omega)$, we do not have to transform
-$G$ into a equivalent flow network. We can directly operate on the graph with capacities
-$c(e) = \omega(e)$ for all $e \in E$ \cite{ford1956maximal}. Hypergraphs are generalizations of graph, where
+$G$ into an equivalent flow network. We can directly operate on the graph with capacities
+$c(e) = \omega(e)$ for all $e \in E$ \cite{ford1956maximal}. Hypergraphs are generalizations of a graph, where
 an edge can consist of more than two nodes. However, a hyperedge $e$ of size $2$ can still be 
 interpreted as a graph edge. Instead of modelling those edges as described by Lawler \cite{lawler1973}
 (see hyperedge $e_2$ in \autoref{img:lawler_transformation}), we can remove all $e',e''$ for all $e \in E$
@@ -294,12 +294,12 @@ a flow network \T{G}. \ShortT{G} is defined as follows:
 
 An example of transformation \ShortT{G} is shown in \autoref{img:graph_transformation}. A hyperedge
 $e$ of size $2$ consists exactly of $4$ nodes and $5$ edges in \ShortT{L} (see \autoref{img:lawler_transformation}).
-The same hyperedge induce $2$ nodes and $2$ edges in \ShortT{G}. 
+The same hyperedge induces $2$ nodes and $2$ edges in \ShortT{G}. 
  
 \begin{figure}
 \centering
 \includegraphics[width=0.8\textwidth]{../img/network_transformation/graph_transformation.eps}
-\caption{Transformation of a hypergraph into a equivalent flow network by inserting 
+\caption{Transformation of a hypergraph into an equivalent flow network by inserting 
          an undirected edge with capacity $\omega(e)$ for each hyperedge of size $2$. 
          Note, capacity of the black edges in the flow network is $\infty$.}
 \label{img:graph_transformation}
@@ -356,24 +356,24 @@ $A_G$. This is a contradiction to the assumption that $A_G$ is a $(S,T)$-cutset.
 A minimum-weight $(S,T)$-cutset of $H$ could also be calculated with \ShortT{G}. 
 Each edge $(v_1,v_2)$ with $v_1,v_2 \in V$ of the minimum-capacity
 $(S,T)$-cutset of \ShortT{G} can be mapped to their corresponding hyperedge
-with $\Phi^{-1}(v_1,v_2)$. Since their exists a one-one correspondence between the hypernodes
-of \ShortT{L} and \ShortT{G} the corresponding bipartion are all hypernodes \emph{reachable}
-from a all nodes in $S$ and all not \emph{reachable} from $S$ in the \emph{residual graph}
+with $\Phi^{-1}(v_1,v_2)$. Since there exists a one-one correspondence between the hypernodes
+of \ShortT{L} and \ShortT{G} the corresponding bipartition are all hypernodes \emph{reachable}
+from all nodes in $S$ and all not \emph{reachable} from $S$ in the \emph{residual graph}
 of \ShortT{G}. 
 
 \subsection{Combining Techniques in a Hybrid Flow Network}
 \label{sec:hybrid_network}
 
-On many real world instances the average hyperedge size and hypernode degree are inversely
+In many real-world instances, the average hyperedge size and hypernode degree are inversely
 proportional to each other. E.g., if the number of hyperedges is significantly larger than the
 number of hypernodes the average hypernode degree is usually much larger than $3$. Whereas
 the average hyperedge size is often equal to $2$. If the number of hyperedges is nearly equal
-to the number of hypernodes the average hypernode degree is usually smaller or equal than $3$. Whereas
+to the number of hypernodes, the average hypernode degree is usually smaller or equal than $3$. Whereas
 the average hyperedge size is often much larger than $2$. Of course, we can construct instances
-where this inversely proportional relationship can not be observed, but on many real world instances
-we often find the described behaviour. \\
-Currently, we have two differenct modelling approaches which either perform better on low degree
-hypernode instances or on small hyperedge size instances. Taking our observation from real world instances 
+where this inversely proportional relationship cannot be observed, but in many real-world instances,
+we often find the described behavior. \\
+Currently, we have two different modeling approaches which either perform better on low degree
+hypernode instances or small hyperedge size instances. Taking our observation from real-world instances 
 into account means that either \ShortT{G} or \ShortExT{H}{V_d(3)} performs significantly better on
 a specific instance. It would be preferable to combine the two approaches into one network 
 which performs on most instances best. \\
@@ -404,7 +404,7 @@ $(S',T')$-cutset of \ShortExT{H}{V'} is equal with a minimum-capacity $(S',T')$-
 that this is equal with a minimum-weight $(S,T)$-cutset of $H$. \\
 Per definition of \ShortHybrid~we prefer a hyperedge removal over a hypernode removal. E.g., if
 a hypernode has a degree smaller or equal than $3$, we only remove it, if there is no hyperedge
-$e \in I(v)$ with $|e| = 2$. The reason is that a hyperedge removal always decrease the number of nodes
+$e \in I(v)$ with $|e| = 2$. The reason is that a hyperedge removal always decreases the number of nodes
 and edges more than a hypernode removal. \\
 \begin{figure}[ht!]
 \centering
