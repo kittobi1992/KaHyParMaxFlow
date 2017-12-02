@@ -152,7 +152,7 @@ $\ExpHybrid$ in the following experiments.
 \label{tbl:flow_algo_network_summary}
 \end{table}
 
-\subsection{Configuration of the $k$-way Flow-based Refiner}
+\subsection{Configuration of the $k$-way Flow-Based Refinement}
 \label{sec:flow_configuration}
 
 In this Section, we examine the quality of our $k$-way flow-based refinement algorithm with
@@ -172,7 +172,10 @@ a configuration for $k \in \{2,4,8,16,32,64,128\}$, $\alpha' \in \{1,2,4,8,16\}$
 and $10$ different seeds on our parameter tuning benchmark subset ($\epsilon = 3\%$). 
 Our pairwise flow-based refinement is embedded in a $k$-way \emph{Active Block Scheduling}
 refinement which is executed on each level $i$ with $i = 2^j$ ($j \in \mathbb{N}_+$) 
-(see Section \ref{sec:flow_local_search_hypergraph}). As a reference, we use the 
+(see Section \ref{sec:flow_local_search_hypergraph}). Additionally, we tested configuration
+\FlowVariant{+}{+}{+}{+} with \emph{flow execution policy} $i = 128j$. This configuration
+has an impracticable running time, but should provide a lower bound.
+We refer to this variant as \Constant{128}. As a baseline reference, we use the 
 latest quality configuration of \emph{KaHyPar} (\KaHyPar{CA}) \cite{heuer2017improving}. \\
 The results are summarized in \autoref{tbl:alpha_exp}. The values
 in the column \emph{Avg} are improvements of the connectivity metric
@@ -206,7 +209,11 @@ quality by nearly $2\%$ (for $\alpha' = 16$). Also, the running time of this var
 than all previous flow configurations because we transfer more work to the \emph{FM} refinement.
 It has as consequence that a block becomes faster \emph{inactive} during \emph{Active Block 
 Scheduling} and this decreases the number of rounds of complete pairwise flow-based refinements
-on the quotient graph.
+on the quotient graph. Finally, \Constant{128} gives us a lower bound of the quality
+achievable with a combination of flow-based and \emph{FM} refinement. Flows are executed 
+in each $128$th level of the multilevel hierarchy. The quality is $2.44\%$ better than our
+baseline configuration, but $\approx 100$ slower. Compared to \FlowVariant{+}{+}{+}{+} for 
+$\alpha = 16$, \Constant{128} is only $0.57\%$ better and around $\approx 25$ times slower.
 
 \begin{table}
 \renewcommand{\arraystretch}{1.15}
