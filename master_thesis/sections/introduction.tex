@@ -34,10 +34,12 @@ partitioner for large benchmarks \cite{papa2007hypergraph}. In general, the \emp
 heuristics maintains gain values (according to the objective function) of moving a node
 from its current block to another block \cite{fiduccia1988linear}. A move is performed, 
 if its gain value is maximum among all possible moves. The algorithm can be implemented 
-in linear time. The main disadvantage of the algorithm is its limited ability to lookahead
-\cite{zhao2002effective}. E.g., it might be more beneficial to move a hypernode with 
-a small gain because it will induce many good moves later. Therefore, the algorithm
-tends to find locally optimal solutions. \\ 
+in linear time. However, for large hyperedges the gain is often equal to $0$. E.g., if
+the objective function is cut, then the gain of a pin is only greater than zero if it is the
+last pin of a block in a hyperedge. There exist several approaches which try to take the
+future gain of vertex into account \cite{krishnamurthy1984improved}, but they are also
+limited in their ability to lookahead \cite{zhao2002effective}. Therefore, the algorithm
+tends to find local optimal solutions. \\
 Sanders and Schulz \cite{sanders2011engineering} successfully integrated a \emph{flow}-based refinement
 algorithm in their multilevel graph partitioner. It is well known that a maximum $(s,t)$-flow
 calculation yields to a minimum $(s,t)$-cutset on graphs \cite{ford1956maximal}. Their general
@@ -45,7 +47,7 @@ approach was to extract a subgraph around the cut and configure the source and s
 of the flow problem such that a maximum flow calculation on the subgraph leads to a 
 smaller cut on the original graph. In combination with the \emph{FM} heuristic, their \emph{local
 search} algorithm can find out of locally optimal solutions and produces
-the best partitions for a wide range of graph partitioning benchmarks.
+the best partitions for a wide range of graph partitioning benchmarks. 
 
 \subsection{Problem Statement}
 

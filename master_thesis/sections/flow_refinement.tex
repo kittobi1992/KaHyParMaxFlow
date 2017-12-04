@@ -9,7 +9,7 @@ Sanders and Schulz \cite{sanders2011engineering} (see Section \ref{sec:flow_loca
 could be adapted to work in an $n$-level hypergraph partitioner, called \emph{KaHyPar}
 (see Section \ref{sec:mbmc_hypergraphs} and \ref{sec:flow_local_search_hypergraph}). 
 
-\subsection{Modeling Sources and Sinks}
+\subsection{Source and Sink Configuration}
 \label{sec:source_and_sink}
 
 Let $H = (V,E,c,\omega)$ be a hypergraph and $B_1 := (V_1, V_2)$ be a bipartition.
@@ -388,7 +388,7 @@ The maximum $(s,t)$-flow is still maximal. Otherwise, we would have found an \em
 path} on the flow network before. We are now able to compute all minimum-weight
 $(s,t)$-bipartitions the same way as with \ShortT{L}.
 
-\subsection{A Direct $K$-Way Flow-Based Refinement Framework}
+\subsection{A direct $k$-way Flow-Based Refinement Framework}
 \label{sec:flow_local_search_hypergraph}
 
 We have described how a hypergraph $H$ could be transformed into

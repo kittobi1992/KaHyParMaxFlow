@@ -252,7 +252,7 @@ Further, $(A := \bigcup_{e \in E''} e,\ V\setminus A)$ is a
 minimum-weight $(S,T)$-bipartition of $H$.
 
 
-\subsection{Removing Low-Degree Hypernodes}
+\subsection{Low-Degree Hypernodes}
 \label{sec:degree_network}
 
 The resulting flow network \ShortExT{H}{V} proposed in Section \ref{sec:heuer_network} has significantly
@@ -267,7 +267,7 @@ the number of nodes, but also the number of edges. \\
 Let $V_{d}(n) = \{v \in V\ |\ d(v) \le n\}$ be the set of all hypernodes
 with degree smaller or equal $n$. Then our suggested flow network is \ShortExT{H}{V_d(3)}.
 
-\subsection{Removing Hyperedges via Undirected Flow-Edges}
+\subsection{Removing Graph Hyperedges}
 \label{sec:edge_size_network}
 
 If we want to find a minimum-weight $(S,T)$-cutset in a graph $G = (V,E,\omega)$, we do not have to transform
@@ -361,7 +361,7 @@ of \ShortT{L} and \ShortT{G} the corresponding bipartition are all hypernodes \e
 from all nodes in $S$ and all not \emph{reachable} from $S$ in the \emph{residual graph}
 of \ShortT{G}. 
 
-\subsection{Combining Techniques in a Hybrid Flow Network}
+\subsection{Combining Techniques}
 \label{sec:hybrid_network}
 
 In many real-world instances, the average hyperedge size and hypernode degree are inversely

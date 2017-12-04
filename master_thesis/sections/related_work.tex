@@ -80,7 +80,7 @@ nodes with distance label $i$.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\subsection{Modelling Flows on Hypergraphs}
+\subsection{Modeling Flows on Hypergraphs}
 \label{sec:related_lawler}
 
 Consider the \emph{bipartite graph} representation $G_*(H)$ of a hypergraph $H$ (see Section \ref{sec:hypergraph}).
@@ -138,7 +138,7 @@ capacity of the black edges in the flow network is $\infty$.}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\subsection{Max-Flow-Min-Cut Based Local Search on Graphs}
+\subsection{Flow-based Local Search on Graphs}
 \label{sec:flow_local_search_graph}
 
 It seems naturals to utilize maximum flow computations to improve the cut metric of a 
@@ -160,7 +160,7 @@ yields to a feasible cut in the original graph. Many ideas of this work are used
 thesis and adapted to hypergraphs. Therefore, we will give a detailed description
 of the concepts and advanced techniques to improve the cut of a graph.
 
-\subsubsection{Balanced Flow-Based Bipartitioning}
+\subsubsection{Balanced Bipartitioning}
 \label{sec:balanced_bipartitioning}
 Let $(V_1,V_2)$ be a balanced bipartition of a graph $G = (V,E,c,\omega)$. 
 Further, $P(v) = 1$, if $v \in V_1$ and
@@ -312,7 +312,7 @@ algorithm \cite{fiduccia1988linear} (see Section \ref{sec:abs}).
 \end{figure}
 
 
-\subsubsection{KaHyPar - $n$-Level Hypergraph Partitioning}
+\subsubsection{$n$-Level Hypergraph Partitioning}
 \label{sec:kahypar}
 
 \emph{KaHyPar} is a multilevel hypergraph partitioner in its most extreme version by
