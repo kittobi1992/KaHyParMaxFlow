@@ -102,8 +102,8 @@ instances and vice versa (see \Dual~instances).\\
 \begin{figure}[ht!]
 \centering
 \input{experiments/flow_network/node_edge_distribution.tex} %
-\caption{Comparison of the number of nodes and edges on our flow networks for 
-         flow problems of size $|V'| = 25000$ hypernodes on different benchmark types.
+\caption{Comparison of the number of nodes and edges induced by flow problems 
+         of size $|V'| = 25000$ on our flow network for different benchmark types.
          The red dashed lines indicates $25000$ nodes.}
 \label{fig:node_edge_distribution}
 \end{figure} 
@@ -120,10 +120,10 @@ Further, both algorithms perform best on $\ExpHybrid$.
 \begin{figure}
 \centering
 \input{experiments/flow_network/speed_up_flow_network.tex} %
-\caption{Speed-up of our flow algorithms and networks relative to \EdmondKarp~on
+\caption{Speedup of our flow algorithms and networks relative to \EdmondKarp~on
          $\ExpLawler$ for different instance sizes and types. The red dashed line indicates the
          $($\EdmondKarp$,\ExpLawler)$ implementation and the blue dashed line
-         indicates a speed-up by a factor of $2$.}
+         indicates a speedup by a factor of $2$.}
 \label{fig:max_flow_network_algo}
 \end{figure} 
 \autoref{tbl:flow_algo_network_summary}~shows the summary of our flow algorithm and network experiment
@@ -233,8 +233,9 @@ $\alpha'$ & Avg.$[\%]$ & $t[s]$ & Avg.$[\%]$ & $t[s]$ & Avg.$[\%]$ & $t[s]$ \\
 \csname @@input\endcsname experiments/flow_alpha/flow_alpha_table2.tex 
 \bottomrule
 \end{tabular}
-\caption{ Table contains results for different configurations of our flow algorithm with
-          increasing $\alpha'$. }
+\caption{ Table contains results for different configurations of our flow-based refinement
+          framework for increasing $\alpha'$. The quality in column \emph{Avg.} is relative
+          to our baseline configuration without the usage of flows. }
 \label{tbl:alpha_exp}
 \end{table}
 
@@ -269,7 +270,7 @@ Variant & Avg.$[\%]$ & Min.$[\%]$ & $t_{\text{flow}}[s]$ & $t[s]$ \\
 \csname @@input\endcsname experiments/speed_up_heuristics/heuristic_table.tex 
 \bottomrule
 \end{tabular} 
-\caption{Table shows results for our flow algorithm with different speed-up heuristics.}
+\caption{Results of our flow-based refinement framework with different speedup heuristics.}
 \label{tbl:heuristics}
 \end{table}
 
@@ -293,7 +294,7 @@ than all other hypergraph partitioners (see \DAC~and \ISPD~in \autoref{fig:final
 \centering
 \input{experiments/final_flow/fullset.tex} %
 \caption{Min-Cut performance plots comparing \KaHyPar{MF} with \KaHyPar{CA} and
-         other systems. The plots are explained in Section \ref{sec:methodology}.}
+         other systems. Plots are explained in Section \ref{sec:methodology}.}
 \label{fig:final_flow}
 \end{figure} 
 Table \ref{tbl:running_time} shows the running time of all partitioner on different benchmark
@@ -312,6 +313,6 @@ is comparable to the running time of \hMetis{K}.
 \bottomrule
 \end{tabular} 
 \caption{Comparing the average running time of \KaHyPar{MF} with \KaHyPar{CA} and
-         other tools.}
+         other hypergraph partitioners.}
 \label{tbl:running_time} 
 \end{table}

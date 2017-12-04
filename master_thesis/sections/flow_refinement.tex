@@ -78,7 +78,8 @@ sink set is illustrated in \autoref{img:border_hyperedges}.
 \begin{figure}
 \centering
 \includegraphics[width=0.95\textwidth]{../img/source_and_sink_set/border_hyperedges.eps}
-\caption{Example how \emph{Border Hyperedges} are modelled as sources and sinks.}
+\caption{Non-cut \emph{border hyperedges} of $H$ and $H_{V'}$ induce source and sink hypernodes
+         in the flow problem.}
 \label{img:border_hyperedges}
 \end{figure}
 
@@ -125,8 +126,8 @@ T = T_1 \cup \{e''\ |\ e \cap V' \subseteq V_1 \ \land\ e \setminus V' \cap V_2 
 \begin{figure}[ht!]
 \centering
 \includegraphics[width=1.0\textwidth]{../img/source_and_sink_set/non_cut_flow_hyperedges.eps}
-\caption{In this example $e_1$ and $e_3$ are cut hyperedges of the hypergraph, but not of
-        the subhypergraph induced by the flow problem. Modeling the \emph{outgoing} resp.
+\caption{In this example $e_1$ and $e_3$ are cut hyperedges of the hypergraph, but non-cut nets
+        of subhypergraph $H_{V'}$. Modeling the \emph{outgoing} resp.
         \emph{incoming} hyperedge node of $e_1$ resp. $e_2$ as sink resp. source ensures
         that $\Delta_H = \Delta_{H_{V'}}$.} 
 \label{img:non_cut_flow_hyperedges}
@@ -144,8 +145,8 @@ Then, $\omega_{H_{V'}}(B_2) = |f|$ ($\Rightarrow \Delta_H = \Delta_{H_{V'}}$).
 \begin{figure}
 \centering
 \includegraphics[width=0.95\textwidth]{../img/source_and_sink_set/delta_proof_illustration.eps}
-\caption{Illustration of the two cases presented in proof of Lemma \ref{lemma:delta_proof} in
-         order to remove a hypernode $v \in V'' \cap S$ from $T_L(H_{V' \cup V''})$. }
+\caption{Illustration of the two cases presented in proof of Lemma \ref{lemma:delta_proof}
+         to remove a hypernode $v \in V'' \cap S$ from $T_L(H_{V' \cup V''})$. }
 \label{img:delta_proof_illustration}
 \end{figure}
 
@@ -228,7 +229,7 @@ T = \bigcup\limits_{\substack{e \in \delta B_1 \\ e \subseteq V_2}} e\cap V'\ \c
 \begin{figure}
 \centering
 \includegraphics[width=0.95\textwidth]{../img/source_and_sink_set/cut_border_hyperedges.eps}
-\caption{Example how \emph{Cut Border Hyperedges} are modelled as sources and sinks. In this
+\caption{Illustration of modeling \emph{Cut Border Hyperedges} as sources and sinks. In this
          example $e_1$ contains node from block $V_1$ and $V_2$ not contained in the flow problem. Therefore,
          we can not remove $e_1$ from cut. Treating $e_1$ as a \emph{Border Hyperedge} would result
          in Transformation $1$. This has the consequence that we are not able to remove $e_2$
@@ -333,7 +334,7 @@ an improved cut quality of the minimum $(S,T)$-bipartition on the original hyper
 \begin{figure}[ht!]
 \centering
 \includegraphics[width=0.95\textwidth]{../img/source_and_sink_set/st_modelling_summary.eps}
-\caption{Illustration of source and sink set  defined in Equation \ref{S_final_border_hyperedges}
+\caption{Illustration of modeling sources and sinks defined in Equation \ref{S_final_border_hyperedges}
          and \ref{T_final_border_hyperedges}. }
 \label{img:st_modelling_summary}
 \end{figure}
@@ -479,6 +480,7 @@ the running time.
 \begin{figure}
 \centering 
 \includegraphics[width=1.0\textwidth]{../img/flow_local_search/flow_framework_hypergraph.eps}
-\caption{Illustration of our flow-based refinement framework on hypergraphs.}
+\caption{Illustration of our flow-based refinement framework for direct $k$-way hypergraph
+         partitioning.}
 \label{img:flow_framework}
 \end{figure} 

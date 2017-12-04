@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE ipe SYSTEM "ipe.dtd">
 <ipe version="70107" creator="Ipe 7.1.10">
-<info created="D:20171009143434" modified="D:20171010170404"/>
+<info created="D:20171009143434" modified="D:20171204110136"/>
 <ipestyle name="basic">
 <symbol name="arrow/arc(spx)">
 <path stroke="sym-stroke" fill="sym-stroke" pen="sym-pen">
@@ -527,7 +527,7 @@ h
 1216 1568 m
 1088 1568 l
 </path>
-<text matrix="1 0 0 1 93.3254 84.7337" transformations="translations" pos="1104 1600" stroke="black" type="label" width="46.244" height="11.955" depth="0" valign="baseline" size="LARGE">Lawler</text>
+<text matrix="1 0 0 1 93.3254 88.7337" transformations="translations" pos="1104 1600" stroke="black" type="label" width="45.832" height="12.896" depth="4.29" valign="baseline" size="LARGE">$T_L(H)$</text>
 <path matrix="-1 0 0 -1 2432 3264" fill="KITblue70" opacity="25%">
 944 1648
 947.2 1680
@@ -851,7 +851,6 @@ h
 </path>
 <text matrix="1 0 0 1 430.031 -148.264" transformations="translations" pos="1136 1712" stroke="KITblack" type="label" width="26.981" height="8.965" depth="2.99" valign="baseline" size="large">$\omega(e_2)$</text>
 <text matrix="1 0 0 1 488.772 -149.22" transformations="translations" pos="1136 1712" stroke="KITblack" type="label" width="26.981" height="8.965" depth="2.99" valign="baseline" size="large">$\omega(e_2)$</text>
-<text matrix="1 0 0 1 485.325 84.734" transformations="translations" pos="1104 1600" stroke="black" type="label" width="42.917" height="9.962" depth="2.79" valign="baseline" size="Large">Hybrid</text>
 <path matrix="1 0 0 -1 192 2840" stroke="KITblack" pen="fat" rarrow="normal/normal">
 1343.68 1382.64 m
 1288 1456 l
@@ -860,5 +859,9 @@ h
 1343.68 1382.64 m
 1288 1456 l
 </path>
+<text matrix="1 0 0 1 -130.675 88.7337" transformations="translations" pos="1104 1600" stroke="black" type="label" width="102.588" height="11.954" depth="3.35" valign="baseline" size="LARGE">Hypergraph $H$</text>
+<text matrix="1 0 0 1 273.325 232.734" transformations="translations" pos="1104 1600" stroke="black" type="label" width="68.678" height="12.896" depth="4.29" valign="baseline" size="LARGE">$T_H(H,V)$</text>
+<text matrix="1 0 0 1 281.325 -311.266" transformations="translations" pos="1104 1600" stroke="black" type="label" width="47.101" height="12.896" depth="4.29" valign="baseline" size="LARGE">$T_G(H)$</text>
+<text matrix="1 0 0 1 461.325 88.734" transformations="translations" pos="1104 1600" stroke="black" type="label" width="95.469" height="12.893" depth="4.91" valign="baseline" size="LARGE">$T_{Hybrid}(H,V)$</text>
 </page>
 </ipe>

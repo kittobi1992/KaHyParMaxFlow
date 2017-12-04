@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE ipe SYSTEM "ipe.dtd">
 <ipe version="70107" creator="Ipe 7.1.10">
-<info created="D:20171014115731" modified="D:20171014121057"/>
+<info created="D:20171014115731" modified="D:20171204103800"/>
 <ipestyle name="basic">
 <symbol name="arrow/arc(spx)">
 <path stroke="sym-stroke" fill="sym-stroke" pen="sym-pen">
@@ -360,108 +360,61 @@ h
 <path matrix="1 0 0 1 88 128" stroke="black" fill="KITgreen70" pen="ultrafat">
 16 0 0 16 2048 2048 e
 </path>
-<path matrix="1 0 0 1 448 0" stroke="KITblack" fill="KITpalegreen" pen="ultrafat">
+<path matrix="1 0 0 1 384 0" stroke="KITblack" fill="KITpalegreen" pen="ultrafat">
 16 0 0 16 2048 2048 e
 </path>
-<path matrix="1 0 0 1 576 128" stroke="black" fill="KITgreen70" pen="ultrafat">
+<path matrix="1 0 0 1 512 128" stroke="black" fill="KITgreen70" pen="ultrafat">
 16 0 0 16 2048 2048 e
 </path>
-<path matrix="1 0 0 1 576 -128" stroke="black" fill="KITgreen70" pen="ultrafat">
+<path matrix="1 0 0 1 512 -128" stroke="black" fill="KITgreen70" pen="ultrafat">
 16 0 0 16 2048 2048 e
 </path>
-<path matrix="1 0 0 1 800 0" stroke="black" fill="KITred" pen="ultrafat">
+<path matrix="1 0 0 1 736 0" stroke="black" fill="KITred" pen="ultrafat">
 16 0 0 16 2048 2048 e
 </path>
-<path matrix="1 0 0 1 448 0" stroke="black" fill="KITgreen70" pen="ultrafat" rarrow="normal/normal">
+<path matrix="1 0 0 1 384 0" stroke="black" fill="KITgreen70" pen="ultrafat" rarrow="normal/normal">
 2160 2160 m
 2064 2064 l
 2064 2064 l
 </path>
-<path matrix="1 0 0 1 416 0" stroke="black" fill="KITgreen70" pen="ultrafat" rarrow="normal/normal">
+<path matrix="1 0 0 1 352 0" stroke="black" fill="KITgreen70" pen="ultrafat" rarrow="normal/normal">
 2416 2064 m
 2320 2160 l
 </path>
-<path matrix="1 0 0 1 416 0" stroke="black" fill="KITgreen70" pen="ultrafat" rarrow="normal/normal">
+<path matrix="1 0 0 1 352 0" stroke="black" fill="KITgreen70" pen="ultrafat" rarrow="normal/normal">
 2416 2032 m
 2320 1936 l
 </path>
-<path matrix="1 0 0 1 448 0" stroke="black" fill="KITgreen70" pen="ultrafat" rarrow="normal/normal">
+<path matrix="1 0 0 1 384 0" stroke="black" fill="KITgreen70" pen="ultrafat" rarrow="normal/normal">
 2160 1936 m
 2064 2032 l
 2064 2032 l
 </path>
-<text matrix="1 0 0 1 442.179 -5.43091" transformations="translations" pos="2048 2048" stroke="KITblack" type="label" width="11.432" height="10.672" depth="0" valign="baseline" size="Huge">$s$</text>
-<text matrix="1 0 0 1 796.568 -7.43145" transformations="translations" pos="2048 2048" stroke="KITblack" type="label" width="8.764" height="15.246" depth="0" valign="baseline" size="Huge">$t$</text>
-<path matrix="1 0 0 1 576 128" stroke="black" fill="KITgreen70" pen="ultrafat">
+<text matrix="1 0 0 1 378.179 -5.43091" transformations="translations" pos="2048 2048" stroke="KITblack" type="label" width="11.432" height="10.672" depth="0" valign="baseline" size="Huge">$s$</text>
+<text matrix="1 0 0 1 732.568 -7.43145" transformations="translations" pos="2048 2048" stroke="KITblack" type="label" width="8.764" height="15.246" depth="0" valign="baseline" size="Huge">$t$</text>
+<path matrix="1 0 0 1 512 128" stroke="black" fill="KITgreen70" pen="ultrafat">
 16 0 0 16 2048 2048 e
 </path>
-<path matrix="1 0 0 1 352 0" stroke="KITblack" fill="KITpalegreen" pen="ultrafat">
+<path matrix="1 0 0 1 608 -128" stroke="black" fill="KITgreen70" pen="ultrafat">
 16 0 0 16 2048 2048 e
 </path>
-<text matrix="1 0 0 1 346.179 -5.43091" transformations="translations" pos="2048 2048" stroke="KITblack" type="label" width="11.432" height="10.672" depth="0" valign="baseline" size="Huge">$s$</text>
-<path matrix="1 0 0 1 896 0" stroke="black" fill="KITred" pen="ultrafat">
+<path matrix="1 0 0 1 608 128" stroke="black" fill="KITgreen70" pen="ultrafat">
 16 0 0 16 2048 2048 e
 </path>
-<text matrix="1 0 0 1 892.568 -7.43145" transformations="translations" pos="2048 2048" stroke="KITblack" type="label" width="8.764" height="15.246" depth="0" valign="baseline" size="Huge">$t$</text>
-<path matrix="1 0 0 1 672 -128" stroke="black" fill="KITgreen70" pen="ultrafat">
-16 0 0 16 2048 2048 e
-</path>
-<path matrix="1 0 0 1 672 128" stroke="black" fill="KITgreen70" pen="ultrafat">
-16 0 0 16 2048 2048 e
-</path>
-<path stroke="black" pen="ultrafat" rarrow="normal/normal">
+<path matrix="1 0 0 1 160 128" stroke="black" pen="ultrafat" rarrow="normal/normal">
 2472 2048 m
 2424 2048 l
 </path>
-<path matrix="1 0 0 1 224 128" stroke="black" pen="ultrafat" rarrow="normal/normal">
+<path matrix="1 0 0 1 160 -128" stroke="black" pen="ultrafat" rarrow="normal/normal">
 2472 2048 m
 2424 2048 l
 </path>
-<path matrix="1 0 0 1 448 0" stroke="black" pen="ultrafat" rarrow="normal/normal">
-2472 2048 m
-2424 2048 l
-</path>
-<path matrix="1 0 0 1 224 -128" stroke="black" pen="ultrafat" rarrow="normal/normal">
-2472 2048 m
-2424 2048 l
-</path>
-<path stroke="black" pen="ultrafat" rarrow="normal/normal">
-2640 2192 m
-2672 2224
-2944 2224
-2944 2068 c
-</path>
-<path stroke="black" pen="ultrafat" rarrow="normal/normal">
-2640 1904 m
-2672 1856
-2944 1856
-2944 2028 c
-</path>
-<path stroke="black" pen="ultrafat" rarrow="normal/normal">
-2408 2028 m
-2448 1856
-2720 1856
-2720 1900 c
-</path>
-<path stroke="black" pen="ultrafat" rarrow="normal/normal">
-2408 2068 m
-2448 2240
-2720 2240
-2720 2196 c
-</path>
-<text matrix="1 0 0 1 4 -32" transformations="translations" pos="2660 1956" stroke="black" type="label" width="13.943" height="15.974" depth="0" valign="baseline" size="Huge">$\mathbf{1}$</text>
-<text matrix="1 0 0 1 4 224" transformations="translations" pos="2660 1956" stroke="black" type="label" width="13.943" height="15.974" depth="0" valign="baseline" size="Huge">$\mathbf{1}$</text>
-<text matrix="1 0 0 1 228 96" transformations="translations" pos="2660 1956" stroke="black" type="label" width="13.943" height="15.974" depth="0" valign="baseline" size="Huge">$\mathbf{1}$</text>
-<text matrix="1 0 0 1 -216 96" transformations="translations" pos="2660 1956" stroke="black" type="label" width="13.943" height="15.974" depth="0" valign="baseline" size="Huge">$\mathbf{1}$</text>
-<text matrix="1 0 0 1 200 -72" transformations="translations" pos="2660 1956" stroke="black" type="label" width="24.787" height="10.672" depth="0" valign="baseline" size="Huge">$\mathbf{\infty}$</text>
-<text matrix="1 0 0 1 204 232" transformations="translations" pos="2660 1956" stroke="black" type="label" width="24.787" height="10.672" depth="0" valign="baseline" size="Huge">$\mathbf{\infty}$</text>
-<text matrix="1 0 0 1 -184 228" transformations="translations" pos="2660 1956" stroke="black" type="label" width="24.787" height="10.672" depth="0" valign="baseline" size="Huge">$\mathbf{\infty}$</text>
-<text matrix="1 0 0 1 -184 228" transformations="translations" pos="2660 1956" stroke="black" type="label" width="24.787" height="10.672" depth="0" valign="baseline" size="Huge">$\mathbf{\infty}$</text>
-<text matrix="1 0 0 1 -184 -64" transformations="translations" pos="2660 1956" stroke="black" type="label" width="24.787" height="10.672" depth="0" valign="baseline" size="Huge">$\mathbf{\infty}$</text>
-<text matrix="1 0 0 1 -128 12" transformations="translations" pos="2660 1956" stroke="black" type="label" width="24.787" height="10.672" depth="0" valign="baseline" size="Huge">$\mathbf{\infty}$</text>
-<text matrix="1 0 0 1 -136 148" transformations="translations" pos="2660 1956" stroke="black" type="label" width="24.787" height="10.672" depth="0" valign="baseline" size="Huge">$\mathbf{\infty}$</text>
-<text matrix="1 0 0 1 136 148" transformations="translations" pos="2660 1956" stroke="black" type="label" width="24.787" height="10.672" depth="0" valign="baseline" size="Huge">$\mathbf{\infty}$</text>
-<text matrix="1 0 0 1 136 20" transformations="translations" pos="2660 1956" stroke="black" type="label" width="24.787" height="10.672" depth="0" valign="baseline" size="Huge">$\mathbf{\infty}$</text>
+<text matrix="1 0 0 1 -60 -32" transformations="translations" pos="2660 1956" stroke="black" type="label" width="13.943" height="15.974" depth="0" valign="baseline" size="Huge">$\mathbf{1}$</text>
+<text matrix="1 0 0 1 -60 224" transformations="translations" pos="2660 1956" stroke="black" type="label" width="13.943" height="15.974" depth="0" valign="baseline" size="Huge">$\mathbf{1}$</text>
+<text matrix="1 0 0 1 -192 12" transformations="translations" pos="2660 1956" stroke="black" type="label" width="24.787" height="10.672" depth="0" valign="baseline" size="Huge">$\mathbf{\infty}$</text>
+<text matrix="1 0 0 1 -200 148" transformations="translations" pos="2660 1956" stroke="black" type="label" width="24.787" height="10.672" depth="0" valign="baseline" size="Huge">$\mathbf{\infty}$</text>
+<text matrix="1 0 0 1 72 148" transformations="translations" pos="2660 1956" stroke="black" type="label" width="24.787" height="10.672" depth="0" valign="baseline" size="Huge">$\mathbf{\infty}$</text>
+<text matrix="1 0 0 1 72 20" transformations="translations" pos="2660 1956" stroke="black" type="label" width="24.787" height="10.672" depth="0" valign="baseline" size="Huge">$\mathbf{\infty}$</text>
 <path matrix="1 0 0 1 -40 0" stroke="black" pen="ultrafat" rarrow="normal/normal">
 2240 2192 m
 2216 2184
@@ -469,10 +422,10 @@ h
 2204 2168 c
 </path>
 <text matrix="1 0 0 1 -44 -8" transformations="translations" pos="2252 2196" stroke="black" type="label" width="144.986" height="11.809" depth="3.35" valign="baseline" size="LARGE">\textbf{Vertex Seperator}</text>
-<path stroke="black" pen="5" rarrow="normal/normal">
-2376 2048 m
+<path stroke="black" pen="heavier" rarrow="normal/normal">
+2400 2048 m
 2288 2048 l
 </path>
-<text matrix="1 0 0 1 -24 -24" transformations="translations" pos="2320 2084" stroke="black" type="label" width="67.714" height="18.564" depth="6.18" valign="baseline" size="Huge">$T_V(G)$</text>
+<text matrix="1 0 0 1 -16 -24" transformations="translations" pos="2320 2084" stroke="black" type="label" width="67.714" height="18.564" depth="6.18" valign="baseline" size="Huge">$T_V(G)$</text>
 </page>
 </ipe>

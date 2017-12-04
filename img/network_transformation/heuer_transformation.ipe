@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE ipe SYSTEM "ipe.dtd">
 <ipe version="70107" creator="Ipe 7.1.10">
-<info created="D:20171009143434" modified="D:20171009163709"/>
+<info created="D:20171009143434" modified="D:20171204105919"/>
 <ipestyle name="basic">
 <symbol name="arrow/arc(spx)">
 <path stroke="sym-stroke" fill="sym-stroke" pen="sym-pen">
@@ -322,7 +322,7 @@ h
 <page>
 <layer name="alpha"/>
 <view layers="alpha" active="alpha"/>
-<path layer="alpha" matrix="-1 0 0 -1 2304 3136" fill="KITblue70" opacity="25%">
+<path layer="alpha" matrix="-1 0 0 -1 2256 3136" fill="KITblue70" opacity="25%">
 944 1648
 947.2 1680
 976 1680
@@ -333,7 +333,7 @@ h
 1024 1584
 992 1600 u
 </path>
-<path matrix="1 0 0 1 256 0" fill="KITgreen70" opacity="25%">
+<path matrix="1 0 0 1 208 0" fill="KITgreen70" opacity="25%">
 944 1648
 947.2 1680
 976 1680
@@ -344,49 +344,49 @@ h
 1024 1584
 992 1600 u
 </path>
-<path matrix="1 0 0 1 256 -0.219839" fill="KITorange70" opacity="25%">
+<path matrix="1 0 0 1 208 -0.219839" fill="KITorange70" opacity="25%">
 1008 1616
 1040 1616
 1040 1520
 1008 1520 u
 </path>
-<path stroke="KITblack" rarrow="normal/normal">
+<path matrix="1 0 0 1 -48 0" stroke="KITblack" rarrow="normal/normal">
 1247.98 1623.35 m
 1248 1600
 1312 1600
 1312 1568 c
 </path>
-<path stroke="KITblack" rarrow="normal/normal">
+<path matrix="1 0 0 1 -48 0" stroke="KITblack" rarrow="normal/normal">
 1247.98 1559.35 m
 1248 1536
 1312 1536
 1312 1504 c
 </path>
-<path stroke="KITblack" rarrow="normal/normal">
+<path matrix="1 0 0 1 -48 0" stroke="KITblack" rarrow="normal/normal">
 1247.98 1512.65 m
 1248 1536
 1312 1536
 1312 1568 c
 </path>
-<path stroke="KITblack" rarrow="normal/normal">
+<path matrix="1 0 0 1 -48 0" stroke="KITblack" rarrow="normal/normal">
 1247.98 1576.65 m
 1248 1600
 1312 1600
 1312 1632 c
 </path>
-<path matrix="1 0 0 1 0 -128" stroke="KITred" pen="3" rarrow="normal/normal">
+<path matrix="1 0 0 1 -48 -128" stroke="KITred" pen="3" rarrow="normal/normal">
 1301.61 1632.34 m
 1248 1632 l
 </path>
-<path stroke="KITred" pen="3" rarrow="normal/normal">
+<path matrix="1 0 0 1 -48 0" stroke="KITred" pen="3" rarrow="normal/normal">
 1301.61 1568.34 m
 1248 1568 l
 </path>
-<path stroke="KITred" pen="3" rarrow="normal/normal">
+<path matrix="1 0 0 1 -48 0" stroke="KITred" pen="3" rarrow="normal/normal">
 1301.61 1632.34 m
 1248 1632 l
 </path>
-<path matrix="-1 0 -0 -1 2048 3136" stroke="black" fill="KITblue70" opacity="75%">
+<path matrix="-1 0 0 -1 2048 3136" stroke="black" fill="KITblue70" opacity="75%">
 944 1648
 947.2 1680
 976 1680
@@ -429,27 +429,25 @@ h
 <text matrix="1 0 0 1 -100.18 54.3272" transformations="translations" pos="1120 1584" stroke="black" type="label" width="10.158" height="5.151" depth="1.79" valign="baseline" size="large">$e_1$</text>
 <text matrix="1 0 0 1 -99.8941 -17.9607" transformations="translations" pos="1120 1584" stroke="black" type="label" width="10.158" height="5.151" depth="1.79" valign="baseline" size="large">$e_2$</text>
 <text matrix="1 0 0 1 -100.18 -89.4256" transformations="translations" pos="1120 1584" stroke="black" type="label" width="10.158" height="5.151" depth="1.79" valign="baseline" size="large">$e_3$</text>
-<use matrix="1 0 0 1 352 -160" name="mark/square(sx)" pos="960 1664" size="10" stroke="black"/>
-<use matrix="1 0 0 1 352 -96" name="mark/square(sx)" pos="960 1664" size="10" stroke="black"/>
-<use matrix="1 0 0 1 352 -32" name="mark/square(sx)" pos="960 1664" size="10" stroke="KITred70"/>
-<use matrix="1 0 0 1 288 -96" name="mark/square(sx)" pos="960 1664" size="10" stroke="KITred70"/>
-<use matrix="1 0 0 1 288 -32" name="mark/square(sx)" pos="960 1664" size="10" stroke="KITred70"/>
-<use matrix="1 0 0 1 288 -160" name="mark/square(sx)" pos="960 1664" size="10" stroke="KITred70"/>
-<use matrix="1 0 0 1 352 -32" name="mark/square(sx)" pos="960 1664" size="10" stroke="KITred70"/>
-<use matrix="1 0 0 1 352 -96" name="mark/square(sx)" pos="960 1664" size="10" stroke="KITred70"/>
-<use matrix="1 0 0 1 352 -160" name="mark/square(sx)" pos="960 1664" size="10" stroke="KITred70"/>
-<text matrix="1 0 0 1 126.883 -74.7022" transformations="translations" pos="1136 1712" stroke="KITblack" type="label" width="26.981" height="8.965" depth="2.99" valign="baseline" size="large">$\omega(e_1)$</text>
-<text matrix="1 0 0 1 126.883 -138.702" transformations="translations" pos="1136 1712" stroke="KITblack" type="label" width="26.981" height="8.965" depth="2.99" valign="baseline" size="large">$\omega(e_2)$</text>
-<text matrix="1 0 0 1 126.883 -202.702" transformations="translations" pos="1136 1712" stroke="KITblack" type="label" width="26.981" height="8.965" depth="2.99" valign="baseline" size="large">$\omega(e_3)$</text>
-<text matrix="1 0 0 1 122.681 45.039" transformations="translations" pos="1120 1584" stroke="black" type="label" width="10.158" height="8.772" depth="2.95" valign="baseline" size="large">$e_1&apos;$</text>
-<text matrix="1 0 0 1 122.681 -18.961" transformations="translations" pos="1120 1584" stroke="black" type="label" width="10.158" height="8.772" depth="2.95" valign="baseline" size="large">$e_2&apos;$</text>
-<text matrix="1 0 0 1 122.681 -82.961" transformations="translations" pos="1120 1584" stroke="black" type="label" width="10.158" height="8.772" depth="2.95" valign="baseline" size="large">$e_3&apos;$</text>
-<text matrix="1 0 0 1 186.681 -82.961" transformations="translations" pos="1120 1584" stroke="black" type="label" width="10.517" height="8.772" depth="2.95" valign="baseline" size="large">$e_3&apos;&apos;$</text>
-<text matrix="1 0 0 1 186.681 -18.961" transformations="translations" pos="1120 1584" stroke="black" type="label" width="10.517" height="8.772" depth="2.95" valign="baseline" size="large">$e_2&apos;&apos;$</text>
-<text matrix="1 0 0 1 186.681 45.039" transformations="translations" pos="1120 1584" stroke="black" type="label" width="10.517" height="8.772" depth="2.95" valign="baseline" size="large">$e_1&apos;&apos;$</text>
-<path stroke="KITblack" pen="3" rarrow="normal/large">
-1216 1568 m
-1088 1568 l
-</path>
+<use matrix="1 0 0 1 304 -160" name="mark/square(sx)" pos="960 1664" size="10" stroke="black"/>
+<use matrix="1 0 0 1 304 -96" name="mark/square(sx)" pos="960 1664" size="10" stroke="black"/>
+<use matrix="1 0 0 1 304 -32" name="mark/square(sx)" pos="960 1664" size="10" stroke="KITred70"/>
+<use matrix="1 0 0 1 240 -96" name="mark/square(sx)" pos="960 1664" size="10" stroke="KITred70"/>
+<use matrix="1 0 0 1 240 -32" name="mark/square(sx)" pos="960 1664" size="10" stroke="KITred70"/>
+<use matrix="1 0 0 1 240 -160" name="mark/square(sx)" pos="960 1664" size="10" stroke="KITred70"/>
+<use matrix="1 0 0 1 304 -32" name="mark/square(sx)" pos="960 1664" size="10" stroke="KITred70"/>
+<use matrix="1 0 0 1 304 -96" name="mark/square(sx)" pos="960 1664" size="10" stroke="KITred70"/>
+<use matrix="1 0 0 1 304 -160" name="mark/square(sx)" pos="960 1664" size="10" stroke="KITred70"/>
+<text matrix="1 0 0 1 78.883 -74.7022" transformations="translations" pos="1136 1712" stroke="KITblack" type="label" width="26.981" height="8.965" depth="2.99" valign="baseline" size="large">$\omega(e_1)$</text>
+<text matrix="1 0 0 1 78.883 -138.702" transformations="translations" pos="1136 1712" stroke="KITblack" type="label" width="26.981" height="8.965" depth="2.99" valign="baseline" size="large">$\omega(e_2)$</text>
+<text matrix="1 0 0 1 78.883 -202.702" transformations="translations" pos="1136 1712" stroke="KITblack" type="label" width="26.981" height="8.965" depth="2.99" valign="baseline" size="large">$\omega(e_3)$</text>
+<text matrix="1 0 0 1 74.681 45.039" transformations="translations" pos="1120 1584" stroke="black" type="label" width="10.158" height="8.772" depth="2.95" valign="baseline" size="large">$e_1&apos;$</text>
+<text matrix="1 0 0 1 74.681 -18.961" transformations="translations" pos="1120 1584" stroke="black" type="label" width="10.158" height="8.772" depth="2.95" valign="baseline" size="large">$e_2&apos;$</text>
+<text matrix="1 0 0 1 74.681 -82.961" transformations="translations" pos="1120 1584" stroke="black" type="label" width="10.158" height="8.772" depth="2.95" valign="baseline" size="large">$e_3&apos;$</text>
+<text matrix="1 0 0 1 138.681 -82.961" transformations="translations" pos="1120 1584" stroke="black" type="label" width="10.517" height="8.772" depth="2.95" valign="baseline" size="large">$e_3&apos;&apos;$</text>
+<text matrix="1 0 0 1 138.681 -18.961" transformations="translations" pos="1120 1584" stroke="black" type="label" width="10.517" height="8.772" depth="2.95" valign="baseline" size="large">$e_2&apos;&apos;$</text>
+<text matrix="1 0 0 1 138.681 45.039" transformations="translations" pos="1120 1584" stroke="black" type="label" width="10.517" height="8.772" depth="2.95" valign="baseline" size="large">$e_1&apos;&apos;$</text>
+<text matrix="1 0 0 1 0 -24" transformations="translations" pos="992 1712" stroke="black" type="label" width="75.327" height="8.307" depth="2.32" valign="baseline" size="large">Hypergraph $H$</text>
+<text matrix="1 0 0 1 184 -24" transformations="translations" pos="992 1712" stroke="black" type="label" width="124.271" height="8.965" depth="2.99" valign="baseline" size="large">Flow Network $T_H(H,V)$</text>
 </page>
 </ipe>
