@@ -1,21 +1,21 @@
 
-In Section \ref{sec:related_lawler} we have shown how a hypergraph $H$ could be transformed into 
+In Section \ref{sec:related_lawler} we have shown how a hypergraph $H$ can be transformed into 
 a flow network \ShortT{L} such that every minimum-weight $(S,T)$-cutset in $H$ is a
 minimum-capacity $(S,T)$-cutset in \ShortT{L} \cite{lawler1973}. However, the resulting flow
-network has significantly more nodes and edges than the original hypergraph. Finding a
-maximum $(S,T)$-flow is usually a very computation intensive task. 
+network has significantly more nodes and edges than the original hypergraph. The running time
+of a maximum $(S,T)$-flow algorithm depends heavily on the problem size. 
 Therefore, different modeling approaches, which reduce the number of nodes and edges,
 can have a crucial impact on the running time of the flow algorithm. \\
 We will present techniques to sparsify the flow network 
 proposed by Lawler. First, we will show how any subset $V' \subseteq V$ of hypernodes could be removed 
 from \ShortT{L} (see Section \ref{sec:heuer_network}). This approach minimizes
 the number of nodes, but in some cases, the number of edges can be
-significantly higher than in \ShortT{L}. But the basic idea of this technique 
-can still be applied to remove low degree hypernodes from the \emph{Lawler}-Network without 
+significantly higher than in \ShortT{L}. The basic idea of this technique 
+can still be applied to remove low degree hypernodes from the Lawler-Network \emph{without} 
 increasing the number of edges (see Section \ref{sec:degree_network}). Additionally, we show
-how every hyperedge $e$ of size $2$ could be removed by inserting an undirected flow edge between
+how every hyperedge $e$ of size $2$ can be removed by inserting an undirected flow edge between
 the corresponding nodes $v_1,v_2 \in e$  (see Section \ref{sec:edge_size_network}). 
-Finally, we combine the two suggested approaches in a \emph{Hybrid}-Network 
+Finally, we combine the two suggested approaches into a Hybrid-Network 
 (see Section \ref{sec:hybrid_network}).
 
 
@@ -23,55 +23,63 @@ Finally, we combine the two suggested approaches in a \emph{Hybrid}-Network
 \subsection{Removing Hypernodes via Clique-Expansion}
 \label{sec:heuer_network}
 
-In this Section, we show how all hypernodes of \ShortT{L} could be removed. If a hypernode $v \in V$
-occurs in an augmenting path $P$ the previous node in the path must be a hyperedge node either
+In this Section, we show how all hypernodes of \ShortT{L} can be removed such that a maximum 
+$(S,T)$-flow on the new network induce a minimum-weight $(S,T)$-cutset on $H$. If a hypernode $v \in V$
+occurs in an augmenting path $P$ the previous node in the path must be a hyperedge, either
 $e'$ or $e''$. Further, for all $e \in I(v)$ the capacity $c_L(v,e')$ is $\infty$. Therefore, 
-if we push flow over a hypernode $v$, coming from a hyperedge node, we can redirect
+if we push flow over a hypernode $v$, coming from a hyperedge, we can redirect
 the flow to any hyperedge node $e' \in I(v)$ during the whole maximum flow calculation, because 
 $c_L(v,e') = \infty$. The following lemma is central to our first sparsifying 
-technique. We will denote all incoming edges of a node $u$ with
-$in(u) := \{v\ |\ (v,u) \in E\}$ and all outgoing edges with 
-$out(u) := \{v\ |\ (u,v) \in E\}$. 
+technique and is illusrated in \autoref{img:clique_expansion}. Given a graph $G = (V,E)$ we define the two sets
+$in(u) := \{v\ |\ (v,u) \in E\}$ and $out(u) := \{v\ |\ (u,v) \in E\}$ with $u \in V$. 
 
 \begin{lemma}
 \label{lemma:node_removal}
 Let $G = (V,E,c)$ be a flow network and $u \in V$ a node where
 $\forall v \in in(u): c(v,u) = \infty$ and $\forall w \in out(u): c(u,w) = \infty$.
 Further, let $G(u) = (V\setminus\{u\}, E_u, c_u)$ be the flow network obtained by removing
-$u$ and insert a directed edge between each $v \in in(u)$ and $w \in out(u)$ with $c_u(v,w) = \infty$.
+$u$ and inserting a shortcut edge between each $v \in in(u)$ and $w \in out(u)$ with $c_u(v,w) = \infty$.
 Let $f$ be a maximum $(S,T)$-flow of G and $f'$ a maximum $(S,T)$-flow of
-$G(u)$.
-\[|f| < \infty \text{ and } u \notin S\cup T \Rightarrow |f| = |f'|\]
+$G(u)$ if $|f| < \infty$ and $u \notin S\cup T$, then $|f| = |f'|$.
 \end{lemma}
 
 \begin{proof}
 Let $f$ be a maximum $(S,T)$-flow of $G$. We define a maximum $(S,T)$-flow $f'$ 
 of $G(u)$ as follows:
-\[ 
+\begin{equation}
+\label{eq:eq1}
 f'(v,w) =  
   \begin{cases}
       \frac{f(v,u)f(u,w)}{\sum_{w \in out(u)} f(u,w)}, & \text{if } v \in in(u), w \in out(u) \\
       f(v,w), & \text{otherwise}
    \end{cases} 
-\]
+\end{equation}
 $f'$ is choosen in such a way that for all $v \in in(u): \sum_{w \in out(u)} f'(v,w) = f(v,u)$
 and for all $w \in out(u): \sum_{v \in in(u)} f'(v,w) = f(u,w)$. Therefore, $f'$
 satisfies the flow conservation constraint and is an valid flow function. Since
 $u \notin S\cup T$, it follows that $|f| = |f'|$. \\
 Let $f'$ be a maximum $(S,T)$-flow of $G(u)$. We define a maximum $(S,T)$-flow $f$
 of $G$ as follows:
-\[
+\begin{equation}
+\label{eq:eq2}
 f(v,w) =  
   \begin{cases}
       \sum_{x \in in(u)} f'(x,w), & \text{if } v = u \\
       \sum_{x \in out(u)} f'(v,x), & \text{if } w = u \\
       f'(v,w), & \text{otherwise}
    \end{cases} 
-\]
+\end{equation}
 The amount of flow from each $v \in in(u)$ to each $w \in out(u)$ of flow function
 $f'$ is redirected over $u$ in $f$. Therefore, $f$ is an valid flow function.
-Since $v \notin S\cup T$, it follows that $|f| = |f'|$.
+Since $u \notin S\cup T$, it follows that $|f| = |f'|$.
 \end{proof}
+
+\begin{figure}
+\centering
+\includegraphics[width=0.8\textwidth]{../img/network_transformation/clique_expansion.eps}
+\caption{Illustration of Lemma \ref{lemma:node_removal} and Equation \ref{eq:eq1} and \ref{eq:eq2}.}
+\label{img:clique_expansion}
+\end{figure}
 
 In \ShortT{L} all incoming and outgoing edges of a hypernode $v$ have a
 capacity equal to $\infty$. The incoming edges are all $e'' \in I(v)$ and

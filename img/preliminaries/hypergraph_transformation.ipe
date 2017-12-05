@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE ipe SYSTEM "ipe.dtd">
 <ipe version="70107" creator="Ipe 7.1.10">
-<info created="D:20171009143434" modified="D:20171103163225"/>
+<info created="D:20171009143434" modified="D:20171205122926"/>
 <ipestyle name="basic">
 <symbol name="arrow/arc(spx)">
 <path stroke="sym-stroke" fill="sym-stroke" pen="sym-pen">
@@ -445,11 +445,11 @@ h
 1408 1504 m
 1408 1536 l
 </path>
-<use matrix="1 0 0 1 0 -128" name="mark/square(sx)" pos="1408 1632" size="10" stroke="KITred"/>
+<use matrix="1 0 0 1 0 -128" name="mark/square(sx)" pos="1408 1632" size="10" stroke="KITred30"/>
 <text matrix="1 0 0 1 283.82 -81.4256" transformations="translations" pos="1120 1584" stroke="black" type="label" width="10.158" height="5.151" depth="1.79" valign="baseline" size="large">$e_3$</text>
-<use matrix="1 0 0 1 0 -64" name="mark/square(sx)" pos="1408 1632" size="10" stroke="KITred"/>
+<use matrix="1 0 0 1 0 -64" name="mark/square(sx)" pos="1408 1632" size="10" stroke="KITred30"/>
 <text matrix="1 0 0 1 284.106 -17.9607" transformations="translations" pos="1120 1584" stroke="black" type="label" width="10.158" height="5.151" depth="1.79" valign="baseline" size="large">$e_2$</text>
-<use name="mark/square(sx)" pos="1408 1632" size="10" stroke="KITred"/>
+<use name="mark/square(sx)" pos="1408 1632" size="10" stroke="KITred30"/>
 <text matrix="1 0 0 1 283.82 46.3272" transformations="translations" pos="1120 1584" stroke="black" type="label" width="10.158" height="5.151" depth="1.79" valign="baseline" size="large">$e_1$</text>
 <text matrix="1 0 0 1 -4 -8" transformations="translations" pos="992 1696" stroke="KITblack" type="label" width="75.327" height="8.307" depth="2.32" valign="baseline" size="large">Hypergraph $H$</text>
 <text matrix="1 0 0 1 148 -8" transformations="translations" pos="992 1696" stroke="KITblack" type="label" width="151.511" height="8.965" depth="2.99" valign="baseline" size="large">Clique Representation $G_x(H)$</text>

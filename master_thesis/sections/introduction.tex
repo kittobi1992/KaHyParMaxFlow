@@ -4,18 +4,18 @@ partition the vertices of a hypergraph into $k$ disjoint non-empty blocks such
 that the size of each block satisfies a lower and upper bound, while we simultaneously 
 want to minimize an objective function. \\
 Classical application areas can be found in \emph{VLSI} design, parallelization of
-the \emph{Sparse Matrix-Vector Product} and simplifying \emph{SAT} formulas 
+the Sparse Matrix-Vector Product and simplifying \emph{SAT} formulas 
 \cite{karypis1999multilevel, mann2014formula, papa2007hypergraph}. The goal 
 in \emph{VLSI} design is to partition a circuit into smaller units such that
 the wires between the gates are as short as possible \cite{bulucc2016recent}.
 A wire can connect more than two gates, therefore a hypergraph models a circuit more
 accurate than a graph. In \emph{SAT} solving hypergraph partitioning is used to
 decompose a formula into smaller subformulas, which can be solved easier \cite{mann2014formula}.
-Beneath the traditional application areas hypergraph partitioning can also be found
-in more vivid areas like \emph{Warehouse Planning}. A warehouse consists of several
-storage spaces where products can be placed. If a list of previous orders is available, 
-we can interpret the products as vertices and the orders as hyperedges. If we
-partition the hypergraph into $k$ blocks, where $k$ is the number of storage spaces,
+An other interesting application area of hypergraph partitioning is \emph{Warehouse Planning}. 
+A warehouse consists of several storage spaces where products can be placed. 
+If a list of previous orders is available, we can interpret the products as 
+vertices and the orders as hyperedges. If we partition the hypergraph 
+into $k$ blocks, where $k$ is the number of storage spaces,
 we can place products in the warehouse such that products are close to each other if
 they are often ordered together.\\
 Hypergraph partitioning is an NP-hard problem \cite{lengauer2012combinatorial} and
@@ -26,9 +26,9 @@ First, a sequence of smaller hypergraphs is calculated by contracting a set of h
 in each step (\emph{coarsening phase}). If the hypergraph is small enough, we can use expensive
 heuristics to \emph{initial partition} the hypergraph into $k$ blocks. Afterwards, the sequence
 of smaller hypergraphs is \emph{uncontracted} in reverse order and, at each level, a 
-\emph{local search} heuristic is used to improve the quality of a partition 
+\emph{local search} heuristic is used to improve the quality of the partition 
 (\emph{refinement phase}). \\
-There exists several \emph{local search} heuristics for improving a partition of a hypergraph,
+There exist several \emph{local search} heuristics for improving a partition of a hypergraph,
 but only the \emph{FM} algorithm leads to a practical performance of a multilevel hypergraph
 partitioner for large benchmarks \cite{papa2007hypergraph}. In general, the \emph{FM}
 heuristics maintains gain values (according to the objective function) of moving a node

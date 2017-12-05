@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE ipe SYSTEM "ipe.dtd">
 <ipe version="70107" creator="Ipe 7.1.10">
-<info created="D:20150613144709" modified="D:20171106080854"/>
+<info created="D:20150613144709" modified="D:20171205131430"/>
 <ipestyle name="basic">
 <symbol name="arrow/arc(spx)">
 <path stroke="sym-stroke" fill="sym-stroke" pen="sym-pen">
@@ -714,30 +714,14 @@ h
 384 496 m
 384 496 l
 </path>
-<path stroke="black" pen="heavier" arrow="normal/large" rarrow="arc/normal">
-676 476 m
-656 428 l
-676 476 l
-</path>
-<path matrix="1 0 0 1 76 164" stroke="black" pen="heavier" arrow="normal/large" rarrow="arc/normal">
-676 476 m
-656 428 l
-676 476 l
+<path stroke="black" pen="heavier" rarrow="arc/normal">
+740 612 m
+732 592 l
 </path>
 <path stroke="black" pen="heavier" rarrow="normal/normal">
 544 384 m
 448 384 l
 448 384 l
-</path>
-<path stroke="black" pen="heavier" rarrow="normal/normal">
-336 440 m
-304 484 l
-304 484 l
-</path>
-<path stroke="black" pen="heavier" rarrow="normal/normal">
-232 600 m
-188 668 l
-188 668 l
 </path>
 <path stroke="black" pen="heavier" rarrow="normal/normal">
 284 384 m
@@ -878,5 +862,37 @@ h
 <text matrix="1 0 0 1 190.589 88.914" transformations="translations" pos="528 596" stroke="black" type="label" width="24.123" height="16.939" depth="4.78" valign="baseline" size="Huge">$V_1$</text>
 <text matrix="1 0 0 1 386.589 100.914" transformations="translations" pos="528 596" stroke="black" type="label" width="24.123" height="16.939" depth="4.78" valign="baseline" size="Huge">$V_2$</text>
 <text matrix="1 0 0 1 553.692 -16" transformations="rigid" pos="164 824" stroke="KITblack" type="label" width="220.626" height="17.006" depth="4.82" valign="baseline" size="Huge">\textbf{Output:} Partition $\Pi$</text>
+<path stroke="black" pen="heavier" rarrow="arc/normal">
+756 648 m
+744 620 l
+</path>
+<text matrix="1 0 0 1 0 -4" transformations="translations" pos="736 620" stroke="black" type="label" width="16.139" height="2.471" depth="0" valign="baseline" size="LARGE">\textbf{...}</text>
+<path matrix="1 0 0 1 -76 -168" stroke="black" pen="heavier" rarrow="arc/normal">
+740 612 m
+732 592 l
+</path>
+<path matrix="1 0 0 1 -76 -168" stroke="black" pen="heavier" rarrow="arc/normal">
+756 648 m
+744 620 l
+</path>
+<text matrix="1 0 0 1 -76 -172" transformations="translations" pos="736 620" stroke="black" type="label" width="16.139" height="2.471" depth="0" valign="baseline" size="LARGE">\textbf{...}</text>
+<text matrix="1 0 0 1 -420 -164" transformations="translations" pos="736 620" stroke="black" type="label" width="16.139" height="2.471" depth="0" valign="baseline" size="LARGE">\textbf{...}</text>
+<path stroke="black" pen="heavier" rarrow="normal/normal">
+344 432 m
+328.673 453.474 l
+</path>
+<path matrix="1 0 0 1 -22.085 30.7035" stroke="black" pen="heavier" rarrow="normal/normal">
+344 432 m
+328.673 453.474 l
+</path>
+<text matrix="1 0 0 1 -528.284 8.78107" transformations="translations" pos="736 620" stroke="black" type="label" width="16.139" height="2.471" depth="0" valign="baseline" size="LARGE">\textbf{...}</text>
+<path matrix="1 0 0 1 -108.284 172.781" stroke="black" pen="heavier" rarrow="normal/normal">
+344 432 m
+328.673 453.474 l
+</path>
+<path matrix="1 0 0 1 -130.369 203.485" stroke="black" pen="heavier" rarrow="normal/normal">
+344 432 m
+328.673 453.474 l
+</path>
 </page>
 </ipe>

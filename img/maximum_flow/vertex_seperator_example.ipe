@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE ipe SYSTEM "ipe.dtd">
 <ipe version="70107" creator="Ipe 7.1.10">
-<info created="D:20171014115731" modified="D:20171204103800"/>
+<info created="D:20171014115731" modified="D:20171205122739"/>
 <ipestyle name="basic">
 <symbol name="arrow/arc(spx)">
 <path stroke="sym-stroke" fill="sym-stroke" pen="sym-pen">
@@ -427,5 +427,11 @@ h
 2288 2048 l
 </path>
 <text matrix="1 0 0 1 -16 -24" transformations="translations" pos="2320 2084" stroke="black" type="label" width="67.714" height="18.564" depth="6.18" valign="baseline" size="Huge">$T_V(G)$</text>
+<text matrix="1 0 0 1 82.1788 122.569" transformations="translations" pos="2048 2048" stroke="KITblack" type="label" width="12.741" height="10.672" depth="0" valign="baseline" size="Huge">$a$</text>
+<text matrix="1 0 0 1 82.1788 -137.431" transformations="translations" pos="2048 2048" stroke="KITblack" type="label" width="10.319" height="17.213" depth="0" valign="baseline" size="Huge">$b$</text>
+<text matrix="1 0 0 1 506.179 -137.431" transformations="translations" pos="2048 2048" stroke="KITblack" type="label" width="16.5" height="20.474" depth="0" valign="baseline" size="Huge">$b&apos;$</text>
+<text matrix="1 0 0 1 598.179 -137.431" transformations="translations" pos="2048 2048" stroke="KITblack" type="label" width="22.182" height="20.474" depth="0" valign="baseline" size="Huge">$b&apos;&apos;$</text>
+<text matrix="1 0 0 1 598.179 118.569" transformations="translations" pos="2048 2048" stroke="KITblack" type="label" width="24.603" height="20.474" depth="0" valign="baseline" size="Huge">$a&apos;&apos;$</text>
+<text matrix="1 0 0 1 502.179 118.569" transformations="translations" pos="2048 2048" stroke="KITblack" type="label" width="18.921" height="20.474" depth="0" valign="baseline" size="Huge">$a&apos;$</text>
 </page>
 </ipe>

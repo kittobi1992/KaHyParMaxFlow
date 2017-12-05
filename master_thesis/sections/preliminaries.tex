@@ -57,7 +57,7 @@ induced by $V' \subseteq V$ with $E_{V'} = \{(u,v) \in E\ |\ u,v \in V'\}$.
 \label{sec:applications}
 
 Given a graph $G = (V,E,c)$ with capacity function $c: E \rightarrow \mathbb{R}_+$ and a source 
-$s \in V$ and a sink $t \in V$. The maximum flow problem is about finding 
+$s \in V$ and a sink $t \in V$, the maximum flow problem is to find
 the maximum amount of flow from $s$ to $t$ in $G$. A flow is a function 
 $f: E \rightarrow \mathbb{R}_+$, which have to satisfy the following constraints:
 \begin{enumerate}
@@ -76,12 +76,14 @@ The \emph{residual capacity} $r_f: V \times V \rightarrow \mathbb{R}_+$ is defin
 \item $\forall (u,v) \in E: r_f(u,v) = c(u,v) - f(u,v)$
 \item $\forall (u,v) \in E:$ If $f(u,v) > 0$ and $c(v,u) = 0$, then $r_f(v,u) = f(u,v)$
 \end{enumerate}
-For a edge $e = (u,v) \in E$ the residual capacity $r_f(u,v)$ is the remaining amount of 
+For an edge $e = (u,v) \in E$ the residual capacity $r_f(u,v)$ is the remaining amount of 
 flow which can be send over edge $e$. For each reverse edge $\overleftarrow{e} \notin E$ the
 residual capacity $r_f(\overleftarrow{e})$ is the amount of flow which is send over $e$.
 The \emph{residual graph} $G_f = (V,E_f,r_f)$ is the network containing all $(u,v) \in V \times V$
-with $r_f(u,v) > 0$. More formal $E_f = \{(u,v) \in V \times V\ |\ r_f(u,v) > 0\}$.
-\autoref{img:maximum_flow_example}~illustrates all presented concepts. \\
+with $r_f(u,v) > 0$. More formally $E_f = \{(u,v) \in V \times V\ |\ r_f(u,v) > 0\}$.
+An \emph{augmenting path} $P = \{v_1,\ldots,v_k\}$ is a path in $G_f$ with $v_1 = s$ and 
+$v_k = t$ \cite{edmonds1972theoretical}. \autoref{img:maximum_flow_example}~illustrates 
+all presented concepts. \\
 \begin{figure}
 \centering
 \includegraphics[width=0.9\textwidth]{../img/maximum_flow/maximum_flow_example.eps}
@@ -105,14 +107,9 @@ in $G_f$. A node $v$ is \emph{reachable} from a node $u$ if there exists a path 
 to $v$. Then the set of all cut edges between the bipartition $(A,V\setminus A)$ 
 is a minimum-weight $(s,t)$-cutset \cite{ford2015flows}. $A$ can be calculated with a \BFS~in $G_f$ starting
 from $s$. \\
-From this analogy, many solutions for related problems arose. Samples are listed below:
-\begin{enumerate}
-\item Maximum Bipartite-Matching
-\item Minimum-Weight Vertex Separator
-\item Number of Edge-Disjoint Paths
-\item Number of Vertex-Disjoint Paths
-\end{enumerate}
-Solutions for those problems sometimes involves a transformation $T$ of the graph $G$
+We can solve with maximum flows many related problems like e.g., maximum bipartite-matching,
+number of edge- or vertex-disjoint paths in a graph or to find a minimum-weight vertex
+separator. Solutions for those problems sometimes involve a transformation $T$ of the graph $G$
 into a flow network $T(G)$, such that the \emph{Max-Flow-Min-Cut}-Theorem is applicable. 
 A problem essential for this work is to find a minimum-weight $(s,t)$-vertex separator
 in a graph $G = (V,E,c)$ with $c: V \rightarrow \mathbb{R}_+$.
@@ -143,15 +140,10 @@ $T_V$ is defined as follows:
 \end{definition}
 
 The vertex separator problem and transformation $T_V(G)$ is illustrated in \autoref{img:vertex_seperator_example}.
-Obviously, no edge between two adjacent nodes can be in a minimum-capacity $(s,t)$-cutset of $T_V(G)$,
+Obviously, no edge between two adjacent nodes in $G$ can be in a minimum-capacity $(s,t)$-cutset of $T_V(G)$,
 because for all those edges the capacity is $\infty$. Therefore, the cutset must consist
-of edges of the form $(v',v'')$. A minimum-weight $(s,t)$-vertex separator can be calculated with
-the following algorithm:
-\begin{enumerate}
-\item Calculate a maximum flow of $T_V(G)$
-\item Find the corresponding minimum $(s,t)$-cutset.
-\item Map each cut edge $(v',v'')$ to the corresponding node $v$ in $G$
-\end{enumerate}
+of edges of the form $(v',v'')$. A minimum-weight $(s,t)$-vertex separator can be calculated 
+by finding a maximum $(s,t)$-flow of $T_V(G)$ and the corresponding minimum $(s,t)$-cutset \cite{menger1927allgemeinen}.\\
 Given a set of sources $S$ and sinks $T$. The \emph{multi-source multi-sink} maximum flow problem is
 about finding a maximum flow $f$ from all source nodes $s \in S$ to all sink nodes $t \in T$.
 We can transform such a problem into a \emph{single-source single-sink} problem by adding
@@ -190,7 +182,7 @@ c(V') = \sum_{v \in V'} c(v) \\
 
 A vertex $v$ is \emph{incident} to a hyperedge $e$ if $v \in e$.
 Two vertices $u$ and $v$ are \emph{adjacent}, if there exists an 
-$e \in E$ such that $u,v \in e$. $I(v)$ denotes the set of all 
+$e \in E$ such that $u \in e$ and $v \in e$. $I(v)$ denotes the set of all 
 \emph{incident} nets of $v$. The \emph{degree} of a hypernode 
 $v$ is $d(v) = |I(v)|$. The size of a net $e$ is the cardinality $|e|$.
 
@@ -231,18 +223,9 @@ hyperedge $e$ with $\Lambda(e,\Pi) = \{V_i \in \Pi\ |\ V_i \cap e \neq \emptyset
 of a net $e$ is $\lambda(e,\Pi) = |\Lambda(e,\Pi)|$. A hyperedge $e$ is \emph{cut}, if
 $\lambda(e,\Pi) > 1$. $E(\Pi) = \{e\ |\ \lambda(e,\Pi) > 1\}$ is the set of all \emph{cut} 
 nets. We say two blocks $V_i$ and $V_j$ are adjacent, if there exists a hyperedge
-$e$ with $V_i,V_j \in \Lambda(e,\Pi)$.
-
-\begin{definition}
-For a $k$-way partition $\Pi = \{V_1,\ldots,V_k\}$ of a hypergraph $H$ 
-the quotient graph $Q = (\Pi,E')$ is an undirected graph containing an 
-edge between each pair of adjacent blocks of $\Pi$.
-More formal, $E' = \{(V_i,V_j)\ |\ \exists e \in E: V_i,V_j \in \Lambda(e,\Pi)\}$
-\label{def:quotient_graph}
-\end{definition}
-
-We say a $k$-way partition is $\epsilon$-balanced if each block 
-$V_i \in \Pi$ satisfies the \emph{balance constraint} 
+$e$ with $V_i \in \Lambda(e,\Pi)$ and $V_j \in \Lambda(e,\Pi)$. 
+We say a $k$-way partition is $\epsilon$-balanced 
+if each block $V_i \in \Pi$ satisfies the \emph{balance constraint} 
 $c(V_i) \le (1+\epsilon)\lceil\frac{c(V)}{k}\rceil$.
 
 \begin{definition}
@@ -251,12 +234,20 @@ partition $\Pi$ of a hypergraph $H$ such that a certain objective function is mi
 \label{def:kway_partitioning_problem}
 \end{definition}
 
-There exists several objective functions in the hypergraph partitioning context,
-which should either be minimized or maximized. The most popular objective function 
+There exists several objective functions in the hypergraph partitioning context. 
+The most popular objective function 
 is the $\text{cut}$ metric (especially for \emph{graph partitioning}), which is defined as
 \[\omega_H(\Pi) = \sum_{e \in E(\Pi)} \omega(e)\]
-The goal is to minimize the sum of all \emph{cut} hyperedges. Another important metric
+The goal is to minimize the weight of all \emph{cut} hyperedges. Another important metric
 for this work is the $(\lambda - 1)$-metric or \emph{connectivity} metric, 
 which is defined as
 \[(\lambda - 1)_H(\Pi) = \sum_{e \in E} (\lambda(e) - 1)\omega(e)\]
 The idea behind this function is to minimize the \emph{connectivity} of all hyperedges.
+
+\begin{definition}
+We define for a $k$-way partition $\Pi = \{V_1,\ldots,V_k\}$ of a hypergraph $H$ 
+the quotient graph $Q = (\Pi,E')$ which contains an 
+edge between each pair of adjacent blocks of $\Pi$.
+More formally, $E' = \{(V_i,V_j)\ |\ \exists e \in E: V_i,V_j \in \Lambda(e,\Pi)\}$
+\label{def:quotient_graph}
+\end{definition}
