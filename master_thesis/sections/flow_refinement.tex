@@ -116,11 +116,11 @@ hyperedges of $H$, but non-cut hyperedges in $H_{V'}$. The current cut of $H_{V'
 $1$ (instead of $2$) and this is also a minimum $(S,T)$-cut. Transformation $2$ illustrates the
 adapted modeling approach for cut hyperedges of $H$ which are non-cut hyperedges in $H_{V'}$.
 For each hyperedge $e \in \delta B$ with $e \cap V' \subseteq V_2$ and $e \setminus V' \cap V_1 \neq \emptyset$, 
-we add the \emph{incoming hyperedge node} $e'$ to $S$.
+we add the \emph{incoming hyperedge node} $\incoming{e}$ to $S$.
 More formal:
 \begin{align}
-S = S_1 \cup \{e'\ |\ e \cap V' \subseteq V_2 \ \land\ e \setminus V' \cap V_1  \neq \emptyset\} \label{S_border_hyperedges}\\
-T = T_1 \cup \{e''\ |\ e \cap V' \subseteq V_1 \ \land\ e \setminus V' \cap V_2 \neq \emptyset \} \label{T_border_hyperedges}
+S = S_1 \cup \{\incoming{e}\ |\ e \cap V' \subseteq V_2 \ \land\ e \setminus V' \cap V_1  \neq \emptyset\} \label{S_border_hyperedges}\\
+T = T_1 \cup \{\outgoing{e}\ |\ e \cap V' \subseteq V_1 \ \land\ e \setminus V' \cap V_2 \neq \emptyset \} \label{T_border_hyperedges}
 \end{align}
 
 \begin{figure}[ht!]
@@ -173,12 +173,12 @@ based on a incident hyperedge $e \in I(v)$:
 
 $\mathbf{e \cap S \setminus \{v\} \neq \emptyset}$:
 Then there exists a hypernode $u \in e \cap S$ with $u \neq v$. We define
-$f''(u,e') = f''(u,e') + f'(v,e')$ and $f''(s,u) = f''(s,u) + f'(v,e')$. 
+$f''(u,\incoming{e}) = f''(u,\incoming{e}) + f'(v,\incoming{e})$ and $f''(s,u) = f''(s,u) + f'(v,\incoming{e})$. 
 
 $\mathbf{e \cap S \setminus \{v\} = \emptyset}$:
 In this case $e$ must be a cut hyperedge in $H$, but not in $H_{V'}$, otherwise
 there would exist a hypernode $u \in e \cap S$ (see Equation \ref{S1_border_hyperedges}).
-We define $S'' = S'' \cup \{e'\}$. Also, we set $f''(s,e') = f'(v,e')$. 
+We define $S'' = S'' \cup \{\incoming{e}\}$. Also, we set $f''(s,\incoming{e}) = f'(v,\incoming{e})$. 
 
 The two cases are illustrated in \autoref{img:delta_proof_illustration}.
 After applying this procedure for all $e \in I(v)$ we can remove $v$ from $T_L(H_{V' \cup V''})$. 
@@ -189,8 +189,8 @@ there would exist an augmenting path in the residual graph $T_L(H_{V' \cup V''\s
 which we can map to an augmenting path in $T_L(H_{V' \cup V''})$ (without a proof). With this method 
 we can successively remove all $v \in V''$ of $T_L(H_{V' \cup V''})$ . \\
 The resulting  flow network is $T_L(H_{V'})$. For each $e \in E$ which is cut in $H$, but not
-in $H_{V'}$, we have added the corresponding \emph{incoming hyperedge node} $e'$
-resp. \emph{outgoing hyperedge node} $e''$ to $S''$ resp. $T''$. Therefore, 
+in $H_{V'}$, we have added the corresponding \emph{incoming hyperedge node} $\incoming{e}$
+resp. \emph{outgoing hyperedge node} $\outgoing{e}$ to $S''$ resp. $T''$. Therefore, 
 $S''$ and $T''$ are equal to $S$ and $T$ as defined in Equation \ref{S_border_hyperedges}
 and \ref{T_border_hyperedges}. Finally, the flow function $f''$ is a maximum
 $(S,T)$-flow of $T_L(H_{V'})$ and $|f''| = |f'| = \omega_{H_{V'}}(B_2)$.
@@ -222,8 +222,8 @@ $\delta B_1$ contains all non-cut \emph{border hyperedges} of $H$. $\delta B_2$ 
 all \emph{cut border hyperedges} of $H$, which are also cut in $H_{V'}$ and $\delta B_3$ contains
 all \emph{cut border hyperedges} of $H$, which are non-cut in $H_{V'}$.
 \begin{align}
-S = \bigcup\limits_{\substack{e \in \delta B_1 \\ e \subseteq V_1}} e\cap V'\ \cup \bigcup\limits_{\substack{e \in \delta B_2 \cup \delta B_3 \\ e \setminus V' \cap V_1 \neq \emptyset}} \{e'\} \label{S_final_border_hyperedges}\\
-T = \bigcup\limits_{\substack{e \in \delta B_1 \\ e \subseteq V_2}} e\cap V'\ \cup \bigcup\limits_{\substack{e \in \delta B_2 \cup \delta B_3 \\ e \setminus V' \cap V_2 \neq \emptyset}} \{e''\} \label{T_final_border_hyperedges}
+S = \bigcup\limits_{\substack{e \in \delta B_1 \\ e \subseteq V_1}} e\cap V'\ \cup \bigcup\limits_{\substack{e \in \delta B_2 \cup \delta B_3 \\ e \setminus V' \cap V_1 \neq \emptyset}} \{\incoming{e}\} \label{S_final_border_hyperedges}\\
+T = \bigcup\limits_{\substack{e \in \delta B_1 \\ e \subseteq V_2}} e\cap V'\ \cup \bigcup\limits_{\substack{e \in \delta B_2 \cup \delta B_3 \\ e \setminus V' \cap V_2 \neq \emptyset}} \{\outgoing{e}\} \label{T_final_border_hyperedges}
 \end{align}
 
 \begin{figure}
@@ -293,7 +293,7 @@ on $T_L(H_{V'})$ the inequality $\omega_H(B_2) \le \omega_H(B_3) \le \omega_H(B_
 
 \begin{proof}
 Let $(\bar{S'},\bar{T'})$ resp. $(\bar{S},\bar{T})$ be the sets obtained by removing all
-\emph{incoming} and \emph{outgoing hyperedge nodes} $e'$ and $e''$ from $(S',T')$ resp.
+\emph{incoming} and \emph{outgoing hyperedge nodes} $\incoming{e}$ and $\outgoing{e}$ from $(S',T')$ resp.
 $(S,T)$. It holds that $\bar{S'} \subseteq \bar{S}$ and $\bar{T'} \subseteq \bar{T}$. Afterwards,
 we extend the subhypergraph $H_{V'}$ with all hypernodes $V'' = \bigcup_{e \in \delta B} e \setminus V'$
 and obtain subhypergraph $H_{V' \cup V''}$ with flow network $T_L(H_{V' \cup V''})$.
@@ -343,11 +343,11 @@ by adding an undirected flow edge between the corresponding vertices $u,v \in e$
 the incoming or outgoing hyperedge node is a source or a sink node, we can not directly
 remove the hyperedge nodes. There are two special cases which are illustrated
 in \autoref{img:edge_size_two}. This situation occurs if one of the two vertices is part
-of the flow problem and one not. In case, if the incoming hyperedge node $e'$ is a source node, 
-we only remove the outgoing hyperedge node $e''$ and add a directed flow edge from $e'$ 
-to $v$ with capacity $\omega(e)$. In the second case, if the outgoing hyperedge node $e''$ is
-a sink node, we only remove the incoming hyperedge node $e'$ and add a directed flow edge from
-$v$ to $e''$ with capacity $\omega(e)$.
+of the flow problem and one not. In case, if the incoming hyperedge node $\incoming{e}$ is a source node, 
+we only remove the outgoing hyperedge node $\outgoing{e}$ and add a directed flow edge from $\incoming{e}$ 
+to $v$ with capacity $\omega(e)$. In the second case, if the outgoing hyperedge node $\outgoing{e}$ is
+a sink node, we only remove the incoming hyperedge node $\incoming{e}$ and add a directed flow edge from
+$v$ to $\outgoing{e}$ with capacity $\omega(e)$.
 \begin{figure}[ht!]
 \centering
 \includegraphics[width=0.95\textwidth]{../img/source_and_sink_set/edge_size_two.eps}

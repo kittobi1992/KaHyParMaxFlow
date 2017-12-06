@@ -95,11 +95,11 @@ presented by Lawler \cite{lawler1973}:
 Let $T_L$ be the transformation of a hypergraph \HypergraphDef~into 
 a flow network \T{L} proposed by Lawler \cite{lawler1973}. \ShortT{L} is defined as follows:
 \begin{enumerate}
-\item $V_L = V \cup \bigcup\limits_{e \in E}\ \{e', e''\}$
-\item $\forall e \in E$ we add a directed edge $(e',e'')$ 
-      with capacity $c_H(e',e'') = \omega(e)$
-\item $\forall v \in V$ and $\forall e \in I(v)$ we add two directed edges $(v, e')$ and 
-      $(e'', v)$ with capacity $c_L(v, e') = c_L(e'',v) = \infty$.
+\item $V_L = V \cup \bigcup\limits_{e \in E}\ \{\incoming{e}, \outgoing{e}\}$
+\item $\forall e \in E$ we add a directed edge $(\incoming{e},\outgoing{e})$ 
+      with capacity $\capa_H(\incoming{e},\outgoing{e}) = \omega(e)$
+\item $\forall v \in V$ and $\forall e \in I(v)$ we add two directed edges $(v, \incoming{e})$ and 
+      $(\outgoing{e}, v)$ with capacity $\capa_L(v, \incoming{e}) = \capa_L(\outgoing{e},v) = \infty$.
 \end{enumerate} 
 \end{definition}
 
@@ -120,10 +120,10 @@ The minimum-weight $(s,t)$-bipartition are all $v \in V$ \emph{reachable} from $
 from $s$. \\ 
 In this thesis, we often have to mix up nodes and edges of $H$ and \ShortT{L}. If we use
 $v \in V_L$, there also exists a corresponding $v \in V$. $v$ can be used in both contexts.
-For all $e \in E$ there exists two corresponding nodes $e',e'' \in V_L$. $e'$ 
-is called \emph{incoming hyperedge node} and $e''$ is called \emph{outgoing hyperedge node}. 
-In some cases we need to treat $e',e'' \in V_L$ the same way as their corresponding 
-hyperedge $e \in E \Rightarrow e_1' \cap e_2'$ or $e_1'' \cap e_2'$ should be the same as $e_1 \cap e_2$.
+For all $e \in E$ there exists two corresponding nodes $\incoming{e},\outgoing{e} \in V_L$. $\incoming{e}$ 
+is called \emph{incoming hyperedge node} and $\outgoing{e}$ is called \emph{outgoing hyperedge node}. 
+In some cases we need to treat $\incoming{e},\outgoing{e} \in V_L$ the same way as their corresponding 
+hyperedge $e \in E \Rightarrow \incoming{e_1} \cap \outgoing{e_2}$ or $\outgoing{e_1} \cap \incoming{e_2}$ should be the same as $e_1 \cap e_2$.
 
 
 \begin{figure}

@@ -11,8 +11,8 @@ is a relation between two nodes $u,v \in V$.
 
 Two vertices $u$ and $v$ are \emph{adjacent}, if there exists an edge
 $(u,v) \in E$. Two edges $e_1$ and $e_2$ are \emph{incident} to each other if they
-share a node. $I(v)$ denotes the set of all \emph{adjacent} nodes of 
-$v$. The \emph{degree} of a node $v$ is $d(v) = |I(v)|$.
+share a node. $N(v)$ denotes the set of all \emph{adjacent} nodes of 
+$v$. The \emph{degree} of a node $v$ is $d(v) = |N(v)|$.
 
 \begin{definition}
 Given a directed graph $G = (V,E)$. A contraction of two nodes
@@ -56,16 +56,16 @@ induced by $V' \subseteq V$ with $E_{V'} = \{(u,v) \in E\ |\ u,v \in V'\}$.
 \subsection{Flows and Applications}
 \label{sec:applications}
 
-Given a graph $G = (V,E,c)$ with capacity function $c: E \rightarrow \mathbb{R}_+$ and a source 
+Given a graph $G = (V,E,u)$ with capacity function $\capa: E \rightarrow \mathbb{R}_+$ and a source 
 $s \in V$ and a sink $t \in V$, the maximum flow problem is to find
 the maximum amount of flow from $s$ to $t$ in $G$. A flow is a function 
 $f: E \rightarrow \mathbb{R}_+$, which have to satisfy the following constraints:
 \begin{enumerate}
-\item $\forall (u,v) \in E: f(u,v) \le c(u,v)$ (capacity constraint)
+\item $\forall (u,v) \in E: f(u,v) \le \capacity{u,v}$ (capacity constraint)
 \item $\forall v \in V \setminus \{s,t\}: \sum_{(u,v) \in E} f(u,v) = \sum_{(v,u) \in E} f(v,u)$ (conservation of flow constraint)
 \end{enumerate}
 The capacity constraint restricts the flow on edge $(u,v)$ by its capacity 
-$c(u,v)$. Whereas the conservation of flow constraint ensures that the amount
+$\capacity{u,v}$. Whereas the conservation of flow constraint ensures that the amount
 of flow entering a node $v \in V \setminus \{s,t\}$ is the same as leaving a node.
 The value of the flow is defined as $|f| = \sum_{(s,v) \in E} f(s,v) = \sum_{(v,t) \in E} f(v,t)$.
 A flow $f$ is maximal, if there exists no other flow $f'$ with $|f'| > |f|$. \\
@@ -73,8 +73,8 @@ Further, we define the \emph{residual graph} $G_f$ and the
 \emph{residual capacity} $r_f$ of a flow function $f$ on graph $G$.
 The \emph{residual capacity} $r_f: V \times V \rightarrow \mathbb{R}_+$ is defined as follows:
 \begin{enumerate}
-\item $\forall (u,v) \in E: r_f(u,v) = c(u,v) - f(u,v)$
-\item $\forall (u,v) \in E:$ If $f(u,v) > 0$ and $c(v,u) = 0$, then $r_f(v,u) = f(u,v)$
+\item $\forall (u,v) \in E: r_f(u,v) = \capacity{u,v} - f(u,v)$
+\item $\forall (u,v) \in E:$ If $f(u,v) > 0$ and $\capacity{v,u} = 0$, then $r_f(v,u) = f(u,v)$
 \end{enumerate}
 For an edge $e = (u,v) \in E$ the residual capacity $r_f(u,v)$ is the remaining amount of 
 flow which can be send over edge $e$. For each reverse edge $\overleftarrow{e} \notin E$ the
@@ -128,28 +128,28 @@ calculation on the following flow network \cite{west2001introduction}:
 \begin{definition}
 \label{def:vertex_seperator_transformation}
 Let $T_V$ be a transformation of a graph $G = (V,E,c)$ into 
-a flow network $T_V(G) = (V_V, E_V, c_V)$ (with $c_V: E_V \rightarrow \mathbb{R}_+$). 
+a flow network $T_V(G) = (V_V, E_V, \capa_V)$ (with $\capa_V: E_V \rightarrow \mathbb{R}_+$). 
 $T_V$ is defined as follows:
 \begin{enumerate}
-\item $V_V = \bigcup\limits_{v \in V}\ \{v', v''\}$
-\item $\forall v \in V$ add a directed edge $(v',v'')$
-      with capacity $c_V(v',v'') = c(v)$
-\item $\forall (u,v) \in E$ add two directed edges $(u'', v')$ and 
-      $(v'', u')$ with capacity $c_V(u'', v') = c_V(v'', u') = \infty$.
+\item $V_V = \bigcup\limits_{v \in V}\ \{\incoming{v}, \outgoing{v}\}$
+\item $\forall v \in V$ add a directed edge $(\incoming{v},\outgoing{v})$
+      with capacity $\capa_V(\incoming{v},\outgoing{v}) = c(v)$
+\item $\forall (u,v) \in E$ add two directed edges $(\outgoing{u}, \incoming{v})$ and 
+      $(\outgoing{v}, \incoming{u})$ with capacity $\capa_V(\outgoing{u}, \incoming{v}) = \capa_V(\outgoing{v}, \incoming{u}) = \infty$.
 \end{enumerate} 
 \end{definition}
 
 The vertex separator problem and transformation $T_V(G)$ is illustrated in \autoref{img:vertex_seperator_example}.
 Obviously, no edge between two adjacent nodes in $G$ can be in a minimum-capacity $(s,t)$-cutset of $T_V(G)$,
 because for all those edges the capacity is $\infty$. Therefore, the cutset must consist
-of edges of the form $(v',v'')$. A minimum-weight $(s,t)$-vertex separator can be calculated 
+of edges of the form $(\incoming{v},\outgoing{v})$. A minimum-weight $(s,t)$-vertex separator can be calculated 
 by finding a maximum $(s,t)$-flow of $T_V(G)$ and the corresponding minimum $(s,t)$-cutset \cite{menger1927allgemeinen}.\\
 Given a set of sources $S$ and sinks $T$. The \emph{multi-source multi-sink} maximum flow problem is
 about finding a maximum flow $f$ from all source nodes $s \in S$ to all sink nodes $t \in T$.
 We can transform such a problem into a \emph{single-source single-sink} problem by adding
 two additional nodes $s$ and $t$. We add a directed edge from $s$ to all source nodes $s' \in S$ 
 and for all sink nodes $t' \in T$ a directed edge to $t$ with capacity 
-$c(s,s') = c(t',t) = \infty$.
+$\capacity{s,s'} = \capacity{t',t} = \infty$.
 
 \begin{figure}
 \centering
