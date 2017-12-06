@@ -287,6 +287,47 @@ interpreted as a graph edge. Instead of modelling those edges as described by La
 with $|e| = 2$ and add an undirected flow edge between $v_1,v_2 \in e$ (with $v_1 \neq v_2$) with
 capacity $c(\{v_1,v_2\}) = \omega(e)$.
 
+\begin{lemma}
+\label{lemma:undirected_transformation}
+Let $G = (V,E,c)$ be an undirected flow network with capacity function $c: E \rightarrow \mathbb{N}_+$.
+$G$ can be transformed into a directed graph $G'$ such that each maximum $(s,t)$-flow $f$ of $G$
+is equal with a maximum $(s,t)$-flow $f'$ of $G'$.
+\end{lemma}
+
+\begin{proof}
+Assume $\forall e \in E: c(e) = 1$. A maximum $(s,t)$-flow is then equal with the maximum
+number of edge-disjoint paths between $s$ and $t$ in a directed graph (Menger's Theorem \cite{menger1927allgemeinen}).
+This theorem can also be prooven for undirected graphs if we replace each undirected edge
+$e = \{u,v\}$ by five directed edges $(v,x'),(w,x'),(x',x''),(x'',v),(x'',w)$ (see \autoref{img:menger_transformation})
+\cite{menger1927allgemeinen}. Obviously, we can map each set of edge-disjoint paths from $s$ to $t$ from $G'$ to $G$
+and vice versa. Therefore, the maximum number of edge-disjoint paths from $s$ to $t$ in
+$G'$ is then equal to $G$ and therefore, $|f| = |f'|$. \\
+Consider the general case where $\forall e \in E: c(e) \in \mathbb{N}_+$. We can transform the
+weighted undirected graph $G$ into an unweighted directed multigraph by replacing each undirected
+edge $e = \{u,v\}$ with $c(e)$ undirected edges of weight $1$ (see \autoref{img:menger_transformation}).
+Afterwards, we can use the transformation to a unweighted directed multigraph the same way as before.
+Again, we can apply Menger's Theorem to show that $|f| = |f'|$. Newman \cite{newman2004analysis}
+showed that there is an one-to-one correspondence between a maximum $(s,t)$-flow of an unweighted multigraph
+and its corresponding weighted graph where the weight of each edge $(u,v)$ is the number of parallel
+edges between $u$ and $v$ of the multigraph.
+\end{proof}
+
+\begin{figure}
+\centering
+\includegraphics[width=0.8\textwidth]{../img/network_transformation/menger_transformation.eps}
+\caption{Illustration of the transformation of an unweighted or weighted undirected graph into
+         an unweighted or weighted directed graph. The equivalence of a maximum $(s,t)$-flow
+         of a unweighted multigraph and their correspondnig weighted graph is a result of 
+         a work by Newman \cite{newman2004analysis}.}
+\label{img:menger_transformation}
+\end{figure}
+
+Note, that each structure of a weighted directed graph illustrated on the right side of
+\autoref{img:menger_transformation}~could be transformed into an undirected edge with weight
+$c(\{u,v\}) = c(x',x'')$ as a consequence of the construction of the proof of Lemma \ref{lemma:undirected_transformation}.
+Each hyperedge $e$ with $|e| = 2$ has exactly this structure in \ShortT{L}. Therefore, we can 
+construct the following network:
+
 \begin{definition}
 Let $T_G$ be a transformation that converts a hypergraph \HypergraphDef~into 
 a flow network \T{G}. \ShortT{G} is defined as follows:
@@ -323,42 +364,46 @@ flow network \T{G}.
 
 \begin{proof}
 
-%Each path $P_L$ of \ShortT{L} from $s \in S$ to $t \in T$ can be mapped 
-%bijective to a path $P_G$ of \ShortT{G} by replacing each occurence of $(\ldots,v_1,e',e'',v_2,\ldots)$ 
-%with $|e| = 2$ and $v_1,v_2 \in e$ in $P_L$ with $(\ldots,v_1,v_2,\ldots)$ in $P_G$.
-%Therefore, there exists a one-to-one correspondence between all paths from $S$
-%to $T$ of \ShortT{L} and \ShortT{G}. Since $c_L(e',e'') = c_G(v_1,v_2)$, each augmenting path of \ShortT{L}
-%can be mapped to a unique augmenting path of \ShortT{G} and vice versa. Executing an
-%augmenting path maximum flow algorithm on \ShortT{L} and simultanousely mapping each augmenting path
-%to \ShortT{G} yields to a maximum $(S,T)$-flow $f$ on both networks. 
+Before we can apply Lemma \ref{lemma:undirected_transformation} on all hyperedges $e$
+with $|e| = 2$, we have to show how to handle the infinite capacity edges of \ShortT{L}.
+The flow leaving $e'$ is restricted by $c(e',e'') = \omega(e)$. Therefore, the flow entering
+$e'$ is restricted by $f(u,e') + f(v,e') \le c(e',e'') = \omega(e)$ with $u \in e$ and
+$v \in e$ and $u \neq v \Rightarrow$ $f(u,e') \le \omega(e)$ and $f(v,e') \le \omega(e)$.
+The same holds for $f(e'',u)$ and $f(e'',v)$. Therefore, we can replace each infinite 
+capacity of an edge entering $e'$ or leaving $e''$ with $\omega(e)$ without changing the amount
+of a maximum $(S,T)$-flow. We call the capacity adapted network \ShortT{L'}.\\
+Applying the transformation of Lemma \ref{lemma:undirected_transformation} on each undirected
+edge of \ShortT{G} results in flow network \ShortT{L'}. It follows, that a maximum $(S,T)$-flow of \ShortT{G} is equal
+with a maximum $(S,T)$-flow of \ShortT{L'} and \ShortT{L}. Consequently, a minimum-capacity
+$(S,T)$-cutset of \ShortT{G} is equal with a minimum-weight $(S,T)$-cutset of $H$.
 
-We define the bijective function $\Phi: E_L \rightarrow E_G$ as follows
-\[ \Phi(e',e'') = 
-   \begin{cases}
-      (e',e''), \text{if } |e| \neq 2, \\
-      \{v_1,v_2\}, \text{otherwise (with $v_1,v_2 \in e$ and $v_1 \neq v_2$)}
-   \end{cases} \]
-
-We will show that each $(S,T)$-cutset $A_L$ of \ShortT{L} is a $(S,T)$-cutset $\Phi(A_L)$ of
-\ShortT{G} and vice versa. Per defintion $c_L(A_L) = c_G(\Phi(A_L))$ and for each $(S,T)$-cutset
-$A_G$ of \ShortT{G} $c_G(A_G) = c_L(\Phi^{-1}(A_G))$. Therefore, each minimum-capacity $(S,T)$-cutset
-of \ShortT{L} must be a minimum-capacity $(S,T)$-cutset of \ShortT{G} and vice versa. In the following 
-let $E^* = \bigcup_{e \in E} \{(e',e'')\}$. \\
-Let $A_L \subseteq E^*$ be a $(S,T)$-cutset of \ShortT{L}. Assume $\Phi(A_L)$ is not a $(S,T)$-cutset
-of \ShortT{G}. Then there exists a path
-$P_G = \{v_1,\ldots,v_k\}$ connecting $S$ and $T$ in \ShortT{G} not containing any edge $e \in \Phi(A_L)$.
-Let $P_L$ be the path in \ShortT{L} obtained by adding edge $\Phi^{-1}(v_i,v_{i+1}) = (e',e'')$ between all
-$v_i \in V$ and $v_{i+1} \in V$ in $P_G$. $\Phi^{-1}(v_i,v_{i+1}) \notin A_L$, because
-$P_G$ does not contain any edge of $\Phi(A_L)$. $P_L$ connects $S$ and
-$T$ in \ShortT{L}, which is a contradiction to the assumption that $A_L$ is a $(S,T)$-cutset. \\
-Let $A_G \subseteq \Phi(E^*)$ be a $(S,T)$-cutset in \ShortT{G}. Let's assume $\Phi^{-1}(A_G)$ is not
-a $(S,T)$-cutset of \ShortT{L}. Then there exists a path $P_L = \{v_1,\ldots,v_k\}$ 
-connecting $S$ and $T$ in \ShortT{L} not containing any
-edge $e \in \Phi^{-1}(A_G)$. Let $P_G$ be the path in \ShortT{G} obtained by removing each edge
-$(v_i,v_{i+1})$ with $v_i = e'$ and $v_{i+1} = e''$ and $|e| = 2$ from $P_L$. Based on the construction
-of \ShortT{L} the predecessor of $v_i$ and successor of $v_{i+1}$ must be hypernodes $v_1,v_2 \in e$.
-Therefore, $P_G$ is a valid path in \ShortT{G} connecting $S$ and $T$ and not contain any edge of 
-$A_G$. This is a contradiction to the assumption that $A_G$ is a $(S,T)$-cutset.
+%We define the bijective function $\Phi: E_L \rightarrow E_G$ as follows
+%\[ \Phi(e',e'') = 
+%   \begin{cases}
+%      (e',e''), \text{if } |e| \neq 2, \\
+%      \{v_1,v_2\}, \text{otherwise (with $v_1,v_2 \in e$ and $v_1 \neq v_2$)}
+%   \end{cases} \]
+%
+%We will show that each $(S,T)$-cutset $A_L$ of \ShortT{L} is a $(S,T)$-cutset $\Phi(A_L)$ of
+%\ShortT{G} and vice versa. Per defintion $c_L(A_L) = c_G(\Phi(A_L))$ and for each $(S,T)$-cutset
+%$A_G$ of \ShortT{G} $c_G(A_G) = c_L(\Phi^{-1}(A_G))$. Therefore, each minimum-capacity $(S,T)$-cutset
+%of \ShortT{L} must be a minimum-capacity $(S,T)$-cutset of \ShortT{G} and vice versa. In the following 
+%let $E^* = \bigcup_{e \in E} \{(e',e'')\}$. \\
+%Let $A_L \subseteq E^*$ be a $(S,T)$-cutset of \ShortT{L}. Assume $\Phi(A_L)$ is not a $(S,T)$-cutset
+%of \ShortT{G}. Then there exists a path
+%$P_G = \{v_1,\ldots,v_k\}$ connecting $S$ and $T$ in \ShortT{G} not containing any edge $e \in \Phi(A_L)$.
+%Let $P_L$ be the path in \ShortT{L} obtained by adding edge $\Phi^{-1}(v_i,v_{i+1}) = (e',e'')$ between all
+%$v_i \in V$ and $v_{i+1} \in V$ in $P_G$. $\Phi^{-1}(v_i,v_{i+1}) \notin A_L$, because
+%$P_G$ does not contain any edge of $\Phi(A_L)$. $P_L$ connects $S$ and
+%$T$ in \ShortT{L}, which is a contradiction to the assumption that $A_L$ is a $(S,T)$-cutset. \\
+%Let $A_G \subseteq \Phi(E^*)$ be a $(S,T)$-cutset in \ShortT{G}. Let's assume $\Phi^{-1}(A_G)$ is not
+%a $(S,T)$-cutset of \ShortT{L}. Then there exists a path $P_L = \{v_1,\ldots,v_k\}$ 
+%connecting $S$ and $T$ in \ShortT{L} not containing any
+%edge $e \in \Phi^{-1}(A_G)$. Let $P_G$ be the path in \ShortT{G} obtained by removing each edge
+%$(v_i,v_{i+1})$ with $v_i = e'$ and $v_{i+1} = e''$ and $|e| = 2$ from $P_L$. Based on the construction
+%of \ShortT{L} the predecessor of $v_i$ and successor of $v_{i+1}$ must be hypernodes $v_1,v_2 \in e$.
+%Therefore, $P_G$ is a valid path in \ShortT{G} connecting $S$ and $T$ and not contain any edge of 
+%$A_G$. This is a contradiction to the assumption that $A_G$ is a $(S,T)$-cutset.
 \end{proof} 
 
 A minimum-weight $(S,T)$-cutset of $H$ could also be calculated with \ShortT{G}. 

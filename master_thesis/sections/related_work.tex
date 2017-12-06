@@ -24,7 +24,7 @@ by $\Delta f$. If the capacities are integral, the algorithm always terminates. 
 path} in $G_f$ with a simple \DFS~in \BigO{|V|+|E|} and increase the
 flow on every path by at least one, the running time of the algorithm can be bounded by \BigO{|E||f_{max}|}.
 We can construct instances, where the running time is \BigO{|E||f_{max}|} or even the maximum flow $|f_{max}|$ 
-is exponential in the problem size. \\
+is exponential in the problem size \cite{edmonds1972theoretical}. \\
 Edmond and Karp \cite{edmonds1972theoretical} improved Ford \& Fulkerson's algorithm by increasing the flow
 along an \emph{augmenting path} of minimal length. The shortest path from $s$ to $t$ in a 
 graph with unit lengths can be found by a simple \BFS~calculation. It can be shown, that the
@@ -85,7 +85,7 @@ nodes with distance label $i$.
 
 Consider the \emph{bipartite graph} representation $G_*(H)$ of a hypergraph $H$ (see Section \ref{sec:hypergraph}).
 Hu and Moerder \cite{HuMoerder85} introduce node capacities in $G_*(H)$. Each hyperedge
-node $e$ has a capacity equal to $\omega(e)$ and each hypernode node has infinite capacity. 
+$e$ has a capacity equal to $\omega(e)$ and each hypernode has infinite capacity. 
 Further, they show that a minimum-weight $(s,t)$-vertex separator in $G_*(H)$
 is equal with a minimum-weight $(s,t)$-cutset of a hypergraph $H$. 
 Finding such a separator is a flow problem and can be calculated with the flow network \ShortT{L} 
@@ -123,8 +123,7 @@ $v \in V_L$, there also exists a corresponding $v \in V$. $v$ can be used in bot
 For all $e \in E$ there exists two corresponding nodes $e',e'' \in V_L$. $e'$ 
 is called \emph{incoming hyperedge node} and $e''$ is called \emph{outgoing hyperedge node}. 
 In some cases we need to treat $e',e'' \in V_L$ the same way as their corresponding 
-hyperedge $e \in E$. E.g., $e_1' \cap e_2'$ or $e_1'' \cap e_2'$ should be the same as $e_1 \cap e_2$.
-However, it should be clear out of the context which terminology is used.
+hyperedge $e \in E \Rightarrow e_1' \cap e_2'$ or $e_1'' \cap e_2'$ should be the same as $e_1 \cap e_2$.
 
 
 \begin{figure}
@@ -330,16 +329,18 @@ a community detection algorithm is executed which optimizes \emph{modularity} \c
 heuer2017improving}. During the \emph{coarsening phase} contractions are restricted to vertices within the same 
 community. The contraction partners are chosen according to the \emph{heavy-edge} rating function
 $r(u,v) := \sum_{e \in I(u) \cap I(v)} \frac{\omega(e)}{|e|-1}$ \cite{karypis1999multilevel}. The
-function prefers vertices which share a large number of heavy nets with small size. The rating
-function is evaluated \emph{lazily} which means that after a contraction of two hypernodes $u$ and
-$v$ all ratings related to those vertices are \emph{invalid} \cite{schlag2016k}. If the PQ returns
-an \emph{invalid} rating, we immediately recalculate $r(u,v)$ and insert the new rating in the
-PQ. The \emph{initial partitioning} uses the \emph{recursive bisection} approach to calculate
+function prefers vertices which share a large number of heavy nets with small size. The contraction
+algorithm works in passes. At the beginning of each pass a random permutation of the vertices 
+is created and for each vertex $u$, the contraction partner $v$ is determined according
+to the \emph{heavy-edge} rating function \cite{schlag2016k}. A pass ends if each vertex is either
+considered as representative or contraction partner. The passes are repeated until only
+$t = 160k$ hypernodes remains.
+The \emph{initial partitioning} uses the \emph{recursive bisection} approach to calculate
 a $k$-way partition in combination with a portfolio of initial partitioning techniques 
 \cite{heuer2015engineering}. In the \emph{refinement phase}, a localized \emph{FM} search is started \cite{fiduccia1988linear},
 initialized with the current uncontracted vertices. The \emph{local search} maintains $k$ \emph{priority
 queues} (PQ) for each block $V_i$ \cite{akhremtsev2017engineering}. A hypernode $v$ contained in 
-$i$-th PQ with gain $g$ means that moving vertex $v$ to block $V_i$ has gain $g$. After a move,
+the $i$-th PQ with gain $g$ means that moving vertex $v$ to block $V_i$ has gain $g$. After a move,
 the gains of all adjacent hypernodes are updated with a \emph{delta-gain} update strategy \cite{papa2007hypergraph}.
 The recalculation of all gain values at the beginning of a \emph{FM} pass is one of the main bottlenecks
 of the algorithm \cite{papa2007hypergraph}. Therefore, Schlag et al. \cite{akhremtsev2017engineering,
