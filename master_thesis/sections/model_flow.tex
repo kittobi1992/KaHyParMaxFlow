@@ -35,7 +35,7 @@ $in(u) := \{v\ |\ (v,u) \in E\}$ and $out(u) := \{v\ |\ (u,v) \in E\}$ with $u \
 
 \begin{lemma}
 \label{lemma:node_removal}
-Let $G = (V,E,c)$ be a flow network and $u \in V$ a node where
+Let $G = (V,E,\capa)$ be a flow network and $u \in V$ a node where
 $\forall v \in in(u): \capacity{v,u} = \infty$ and $\forall w \in out(u): \capacity{u,w} = \infty$.
 Further, let $G(u) = (V\setminus\{u\}, E_u, \capa_u)$ be the flow network obtained by removing
 $u$ and inserting a shortcut edge between each $v \in in(u)$ and $w \in out(u)$ with $\capa_u(v,w) = \infty$.
@@ -280,7 +280,7 @@ If we want to find a minimum-weight $(S,T)$-cutset in a graph $G = (V,E,\omega)$
 $G$ into an equivalent flow network. We can directly operate on the graph with capacities
 $\capacity{e} = \omega(e)$ for all $e \in E$ \cite{ford1956maximal}. Hypergraphs are generalizations of a graph, where
 an edge can consist of more than two nodes. However, a hyperedge $e$ of size $2$ can still be 
-interpreted as a graph edge. Instead of modelling those edges as described by Lawler \cite{lawler1973}
+interpreted as a graph edge. Instead of modeling those edges as described by Lawler \cite{lawler1973}
 (see hyperedge $e_2$ in \autoref{img:lawler_transformation}), we can remove all $\incoming{e},\outgoing{e}$ for all $e \in E$
 with $|e| = 2$ and add an undirected flow edge between $v_1,v_2 \in e$ (with $v_1 \neq v_2$) with
 capacity $\capacity{\{v_1,v_2\}} = \omega(e)$.
@@ -353,11 +353,10 @@ The same hyperedge induces $2$ nodes and $2$ edges in \ShortT{G}.
 \end{figure}
 
 \begin{theorem}
-\label{theorem:st_cutset_equal_graph}
 A minimum-weight $(S,T)$-cutset of a hypergraph \HypergraphDef~(with $S,T \subseteq V,
 S \cap T = \emptyset$) is equal with a minimum-capacity $(S,T)$-cutset of the
 flow network \T{G}.
-\label{theorem:heuer_network}
+\label{theorem:graph_transformation}
 \end{theorem}
 
 \begin{proof}
@@ -406,8 +405,8 @@ $(S,T)$-cutset of \ShortT{G} is equal with a minimum-weight $(S,T)$-cutset of $H
 
 A minimum-weight $(S,T)$-cutset of $H$ could also be calculated with \ShortT{G}. 
 Each edge $(v_1,v_2)$ with $v_1,v_2 \in V$ of the minimum-capacity
-$(S,T)$-cutset of \ShortT{G} can be mapped to their corresponding hyperedge
-with $\Phi^{-1}(v_1,v_2)$. Since there exists a one-one correspondence between the hypernodes
+$(S,T)$-cutset of \ShortT{G} can be mapped to their corresponding hyperedge. 
+Since there exists a one-one correspondence between the hypernodes
 of \ShortT{L} and \ShortT{G} the corresponding bipartition are all hypernodes \emph{reachable}
 from all nodes in $S$ and all not \emph{reachable} from $S$ in the \emph{residual graph}
 of \ShortT{G}. 
@@ -436,10 +435,10 @@ a flow network \Hybrid, where $V' = \{v \in V_d(3)\ |\ \forall e \in I(v): |e| \
 \begin{enumerate}
 \item $V_{\text{Hybrid}} = V\setminus V' \bigcup\limits_{\substack{e \in E \\ |e| \neq 2}}\ \{\incoming{e}, \outgoing{e}\}$
 \item $\forall v \in V'$ we add a directed edge $(\outgoing{e_1}, \incoming{e_2}),\ \forall e_1, e_2 \in I(v)$ 
-      ($e_1 \neq e_2$) with capacity $\capa_{\text{Hybrid}}(\outgoing{e_1}, \incoming{e_2}) = \infty$ (clique expansion).
+      ($e_1 \neq e_2$) with capacity $\capa_{\text{Hybrid}}(\outgoing{e_1}, \incoming{e_2}) = \infty$ (Lemma \ref{lemma:node_removal}).
 \item $\forall e \in E$ with $|e| = 2$ and $v_1,v_2 \in e$ ($v_1 \neq v_2$) we add 
       two directed edges $(v_1,v_2)$ and $(v_2,v_1)$ with capacity $\capa_{\text{Hybrid}}(v_1,v_2) = \omega(e)$
-      and $\capa_{\text{Hybrid}}(v_2,v_1) = \omega(e)$
+      and $\capa_{\text{Hybrid}}(v_2,v_1) = \omega(e)$ (Lemma \ref{lemma:undirected_transformation})
 \item $\forall e \in E$ with $|e| \neq 2$ we add a directed edge $(\incoming{e},\outgoing{e})$
       with capacity $\capa_{\text{Hybrid}}(\incoming{e},\outgoing{e}) = \omega(e)$ (same as in \ShortT{L}).
 \item $\forall v \in V\setminus V'$ we add for each incident hyperedge $e \in I(v)$ with $|e| \neq 2$ 
@@ -449,10 +448,9 @@ a flow network \Hybrid, where $V' = \{v \in V_d(3)\ |\ \forall e \in I(v): |e| \
 \end{definition}
 
 \autoref{img:transformation_chain} summarizes all explained transformations of this section.
-The proof of \autoref{theorem:st_cutset_equal_graph} can be used one-to-one to show that a minimum-capacity
-$(S',T')$-cutset of \ShortExT{H}{V'} is equal with a minimum-capacity $(S',T')$-cutset of \ShortHybrid~
-(for definition of $S'$ and $T'$ see \autoref{theorem:st_cutset_equal}). It follows with Lemma \ref{lemma:source_and_sink_removal}
-that this is equal with a minimum-weight $(S,T)$-cutset of $H$. \\
+We can prove the correctness of \ShortHybrid~with Lemma \ref{lemma:node_removal}, \ref{lemma:source_and_sink_removal}
+and \ref{lemma:undirected_transformation} as used in the proof of Theorem \ref{theorem:heuer_network}
+and \ref{theorem:graph_transformation}. \\
 Per definition of \ShortHybrid~we prefer a hyperedge removal over a hypernode removal. E.g., if
 a hypernode has a degree smaller or equal than $3$, we only remove it, if there is no hyperedge
 $e \in I(v)$ with $|e| = 2$. The reason is that a hyperedge removal always decreases the number of nodes
