@@ -450,7 +450,8 @@ a flow network \Hybrid, where $V' = \{v \in V_d(3)\ |\ \forall e \in I(v): |e| \
 \autoref{img:transformation_chain} summarizes all explained transformations of this section.
 We can prove the correctness of \ShortHybrid~with Lemma \ref{lemma:node_removal}, \ref{lemma:source_and_sink_removal}
 and \ref{lemma:undirected_transformation} as used in the proof of Theorem \ref{theorem:heuer_network}
-and \ref{theorem:graph_transformation}. \\
+and \ref{theorem:graph_transformation}. A minimum-weight $(S,T)$-cutset of $H$ is equal with a
+minimum-capacity $(S',T')$-cutset of \ShortHybrid. \\
 Per definition of \ShortHybrid~we prefer a hyperedge removal over a hypernode removal. E.g., if
 a hypernode has a degree smaller or equal than $3$, we only remove it, if there is no hyperedge
 $e \in I(v)$ with $|e| = 2$. The reason is that a hyperedge removal always decreases the number of nodes
