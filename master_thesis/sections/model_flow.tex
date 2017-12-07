@@ -7,7 +7,7 @@ of a maximum $(S,T)$-flow algorithm depends heavily on the problem size.
 Therefore, different modeling approaches, which reduce the number of nodes and edges,
 can have a crucial impact on the running time of the flow algorithm. \\
 We will present techniques to sparsify the flow network 
-proposed by Lawler. First, we will show how any subset $V' \subseteq V$ of hypernodes could be removed 
+proposed by Lawler. First, we will show how \emph{any subset} $V' \subseteq V$ \emph{of hypernodes} could be removed 
 from \ShortT{L} (see Section \ref{sec:heuer_network}). This approach minimizes
 the number of nodes, but in some cases, the number of edges can be
 significantly higher than in \ShortT{L}. The basic idea of this technique 
@@ -33,14 +33,14 @@ $\capa_L(v,\incoming{e}) = \infty$. The following lemma is central to our first 
 technique and is illusrated in \autoref{img:clique_expansion}. Given a graph $G = (V,E)$ we define the two sets
 $in(u) := \{v\ |\ (v,u) \in E\}$ and $out(u) := \{v\ |\ (u,v) \in E\}$ with $u \in V$. 
 
-\begin{lemma}
+\begin{lemma}[Shortcut Edges]
 \label{lemma:node_removal}
 Let $G = (V,E,\capa)$ be a flow network and $u \in V$ a node where
-$\forall v \in in(u): \capacity{v,u} = \infty$ and $\forall w \in out(u): \capacity{u,w} = \infty$.
+all incoming and outgoing edges have capacity equal to $\infty$.
 Further, let $G(u) = (V\setminus\{u\}, E_u, \capa_u)$ be the flow network obtained by removing
 $u$ and inserting a shortcut edge between each $v \in in(u)$ and $w \in out(u)$ with $\capa_u(v,w) = \infty$.
-Let $f$ be a maximum $(S,T)$-flow of G and $f'$ a maximum $(S,T)$-flow of
-$G(u)$ if $|f| < \infty$ and $u \notin S\cup T$, then $|f| = |f'|$.
+If $f$ is a maximum $(S,T)$-flow of G with $|f| < \infty$, then $f$ is equal to a maximum
+$(S,T)$-flow $f'$ of $G(u)$ with $u \notin S \cup T$.
 \end{lemma}
 
 \begin{proof}
@@ -56,19 +56,17 @@ f'(v,w) =
 \end{equation}
 $f'$ is choosen in such a way that for all $v \in in(u): \sum_{w \in out(u)} f'(v,w) = f(v,u)$
 and for all $w \in out(u): \sum_{v \in in(u)} f'(v,w) = f(u,w)$. Therefore, $f'$
-satisfies the flow conservation constraint and is an valid flow function. Since
-$u \notin S\cup T$, it follows that $|f| = |f'|$. \\
+satisfies the flow conservation constraint and since all capacities are equal to $\infty$, $f'$
+also satisfies the capacity constraint $\Rightarrow$ $f'$ is a valid flow function. Further
+$u$ is not contained in $S\cup T$ which implies that $|f| = |f'|$. \\
 Let $f'$ be a maximum $(S,T)$-flow of $G(u)$. We define a maximum $(S,T)$-flow $f$
 of $G$ as follows:
-\begin{equation}
+\begin{align}
 \label{eq:eq2}
-f(v,w) =  
-  \begin{cases}
-      \sum_{x \in in(u)} f'(x,w), & \text{if } v = u \\
-      \sum_{x \in out(u)} f'(v,x), & \text{if } w = u \\
-      f'(v,w), & \text{otherwise}
-   \end{cases} 
-\end{equation}
+f(u,w) = \sum_{x \in in(u)} f'(x,w) \nonumber \\
+f(v,u) = \sum_{x \in out(u)} f'(v,x) \\
+f(x,y) = f'(x,y) \nonumber
+\end{align}
 The amount of flow from each $v \in in(u)$ to each $w \in out(u)$ of flow function
 $f'$ is redirected over $u$ in $f$. Therefore, $f$ is an valid flow function.
 Since $u \notin S\cup T$, it follows that $|f| = |f'|$.
@@ -81,9 +79,10 @@ Since $u \notin S\cup T$, it follows that $|f| = |f'|$.
 \label{img:clique_expansion}
 \end{figure}
 
-In \ShortT{L} all incoming and outgoing edges of a hypernode $v$ have a
-capacity equal to $\infty$. The incoming edges are all $\outgoing{e} \in I(v)$ and
-the outgoing edges are all $\incoming{e} \in I(v)$. Therefore, we can construct the
+In \ShortT{L} all incoming and outgoing edges of a hypernode $v$ have
+capacities equal to $\infty$. For all $e \in I(v)$ there is an edge from $v$
+to $\incoming{e}$ and from $\outgoing{e}$ to $v$. Consequently, $in(v) = \bigcup_{e \in I(v)} e''$
+and $out(v) = \bigcup_{e \in I(v)} e'$. Therefore, we can construct the
 following network with Lemma \ref{lemma:node_removal}:
 
 \begin{definition}
@@ -91,20 +90,19 @@ Let $T_H$ be a transformation that converts a hypergraph \HypergraphDef~into
 a flow network \ExtendedT{H}{V'} with $V' \subseteq V$. \ShortExT{H}{V'} is defined as follows:
 \begin{enumerate}
 \item $V_H = V\setminus V' \bigcup\limits_{e \in E}\ \{\incoming{e}, \outgoing{e}\}$
-\item $\forall v \in V'$ we add a directed edge $(\outgoing{e_1}, \incoming{e_2}),\ \forall e_1, e_2 \in I(v)$ 
-      with $e_1 \neq e_2$ with capacity $\capa_H(\outgoing{e_1}, \incoming{e_2}) = \infty$ (Lemma \ref{lemma:node_removal}).
-\item $\forall e \in E$ we add a directed edge $(\incoming{e},\outgoing{e})$
-      with capacity $\capa_H(\incoming{e},\outgoing{e}) = \omega(e)$ (same as in \ShortT{L}).
-\item $\forall v \in V\setminus V'$ we add for each incident hyperedge $e \in I(v)$ two directed
-      edges $(v,\incoming{e})$ and $(\outgoing{e},v)$ with capacity 
-      $\capa_H(v,\incoming{e}) = \capa_H(\outgoing{e},v) := \infty$ (same as in \ShortT{L}).
+\item $\forall v \in V'$ and $\forall e_1,e_2 \in I(v)$ with $e_1 \neq e_2$ we add a directed
+      edge $(\outgoing{e_1},\incoming{e_2})$ with capacity $\capa_H(\outgoing{e_1},\incoming{e_2}) = \infty$
+      (Lemma \ref{lemma:node_removal}).
+\item Let $H' = (V\setminus V',E',c,\omega)$ be the hypergraph with 
+      $E' = \{e\setminus V' \ |\ e \in E\ \land \ e \setminus V' \neq \emptyset \}$,
+      then we add all edges of $T_L(H')$ to $E_H$ with their corresponding capacities.
 \end{enumerate} 
 \end{definition}
 
 An example of the transformation is shown in \autoref{img:heuer_network}.
 We have to proof that a minimum-capacity $(S,T)$-cutset
 of \ShortExT{H}{V'} is equal with a minimum-weight $(S,T)$-cutset of $H$. However,
-we need a preparing lemma in the correctness proof.
+we will use of the following lemma in the correctness proof.
 
 \begin{figure}
 \centering
@@ -114,31 +112,37 @@ we need a preparing lemma in the correctness proof.
 \label{img:heuer_network}
 \end{figure}
 
-\begin{lemma}
+\begin{lemma}[Source/Sink Node Removal]
 \label{lemma:source_and_sink_removal}
-Let $G = (V,E,\capa)$ be a flow network and $f$ a maximum $(S,T)$-flow of $G$.
-Further, let $s \in S$ be a source node with $\forall v \in out(s): \capacity{s,v} = \infty$
-and $t \in T$ be a sink node with $\forall v \in in(t): \capacity{v,t} = \infty$.
-$f_s$ is a maximum $(S',T)$-flow of $G(s)$ and $f_t$ is a maximum $(S,T')$-flow
-of $G(t)$ with $S' = S\setminus \{s\} \cup out(s)$ and $T' = T \setminus \{t\}
-\cup in(t)$.
-\[|f| < \infty \Rightarrow |f| = |f_s| = |f_t|\]
+Let $G = (V,E,\capa)$ be a flow network and $f$ a maximum $(S,T)$-flow of $G$ with $|f| < \infty$.
+If $s \in S$ is a source node where all outgoing edges have infinte capacity and
+$t \in T$ is a sink node where all incoming edges have infinte capacity, then
+$|f|$ is equal with the amount of a maximum $(S',T)$-flow $f_s$ of $G(s)$ and a maximum
+$(S,T')$-flow $f_t$ of $G(t)$, where $S' = S\setminus \{s\} \cup out(s)$ 
+and $T' = T \setminus \{t\} \cup in(u)$.
 \end{lemma}
 
 \begin{proof}
-In Section \ref{sec:applications} we have described how to solve a \emph{multi-source 
+First we note, that the flow over an incoming edge of a source node $s \in S$ is zero.
+More formally, $\forall v \in in(s): f(v,s) = 0$. Edmond and Karp \cite{edmonds1972theoretical} 
+show that we can find a maximum $(s,t)$-flow if we augment in each step along a shortest path. 
+Assume we find an augmenting path $P$ which contains an edge $(v,s)$. We
+can obtain a shorter path if we split $P$ after edge $(v,s)$ and use the second part as
+augmenting path. Therefore, $f(v,s) = 0$. The same holds for all outgoing edges of a sink
+node. Consequently, we can remove all incoming resp. outgoing edges of a source resp. sink node. \\
+In Section \ref{sec:applications} we described how to solve a \emph{multi-source 
 multi sink} flow problem by adding a super source node $a$ and super sink node $b$ to the network
 and connect $a$ with all sources $s' \in S$ and all sinks $t' \in T$ with $b$.
-For $s' \in S: \capacity{a,s'} = \infty$ and for $t' \in T: \capacity{t',b} = \infty$. With Lemma
+$\forall s' \in S: \capacity{a,s'} = \infty$ and $\forall t' \in T: \capacity{t',b} = \infty$. With Lemma
 \ref{lemma:node_removal} follows, that we can remove $s$ from $G$ and insert
 a directed edge from $a$ to each $v \in out(s)$ (equal to $G(s)$) and $|f| = |f_s|$. The new flow problem
 corresponds to the \emph{multi-source multi-sink} problem with $S'$ and $T$ as source
 and sink set. The proof for $G(t)$ is equivalent.
 \end{proof}
 
-As a consequence of this lemma, we could replace (or even remove) 
-e.g. a source hypernode $v \in S$ of \ShortT{L} and instead add all
-incoming hyperedge nodes $\incoming{e} \in I(v)$ as source nodes to the flow 
+As a consequence of this lemma, we can remove 
+a source hypernode $v \in S$ of \ShortT{L} and instead add all
+incoming hyperedge nodes $\incoming{e} \in I(v)$ as sources to the flow 
 problem. Because for all incoming resp. outgoing edges of vertices $v$ of 
 \ShortT{L} the capacity is $\infty$.
 
@@ -154,13 +158,13 @@ $T' = T \setminus V'\ \cup \bigcup\limits_{e \in N(V'\cap T)} \{\outgoing{e}\}$.
 \begin{proof}
 
 Applying Lemma \ref{lemma:node_removal} and \ref{lemma:source_and_sink_removal}
-on all nodes $v \in V'$ of flow network \ShortT{L} yields to network
+on all nodes $v \in V'$ of flow network \ShortT{L} yields network
 \ShortExT{H}{V'} with $S'$ and $T'$ as source and sink sets. A maximum
 $(S,T)$-flow $f_L$ of \ShortT{L} is then equal with a maximum $(S',T')$-flow $f_H$
 of \ShortExT{H}{V'}. Since $|f_L| < \infty$, only edges between hyperedge 
-nodes are contained in a minimum $(S,T)$-cutset of \ShortT{L}. Since $|f_L| = |f_H|$, the same
-holds for a minimum $(S',T')$-cutset $E_{min}$ of \ShortExT{H}{V'}. Therefore, $E_{min}$
-is equal with a minimum-weight $(S,T)$-cutset of $H$.
+nodes are contained in a minimum-capacity $(S,T)$-cutset of \ShortT{L}. Since $|f_L| = |f_H|$, the same
+holds for a minimum-capacity $(S',T')$-cutset of \ShortExT{H}{V'}, which is
+equal with a minimum-weight $(S,T)$-cutset of $H$.
 
 %Consider the bipartite graph representation $G_* = (V_*,E_*,c_*)$ 
 %of a hypergraph $H = (V,E,c,\omega)$ presented in Section \ref{sec:hypergraph} and \ref{sec:related_lawler}, 
@@ -225,27 +229,30 @@ is equal with a minimum-weight $(S,T)$-cutset of $H$.
 \end{proof}
 
 Consequently, we can find a minimum-weight $(S,T)$-cutset of $H$ by calculating
-a minimum-capacity $(S',T')$-cutset of \ShortExT{H}{V'}. An open problem is how to obtain the 
+a minimum-capacity $(S',T')$-cutset of \ShortExT{H}{V'}. Finally, we have to find the 
 corresponding minimum-weight $(S,T)$-bipartition. In \ShortT{L} all hypernodes
 reachable from source nodes in the residual graph are part of the first and 
 all not reachable are part of the second block of the bipartition. Since we removed 
 all hypernodes $v \in V'$ in our new network, we have to reconstruct the bipartition
-with the following lemma.
+using the following lemma.
 
-\begin{lemma}
+\begin{lemma}[Bipartition Reconstruction]
 \label{lemma:bipartition_construction}
-Let $f$ be a maximum $(S,T)$-flow  of \ShortT{L} and $A$ be the set of all nodes reachable
-from a node $s \in S$ in the residual graph.
-\[ \text{If } v \in A \setminus S \Leftrightarrow \exists e \in I(v): \outgoing{e} \in A \]
+Let $f$ be a maximum $(S,T)$-flow of \ShortT{L}. If a hypernode $v \notin S$ is reachable
+from a node $s \in S$ in the residual graph of \ShortT{L}, then there must exist at least one
+$e \in I(v)$ where $\outgoing{e}$ is reachable from $s$.
 \end{lemma}
 
 \begin{proof}
-If $\outgoing{e} \in A$, then $v \in A$, because $\capa_L(\outgoing{e},v) = \infty = r_f(\outgoing{e},v)$.
-Assume, if $v \in A$, then $\forall e \in I(v): \outgoing{e} \notin A \Rightarrow f(\outgoing{e},v) = 0$. 
-Otherwise $r_f(v, \outgoing{e})$ would be greater than zero and this would imply that $\outgoing{e} \in A$
-because $v \in A$. Consequently, there is no flow entering node $v$ and due to the conservation
-of flow constraint there cannot be any flow leaving node $v$. Therefore, there is no path
-from any $s \in S$ to $v$ over a node $\incoming{e}$ because $\forall e \in I(v): \capa_L(\incoming{e},v) = 0 = r_f(\incoming{e},v)$ and no path over $\outgoing{e}$ because $\forall e \in I(v): \outgoing{e} \notin A$
+Let $A$ be the set of all reacheable nodes from all source nodes in the residual graph of \ShortT{L}.
+%If $\outgoing{e} \in A$, then $v \in A$, because $\capa_L(\outgoing{e},v) = \infty = r_f(\outgoing{e},v)$.\\
+Assume, if $v \in A$, then $\forall e \in I(v): \outgoing{e} \notin A$. This implies that the
+edge $(v,\outgoing{e})$ is not contained in the residual graph of \ShortT{L}. More formally, 
+$r_f(v,\outgoing{e}) = 0$. Otherwise, $\outgoing{e}$ would be in $A$ because $v \in A$. 
+Since $r_f(v,\outgoing{e}) = f(\outgoing{e},v) = 0$, there is no flow entering node 
+$v$ and due to the conservation of flow constraint there cannot be any 
+flow leaving node $v$. Therefore, there is no path
+from any $s \in S$ to $v$ over a node $\incoming{e}$ because $\forall e \in I(v): r_f(\incoming{e},v) = f(v,\incoming{e}) = 0$ and no path over $\outgoing{e}$ because $\forall e \in I(v): \outgoing{e} \notin A$
 $\Rightarrow$ $v$ is not reachable from any $s \in S$ $\Rightarrow v \notin A$ which is a contradiction
 to the assumption that $v \in A$.
 \end{proof}
@@ -285,11 +292,11 @@ interpreted as a graph edge. Instead of modeling those edges as described by Law
 with $|e| = 2$ and add an undirected flow edge between $v_1,v_2 \in e$ (with $v_1 \neq v_2$) with
 capacity $\capacity{\{v_1,v_2\}} = \omega(e)$.
 
-\begin{lemma}
+\begin{lemma}[Transformation of Undirected to Directed Networks]
 \label{lemma:undirected_transformation}
 Let $G = (V,E,\capa)$ be an undirected flow network with capacity function $\capa: E \rightarrow \mathbb{N}_+$.
-$G$ can be transformed into a directed graph $G'$ such that each maximum $(s,t)$-flow $f$ of $G$
-is equal with a maximum $(s,t)$-flow $f'$ of $G'$.
+$G$ can be transformed into a directed graph $G'$ such that the amount of a maximum $(s,t)$-flow $f$ of $G$
+is equal with the amount of a maximum $(s,t)$-flow $f'$ of $G'$. More formally, $|f| = |f'|$.
 \end{lemma}
 
 \begin{proof}
@@ -310,7 +317,7 @@ and its corresponding weighted graph where the weight of each edge $(u,v)$ is th
 edges between $u$ and $v$ of the multigraph.
 \end{proof}
 
-\begin{figure}
+\begin{figure}[h]
 \centering
 \includegraphics[width=0.8\textwidth]{../img/network_transformation/menger_transformation.eps}
 \caption{Illustration of the transformation of an unweighted or weighted undirected graph into
@@ -320,9 +327,10 @@ edges between $u$ and $v$ of the multigraph.
 \label{img:menger_transformation}
 \end{figure}
 
-Note, that each structure of a weighted directed graph illustrated on the right side of
+As a consequence of the construction of the proof of Lemma \ref{lemma:undirected_transformation}
+each structure of a weighted directed graph illustrated on the right side of
 \autoref{img:menger_transformation}~could be transformed into an undirected edge with weight
-$\capacity{\{u,v\}} = \capacity{x',x''}$ as a consequence of the construction of the proof of Lemma \ref{lemma:undirected_transformation}.
+$\capacity{\{u,v\}} = \capacity{x',x''}$.
 Each hyperedge $e$ with $|e| = 2$ has exactly this structure in \ShortT{L}. Therefore, we can 
 construct the following network:
 
@@ -456,14 +464,14 @@ Per definition of \ShortHybrid~we prefer a hyperedge removal over a hypernode re
 a hypernode has a degree smaller or equal than $3$, we only remove it, if there is no hyperedge
 $e \in I(v)$ with $|e| = 2$. The reason is that a hyperedge removal always decreases the number of nodes
 and edges more than a hypernode removal. \\
+The minimum-weight $(S,T)$-cutset of $H$ can be calculated with the same technique described in Section
+\ref{sec:edge_size_network}. Let $(A,V\setminus A)$ be the corresponding bipartition.
+$A$ is the union of all reachable hypernodes from $S'$ and the union of
+all reachable \emph{outgoing hyperedge nodes} $\outgoing{e}$ from $S'$ (see Section \ref{sec:heuer_network} 
+and Lemma \ref{lemma:bipartition_construction}). 
 \begin{figure}[ht!]
 \centering
 \includegraphics[width=0.95\textwidth]{../img/network_transformation/hybrid_transformation.eps}
 \caption{Illustration of all presented sparsifying techniques of the flow network of a hypergraph.}
 \label{img:transformation_chain}
 \end{figure}
-The minimum-weight $(S,T)$-cutset of $H$ can be calculated with the same technique described in Section
-\ref{sec:edge_size_network}. Let $(A,V\setminus A)$ be the corresponding bipartition.
-$A$ is the union of all reachable hypernodes from $S'$ and the union of
-all reachable \emph{outgoing hyperedge nodes} $\outgoing{e}$ from $S'$ (see Section \ref{sec:heuer_network} 
-and Lemma \ref{lemma:bipartition_construction}). 

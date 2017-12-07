@@ -102,7 +102,13 @@ a flow network \T{L} proposed by Lawler \cite{lawler1973}. \ShortT{L} is defined
       $(\outgoing{e}, v)$ with capacity $\capa_L(v, \incoming{e}) = \capa_L(\outgoing{e},v) = \infty$.
 \end{enumerate} 
 \end{definition}
-
+\begin{figure}
+\centering
+\includegraphics[width=0.8\textwidth]{../img/network_transformation/lawler_transformation.eps}
+\caption{Transformation of a hypergraph into a equivalent flow network by Lawler \cite{lawler1973}. Note,
+capacity of the black edges in the flow network is $\infty$.}
+\label{img:lawler_transformation}
+\end{figure}
 An example of this transformation is shown in \autoref{img:lawler_transformation}.
 \ShortT{L} is nearly equivalent to the transformation $T_V(G)$ described in Defintion \autoref{def:vertex_seperator_transformation}
 except that we do not have to split the hypernodes $v \in V$.
@@ -118,20 +124,24 @@ $(s,t)$-cutset to their corresponding hyperedges in $H$ (see Section \ref{sec:ap
 The minimum-weight $(s,t)$-bipartition are all $v \in V$ \emph{reachable} from $s$ in the 
 \emph{residual graph} of \ShortT{L} and the counterpart are all hypernodes not \emph{reachable}
 from $s$. \\ 
+In \autoref{img:lawler_augmenting_example} we illustrate the structure of \ShortT{L} and demonstrate
+what happens after we \emph{augment} along a path in the Lawler-Network. This figure can be used as
+a reference if you need an illustration of techniques used in the proofs of Section \ref{sec:opt_flow_network}.\\
 In this thesis, we often have to mix up nodes and edges of $H$ and \ShortT{L}. If we use
 $v \in V_L$, there also exists a corresponding $v \in V$. $v$ can be used in both contexts.
 For all $e \in E$ there exists two corresponding nodes $\incoming{e},\outgoing{e} \in V_L$. $\incoming{e}$ 
 is called \emph{incoming hyperedge node} and $\outgoing{e}$ is called \emph{outgoing hyperedge node}. 
 In some cases we need to treat $\incoming{e},\outgoing{e} \in V_L$ the same way as their corresponding 
 hyperedge $e \in E \Rightarrow \incoming{e_1} \cap \outgoing{e_2}$ or $\outgoing{e_1} \cap \incoming{e_2}$ should be the same as $e_1 \cap e_2$.
-
-
-\begin{figure}
+\begin{figure}[t!]
 \centering
-\includegraphics[width=0.8\textwidth]{../img/network_transformation/lawler_transformation.eps}
-\caption{Transformation of a hypergraph into a equivalent flow network by Lawler \cite{lawler1973}. Note,
-capacity of the black edges in the flow network is $\infty$.}
-\label{img:lawler_transformation}
+\includegraphics[width=0.75\textwidth]{../img/network_transformation/lawler_augmenting_example.eps}
+\caption{Illustration of the structure of a hyperedge $e$ in \ShortT{L} and the effect of augmenting
+         along a path in this network. The labeling on an edge represents the flow $f(x,y)$ and
+         the capacity $\capacity{x,y}$ denoted with $f(x,y)/\capacity{x,y}$. The labeling of the
+         edges in the residual graph denotes the residual capacity $r_f(x,y)$. The red highlighted
+         path represents an augmenting path.}
+\label{img:lawler_augmenting_example}
 \end{figure}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -160,6 +170,12 @@ of the concepts and advanced techniques to improve graph partitions.
 
 \subsubsection{Balanced Bipartitioning}
 \label{sec:balanced_bipartitioning}
+\begin{figure}
+\centering
+\includegraphics[width=0.6\textwidth]{../img/flow_local_search/balanced_bipartitioning.eps}
+\caption{Configuration of a flow problem around the cut of graph $G$ \cite{andersen2008algorithm}.}
+\label{img:balanced_bipartition}
+\end{figure}
 Let $(V_1,V_2)$ be a balanced bipartition of a graph $G = (V,E,c,\omega)$. 
 Further, $P(v) = 1$, if $v \in V_1$ and
 $P(v) = 2$, otherwise. We will now explain how a given bipartition 
@@ -183,13 +199,6 @@ $\delta B \cap V_2$ ensures that a non-cut edge not contained in $G_B$ is not a 
 assigning the minimum $(s,t)$-bipartition of subgraph $G_B$ to $G$. This also yields 
 the conclusion that each minimum $(s,t)$-cutset in $G_B$ leads to a cut smaller or 
 equal to the old cut of $G$. All concepts are illustrated in \autoref{img:balanced_bipartition}.
-
-\begin{figure}
-\centering
-\includegraphics[width=0.6\textwidth]{../img/flow_local_search/balanced_bipartitioning.eps}
-\caption{Configuration of a flow problem around the cut of graph $G$ \cite{andersen2008algorithm}.}
-\label{img:balanced_bipartition}
-\end{figure}
 
 
 \subsubsection{Adaptive Flow Iterations}
@@ -226,16 +235,7 @@ we can contract all \emph{Strongly Connected Components} (SCC) of $G$ with a lin
 proposed by Tarjan \cite{tarjan1972depth} and sweep in reverse
 topological order over the contracted graph to enumerate all \emph{closed node sets}. Note, if
 we contract all SCCs of $G$ the resulting graph is a \emph{Directed Acyclic Graph} (DAC). Therefore, 
-a topological order exists.
-\begin{figure}
-\centering
-\includegraphics[width=0.9\textwidth]{../img/flow_local_search/closed_node_set.eps}
-\caption{$C = \{s,a,b,c\}$ is a \emph{closed node set} of graph $G$ (left side).
-         After contracting all \emph{Strongly Connected Components}, we can enumerate all
-         \emph{closed node sets} of $G$ by sweeping in reverse topological order over the
-         contracted graph (right side).}
-\label{img:closed_node_set}
-\end{figure}
+a topological order exists.\\
 With the Theorem of Picard and Queyranne \cite{picard1980structure} we can enumerate
 all minimum $(s,t)$-cuts of $G$ with one maximum flow computation.
 
@@ -254,6 +254,15 @@ We can enumerate all minimum $(s,t)$-cutsets with one maximum
 flow computation and therefore have a higher probability to find
 a feasible partition after a \emph{Max-Flow-Min-Cut} computation. We refer to this method as
 \emph{Most Balanced Minimum Cut}.
+\begin{figure}
+\centering
+\includegraphics[width=0.9\textwidth]{../img/flow_local_search/closed_node_set.eps}
+\caption{$C = \{s,a,b,c\}$ is a \emph{closed node set} of graph $G$ (left side).
+         After contracting all \emph{Strongly Connected Components}, we can enumerate all
+         \emph{closed node sets} of $G$ by sweeping in reverse topological order over the
+         contracted graph (right side).}
+\label{img:closed_node_set}
+\end{figure}
 
 
 \subsubsection{Active Block Scheduling}

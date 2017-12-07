@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE ipe SYSTEM "ipe.dtd">
 <ipe version="70107" creator="Ipe 7.1.10">
-<info created="D:20171206084955" modified="D:20171206095001"/>
+<info created="D:20171206084955" modified="D:20171207170609"/>
 <ipestyle name="basic">
 <symbol name="arrow/arc(spx)">
 <path stroke="sym-stroke" fill="sym-stroke" pen="sym-pen">
@@ -476,11 +476,7 @@ h
 672 512
 644 548 c
 </path>
-<path stroke="black" pen="fat" arrow="normal/large">
-384 720 m
-384 608 l
-</path>
-<text transformations="translations" pos="392 660" stroke="black" type="label" width="78.83" height="10.756" depth="3.59" valign="baseline" size="Large">$c(\{u,v\}) = 3$</text>
+<text matrix="1 0 0 1 -96 160" transformations="translations" pos="392 660" stroke="black" type="label" width="80.78" height="10.756" depth="3.59" valign="baseline" size="Large">$u(\{u,v\}) = 1$</text>
 <path stroke="black" dash="dashed" pen="fat" arrow="normal/large" rarrow="normal/large">
 496 768 m
 592 768 l
@@ -554,5 +550,6 @@ h
 800 512 c
 </path>
 <text matrix="1 0 0 1 -16 -444" transformations="translations" pos="528 804" stroke="black" type="label" width="65.164" height="12.915" depth="4.3" valign="baseline" size="LARGE">$|f| = |f&apos;|$</text>
+<text matrix="1 0 0 1 -96 -48" transformations="translations" pos="392 660" stroke="black" type="label" width="80.78" height="10.756" depth="3.59" valign="baseline" size="Large">$u(\{u,v\}) = 3$</text>
 </page>
 </ipe>
