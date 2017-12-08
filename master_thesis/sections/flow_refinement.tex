@@ -12,23 +12,22 @@ could be adapted to work in an $n$-level hypergraph partitioner, called \emph{Ka
 \subsection{Source and Sink Configuration}
 \label{sec:source_and_sink}
 
-Let $H = (V,E,c,\omega)$ be a hypergraph and $B_1 := (V_1, V_2)$ be a bipartition.
-$H_{V'}$ is the subhypergraph induced by $V' \subseteq V$. 
-Further, let $E_{\emptyset} = \{ e \cap V'\ |\ e \in E: e \cap V' = \emptyset\} $
-be the set of all hyperedges contained in $H$, but not in $H_{V'}$. $T_L(H_{V'})$ 
-(see Section \ref{sec:related_lawler}) is the flow network induced by $H_{V'}$ with a
-source set $S$ and a sink set $T$. Let $(V_1',V_2')$ be the minimum $(S,T)$-bipartition
-obtained by a maximum $(S,T)$-flow calculation on $T_L(H_{V'})$ with $f$ as maximum flow
-function. We can extend the bipartition $(V_1',V_2')$ of $H_{V'}$ to a bipartition 
-$B_2 := (V_1 \setminus V'\ \cup\ V_1',\ V_2 \setminus V'\ \cup V_2' )$ of $H$. Finally,
-we define the cut on subhypergraph $H_{V'}$ related to a
-bipartition $(V_1,V_2)$:
-\[\omega_{H_{V'}}(V_1,V_2) := \sum_{e \in E(V_1,V_2) \setminus E_{\emptyset}} \omega(e) \]
+Let $H = (V,E,c,\omega)$ be a hypergraph and $B_1$ be a bipartition of $H$.
+In the following, we show how to configure the source set $S$ and sink set $T$ of the flow
+network $T_L(H_{V'})$ of a subhypergraph $H_{V'}$ induced by $V' \subseteq V$. The goal is 
+to improve bipartition $B_1$ with a maximum $(S,T)$-flow calculation 
+on $T_L(H_{V'})$ (with $f$ as maximum flow) such that the resulting bipartition 
+$B_2$ yields to an improved bipartition $B_2$ when cut is the objective.
+Let $E_{\text{cut}}(V',B) := \{ e \in E\ |\ \lambda(e,B) > 1 \land e \cap V' \neq \emptyset\}$ 
+be the set of all cut hyperedges of $H$ which are partially or fully contained in $H_{V'}$.
+We define the cut of subhypergraph $H_{V'}$ related to a bipartition $B$ of $H$
+as follows:
+\[\omega_{H_{V'}}(B) := \sum_{e \in E_{\text{cut}}(V',B)} \omega(e) \]
 Some will wonder about the definition of the cut $\omega_{H_{V'}}$ over the
-cut edges of $H$. A cut hyperedge $e$ of $H$ must not necessarily be a cut hyperedge
-of $H_{V'}$. E.g., if $e = \{v_1,v_2\}$ with $v_1 \in V_1$ and $v_2 \in V_2$, but
+cut nets of $H$. A cut hyperedge $e$ of $H$ is not necessarily a cut hyperedge
+of $H_{V'}$. If $e = \{v_1,v_2\}$ with $v_1 \in V_1$ and $v_2 \in V_2$, but
 $v_1 \in V'$ and $v_2 \notin V'$. Then $e$ is cut in $H$, but not in $H_{V'}$, because
-$v_2$ is removed from $e$ per definition of $H_{V'}$. However, the reason that we still
+$v_2$ is removed from $e$ of $H_{V'}$ per definition. However, the reason that we still
 define $e$ as cut hyperedge of $H_{V'}$ has to do with our problem statement, 
 which we will define as follows:
 
@@ -36,7 +35,7 @@ which we will define as follows:
 \label{prob:ST}
 How do we have to define the source set $S$ and sink set $T$ for a subhypergraph $H_{V'}$ 
 (with $V' \subseteq V$) and a bipartition $B_1$ such that 
-after a maximum $(S,T)$-flow calculation (with $f$ as maximum flow function)
+after a maximum $(S,T)$-flow calculation (with $f$ as maximum flow)
 the resulting minimum $(S,T)$-bipartition $B_2$ of $H$ satisfy the following conditions:
 \begin{enumerate}
 \item $\omega_H(B_2) \le \omega_H(B_1)$
@@ -52,26 +51,30 @@ $H_{V'}$ before each maximum flow computation, we can implicitly calculate $\ome
 Therefore, the cut metric can be updated after a \emph{Max-Flow-Min-Cut} computation
 in constant time instead of \BigO{|E|}. On the other hand, we can assert the correctness of
 our maximum flow algorithm. If $\Delta_H \neq \Delta_{H_{V'}}$, then with high probability our
-flow algorithm is incorrect. Also, the reason why we define $\omega_{H_{V'}}(V_1,V_2)$ over
-the cut hyperedges of $H$ that the equality
+flow algorithm is incorrect. The reason why we define $\omega_{H_{V'}}(B)$ over
+the cut hyperedges of $H$ is that the equality
 \[\Delta_{H} := \omega_H(B_1) - \omega_H(B_2) = \omega_{H_{V'}}(B_1) - \omega_{H_{V'}}(B_2)\]
-holds. If can show that $|f| = \omega_{H_{V'}}(B_2)$, we simultaneously show
+holds only if we use the adapted defintion. 
+Further, if we can show that $|f| = \omega_{H_{V'}}(B_2)$, we simultaneously show
 that our source and sink set modeling approach satisfies condition (ii) 
 $\Delta_H = \Delta_{H_{V'}}$.\\
 We will now present a solution for our problem statement. First, we show how $S$ and $T$
 can be chosen to satisfy condition (i). Afterwards, we extend $S$ and $T$ with additional
-nodes to fulfil condition (ii). Finally, we show how $S$ and $T$ can be modified, such that
-we can obtain smaller cuts on $H$ and simultaneously satisfy condition (i) and (ii) of our problem
-statement. \\
+nodes to fulfil condition (ii). \\
 Let $V' \subseteq V$ and $\delta B = \{ e \in E\ |\ \exists u,v \in e: u \in V'\ \land\ v \notin V' \}$
-be the set of all \emph{Border Hyperedges}. For a bipartition $(V_1,V_2)$ of $H$, we say
+be the set of all \emph{border hyperedges} (see \autoref{img:balanced_bipartition}). 
+Further, we divide $\delta B$ into two disjoint subsets:
+\begin{enumerate}
+\item Non-Cut hyperedges $e \in \delta B$ of $H$: $\delta B_1 = \{ e \in \delta B \ |\ e \subseteq V_1\ \lor\ e \subseteq V_2 \}$
+\item Cut hyperedges $e \in \delta B$ of $H$: $\delta B_2 = \delta B \setminus \delta B_1$
+\end{enumerate}
+For a bipartition $(V_1,V_2)$ of $H$, we say
 $v \in V_1$ is a source node of the flow network $T_L(H_{V'})$, if there exists
-a hyperedge $e \in \delta B$ containing $v$ and at least one other node $u \in V_1$ with
-$u \notin V'$. More formal:
+a hyperedge $e \in \delta B_1$ containing $v$. More formal:
 \begin{align}
 %S = \bigcup\limits_{\substack{e \in \delta B \\ |e \setminus V' \cap V_1| \neq 0}} (e \cap V_1 \cap V') \\
-S_1 = \{ s \in V' \cap V_1\ |\ \exists v \notin V': \exists e \in \delta B: v \in V_1\ \land\ s,v \in e \} \label{S1_border_hyperedges}\\
-T_1 = \{ t \in V' \cap V_2\ |\ \exists v \notin V': \exists e \in \delta B: v \in V_2\ \land\ v,t \in e \} \label{T1_border_hyperedges}
+S_1 = \{ s \in V' \cap V_1\ |\ \exists e \in \delta B_1: s \in e \} \label{S1_border_hyperedges}\\
+T_1 = \{ t \in V' \cap V_2\ |\ \exists e \in \delta B_1: t \in e \} \label{T1_border_hyperedges}
 \end{align}
 An example of a \emph{Max-Flow-Min-Cut} computation of $H_{V'}$ with $S$ and $T$ as source and
 sink set is illustrated in \autoref{img:border_hyperedges}.
@@ -87,42 +90,23 @@ sink set is illustrated in \autoref{img:border_hyperedges}.
 \label{cut_decrease_proof}
 Let $B_1$ be a bipartition of $H$ and $T_L(H_{V'})$ the flow network of subhypergraph
 $H_{V'}$ with $S$ and $T$ as defined in Equation \ref{S1_border_hyperedges} and \ref{T1_border_hyperedges} (with $V' \subseteq V$).
-Let $B_2$ be the bipartition obtained by a maximum $(S,T)$-flow computation on $T_L(H_{V'})$.
-Then, $\omega_H(B_2) \le \omega_H(B_1)$.
+If $B_2$ is a bipartition obtained by a maximum $(S,T)$-flow computation on $T_L(H_{V'})$,
+then the inequality $\omega_H(B_2) \le \omega_H(B_1)$ holds.
 \end{lemma}
 
 \begin{proof}
-A maximum $(S,T)$-flow computation on $T_L(H_{V'})$ yields to a minimum $(S,T)$-cutset on 
-$H_{V'}$ \cite{ford1956maximal}. Thus, for all hyperedges $e \notin \delta B \cup E_{\emptyset}$ (fully contained in $H_{V'}$)
+A maximum $(S,T)$-flow computation on $T_L(H_{V'})$ yields a minimum $(S,T)$-cutset on 
+$H_{V'}$ \cite{ford1956maximal}. Thus, for all hyperedges $e \notin \delta B$ (fully contained in $H_{V'}$)
 which are cut in $B_2$, the sum of their weight must be less or equal than the sum of all cut hyperedges
-$e \notin \delta B \cup E_{\emptyset}$ of bipartition $B_1$. We have to show that a non-cut
-hyperedge $e \in \delta B$ of $B_1 = (V_1,V_2)$ cannot become a cut hyperedge of
-$B_2 = (V_1',V_2')$. Let $e \in \delta B$ be such a hyperedge. $e$ must be either a subset of $V_1$ or $V_2$, otherwise
+$e \notin \delta B$ of bipartition $B_1$. We have to show that a non-cut
+hyperedge $e \in \delta B_1$ of $B_1 = (V_1,V_2)$ cannot become a cut hyperedge of
+$B_2 = (V_1',V_2')$. Let $e \in \delta B_1$ be such a hyperedge. $e$ must be either a subset of $V_1$ or $V_2$, otherwise
 $e$ is a cut hyperedge. Let $e \subseteq V_1$, then $e \cap V' \subseteq S$ (see Equation \ref{S1_border_hyperedges}). 
 Defining a node $s \in S$ as source node means that it cannot change its block after a \emph{Max-Flow-Min-Cut}
 computation. Therefore, $e \subseteq V_1$ and $e \subseteq V_1' \Rightarrow e$ is a non-cut
-hyperedge in $B_2$. The proof for $e \subseteq V_2$ is equivalent $\Rightarrow \omega_H(B_2) 
+hyperedge of $B_2$. The proof for $e \subseteq V_2$ is equivalent $\Rightarrow \omega_H(B_2) 
 \le \omega_H(B_1)$.
 \end{proof} 
-
-In the next step, we will show how $S$ and $T$ can be extended to satisfy condition (ii)
-of Problem \autoref{prob:ST}. Currently, $|f| \le \omega_{H_{V'}}(B_2)$ (without a prove).
-Obviously, some nodes are missing in $S$ and $T$. Consider \autoref{img:non_cut_flow_hyperedges}
-to understand which nodes are missing. Transformation $1$ illustrates our current modeling
-approach defined in Equation \ref{S1_border_hyperedges} and \ref{T1_border_hyperedges}. The maximum
-flow on this network is $|f| = 1$, but the resulting minimum $(S,T)$-bipartition $B_2$ induced 
-a cut of $\omega_{H_{V'}}(B_2) = 2$. It is because $e_1$ and $e_3$ are cut
-hyperedges of $H$, but non-cut hyperedges in $H_{V'}$. The current cut of $H_{V'}$ is therefore
-$1$ (instead of $2$) and this is also a minimum $(S,T)$-cut. Transformation $2$ illustrates the
-adapted modeling approach for cut hyperedges of $H$ which are non-cut hyperedges in $H_{V'}$.
-For each hyperedge $e \in \delta B$ with $e \cap V' \subseteq V_2$ and $e \setminus V' \cap V_1 \neq \emptyset$, 
-we add the \emph{incoming hyperedge node} $\incoming{e}$ to $S$.
-More formal:
-\begin{align}
-S = S_1 \cup \{\incoming{e}\ |\ e \cap V' \subseteq V_2 \ \land\ e \setminus V' \cap V_1  \neq \emptyset\} \label{S_border_hyperedges}\\
-T = T_1 \cup \{\outgoing{e}\ |\ e \cap V' \subseteq V_1 \ \land\ e \setminus V' \cap V_2 \neq \emptyset \} \label{T_border_hyperedges}
-\end{align}
-
 \begin{figure}[ht!]
 \centering
 \includegraphics[width=1.0\textwidth]{../img/source_and_sink_set/non_cut_flow_hyperedges.eps}
@@ -133,22 +117,128 @@ T = T_1 \cup \{\outgoing{e}\ |\ e \cap V' \subseteq V_1 \ \land\ e \setminus V' 
 \label{img:non_cut_flow_hyperedges}
 \end{figure}
 
-\begin{lemma}
+In the next step, we will show how $S$ and $T$ can be extended to satisfy condition (ii)
+of Problem \autoref{prob:ST}. Currently, $|f| \le \omega_{H_{V'}}(B_2)$ (without a prove).
+Obviously, some nodes are missing in $S$ and $T$. Consider \autoref{img:non_cut_flow_hyperedges}
+to understand which nodes are missing. Transformation $1$ illustrates our current modeling
+approach defined in Equation \ref{S1_border_hyperedges} and \ref{T1_border_hyperedges}. The maximum
+flow on this network is $|f| = 1$, but the resulting minimum $(S,T)$-bipartition $B_2$ induce
+a cut of $\omega_{H}(B_2) = 2$. This implies that $\Delta_H = 3 - 2 \neq 3 - 1 = \Delta_{H_{V'}}$.
+The hyperedges $e_1$ and $e_3$ are cut nets of $H$, but non-cut hyperedges of $H_{V'}$. 
+Therefore, $B_1$ induce a cut of $1$ on $H_{V'}$ if we define the cut $\omega_{H_{V'}}(B_2)$
+over the cut hyperedges of $H_{V'}$ instead of the cut hyperedges of $H$. In our example, we can
+remove $e_2$ from cut, but $e_1$ becomes a cut hyperedge of $H_{V'}$. Therefore, the value of the
+cut of $H_{V'}$ does not change, but the cut of $H$ does. $e_1$ is already a cut hyperedge of $H$ and $B_2$ removes
+$e_2$ from the cut of $H$. Therefore, $\Delta_H = 1$. However, we defined $\omega_{H_{V'}}(B_2)$
+over the cut hyperedges of $H$ and currently, we hvae $|f| = 1 \neq 2 = \omega_{H_{V'}}(B_2)$. \\
+Transformation $2$ illustrates the adapted modeling approach for cut hyperedges of $H$.
+For each hyperedge $e \in \delta B_2$ with $e \setminus V' \cap V_1 \neq \emptyset$, 
+we add the \emph{incoming hyperedge node} $\incoming{e}$ to $S$.
+More formal:
+\begin{align}
+S = S_1 \cup \{\incoming{e} \in \delta B_2\ |\ e \setminus V' \cap V_1  \neq \emptyset\} \label{S_border_hyperedges}\\
+T = T_1 \cup \{\outgoing{e} \in \delta B_2\ |\ e \setminus V' \cap V_2 \neq \emptyset \} \label{T_border_hyperedges}
+\end{align}
+
+We have to show that for a maximum $(S,T)$-flow $f$ of $T_L(H_{V'})$ holds $|f| = \omega_{H_{V'}}(B_2)$.
+The idea of the proof is to extend $H_{V'}$ with all hypernodes contained in a border hyperedge 
+$e \in \delta B$. Let $V''$ be the set of all hypernodes contained in a border hyperedge without $V'$. If we
+add all $V'' \cap V_1$ to $S_1$ (see Equation \ref{S1_border_hyperedges}) and all $V'' \cap V_2$ to
+$T_1$ (see Equation \ref{T1_border_hyperedges}) we can show that for a maximum $(S_1,T_1)$-flow 
+$f'$ of $T_L(H_{V' \cup V''})$ holds that $|f'| = \omega_{H_{V'}}(B_2)$.\\
+Afterwards, we use a technique to remove all $v \in V''$ of $T_L(H_{V' \cup V''})$ and show
+that the resulting flow network is $T_L(H_{V'})$ with $S$ and $T$ as source and sink set as
+defined in Equation \ref{S_border_hyperedges} and \ref{T_border_hyperedges}. Moreover, for a maximum
+$(S,T)$-flow $f$ then holds that $|f| = |f'| = \omega_{H_{V'}}(B_2)$. \\
+Because of the complexity of the proof, we will introduce lemmas in the following which
+will simplify the proof of the main theorem. Consider \autoref{img:general_source_and_sink}~if you
+need an illustration for the following lemmas.
+
+\begin{figure}
+\centering
+\includegraphics[width=0.95\textwidth]{../img/source_and_sink_set/general_source_and_sink.eps}
+\caption{Illustration of the proof technique used in Lemma \ref{lemma:general_source_and_sink_removal}.
+         The green node $s$ is the super source of the flow problem. The blue nodes are source nodes of
+         the corresponding \emph{multi-source multi-sink} flow problem. The red nodes $u$ and $v$ are
+         contained in $\mathcal{R}(s_2)$. Therefore, edges $(s_2,u)$ and $(s_2,v)$ are removable.}
+\label{img:general_source_and_sink}
+\end{figure}
+
+\begin{lemma}[Source Edge Removal]
+\label{lemma:source_edge_removal}
+Let $f$ be a maximum $(S,T)$-flow of $G = (V,E,\capa)$. If there exists two edges $(s_1,v)$ and $(s_2,v)$
+with infinite capacity ($s_1,s_2 \in S$) we can either remove $(s_1,v)$ or $(s_2,v)$ from $G$
+without changing the amount of a maximum $(S,T)$-flow.
+\end{lemma}
+
+\begin{proof}
+Let $P = (s_1,v,\ldots)$ be an augmenting path of $G$. Replacing $s_1$ in $P$ with $s_2$ yields
+an augmenting path $P'$ of same length. The operation is valid because $\capacity{s_1,v} = \capacity{s_2,v} = \infty$. 
+If we execute Edmond and Karp's maximum flow algorithm we can map each augmenting path 
+$P$ to $P'$ and ensure that for a maximum $(S,T)$-flow $f$ follows that $f(s_1,v) = 0$. 
+Consequently, there exists maximum $(S,T)$-flows where either $f(s_1,v) = 0$ or $f(s_2,v) = 0$.
+Therefore, we can remove either $(s_1,v)$ or $(s_2,v)$ without changing the amount of
+a maximum $(S,T)$-flow.
+\end{proof}
+
+\begin{lemma}[Sink Edge Removal]
+\label{lemma:sink_edge_removal}
+Let $f$ be a maximum $(S,T)$-flow of $G$. If there exists two edges $(v,t_1)$ and $(v,t_2)$
+with infinite capacity ($t_1,t_2 \in T$) we can either remove $(v,t_1)$ or $(v,t_2)$ from $G$
+without changing the amount of a maximum $(S,T)$-flow.
+\end{lemma}
+
+\begin{proof}
+Equivalent to proof of Lemma \ref{lemma:source_edge_removal}.
+\end{proof}
+
+\begin{definition}[Removable Edges]
+We denote the set of all adjacent nodes $v$ of a source node $s$ resp. sink node $t$, where
+edge $(s,v)$ or $(v,t)$ is removable according to Lemma \ref{lemma:source_edge_removal}
+and \ref{lemma:sink_edge_removal}, with $\mathcal{R}(s)$ resp. $\mathcal{R}(t)$.
+\end{definition}
+
+The following lemma is a generalisation of Lemma \ref{lemma:source_and_sink_removal}. We will use
+the definition of $in(u)$ and $out(u)$ presented in Section \ref{sec:heuer_network}. Further,
+$G_{V'}$ is a subgraph of $G = (V,E)$ induce by $V' \subseteq V$ (see Defintion \ref{def:subgraph}).
+
+\begin{lemma}[General Source/Sink Node Removal]
+\label{lemma:general_source_and_sink_removal}
+Let $f$ be a maximum $(S,T)$-flow of $G = (V,E,\capa)$ with $|f| < \infty$ and
+$E_s \subseteq \mathcal{R}(s)$ and $E_t \subseteq \mathcal{R}(t)$ with $s \in S$
+and $t \in T$.
+If $s$ is a source node where all outgoing edges have infinte capacity and
+$t$ is a sink node where all incoming edges have infinte capacity, then
+$|f|$ is equal with the amount of a maximum $(S',T)$-flow of $G_{V\setminus \{s\}}$ and a maximum
+$(S,T')$-flow of $G_{V\setminus \{t\}}$, where $S' = (S\setminus \{s\}) \cup (out(s) \setminus E_s)$ 
+and $T' = (T \setminus \{t\}) \cup (in(t) \setminus E_t)$.
+\end{lemma}
+
+\begin{proof}
+$E_s$ is an arbitrary subset of $\mathcal{R}(s)$, where foreach $v \in E_s$ edge $(s,v)$ is removable.
+$S'$ is the source set without node $s$ extended with all outgoing edges of 
+$s$ minus the removable edges $E_s$. With Lemma \ref{lemma:source_edge_removal}
+we can remove all edges $(s,v)$ with $v \in E_s$ from $G$ and obtain flow network $G'$. Finally, we can
+apply Lemma \ref{lemma:source_and_sink_removal} on $G'$ and obtain $G_{V\setminus \{s\}}$ with $(S',T)$ as source
+and sink set (see \autoref{img:general_source_and_sink}). All used Lemma's did not change the amount of a maximum flow. Therefore, a maximum
+$(S,T)$-flow of $G$ is equal with a maximum $(S',T)$-flow of $G_{V\setminus \{s\}}$. The proof for $t$ is
+equivalent.
+\end{proof}
+
+The proof of Lemma \ref{cut_decrease_proof} can be applied one-to-one on our new source and
+sink sets because $S_1 \subseteq S$ and $T_1 \subseteq T$. Therefore, $S$ and $T$ 
+as defined in Equation \ref{S_border_hyperedges} and \ref{T_border_hyperedges} satisfies
+condition (i) of Problem \ref{prob:ST}. We will show that for $S$ and $T$ 
+the equality $\Delta_H = \Delta_{H_{V'}}$ holds.
+
+\begin{theorem} 
 \label{lemma:delta_proof}
 Let $B_1$ be a bipartition of $H$ and $T_L(H_{V'})$ the flow network of subhypergraph
 $H_{V'}$ with $S$ and $T$ as defined in Equation \ref{S_border_hyperedges} and \ref{T_border_hyperedges} (with $V' \subseteq V$).
-Let $B_2$ be the bipartition obtained by a maximum $(S,T)$-flow computation on $T_L(H_{V'})$
-with $f$ as maximum flow function.
-Then, $\omega_{H_{V'}}(B_2) = |f|$ ($\Rightarrow \Delta_H = \Delta_{H_{V'}}$).
-\end{lemma}
- 
-\begin{figure}
-\centering
-\includegraphics[width=0.95\textwidth]{../img/source_and_sink_set/delta_proof_illustration.eps}
-\caption{Illustration of the two cases presented in proof of Lemma \ref{lemma:delta_proof}
-         to remove a hypernode $v \in V'' \cap S$ from $T_L(H_{V' \cup V''})$. }
-\label{img:delta_proof_illustration}
-\end{figure}
+If $B_2$ is a bipartition obtained by a maximum $(S,T)$-flow computation on $T_L(H_{V'})$
+with $f$ as maximum flow,
+then $\omega_{H_{V'}}(B_2) = |f|$ ($\Rightarrow \Delta_H = \Delta_{H_{V'}}$).
+\end{theorem}
 
 \begin{proof}
 Let $V'' = \bigcup_{e \in \delta B} e \setminus V'$ be the set of all hypernodes contained
@@ -158,184 +248,70 @@ each \emph{border hyperedge} of $H_{V'}$ is fully contained in $H_{V'\cup V''}$.
 Let $T_L(H_{V' \cup V''})$ be the resulting flow network with $S' = S_1\ \cup\ (V'' \cap V_1)$ and 
 $T' = T_1\ \cup\ (V'' \cap V_2)$ as source and sink sets. Further, let $f'$ be a maximum $(S',T')$-flow 
 of $T_L(H_{V' \cup V''})$ and $B_2$ be the corresponding minimum $(S',T')$-bipartition. Because
-all hypernodes which are part of a hyperedge of $H$ and also of $H_{V'}$ are fully contained
-in $H_{V' \cup V''}$ the equality $|f'| = \omega_{H_{V'}}(B_2)$ holds. In the following, we 
-present a technique with which we can obtain a new flow network $T_L(H_{V' \cup V''\setminus \{v\}})$
-with $v \in V''$. Simultaneously we map
-the maximum $(S',T')$-flow $f'$ of $T_L(H_{V' \cup V''})$ to a maximum $(S'',T'')$-flow
-of $T_L(H_{V' \cup V''\setminus \{v\}})$ with $|f'| = |f''|$. Applying this technique successively
-on all nodes $v \in V''$ will result in flow network $T_L(H_{V'})$ with $S$ and $T$ as source and sink sets
-defined in Equation \ref{S_border_hyperedges} and \ref{T_border_hyperedges}. \\
-A hypernode $v \in V''$ is either a source or a sink. We will show how to remove a source
-hypernode $v \in V'' \cap S'$. We define $S'' := S'$, $T'' := T'$ and 
-$f'' := f'$. To remove $v \in V''$ we have to distingush two cases 
-based on a incident hyperedge $e \in I(v)$: 
-
-$\mathbf{e \cap S \setminus \{v\} \neq \emptyset}$:
-Then there exists a hypernode $u \in e \cap S$ with $u \neq v$. We define
-$f''(u,\incoming{e}) = f''(u,\incoming{e}) + f'(v,\incoming{e})$ and $f''(s,u) = f''(s,u) + f'(v,\incoming{e})$. 
-
-$\mathbf{e \cap S \setminus \{v\} = \emptyset}$:
-In this case $e$ must be a cut hyperedge in $H$, but not in $H_{V'}$, otherwise
-there would exist a hypernode $u \in e \cap S$ (see Equation \ref{S1_border_hyperedges}).
-We define $S'' = S'' \cup \{\incoming{e}\}$. Also, we set $f''(s,\incoming{e}) = f'(v,\incoming{e})$. 
-
-The two cases are illustrated in \autoref{img:delta_proof_illustration}.
-After applying this procedure for all $e \in I(v)$ we can remove $v$ from $T_L(H_{V' \cup V''})$. 
-The cases for a vertex $v \in V'' \cap T'$ are equivalent. 
-$f''$ is a valid flow function per construction and $|f'| = |f''|$. Also $f''$
-is maximum $(S'',T'')$-flow on $T_L(H_{V' \cup V''\setminus \{v\}})$, otherwise
-there would exist an augmenting path in the residual graph $T_L(H_{V' \cup V''\setminus \{v\}})$
-which we can map to an augmenting path in $T_L(H_{V' \cup V''})$ (without a proof). With this method 
-we can successively remove all $v \in V''$ of $T_L(H_{V' \cup V''})$ . \\
-The resulting  flow network is $T_L(H_{V'})$. For each $e \in E$ which is cut in $H$, but not
-in $H_{V'}$, we have added the corresponding \emph{incoming hyperedge node} $\incoming{e}$
-resp. \emph{outgoing hyperedge node} $\outgoing{e}$ to $S''$ resp. $T''$. Therefore, 
-$S''$ and $T''$ are equal to $S$ and $T$ as defined in Equation \ref{S_border_hyperedges}
-and \ref{T_border_hyperedges}. Finally, the flow function $f''$ is a maximum
-$(S,T)$-flow of $T_L(H_{V'})$ and $|f''| = |f'| = \omega_{H_{V'}}(B_2)$.
+we add all hypernodes which are part of a hyperedge of $H$ and also of $H_{V'}$ are fully contained
+in $H_{V' \cup V''}$ the equality $|f'| = \omega_{H_{V'}}(B_2)$ holds. \\
+\todo{better description of why this equality holds.}\\
+In the following, we will apply Lemma \ref{lemma:general_source_and_sink_removal} on all
+hypernodes $v \in V''$ such that the flow network $T_L(H_{V' \cup V''})$ converge against
+$T_L(H_{V'})$ with $S$ and $T$ as source and sink set as defined in Equation 
+\ref{S_border_hyperedges} and \ref{T_border_hyperedges}. Per definition a node $v \in V''$
+is either a source or sink node. For each source node $s \in V''$ we have to 
+define a removable subset $E_s \subseteq \mathcal{R}(s)$ such that after removing all $s \in S' \cap V''$
+the resulting source set $S$ is equal to Equation \ref{S_border_hyperedges}. The technique
+for removing each sink node $t \in S' \cap V''$ will be equivalent. For a source node $s \in V''$
+we define $E_s = \{\incoming{e}\ |\ e \in I(s) \cap \delta B_1\}$. Remember, $\delta B_1$ contains
+all non-cut border hyperedges of $H$. Thus, for each $e \in I(s) \cap \delta B_1$ exists
+a source node $\bar{s} \in e$ of $S_1$ such that edges $(s,\incoming{e})$ and $(\bar{s},\incoming{e})$
+are contained in $T_L(H_{V' \cup V''})$. Therefore, $E_s$ is a removable subset of $\mathcal{R}(s)$.
+For each $t \in T' \cap V''$ we define the removable subset $E_t = \{\outgoing{e}\ |\ e \in I(t) \cap \delta B_1\}$.
+Applying Lemma \ref{lemma:general_source_and_sink_removal} on all source nodes $s \in V''$
+with $E_s$ as removable subset and on all sink nodes $t \in V''$ with $E_t$ 
+as removable subset yield flow network $T_L(H_{V'})$ with $S$ and $T$ as source and sink 
+set as defined in Equation \ref{S_border_hyperedges} and \ref{T_border_hyperedges}.
+A hyperedge $e \in \delta B_1$ cannot become a source or sink node because if we remove a 
+source node $s \in V''$ then $e'$ is in the removable subset $E_s$ (see \autoref{img:delta_proof_illustration}). The same holds
+for each sink node $t \in V''$. A hyperedge $e \in \delta B_2$ becomes a source node of $S$
+if we remove a source node $s \in e$ and sink node of $T$ if we remove a 
+sink node $t \in e$ because $\forall e \in \delta B_2: e',e'' \notin E_s \cup E_t$. 
+Therefore, $S$ and $T$ are equal to our source and sink set defintion and
+for a maximum $(S,T)$-flow $f$ it holds that $|f| = |f'| = \omega_{H_{V'}}(B_2)$.
 \end{proof}
-
-With our current modeling approach, we can satisfy all conditions of
-our problem statement. However, we define hypernodes as source resp.
-sink which are unnecessary. Consider \autoref{img:cut_border_hyperedges} for an illustration.
-Hyperedge $e_1$ is cut in $H_{V'}$ and contains hypernodes from both
-blocks, which are not in the flow problem. Regardless of the maximum $(S,T)$-flow computation on
-$H_{V'}$ we can not remove $e_1$ from the cut of $H$. Using our suggested source and sink modeling 
-has as consequence that $e_1$ and $e_2$ are still cut after a \emph{Max-Flow-Min-Cut} 
-computation (see \emph{Transformation 1} in \autoref{img:cut_border_hyperedges}), 
-because we define all vertices of $e_1$ as source resp. sinks. Another approach
-is to define hyperedges which are cut of $H_{V'}$ and also of $H$ the \emph{incoming}
-resp. \emph{outgoing hyperedge node} as source resp. sink (see \emph{Transformation 2} in
-\autoref{img:cut_border_hyperedges}). In our example, all hypernodes of $e_1$ are still able 
-to move and a \emph{Max-Flow-Min-Cut} computation removes $e_2$ from the cut.\\
-To define our final source and sink set, we split the set of all \emph{border hyperedges} into
-three different disjoint subsets as follows:
-
-\begin{enumerate}
-\item $\delta B_1 = \{ e \in \delta B \ |\ e \subseteq V_1\ \lor\ e \subseteq V_2 \}$
-\item $\delta B_2 = \{ e \in \delta B \ |\ e \cap V' \not\subseteq V_1\ \land\ e \cap V' \not\subseteq V_2\}$
-\item $\delta B_3 = \{ e \in \delta B \setminus \delta B_1 \ |\ (e \cap V' \subseteq V_1\ \lor\ e \cap V' \subseteq V_2 \}$
-\end{enumerate}
-
-$\delta B_1$ contains all non-cut \emph{border hyperedges} of $H$. $\delta B_2$ contains 
-all \emph{cut border hyperedges} of $H$, which are also cut in $H_{V'}$ and $\delta B_3$ contains
-all \emph{cut border hyperedges} of $H$, which are non-cut in $H_{V'}$.
-\begin{align}
-S = \bigcup\limits_{\substack{e \in \delta B_1 \\ e \subseteq V_1}} e\cap V'\ \cup \bigcup\limits_{\substack{e \in \delta B_2 \cup \delta B_3 \\ e \setminus V' \cap V_1 \neq \emptyset}} \{\incoming{e}\} \label{S_final_border_hyperedges}\\
-T = \bigcup\limits_{\substack{e \in \delta B_1 \\ e \subseteq V_2}} e\cap V'\ \cup \bigcup\limits_{\substack{e \in \delta B_2 \cup \delta B_3 \\ e \setminus V' \cap V_2 \neq \emptyset}} \{\outgoing{e}\} \label{T_final_border_hyperedges}
-\end{align}
 
 \begin{figure}
 \centering
-\includegraphics[width=0.95\textwidth]{../img/source_and_sink_set/cut_border_hyperedges.eps}
-\caption{Illustration of modeling \emph{Cut Border Hyperedges} as sources and sinks. In this
-         example $e_1$ contains node from block $V_1$ and $V_2$ not contained in the flow problem. Therefore,
-         we can not remove $e_1$ from cut. Treating $e_1$ as a \emph{Border Hyperedge} would result
-         in Transformation $1$. This has the consequence that we are not able to remove $e_2$
-         from cut with a \emph{Max-Flow-Min-Cut} computation. Defining the \emph{incoming} resp.
-         \emph{outgoing} hyperedge of $e_1$ as source resp. sinks allows the corresponding hypernodes
-         of $e_1$ still to move. The consequence is that we can remove $e_2$ from cut with a
-         \emph{Max-Flow-Min-Cut} computation in Transformation $2$.}
-\label{img:cut_border_hyperedges}
+\includegraphics[width=0.95\textwidth]{../img/source_and_sink_set/delta_proof_illustration.eps}
+\caption{Illustration how to remove a source node $s \in V''$. Note, the green node $s$
+         is the super source of the flow problem. Consequently, all nodes connected to $s$
+         are source nodes in the corresponding \emph{multi-source multi-sink} flow problem.}
+\label{img:delta_proof_illustration}
 \end{figure}
 
-Equation \ref{S_final_border_hyperedges} and \ref{T_final_border_hyperedges} 
-are illustrated in \autoref{img:st_modelling_summary}.
-A \emph{Max-Flow-Min-Cut} computation on $T_L(H_{V'})$ with $S$ and $T$ as defined
-in Equation \ref{S_final_border_hyperedges} and \ref{T_final_border_hyperedges} satisfy
-condition (i) and (ii) of Problem \ref{prob:ST}. It can be proven with similar techniques
-used in the proof of Lemma \ref{cut_decrease_proof} and \ref{lemma:delta_proof}. A maximum
-$(S,T)$-flow calculation yields to a minimum-capacity $(S,T)$-cutset of $H_{V'}$. A non-cut hyperedge
-$e \in \delta B_1$ cannot become a cut hyperedge after a \emph{Max-Flow-Min-Cut} computation
-because we still define all vertices of non-cut hyperedges of $H$ and $H_{V'}$ as sources resp. sinks. 
-Therefore, $\omega_H(B_2) \le \omega_H(B_1)$. We can proof Lemma \ref{lemma:delta_proof} for our
-new source and sink sets if we adapt the conditions of the cases for a hyperedge $e \in I(v)$ 
-based on the set $\delta B_1$, $\delta B_2$ and $\delta B_3$ where $e$ is contained. If
-$e \in \delta B_1$, then there must exist a hypernode $u \in e \cap S \setminus \{v\}$ on
-which we apply the first case (Case $1$: $e \cap S \setminus \{v\} \neq \emptyset$). 
-For all $e \in \delta B_2 \cup \delta B_3$, we simply apply the second case
-(Case $2$: $e \cap S \setminus \{v\} = \emptyset$). After removing all hypernodes $v \in V''$
-the resulting network is $T_L(H_{V'})$ with $S$ and $T$ as defined in Equation
-\ref{S_final_border_hyperedges} and \ref{T_final_border_hyperedges}. Further, the flow function
-$f''$ is a maximum $(S,T)$-flow on $T_L(H_{V'})$ with $|f''| = |f'| = \omega_{H_{V'}}(B_2)
-\Rightarrow \Delta_H = \Delta_{H_{V'}}$. \\
-Finally, we want to show that for a minimum $(S',T')$-bipartition $B_2$ with $S'$ and $T'$ as defined
-in Equation \ref{S_final_border_hyperedges} and \ref{T_final_border_hyperedges} and a minimum
-$(S,T)$-bipartition $B_3$ with $S$ and $T$ as defined in Equation \ref{S_border_hyperedges}
-and \ref{T_border_hyperedges} calculated with flow network $T_L(H_{V'})$ the inequality 
-$\omega_H(B_2) \le \omega_H(B_3)$ holds. For this propose we need a preparing lemma.
 
-\begin{lemma}
-\label{lemma:ST_subset}
-Let $G = (V,E,c)$ be a flow network with sources $S$ and sinks $T$. Further, $S' \subseteq S$
-and $T' \subseteq T$. The value of a maximum $(S',T')$-flow $f'$ is less or equal than the value
-of a maximum $(S,T)$-flow $f$. More formal, $|f'| \le |f|$.
-\end{lemma}
-
-\begin{proof}
-Assume $|f'| > |f|$. Then, we can simply set $f = f'$, because $S' \subseteq S$ and
-$T' \subseteq T$. But this is a contradiction to assumption that $f$ is a maximum $(S,T)$-flow
-on $G$. Therefore, $|f'| \le |f|$.
-\end{proof}
-
-In the following theorem, we denote with $S$ and $T$ the source and sink sets as defined in 
-Equation \ref{S_border_hyperedges} and \ref{T_border_hyperedges} and with $S'$ and $T'$ the
-source and sink sets as defined in Equation \ref{S_final_border_hyperedges} and
-\ref{T_final_border_hyperedges}.
-
-\begin{theorem}
-Let $H$ be a hypergraph and $H_{V'}$ be the subhypergraph induced by the subset $V' \subseteq V$.
-Further, let $B_1$ be the current bipartition of $H$. For a minimum $(S',T')$-bipartition $B_2$ and
-a minimum $(S,T)$-bipartition $B_3$ obtained by a maximum $(S',T')$- resp. $(S,T)$-flow calculation
-on $T_L(H_{V'})$ the inequality $\omega_H(B_2) \le \omega_H(B_3) \le \omega_H(B_1)$ holds.
-\end{theorem}
-
-\begin{proof}
-Let $(\bar{S'},\bar{T'})$ resp. $(\bar{S},\bar{T})$ be the sets obtained by removing all
-\emph{incoming} and \emph{outgoing hyperedge nodes} $\incoming{e}$ and $\outgoing{e}$ from $(S',T')$ resp.
-$(S,T)$. It holds that $\bar{S'} \subseteq \bar{S}$ and $\bar{T'} \subseteq \bar{T}$. Afterwards,
-we extend the subhypergraph $H_{V'}$ with all hypernodes $V'' = \bigcup_{e \in \delta B} e \setminus V'$
-and obtain subhypergraph $H_{V' \cup V''}$ with flow network $T_L(H_{V' \cup V''})$.
-Also, we extend $(\bar{S'},\bar{T'})$ and $(\bar{S},\bar{T})$ exactly in the same way as 
-in the proof of Theorem \ref{lemma:delta_proof}. With the \emph{Max-Flow-Min-Cut}-Theorem 
-\cite{ford1956maximal} we follow that the cut $\omega_{H_{V'}}(B_2)$ of 
-a minimum $(\bar{S'},\bar{T'})$-bipartition $B_2$ of $H_{V'}$ is equal with the value of a 
-maximum $(\bar{S'},\bar{T'})$-flow $f'$ of $T_L(H_{V' \cup V''})$ (more detailed see Theorem \ref{lemma:delta_proof}). 
-The same holds for a minimum $(\bar{S},\bar{T})$-bipartition
-$B_3$ and a maximum $(\bar{S},\bar{T})$-flow $f$. After extending $(\bar{S'},\bar{T'})$ 
-resp. $(\bar{S},\bar{T})$ with all hypernodes of $V''$ the relation $\bar{S'} \subseteq \bar{S}$
-and $\bar{T'} \subseteq \bar{T}$ still holds. With Lemma \ref{lemma:ST_subset} and the 
-\emph{Max-Flow-Min-Cut}-Theorem follows $\omega_{H_{V'}}(B_2) = |f'| \le |f| = \omega_{H_{V'}}(B_3)$.\\
-We can transform $(\bar{S'},\bar{T'})$ resp. $(\bar{S},\bar{T})$ and flow network $T_L(H_{V'\cup V''})$
-back to $T_L(H_{V'})$ with $(S',T')$ resp. $(S,T)$ as source and sink sets
-with the technique described in the proof of Theorem \ref{lemma:delta_proof} and in sketch
-of the proof for our new source and sink sets (see Equation \ref{S_final_border_hyperedges} and
-\ref{T_final_border_hyperedges}). Therefore, the inequality still holds for bipartitions
-$B_2$ and $B_3$ obtained by a maximum $(S',T')$- and $(S,T)$-flow calculation of $T_L(H_{V'})$.
-Finally, it follows
-\begin{align*}
-\omega_H(B_2) \stackrel{\text{Problem \ref{prob:ST}(ii)}}{=} 
-\omega_H(B_1) - \omega_{H_{V'}}(B_1) + |f'| \\
-\stackrel{\text{Lemma \ref{lemma:ST_subset}}}{\le} \omega_H(B_1) - \omega_{H_{V'}}(B_1) + |f| \\
-\stackrel{\text{Problem \ref{prob:ST}(ii)}}{=} \omega_H(B_3) \stackrel{\text{Problem \ref{prob:ST}(i)}}{\le} \omega_H(B_1)
-\end{align*}
-\end{proof}
+%\begin{figure}
+%\centering
+%\includegraphics[width=0.95\textwidth]{../img/source_and_sink_set/cut_border_hyperedges.eps}
+%\caption{Illustration of modeling \emph{Cut Border Hyperedges} as sources and sinks. In this
+%         example $e_1$ contains node from block $V_1$ and $V_2$ not contained in the flow problem. Therefore,
+%         we can not remove $e_1$ from cut. Treating $e_1$ as a \emph{Border Hyperedge} would result
+%         in Transformation $1$. This has the consequence that we are not able to remove $e_2$
+%         from cut with a \emph{Max-Flow-Min-Cut} computation. Defining the \emph{incoming} resp.
+%         \emph{outgoing} hyperedge of $e_1$ as source resp. sinks allows the corresponding hypernodes
+%         of $e_1$ still to move. The consequence is that we can remove $e_2$ from cut with a
+%         \emph{Max-Flow-Min-Cut} computation in Transformation $2$. }
+%\label{img:cut_border_hyperedges}
+%\end{figure}
 
 We are now able to extract a subhypergraph $H_{V'}$ out of an already bipartitioned hypergraph $H$ and
 calculate a minimum $(S,T)$-bipartition of $H_{V'}$ with $S$ and $T$ as defined
-in Equation \ref{S_final_border_hyperedges} and \ref{T_final_border_hyperedges}. The resulting
-bipartition induced a new cut on $H$ smaller or equal than the old cut. Further, we show with our
+in Equation \ref{S_border_hyperedges} and \ref{T_border_hyperedges}. The resulting
+bipartition induce a new cut on $H$ smaller or equal than the old cut. Further, we show with our
 modeling technique of $S$ and $T$ that $\Delta_H$ can be calculated with the help of the value 
-of a maximum $(S,T)$-flow computation of $T_L(H_{V'})$. Additionally, we demonstrate that a different
-modeling approach of $S$ and $T$ which satisfy both conditions of Problem \ref{prob:ST} can lead to
-an improved cut quality of the minimum $(S,T)$-bipartition on the original hypergraph $H$.
-
+of a maximum $(S,T)$-flow computation of $T_L(H_{V'})$. \\
 \begin{figure}[ht!]
 \centering
 \includegraphics[width=0.95\textwidth]{../img/source_and_sink_set/st_modelling_summary.eps}
-\caption{Illustration of modeling sources and sinks defined in Equation \ref{S_final_border_hyperedges}
-         and \ref{T_final_border_hyperedges}. }
+\caption{Illustration of modeling sources and sinks defined in Equation \ref{S_border_hyperedges}
+         and \ref{T_border_hyperedges}. }
 \label{img:st_modelling_summary}
 \end{figure}
 In Section \ref{sec:edge_size_network} we described how to remove hyperedges of size $|e| = 2$ 
@@ -347,15 +323,14 @@ of the flow problem and one not. In case, if the incoming hyperedge node $\incom
 we only remove the outgoing hyperedge node $\outgoing{e}$ and add a directed flow edge from $\incoming{e}$ 
 to $v$ with capacity $\omega(e)$. In the second case, if the outgoing hyperedge node $\outgoing{e}$ is
 a sink node, we only remove the incoming hyperedge node $\incoming{e}$ and add a directed flow edge from
-$v$ to $\outgoing{e}$ with capacity $\omega(e)$.
-\begin{figure}[ht!]
+$v$ to $\outgoing{e}$ with capacity $\omega(e)$.\\
+\begin{figure}
 \centering
 \includegraphics[width=0.95\textwidth]{../img/source_and_sink_set/edge_size_two.eps}
 \caption{Illustration of modeling hyperedges of size two if the incoming or outgoing
          hyperedge node is a source or a sink node of the flow problem.}
 \label{img:edge_size_two}
 \end{figure}
-
 With the given approach we can optimize the cut metric of a given
 bipartition of a hypergraph $H$. We can transfer those results to improve
 a $k$-way partition $\Pi = (V_1,\ldots,V_k)$ if the objective is the connectivity
