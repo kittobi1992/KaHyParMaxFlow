@@ -153,6 +153,41 @@ Hypergraph                                                                      
 \end{table}
 
 \newpage
+\section{Effectiveness Tests for Flow Configurations}
+\label{appendix:effectiveness_test}
+
+To evaluate the effectiveness of our configurations presented in Section \ref{sec:flow_configuration}
+we give each configuration the same amount of time to produce as many as possible partitions of
+a hypergraph $H$ for a given $k$. We define
+$t_{H,k}$ which is the maximum partition time of a configuration to partition $H$ in $k$
+blocks. If we execute a configuration on a hypergraph $H$ for a given $k$ and $\alpha'$ the
+time to produce as many as possible partitions is restricted by $3t_{H,k}$. We sum up the partition
+times during execution and if that sum plus the current average partition time would exceed $3t_{H,k}$ we perform
+the next run with a certain probability such that the expected running time is $3t_{H,k}$.
+The effectiveness tests were proposed by Sanders and Schulz \cite{sanders2011engineering}.
+The results of the tests mirrors our results of Section \ref{sec:flow_configuration}.
+
+
+\begin{table}[ht]
+\renewcommand{\arraystretch}{1.15}
+\centering
+\begin{tabular}{|r|c|c|c|}
+\toprule
+ Config. & \FlowVariant{+}{-}{-} & \FlowVariant{+}{+}{-}  & \FlowVariant{+}{+}{+} \\
+\midrule
+$\alpha'$ & Avg.$[\%]$ & Avg.$[\%]$ & Avg.$[\%]$ \\
+\midrule%
+\csname @@input\endcsname experiments/flow_alpha/flow_alpha_effectiveness_table.tex 
+\bottomrule
+\end{tabular}
+\caption{ Table contains results of the effectiveness test 
+          for different configurations of our flow-based refinement
+          framework for increasing $\alpha'$. The quality in column \emph{Avg.} is relative
+          to our baseline configuration without the usage of flows. }
+\label{tbl:alpha_effectiveness_exp}
+\end{table}
+
+\newpage
 \section{Detailed Speedup Heuristic Evaluation}
 \begin{figure}[h!]
 \centering
