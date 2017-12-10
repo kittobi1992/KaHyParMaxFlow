@@ -6,7 +6,7 @@ the sources $S$ and sinks $T$ of the corresponding flow network such that
 a minimum $(S,T)$-bipartition of $H_{V'}$ improves the connectivity metric of $H$
 (see Section \ref{sec:source_and_sink}). Further, we describe how the ideas of
 Sanders and Schulz \cite{sanders2011engineering} (see Section \ref{sec:flow_local_search_graph}) 
-could be adapted to work in an $n$-level hypergraph partitioner, called \emph{KaHyPar}
+can be adapted to work in an $n$-level hypergraph partitioner, called \emph{KaHyPar}
 (see Section \ref{sec:mbmc_hypergraphs} and \ref{sec:flow_local_search_hypergraph}). 
 
 \subsection{Source and Sink Configuration}
@@ -17,7 +17,7 @@ In the following, we show how to configure the source set $S$ and sink set $T$ o
 network $T_L(H_{V'})$ of a subhypergraph $H_{V'}$ induced by $V' \subseteq V$. The goal is 
 to improve bipartition $B_1$ with a maximum $(S,T)$-flow calculation 
 on $T_L(H_{V'})$ (with $f$ as maximum flow) such that the resulting bipartition 
-$B_2$ yields to an improved bipartition $B_2$ when cut is the objective.
+$B_2$ yields an improved bipartition $B_2$ when cut is the objective.
 Let $E_{\text{cut}}(V',B) := \{ e \in E\ |\ \lambda(e,B) > 1 \land e \cap V' \neq \emptyset\}$ 
 be the set of all cut hyperedges of $H$ which are partially or fully contained in $H_{V'}$.
 We define the cut of subhypergraph $H_{V'}$ related to a bipartition $B$ of $H$
@@ -260,7 +260,7 @@ such that we ensure that $e$ is not cut after a maximum $(S',T')$-flow calculati
 we add $S_1$ and $T_1$ to $S'$ and $T'$ (see Equation \ref{S1_border_hyperedges} and \ref{T1_border_hyperedges}).
 Further, all hypernodes $v \in V''$ (see Defintion \ref{def:sub_extension}) are not contained in
 $H_{V'}$. Consequently, they cannot change their block if we calculate a maximum $(S,T)$-flow of
-$H_{V'}$. Therefore, we add $V'' \cap V_1$ to $S'$ and $V'' \cap V_2$ to $T'$.
+$T_L(H_{V'})$. Therefore, we add $V'' \cap V_1$ to $S'$ and $V'' \cap V_2$ to $T'$.
 With $S'$ and $T'$ as source and sink set we ensure that only hypernodes $v \in V'$ are able
 to move and since $S_1 \subseteq S'$ and $T_1 \subseteq T'$, we ensure that $\omega_H(B_2) \le \omega_H(B_1)$
 (see Lemma \ref{cut_decrease_proof}). \\
@@ -320,8 +320,8 @@ We are now able to extract a subhypergraph $H_{V'}$ out of an already bipartitio
 calculate a minimum $(S,T)$-bipartition of $H_{V'}$ with $S$ and $T$ as defined
 in Equation \ref{S_border_hyperedges} and \ref{T_border_hyperedges}. The resulting
 bipartition induce a new cut on $H$ smaller or equal than the old cut. Further, we show with our
-modeling technique of $S$ and $T$ that $\Delta_H$ can be calculated with the help of the value 
-of a maximum $(S,T)$-flow computation of $T_L(H_{V'})$. \\
+modeling technique of $S$ and $T$ that $\Delta_H$ can be calculated with the help of the amount 
+of a maximum $(S,T)$-flow computation on $T_L(H_{V'})$. \\
 \begin{figure}[ht!]
 \centering
 \includegraphics[width=0.95\textwidth]{../img/source_and_sink_set/st_modelling_summary.eps}
@@ -358,7 +358,7 @@ the connectivity metric of $H$.
 \subsection{Most Balanced Minimum Cuts on Hypergraphs}
 \label{sec:mbmc_hypergraphs}
 
-Picard and Queyranne \cite{picard1980structure} showed that all minimum $(s,t)$-cuts 
+Picard and Queyranne \cite{picard1980structure} show that all minimum $(s,t)$-cuts 
 of a graph $G$ are computable with one maximum $(s,t)$-flow computation by 
 iterating through all \emph{closed node sets} of the residual graph of $G$. 
 The corresponding algorithm is presented in Section \ref{sec:related_mbmc}. \\
@@ -429,9 +429,9 @@ with a sink $t$. Our Goldberg \& Tarjan implementation uses a \emph{FIFO} queue 
 the \emph{global relabeling} and \emph{gap} heuristic \cite{cherkassky1997implementing}.
 We do not use an external implementation of a maximum flow algorithm.
 Since the \emph{I\textbackslash O} of writing a flow problem to memory and reading the
-solution would significant slowdown the performance of our algorithm because we have
+solution would significantly slowdown the performance of our algorithm because we have
 to solve an enormous number of flow problems during the \emph{Active Block Scheduling}
-refinement. After determining a maximum $(S,T)$-flow on our flow network, we iterate over
+refinement. After we determine a maximum $(S,T)$-flow on our flow network, we iterate over
 all minimum $(S,T)$-bipartitions of $H_{V'}$ \cite{picard1980structure} and choose 
 the \emph{Most Balanced Minimum Cut} (see Section \ref{sec:related_mbmc} and 
 \ref{sec:mbmc_hypergraphs}) according to our \emph{balanced constraint}. \\
@@ -463,7 +463,7 @@ the running time.
             \emph{Active Block Scheduling}.
 \item[(R2)] If the cut between two adjacent blocks in the quotient graph is small (e.g. $\le 10$) we
             skip the flow-based refinement on these blocks except on the last level of the hierarchy.
-\item[(R3)] If the value of the cut of a minimum $(S,T)$-bipartition on $H_{V'}$ is the same 
+\item[(R3)] If the value of the cut of a minimum $(S,T)$-bipartition of $H_{V'}$ is the same 
             as the cut before, we stop the pairwise refinement.
 \end{enumerate}
 

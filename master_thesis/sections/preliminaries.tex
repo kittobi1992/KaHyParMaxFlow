@@ -97,8 +97,8 @@ The \emph{Max-Flow-Min-Cut}-Theorem is fundamental for many applications related
 flow problem \cite{ford1956maximal}.
 
 \begin{theorem}
-The value of a maximum $(s,t)$-flow obtainable in a graph $G$ is equal with the weight
-of the minimum cutset in $G$ separating $s$ and $t$.
+The value of a maximum $(s,t)$-flow obtainable in a graph $G$ is equal with 
+the minimum-weight cutset in $G$ separating $s$ and $t$.
 \end{theorem}
 
 Let $f$ be a maximum $(s,t)$-flow in a graph $G = (V,E,\omega)$ with $s \in V$ and $t \in V$. 
@@ -145,7 +145,7 @@ because for all those edges the capacity is $\infty$. Therefore, the cutset must
 of edges of the form $(\incoming{v},\outgoing{v})$. A minimum-weight $(s,t)$-vertex separator can be calculated 
 by finding a maximum $(s,t)$-flow of $T_V(G)$ and the corresponding minimum $(s,t)$-cutset \cite{menger1927allgemeinen}.\\
 Given a set of sources $S$ and sinks $T$. The \emph{multi-source multi-sink} maximum flow problem is
-about finding a maximum flow $f$ from all source nodes $s \in S$ to all sink nodes $t \in T$.
+to find a maximum flow $f$ from all source nodes $s \in S$ to all sink nodes $t \in T$.
 We can transform such a problem into a \emph{single-source single-sink} problem by adding
 two additional nodes $s$ and $t$. We add a directed edge from $s$ to all source nodes $s' \in S$ 
 and for all sink nodes $t' \in T$ a directed edge to $t$ with capacity 
@@ -172,8 +172,9 @@ is a subset of $V$ (formally: $\forall e \in E: e \subseteq V$).
 \end{definition}
 
 A hypergraph generalizes a graph by extending the definition of an edge, which 
-can contain more than two nodes. Hyperedges are also called \emph{nets} and the hypernodes
-of a net are called \emph{pins}. For a subset $V' \subseteq V$ and $E' \subseteq E$ we
+can contain more than two nodes. Hyperedges are also called \emph{nets} and hypernodes are
+also called \emph{vertices}. A vertex contained in a net is called \emph{pin}. 
+For a subset $V' \subseteq V$ and $E' \subseteq E$ we
 define
 \begin{align*}
 c(V') = \sum_{v \in V'} c(v) \\
@@ -184,7 +185,7 @@ A vertex $v$ is \emph{incident} to a hyperedge $e$ if $v \in e$.
 Two vertices $u$ and $v$ are \emph{adjacent}, if there exists an 
 $e \in E$ such that $u \in e$ and $v \in e$. $I(v)$ denotes the set of all 
 \emph{incident} nets of $v$. The \emph{degree} of a hypernode 
-$v$ is $d(v) = |I(v)|$. The size of a net $e$ is the cardinality $|e|$.
+$v$ is $d(v) = |I(v)|$. The size of a net $e$ is its cardinality $|e|$.
 
 \begin{definition}
 Let $H_{V'} = (V',E_{V'},c,\omega)$ be the subhypergraph of a hypergraph $H$
@@ -224,7 +225,7 @@ of a net $e$ is $\lambda(e,\Pi) = |\Lambda(e,\Pi)|$. A hyperedge $e$ is \emph{cu
 $\lambda(e,\Pi) > 1$. $E(\Pi) = \{e\ |\ \lambda(e,\Pi) > 1\}$ is the set of all \emph{cut} 
 nets. We say two blocks $V_i$ and $V_j$ are adjacent, if there exists a hyperedge
 $e$ with $V_i \in \Lambda(e,\Pi)$ and $V_j \in \Lambda(e,\Pi)$. 
-We say a $k$-way partition is $\epsilon$-balanced 
+A $k$-way partition is $\epsilon$-balanced 
 if each block $V_i \in \Pi$ satisfies the \emph{balance constraint} 
 $c(V_i) \le (1+\epsilon)\lceil\frac{c(V)}{k}\rceil$.
 

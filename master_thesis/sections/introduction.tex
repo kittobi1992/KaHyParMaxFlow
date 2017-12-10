@@ -38,12 +38,12 @@ in linear time. However, for large hyperedges the gain is often equal to $0$. E.
 the objective function is cut, then the gain of a pin is only greater than zero if it is the
 last pin of a block in a hyperedge. There exist several approaches which try to take the
 future gain of vertex into account \cite{krishnamurthy1984improved}, but they are also
-limited in their ability to lookahead \cite{zhao2002effective}. Therefore, the algorithm
+limited in their ability to look ahead \cite{zhao2002effective}. Therefore, the algorithm
 tends to find local optimal solutions. \\
 Sanders and Schulz \cite{sanders2011engineering} successfully integrated a \emph{flow}-based refinement
 algorithm in their multilevel graph partitioner. It is well known that a maximum $(s,t)$-flow
 calculation yields to a minimum $(s,t)$-cutset on graphs \cite{ford1956maximal}. Their general
-approach was to extract a subgraph around the cut and configure the source and sink sets
+approach is to extract a subgraph around the cut and configure the source and sink sets
 of the flow problem such that a maximum flow calculation on the subgraph leads to a 
 smaller cut on the original graph. In combination with the \emph{FM} heuristic, their \emph{local
 search} algorithm can find out of locally optimal solutions and produces
@@ -56,46 +56,45 @@ algorithm for a multilevel hypergraph partitioner. Sanders and Schulz \cite{sand
 showed that \emph{flow}-based approaches could be used in a multilevel graph partitioner to obtain
 high-quality partitions. Their algorithm is a generic framework, which basic ideas can be
 applied one-to-one on hypergraphs. However, several key challenges remain.\\
-First, we have to find an appropriate model of a hypergraph as flow network. Each maximum
+First, we have to find an appropriate way to model a hypergraph as flow network. Each maximum
 $(s,t)$-flow on this model should induce a minimum $(s,t)$-cutset on the hypergraph.
 Afterwards, the model should be used to improve the cut of a given bipartition by
-executing a flow problem on a subset of the hypernodes. Therefore, the 
-sources and sinks must be configured to satisfy the above-formulated constraint. \\
+executing a \emph{Max-Flow-Min-Cut} algorithm only on a subset of the hypernodes. \\
 The framework should be integrated into the $n$-level hypergraph partitioner 
 \emph{KaHyPar}. \emph{KaHyPar} is a multilevel hypergraph partitioner in its most extreme 
-version by only contracting two vertices in one level of the multilevel hierarchy
-\cite{akhremtsev2017engineering,heuer2017improving,schlag2016k}. In the \emph{refinement 
-phase}, $n$-\emph{local searches} are instantiated. Therefore, the most challenging part is
-to implement the framework in such a way that we obtain
-high-quality partitions and simultaneously ensure that the performance reduction is within
-a constant factor.
+version that only contracts two vertices in one level of the multilevel hierarchy
+\cite{akhremtsev2017engineering,heuer2017improving,schlag2016k}. Consequently, the 
+\emph{local search} algorithm is called $n$ times during \emph{uncontraction}.
+Therefore, the most challenging part is to implement the framework in such a way that we obtain
+high-quality partitions and simultaneously ensure that the running time is within
+a constant factor slower than the current version of \emph{KaHyPar}.
 
 \subsection{Contributions}
 
-We present several sparsifying techniques of the state-of-the-art hypergraph flow network
+We present several techniques to sparsify the state-of-the-art hypergraph flow network
 modeling approach proposed by Lawler \cite{lawler1973}. Our experiments indicate that
 maximum flow algorithms are up to a factor of $3$ faster with our new network. Further, 
-we show that the source and sink sets of the resulting flow network of a subhypergraph 
-of an already partitioned hypergraph can be configured more flexible than on graphs. More 
-precisely, applying the approach of Sanders and Schulz \cite{sanders2011engineering}
-directly on hypergraphs results in a minimum $(S,T)$-cutset greater or equal as with
-our new technique. We integrate the framework of \cite{sanders2011engineering} into 
+we show how to configure a flow problem on a subhypergraph of $H$ such that a 
+maximum $(S,T)$-flow yields a improved cut of a given bipartition. We choose $S$ and
+$T$ in a way such that the cut of $H$ after a \emph{Max-Flow-Min-Cut} computation on a subhypergraph 
+is calculable with the help of the amount of a maximum $(S,T)$-flow in constant time.
+We integrate algorithmic ideas of \cite{sanders2011engineering} into 
 \emph{KaHyPar} and show that \emph{flow}-based refinement in combination with the
-\emph{FM} algorithm produces on a majority of a wide range of real-world
-benchmarks the best-known partitions in comparison to other state-of-the-art hypergraph
-partitioners. In numbers, compared to $5$ different systems we achieve on $70\%$ 
+\emph{FM} algorithm produces the best partitions on a majority of real world benchmarks
+in comparison to other state-of-the-art hypergraph partitioners. 
+In numbers, compared to $5$ different systems we achieve on $70\%$ 
 of $3222$ benchmark instances the best-known partitions. In comparison to the 
-latest quality preset of \emph{KaHyPar} our new approach produces on average $2\%$ better 
-partitions and is only slower by a factor of $2$.
+latest version of \emph{KaHyPar}, our new approach produces solutions that are
+$2\%$ better on average, while only incurring a slowdown by a factor of $2$.
+Moreover, our partitioner has a comparable running time to the direct $k$-way
+version of \emph{hMetis} and outperforms it on $82\%$ of the benchmark instances.
 
 \subsection{Outline}
 
-We first introduce necessary notations and summarize related work in Section \ref{sec:preliminaries}
-and \ref{sec:related_work}. Afterwards, we describe sparsifying techniques of the flow network
+We first introduce necessary notations and summarize related work in Sections \ref{sec:preliminaries}
+and \ref{sec:related_work}. Afterwards, we describe techniques to sparsify the flow network
 proposed by Lawler \cite{lawler1973} in Section \ref{sec:opt_flow_network}. In Section
-\ref{sec:flow_refinement} we present our optimized source and sink set modeling
+\ref{sec:flow_refinement} we present our source and sink set modeling
 approach and describe the integration of our \emph{flow}-based refinement framework into
-the $n$-level hypergraph partitioner \emph{KaHyPar}. The evaluation of our new flow network
-proposed in Section \ref{sec:opt_flow_network} and framework proposed in Section 
-\ref{sec:flow_refinement} is presented in Section \ref{sec:experiments}. 
-Section \ref{sec:conclusion} concludes this thesis.
+the $n$-level hypergraph partitioner \emph{KaHyPar}. The experimental evaluation of our algorithm
+is presented in Section \ref{sec:experiments}. Section \ref{sec:conclusion} concludes this thesis.

@@ -1,7 +1,7 @@
 
 In Section \ref{sec:related_lawler} we have shown how a hypergraph $H$ can be transformed into 
-a flow network \ShortT{L} such that every minimum-weight $(S,T)$-cutset in $H$ is a
-minimum-capacity $(S,T)$-cutset in \ShortT{L} \cite{lawler1973}. However, the resulting flow
+a flow network \ShortT{L} such that each minimum-weight $(S,T)$-cutset of $H$ is a 
+minimum-capacity $(S,T)$-cutset of \ShortT{L} \cite{lawler1973}. However, the resulting flow
 network has significantly more nodes and edges than the original hypergraph. The running time
 of a maximum $(S,T)$-flow algorithm depends heavily on the problem size. 
 Therefore, different modeling approaches, which reduce the number of nodes and edges,
@@ -14,7 +14,7 @@ significantly higher than in \ShortT{L}. The basic idea of this technique
 can still be applied to remove low degree hypernodes from the Lawler-Network \emph{without} 
 increasing the number of edges (see Section \ref{sec:degree_network}). Additionally, we show
 how every hyperedge $e$ of size $2$ can be removed by inserting an undirected flow edge between
-the corresponding nodes $v_1,v_2 \in e$  (see Section \ref{sec:edge_size_network}). 
+the corresponding nodes (see Section \ref{sec:edge_size_network}). 
 Finally, we combine the two suggested approaches into a Hybrid-Network 
 (see Section \ref{sec:hybrid_network}).
 
@@ -28,7 +28,7 @@ $(S,T)$-flow on the new network induce a minimum-weight $(S,T)$-cutset on $H$. I
 occurs in an augmenting path $P$ the previous node in the path must be a hyperedge, either
 $\incoming{e}$ or $\outgoing{e}$. Further, for all $e \in I(v)$ the capacity $\capa_L(v,\incoming{e})$ is $\infty$. Therefore, 
 if we push flow over a hypernode $v$, coming from a hyperedge, we can redirect
-the flow to any hyperedge node $\incoming{e} \in I(v)$ during the whole maximum flow calculation, because 
+the flow to any hyperedge node $\incoming{e} \in I(v)$ during the whole maximum flow calculation because 
 $\capa_L(v,\incoming{e}) = \infty$. The following lemma is central to our first sparsifying 
 technique and is illusrated in \autoref{img:clique_expansion}. Given a graph $G = (V,E)$ we define the two sets
 $in(u) := \{v\ |\ (v,u) \in E\}$ and $out(u) := \{v\ |\ (u,v) \in E\}$ with $u \in V$. 
@@ -102,7 +102,7 @@ a flow network \ExtendedT{H}{V'} with $V' \subseteq V$. \ShortExT{H}{V'} is defi
 An example of the transformation is shown in \autoref{img:heuer_network}.
 We have to proof that a minimum-capacity $(S,T)$-cutset
 of \ShortExT{H}{V'} is equal with a minimum-weight $(S,T)$-cutset of $H$. However,
-we will use of the following lemma in the correctness proof.
+we will use the following lemma in the correctness proof.
 
 \begin{figure}
 \centering
@@ -269,11 +269,11 @@ minimum-weight $(S,T)$-bipartition of $H$.
 \label{sec:degree_network}
 
 The resulting flow network \ShortExT{H}{V} proposed in Section \ref{sec:heuer_network} has significantly
-fewer nodes than the network \ShortT{L} suggested by Lawler. On the other hand, the number of
+fewer nodes than the network \ShortT{L} proposed by Lawler. On the other hand, the number of
 edges could be much larger. \\
 Let's consider a hypernode $v \in V$. We replace $v$ in \ShortT{L} with a clique between all
 hyperedges of $I(v)$. The number of edges added to \ShortExT{H}{V} depends on the degree of
-$v$. Every hypernode $v \in V$ induce $d(v)(d(v) - 1)$ edges in \ShortExT{H}{V}. In \ShortT{L} a hypernode adds $2d(v)$ edges to the network with the drawback
+$v$. Each vertex $v \in V$ induce $d(v)(d(v) - 1)$ edges in \ShortExT{H}{V}. In \ShortT{L} a hypernode adds $2d(v)$ edges to the network with the drawback
 of an additional node. A simple observation is that for all hypernodes with $d(v) \le 3$ the inequality
 $d(v)(d(v) - 1) \le 2d(v)$ holds. Removing such low degree hypernodes not only reduce
 the number of nodes, but also the number of edges. \\
@@ -283,7 +283,7 @@ with degree smaller or equal $n$. Then our suggested flow network is \ShortExT{H
 \subsection{Removing Graph Hyperedges}
 \label{sec:edge_size_network}
 
-If we want to find a minimum-weight $(S,T)$-cutset in a graph $G = (V,E,\omega)$, we do not have to transform
+If we want to find a minimum-weight $(S,T)$-cutset of a graph $G = (V,E,\omega)$, we do not have to transform
 $G$ into an equivalent flow network. We can directly operate on the graph with capacities
 $\capacity{e} = \omega(e)$ for all $e \in E$ \cite{ford1956maximal}. Hypergraphs are generalizations of a graph, where
 an edge can consist of more than two nodes. However, a hyperedge $e$ of size $2$ can still be 
@@ -310,7 +310,7 @@ $G'$ is then equal to $G$ and therefore, $|f| = |f'|$. \\
 Consider the general case where $\forall e \in E: \capacity{e} \in \mathbb{N}_+$. We can transform the
 weighted undirected graph $G$ into an unweighted directed multigraph by replacing each undirected
 edge $e = \{u,v\}$ with $\capacity{e}$ undirected edges of weight $1$ (see \autoref{img:menger_transformation}).
-Afterwards, we can use the transformation to a unweighted directed multigraph the same way as before.
+Afterwards, we can use the transformation to an unweighted directed multigraph the same way as before.
 Again, we can apply Menger's Theorem to show that $|f| = |f'|$. Newman \cite{newman2004analysis}
 showed that there is an one-to-one correspondence between a maximum $(s,t)$-flow of an unweighted multigraph
 and its corresponding weighted graph where the weight of each edge $(u,v)$ is the number of parallel
@@ -411,7 +411,7 @@ $(S,T)$-cutset of \ShortT{G} is equal with a minimum-weight $(S,T)$-cutset of $H
 %$A_G$. This is a contradiction to the assumption that $A_G$ is a $(S,T)$-cutset.
 \end{proof} 
 
-A minimum-weight $(S,T)$-cutset of $H$ could also be calculated with \ShortT{G}. 
+A minimum-weight $(S,T)$-cutset of $H$ can also be calculated with \ShortT{G}. 
 Each edge $(v_1,v_2)$ with $v_1,v_2 \in V$ of the minimum-capacity
 $(S,T)$-cutset of \ShortT{G} can be mapped to their corresponding hyperedge. 
 Since there exists a one-one correspondence between the hypernodes
