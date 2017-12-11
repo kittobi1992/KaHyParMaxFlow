@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE ipe SYSTEM "ipe.dtd">
 <ipe version="70107" creator="Ipe 7.1.10">
-<info created="D:20171018175348" modified="D:20171208123510"/>
+<info created="D:20171018175348" modified="D:20171211135437"/>
 <ipestyle name="basic">
 <symbol name="arrow/arc(spx)">
 <path stroke="sym-stroke" fill="sym-stroke" pen="sym-pen">
@@ -556,5 +556,17 @@ h
 <text matrix="1 0 0 1 328 76" transformations="translations" pos="616 696" stroke="KITblack" type="label" width="22.248" height="8.965" depth="2.99" valign="baseline" size="large">$\omega(e)$</text>
 <text matrix="1 0 0 1 332 -76" transformations="translations" pos="616 696" stroke="KITblack" type="label" width="22.248" height="8.965" depth="2.99" valign="baseline" size="large">$\omega(e)$</text>
 <text matrix="1 0 0 1 44 -76" transformations="translations" pos="616 696" stroke="KITblack" type="label" width="22.248" height="8.965" depth="2.99" valign="baseline" size="large">$\omega(e)$</text>
+<text matrix="1 0 0 1 -28 20" transformations="translations" pos="704 832" stroke="black" type="label" width="80.216" height="12.896" depth="4.29" valign="baseline" size="LARGE">$(v,e&apos;) \in E_v$</text>
+<path stroke="black" arrow="normal/normal">
+640 840 m
+640 856
+672 856 c
+</path>
+<path stroke="black" arrow="normal/normal">
+640 688 m
+640 704
+672 704 c
+</path>
+<text matrix="1 0 0 1 -28 -132" transformations="translations" pos="704 832" stroke="black" type="label" width="80.216" height="12.911" depth="4.29" valign="baseline" size="LARGE">$(v,e&apos;) \notin E_v$</text>
 </page>
 </ipe>

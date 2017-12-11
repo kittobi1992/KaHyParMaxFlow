@@ -211,52 +211,68 @@ Karlsruhe, den 22.12.2017
 \begin{abstract}
 \centerline{\textbf{Abstract}}
 
-Currently, algorithms based on the \emph{FM} idea \cite{fiduccia1988linear} are the 
-only practical heuristics to improve a $k$-way
-partition in a multilevel hypergraph partitioner. However, they are often criticized for their 
-limited ability to lookahead \cite{zhao2002effective}. It might be more beneficial to move a 
-hypernode with small gain, because it will induce many good moves later.
-We present an alternative \emph{local search} approach based on \emph{Max-Flow-Min-Cut}
-computations. The framework is inspired by the work of Sanders and Schulz \cite{sanders2011engineering} who
-successfully showed that \emph{flow}-based refinement in combination with the \emph{FM}
+Most of the multilevel hypergraph partitioner implements the \emph{FM} heuristic \cite{fiduccia1988linear}
+to improve a given $k$-way partition. In each step, the \emph{FM} algorihm moves a node with
+maximum \emph{gain} from its current block to an other block. The \emph{gain} of a node is
+the difference of an objective function before and after moving the node. The algorithm
+is easy to implement, flexible in adapting to different optimization functions and relatively fast \cite{zhao2002effective}.
+However, a move is performed locally and greedily. Therefore, \emph{FM} tends to find local
+optimal solutions which quality heavily depends on the \emph{initial partition} \cite{dutt1997vlsi}. 
+Consequently, the probability to find a good
+approximation of a global optimum drops significantly if we partition large hypergraphs.
+Moreover, if we have a large number of moves with equal gain, the quality of the solution 
+highly depends on random choices of the algorithm which makes the gain \emph{meaningless}
+\cite{krishnamurthy1984improved,mann2014formula}. Especially in large hyperedges, we often
+have many moves of vertices which gain is equal to zero if e.g., \emph{cut} is the objective function. \\
+Techniques derived from the \emph{max-flow min-cut} theorem \cite{ford1956maximal} to improve
+a $k$-way partition of a (hyper)graph can be seen as counterpart to the \emph{FM} heuristic.
+They act \emph{globally} and are not \emph{move}-based. In this thesis, we present an alternative 
+\emph{local search} technique based on \emph{Max-Flow-Min-Cut}
+computations for balanced direct $k$-way hypergraph partitioning.
+We integrate the work into the multilevel hypergraph partitioner \emph{KaHyPar} \cite{heuer2017improving}. 
+The framework is inspired by the work of Sanders and Schulz \cite{sanders2011engineering} who
+successfully showed that \emph{flow}-based \emph{local search} in combination with the \emph{FM}
 algorithm significantly improve the quality of partitions in a multilevel graph partitioner.
-In this work, we develop different modeling techniques of a hypergraph as flow network and
-show how to improves the connectivity metric of a $k$-way partition by building a flow problem 
-on a subset of the vertices. We integrated the framework in the hypergraph partitioner 
-\emph{KaHyPar} by applying and adapting the basic framework of \cite{sanders2011engineering}.
-On our large benchmark set with $3222$ instances our new configuration outperforms all 
-state-of-the-art hypergraph partitioner on $70\%$ of the instances. In comparison to the latest
-configuration of \emph{KaHyPar} our new approach produces $2\%$ better quality by a performance
-slowdown only by a factor of $2$.
+We present several techniques to sparsify the state-of-the-art hypergraph flow network representation and
+show that maximum flow algorithms are up to a factor of $3$ faster on our network in practice.
+Further, we show how to improve the \emph{connectivity} metric of a $k$-way partition by solving a flow problem 
+only on a subset of the vertices. We tested our new approach
+on a large benchmark set with $3222$ instances. In comparison to $5$ different systems, 
+our new configuration outperforms the tested state-of-the-art hypergraph partitioner on $70\%$ 
+of the instances. In comparison to the latest version of \emph{KaHyPar} our new approach 
+produces $2\%$ better quality by a performance slowdown only by a factor of $2$. 
+Moreover, our partitioner has a comparable running time to the direct $k$-way partitioner 
+of \emph{hMetis} and outperforms it on $82\%$ of the benchmark instances with a
+$14.71\%$ better solution quality.
 
 \end{abstract}
 
-\selectlanguage{german}
-\begin{abstract}
-\centerline{\textbf{Zusammenfassung}}
-
-Algorithmen basierend auf der \emph{FM}-Idee \cite{fiduccia1988linear} sind zur Zeit 
-die einzigsten praktischen Heuristiken, um eine $k$-teilige
-Partitionierung in einem \emph{Multilevel Hypergraph Partitioner} zu verbessern. 
-Jedoch werden sie oft kritisiert für ihre limitierte Eigenschaft
-vorrauszuschauen \cite{zhao2002effective}. Zum Beispiel könnte es von Vorteil sein ein
-Knoten mit geringem \emph{Gain} zu verschieben, weil er vielleicht später viele bessere
-Verschiebungen induziert. Wir präsentieren einen alternativen \emph{Lokale 
-Suche} Ansatz basierend auf \emph{Max-Flow-Min-Cut} Berechnungen. Das Framework ist inspiriert 
-durch die Arbeit von Sanders und Schulz, welche gezeigt haben, dass ein \emph{flow}-basierter
-Ansatz in Kombination mit dem \emph{FM}-Algorithmus signifikant die Qualität von Partitionierungen
-in einem \emph{Multilevel Graph Partitioner} verbessert \cite{sanders2011engineering}. 
-In dieser Arbeit entwickeln wir verschiedene Modellierungstechnicken eines Hypergraphen 
-als Flussnetzwerk und zeigen wie die \emph{connectivity metric} einer $k$-teiligen 
-Partitionierung verbessert werden kann, indem ein Flussproblem auf einer
-Teilmenge der Knoten aufgebaut wird. Wir haben das Framework in den
-\emph{Hypergraph Partitioner KaHyPar} integriert, indem wir das Framework von \cite{sanders2011engineering}
-übernommen und angepasst haben. Auf unserem großen \emph{Benchmark Set} mit $3222$ Instanzen
-erzielt unsere neue Konfiguration auf $70\%$ der Instanzen eine bessere Qualität als die meisten
-\emph{State-of-the-Art} Partitionierer. Im Vergleich zu der letzten Konfiguration von \emph{KaHyPar}
-erreichen wir mit unserem Ansatz $2\%$ bessere Qualität mit nur doppelt so langer Laufzeit.
-
-\end{abstract}
+%\selectlanguage{german}
+%\begin{abstract}
+%\centerline{\textbf{Zusammenfassung}}
+%
+%Algorithmen basierend auf der \emph{FM}-Idee \cite{fiduccia1988linear} sind zur Zeit 
+%die einzigsten praktischen Heuristiken, um eine $k$-teilige
+%Partitionierung in einem \emph{Multilevel Hypergraph Partitioner} zu verbessern. 
+%Jedoch werden sie oft kritisiert für ihre limitierte Eigenschaft
+%vorrauszuschauen \cite{zhao2002effective}. Zum Beispiel könnte es von Vorteil sein ein
+%Knoten mit geringem \emph{Gain} zu verschieben, weil er vielleicht später viele bessere
+%Verschiebungen induziert. Wir präsentieren einen alternativen \emph{Lokale 
+%Suche} Ansatz basierend auf \emph{Max-Flow-Min-Cut} Berechnungen. Das Framework ist inspiriert 
+%durch die Arbeit von Sanders und Schulz, welche gezeigt haben, dass ein \emph{flow}-basierter
+%Ansatz in Kombination mit dem \emph{FM}-Algorithmus signifikant die Qualität von Partitionierungen
+%in einem \emph{Multilevel Graph Partitioner} verbessert \cite{sanders2011engineering}. 
+%In dieser Arbeit entwickeln wir verschiedene Modellierungstechnicken eines Hypergraphen 
+%als Flussnetzwerk und zeigen wie die \emph{connectivity metric} einer $k$-teiligen 
+%Partitionierung verbessert werden kann, indem ein Flussproblem auf einer
+%Teilmenge der Knoten aufgebaut wird. Wir haben das Framework in den
+%\emph{Hypergraph Partitioner KaHyPar} integriert, indem wir das Framework von \cite{sanders2011engineering}
+%übernommen und angepasst haben. Auf unserem großen \emph{Benchmark Set} mit $3222$ Instanzen
+%erzielt unsere neue Konfiguration auf $70\%$ der Instanzen eine bessere Qualität als die meisten
+%\emph{State-of-the-Art} Partitionierer. Im Vergleich zu der letzten Konfiguration von \emph{KaHyPar}
+%erreichen wir mit unserem Ansatz $2\%$ bessere Qualität mit nur doppelt so langer Laufzeit.
+%
+%\end{abstract}
 
 \vfill
 
