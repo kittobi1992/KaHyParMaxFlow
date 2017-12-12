@@ -295,7 +295,9 @@ flow edge between $v_1,v_2 \in e$ (with $v_1 \neq v_2$) with capacity $\capacity
 In the following, we will proof the opposite. We will show that each undirected graph can be modeled
 as a directed graph with the same \emph{min-cut} properties. The transformation used in the proof
 of an undirected to an directed edge will have the same structure as a hyperedge of size two
-in the Lawler-Network. 
+in the Lawler-Network. As a consequence, if we define the network where each hyperedge 
+of size two is modeled with an undirected flow edge, we can use the following lemma to show
+that both networks have the same value of a maximum $(S,T)$-flow.
 
 \begin{lemma}[Transformation of Undirected to Directed Networks]
 \label{lemma:undirected_transformation}
@@ -429,19 +431,22 @@ of \ShortT{G}.
 \subsection{Combining Techniques}
 \label{sec:hybrid_network}
 
-In many real-world instances, the average hyperedge size and hypernode degree are inversely
-proportional to each other. For example, if the number of hyperedges is significantly larger than the
-number of hypernodes the average hypernode degree is usually much larger than $3$. Whereas
-the average hyperedge size is often equal to $2$. If the number of hyperedges is nearly equal
-to the number of hypernodes, the average hypernode degree is usually smaller or equal than $3$. Whereas
-the average hyperedge size is often much larger than $2$. Of course, we can construct instances
-where this inversely proportional relationship cannot be observed, but in many real-world instances,
-we often find the described behavior. \\
+The density of a hypergraph $H = (V,E)$ is defined as follows:
+\[d := \frac{\average{d(v)}}{|e|} = \frac{|P|/|V|}{|P|/|E|} = \frac{|E|}{|V|}\]
+where $\average{d(v)}$ is the average hypernode degree, $\average{|e|}$ is the average hyperedge
+size and $|P|$ are the number of pins. Many real world benchmark instances have either a low 
+or high density. For an example, consider the statistical summary of our benchmark set in
+Table \ref{tbl:full_benchmark_set}. Hypergraphs with a large density have usually a average
+hypernode degree significantly greater than the average hyperedge size. Whereas, the opposite
+behavior can be observed on instances with a low density. High density hypergraphs often have a structure
+similiar to a graph and low density hypergraphs often have large hyperedges with low degree
+hypernodes. Of course, there exists instances which are counterexamples to this observation, 
+but for a large majority of real world benchmarks we often find the described behavior.\\
 Currently, we have two different modeling approaches which either perform better on hypergraphs with
 many low degree hypernodes or small hyperedges. Taking our observation from real-world instances 
-into account means that either \ShortT{G} or \ShortExT{H}{V_d(3)} performs significantly better on
-a specific instance. It would be preferable to combine the two approaches into one network 
-which performs best on most instances. \\
+into account means that \ShortT{G} performs significantly better on high density hypergraphs
+and \ShortExT{H}{V_d(3)} on low density hypergraphs. It would be preferable to combine 
+the two approaches into one network which performs best on most instances. \\
 
 \begin{definition}
 Let $T_{\text{Hybrid}}$ be a transformation that converts a hypergraph \HypergraphDef~into 
@@ -479,6 +484,8 @@ and Lemma \ref{lemma:bipartition_construction}).
 \begin{figure}[ht!]
 \centering
 \includegraphics[width=0.95\textwidth]{../img/network_transformation/hybrid_transformation.eps}
-\caption{Illustration of all presented techniques to sparsify the flow network of a hypergraph.}
+\caption{Illustration of all presented techniques to sparsify the flow network of a hypergraph.
+         Transformation from \ShortT{L} to \ShortExT{H}{V} follows with Lemma \ref{lemma:node_removal}.
+         Transformation from \ShortT{L} to \ShortT{G} follows with Lemma \ref{lemma:undirected_transformation}.}
 \label{img:transformation_chain} 
 \end{figure}
