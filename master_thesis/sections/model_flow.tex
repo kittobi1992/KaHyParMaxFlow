@@ -236,24 +236,25 @@ all not reachable are part of the second block of the bipartition. Since we remo
 all hypernodes $v \in V'$ in our new network, we have to reconstruct the bipartition
 using the following lemma.
 
-\begin{lemma}[Bipartition Reconstruction]
+\begin{lemma}[Reachability of Hypernodes]
 \label{lemma:bipartition_construction}
 Let $f$ be a maximum $(S,T)$-flow of \ShortT{L}. If a hypernode $v \notin S$ is reachable
 from a node $s \in S$ in the residual graph of \ShortT{L}, then there must exist at least one
-$e \in I(v)$ where $\outgoing{e}$ is reachable from $s$.
+net $e \in I(v)$ where $\outgoing{e}$ is reachable from $s$ in the residual graph of \ShortT{L}.
 \end{lemma}
 
 \begin{proof}
-Let $A$ be the set of all reacheable nodes from all source nodes in the residual graph of \ShortT{L}.
+Let $A$ be the set of all nodes reachable from the source nodes $S$ in the residual graph of \ShortT{L}.
 %If $\outgoing{e} \in A$, then $v \in A$, because $\capa_L(\outgoing{e},v) = \infty = r_f(\outgoing{e},v)$.\\
-Assume, if $v \in A$, then $\forall e \in I(v): \outgoing{e} \notin A$. This implies that the
-edge $(v,\outgoing{e})$ is not contained in the residual graph of \ShortT{L}. More formally, 
-$r_f(v,\outgoing{e}) = 0$. Otherwise, $\outgoing{e}$ would be in $A$ because $v \in A$. 
+Assume, if $v \in A$, then $\forall e \in I(v)$ the \emph{outgoing hyperedge node} $\outgoing{e}$
+is not contained in $A$ which implies that all edges $(v,\outgoing{e})$ are not contained in
+the residual graph of \ShortT{L}. More formally, $\forall e \in I(v): r_f(v,\outgoing{e}) = 0$. 
+Otherwise, $\outgoing{e}$ would be in $A$ because $v \in A$. 
 Since $r_f(v,\outgoing{e}) = f(\outgoing{e},v) = 0$, there is no flow entering node 
 $v$ and due to the conservation of flow constraint there cannot be any 
 flow leaving node $v$. Therefore, there is no path
-from any $s \in S$ to $v$ over a node $\incoming{e}$ because $\forall e \in I(v): r_f(\incoming{e},v) = f(v,\incoming{e}) = 0$ and no path over $\outgoing{e}$ because $\forall e \in I(v): \outgoing{e} \notin A$
-$\Rightarrow$ $v$ is not reachable from any $s \in S$ $\Rightarrow v \notin A$ which is a contradiction
+from any $s \in S$ to $v$ over a node $\incoming{e}$, because $\forall e \in I(v): r_f(\incoming{e},v) = f(v,\incoming{e}) = 0$ and no path over $\outgoing{e}$ because $\forall e \in I(v): \outgoing{e} \notin A$
+Therefore, $v$ is not reachable from any $s \in S$ which is a contradiction
 to the assumption that $v \in A$.
 \end{proof}
 
@@ -271,11 +272,12 @@ minimum-weight $(S,T)$-bipartition of $H$.
 The resulting flow network \ShortExT{H}{V} proposed in Section \ref{sec:heuer_network} has significantly
 fewer nodes than the network \ShortT{L} proposed by Lawler. On the other hand, the number of
 edges could be much larger. \\
-Let's consider a hypernode $v \in V$. We replace $v$ in \ShortT{L} with a clique between all
-hyperedges of $I(v)$. The number of edges added to \ShortExT{H}{V} depends on the degree of
-$v$. Each vertex $v \in V$ induce $d(v)(d(v) - 1)$ edges in \ShortExT{H}{V}. In \ShortT{L} a hypernode adds $2d(v)$ edges to the network with the drawback
-of an additional node. A simple observation is that for all hypernodes with $d(v) \le 3$ the inequality
-$d(v)(d(v) - 1) \le 2d(v)$ holds. Removing such low degree hypernodes not only reduce
+Consider a hypernode $v \in V$. We replace $v$ in \ShortT{L} with a biclique between all
+$\outgoing{e}$ and $\incoming{e}$ which are incident to $v$. The number of edges added to \ShortExT{H}{V} depends on the degree of
+$v$. Each vertex $v \in V$ induce $d(v)(d(v) - 1)$ edges in \ShortExT{H}{V}. 
+In \ShortT{L}, a hypernode adds $2d(v)$ edges to the network and add
+one additional node. A simple observation is that for all hypernodes with $d(v) \le 3$ the inequality
+$d(v)(d(v) - 1) \le 2d(v)$ holds. Removing such low degree hypernodes not only reduces
 the number of nodes, but also the number of edges. \\
 Let $V_{d}(n) = \{v \in V\ |\ d(v) \le n\}$ be the set of all hypernodes
 with degree smaller or equal $n$. Then our suggested flow network is \ShortExT{H}{V_d(3)}.
@@ -285,28 +287,32 @@ with degree smaller or equal $n$. Then our suggested flow network is \ShortExT{H
 
 If we want to find a minimum-weight $(S,T)$-cutset of a graph $G = (V,E,\omega)$, we do not have to transform
 $G$ into an equivalent flow network. We can directly operate on the graph with capacities
-$\capacity{e} = \omega(e)$ for all $e \in E$ \cite{ford1956maximal}. Hypergraphs are generalizations of a graph, where
+$\capacity{e} = \omega(e)$ for all $e \in E$ \cite{ford1956maximal}. Hypergraphs are a generalization of graphs, where
 an edge can consist of more than two nodes. However, a hyperedge $e$ of size $2$ can still be 
 interpreted as a graph edge. Instead of modeling those edges as described by Lawler \cite{lawler1973}
-(see hyperedge $e_2$ in \autoref{img:lawler_transformation}), we can remove all $\incoming{e},\outgoing{e}$ for all $e \in E$
-with $|e| = 2$ and add an undirected flow edge between $v_1,v_2 \in e$ (with $v_1 \neq v_2$) with
-capacity $\capacity{\{v_1,v_2\}} = \omega(e)$.
+(see hyperedge $e_2$ in \autoref{img:lawler_transformation}), we can add an undirected 
+flow edge between $v_1,v_2 \in e$ (with $v_1 \neq v_2$) with capacity $\capacity{\{v_1,v_2\}} = \omega(e)$.
+In the following, we will proof the opposite. We will show that each undirected graph can be modeled
+as a directed graph with the same \emph{min-cut} properties. The transformation used in the proof
+of an undirected to an directed edge will have the same structure as a hyperedge of size two
+in the Lawler-Network. 
 
 \begin{lemma}[Transformation of Undirected to Directed Networks]
 \label{lemma:undirected_transformation}
 Let $G = (V,E,\capa)$ be an undirected flow network with capacity function $\capa: E \rightarrow \mathbb{N}_+$.
-$G$ can be transformed into a directed graph $G'$ such that the amount of a maximum $(s,t)$-flow $f$ of $G$
-is equal with the amount of a maximum $(s,t)$-flow $f'$ of $G'$. More formally, $|f| = |f'|$.
+$G$ can be transformed into a directed graph $G'$ such that the value of a maximum $(s,t)$-flow $f$ of $G$
+is equal with the value of a maximum $(s,t)$-flow $f'$ of $G'$. More formally, $|f| = |f'|$.
 \end{lemma}
 
 \begin{proof}
-Assume $\forall e \in E: \capacity{e} = 1$. A maximum $(s,t)$-flow is then equal with the maximum
-number of edge-disjoint paths between $s$ and $t$ in a directed graph (Menger's Theorem \cite{menger1927allgemeinen}).
-This theorem can also be prooven for undirected graphs if we replace each undirected edge
+Assume $\forall e \in E: \capacity{e} = 1$. According to Mengers Theorem \cite{menger1927allgemeinen},
+a maximum $(s,t)$-flow is then equal with the maximum number of edge-disjoint paths between 
+$s$ and $t$ in a directed graph.
+This theorem can also be proven for undirected graphs if we replace each undirected edge
 $e = \{u,v\}$ by five directed edges $(v,\incoming{x}),(w,\incoming{x}),(\incoming{x},\outgoing{x}),(\outgoing{x},v),(\outgoing{x},w)$ (see \autoref{img:menger_transformation})
 \cite{menger1927allgemeinen}. Obviously, we can map each set of edge-disjoint paths from $s$ to $t$ from $G'$ to $G$
 and vice versa. Therefore, the maximum number of edge-disjoint paths from $s$ to $t$ in
-$G'$ is then equal to $G$ and therefore, $|f| = |f'|$. \\
+$G'$ is then the same as $G$ and therefore, $|f| = |f'|$. \\
 Consider the general case where $\forall e \in E: \capacity{e} \in \mathbb{N}_+$. We can transform the
 weighted undirected graph $G$ into an unweighted directed multigraph by replacing each undirected
 edge $e = \{u,v\}$ with $\capacity{e}$ undirected edges of weight $1$ (see \autoref{img:menger_transformation}).
@@ -328,8 +334,8 @@ edges between $u$ and $v$ of the multigraph.
 \end{figure}
 
 As a consequence of the construction of the proof of Lemma \ref{lemma:undirected_transformation}
-each structure of a weighted directed graph illustrated on the right side of
-\autoref{img:menger_transformation}~could be transformed into an undirected edge with weight
+the weighted directed graph illustrated on the right side of
+\autoref{img:menger_transformation}~can be transformed into a single undirected edge with weight
 $\capacity{\{u,v\}} = \capacity{x',x''}$.
 Each hyperedge $e$ with $|e| = 2$ has exactly this structure in \ShortT{L}. Therefore, we can 
 construct the following network:
@@ -338,7 +344,7 @@ construct the following network:
 Let $T_G$ be a transformation that converts a hypergraph \HypergraphDef~into 
 a flow network \T{G}. \ShortT{G} is defined as follows:
 \begin{enumerate}
-\item $V_G = V \cup \bigcup\limits_{\substack{e \in E \\ |e| \neq 2}}\ \{\incoming{e}, \outgoing{e}\}$
+\item $V_G = V \cup \bigcup\limits_{\substack{e \in E: |e| \neq 2}}\ \{\incoming{e}, \outgoing{e}\}$
 \item $\forall e \in E$ with $|e| = 2$ and $v_1,v_2 \in e$ ($v_1 \neq v_2$) we add 
       two directed edges $(v_1,v_2)$ and $(v_2,v_1)$ to $E_G$ with capacity $\capa_G(v_1,v_2) = \omega(e)$
       and $\capa_G(v_2,v_1) = \omega(e)$
@@ -349,7 +355,7 @@ a flow network \T{G}. \ShortT{G} is defined as follows:
 
 An example of transformation \ShortT{G} is shown in \autoref{img:graph_transformation}. A hyperedge
 $e$ of size $2$ consists exactly of $4$ nodes and $5$ edges in \ShortT{L} (see \autoref{img:lawler_transformation}).
-The same hyperedge induces $2$ nodes and $2$ edges in \ShortT{G}. 
+The same hyperedge induces $2$ nodes and $2$ edges in \ShortT{G} (see \autoref{img:transformation_chain}). 
  
 \begin{figure}
 \centering
@@ -368,14 +374,15 @@ flow network \T{G}.
 \end{theorem}
 
 \begin{proof}
-
-Before we can apply Lemma \ref{lemma:undirected_transformation} on all hyperedges $e$
-with $|e| = 2$, we have to show how to handle the infinite capacity edges of \ShortT{L}.
+Consider a hyperedge $e$ with $|e| = 2$ and $u,v \in e$ ($u \neq v$). The capacity of
+$(u,e')$, $(v,e')$, $(e'',u)$ and $(e'',v)$ is infinity in flow network \ShortT{L}. 
+Before we can apply Lemma \ref{lemma:undirected_transformation} on all hyperedges 
+$e$ with $|e| = 2$, we have to show how to handle the infinite capacity edges.
 The flow leaving $\incoming{e}$ is restricted by $\capacity{\incoming{e},\outgoing{e}} = \omega(e)$. Therefore, the flow entering
-$\incoming{e}$ is restricted by $f(u,\incoming{e}) + f(v,\incoming{e}) \le \capacity{\incoming{e},\outgoing{e}} = \omega(e)$ with $u \in e$ and
-$v \in e$ and $u \neq v \Rightarrow$ $f(u,\incoming{e}) \le \omega(e)$ and $f(v,\incoming{e}) \le \omega(e)$.
+$\incoming{e}$ is restricted by $f(u,\incoming{e}) + f(v,\incoming{e}) \le \capacity{\incoming{e},\outgoing{e}} = \omega(e)$.
+Consequently, $f(u,\incoming{e}) \le \omega(e)$ and $f(v,\incoming{e}) \le \omega(e)$.
 The same holds for $f(\outgoing{e},u)$ and $f(\outgoing{e},v)$. Therefore, we can replace each infinite 
-capacity of an edge entering $\incoming{e}$ or leaving $\outgoing{e}$ with $\omega(e)$ without changing the amount
+capacity of an edge entering $\incoming{e}$ or leaving $\outgoing{e}$ with $\omega(e)$ without changing the value
 of a maximum $(S,T)$-flow. We call the capacity adapted network \ShortT{L'}.\\
 Applying the transformation of Lemma \ref{lemma:undirected_transformation} on each undirected
 edge of \ShortT{G} results in flow network \ShortT{L'}. It follows, that a maximum $(S,T)$-flow of \ShortT{G} is equal
@@ -423,18 +430,18 @@ of \ShortT{G}.
 \label{sec:hybrid_network}
 
 In many real-world instances, the average hyperedge size and hypernode degree are inversely
-proportional to each other. E.g., if the number of hyperedges is significantly larger than the
+proportional to each other. For example, if the number of hyperedges is significantly larger than the
 number of hypernodes the average hypernode degree is usually much larger than $3$. Whereas
 the average hyperedge size is often equal to $2$. If the number of hyperedges is nearly equal
 to the number of hypernodes, the average hypernode degree is usually smaller or equal than $3$. Whereas
 the average hyperedge size is often much larger than $2$. Of course, we can construct instances
 where this inversely proportional relationship cannot be observed, but in many real-world instances,
 we often find the described behavior. \\
-Currently, we have two different modeling approaches which either perform better on low degree
-hypernode instances or small hyperedge size instances. Taking our observation from real-world instances 
+Currently, we have two different modeling approaches which either perform better on hypergraphs with
+many low degree hypernodes or small hyperedges. Taking our observation from real-world instances 
 into account means that either \ShortT{G} or \ShortExT{H}{V_d(3)} performs significantly better on
 a specific instance. It would be preferable to combine the two approaches into one network 
-which performs on most instances best. \\
+which performs best on most instances. \\
 
 \begin{definition}
 Let $T_{\text{Hybrid}}$ be a transformation that converts a hypergraph \HypergraphDef~into 
@@ -444,7 +451,7 @@ a flow network \Hybrid, where $V' = \{v \in V_d(3)\ |\ \forall e \in I(v): |e| \
 \item $V_{\text{Hybrid}} = V\setminus V' \bigcup\limits_{\substack{e \in E \\ |e| \neq 2}}\ \{\incoming{e}, \outgoing{e}\}$
 \item $\forall v \in V'$ we add a directed edge $(\outgoing{e_1}, \incoming{e_2}),\ \forall e_1, e_2 \in I(v)$ 
       ($e_1 \neq e_2$) with capacity $\capa_{\text{Hybrid}}(\outgoing{e_1}, \incoming{e_2}) = \infty$ (Lemma \ref{lemma:node_removal}).
-\item $\forall e \in E$ with $|e| = 2$ and $v_1,v_2 \in e$ ($v_1 \neq v_2$) we add 
+\item $\forall e \in E$ with $|e| = 2$ and $v_1,v_2 \in e$ we add 
       two directed edges $(v_1,v_2)$ and $(v_2,v_1)$ with capacity $\capa_{\text{Hybrid}}(v_1,v_2) = \omega(e)$
       and $\capa_{\text{Hybrid}}(v_2,v_1) = \omega(e)$ (Lemma \ref{lemma:undirected_transformation})
 \item $\forall e \in E$ with $|e| \neq 2$ we add a directed edge $(\incoming{e},\outgoing{e})$
@@ -460,11 +467,11 @@ We can prove the correctness of \ShortHybrid~with Lemma \ref{lemma:node_removal}
 and \ref{lemma:undirected_transformation} as used in the proof of Theorem \ref{theorem:heuer_network}
 and \ref{theorem:graph_transformation}. A minimum-weight $(S,T)$-cutset of $H$ is equal with a
 minimum-capacity $(S',T')$-cutset of \ShortHybrid. \\
-Per definition of \ShortHybrid~we prefer a hyperedge removal over a hypernode removal. E.g., if
-a hypernode has a degree smaller or equal than $3$, we only remove it, if there is no hyperedge
-$e \in I(v)$ with $|e| = 2$. The reason is that a hyperedge removal always decreases the number of nodes
-and edges more than a hypernode removal. \\
-The minimum-weight $(S,T)$-cutset of $H$ can be calculated with the same technique described in Section
+Per definition of \ShortHybrid~we prefer hyperedge removal over hypernode removal. If
+a hypernode has a degree smaller than or equal to $3$, we only remove it, if there is no hyperedge
+$e \in I(v)$ with $|e| = 2$. The reason for this is that hyperedge removal always removes more nodes
+and edges than hypernode removal. \\
+The minimum-weight $(S,T)$-cutset of $H$ can be calculated using the technique described in Section
 \ref{sec:edge_size_network}. Let $(A,V\setminus A)$ be the corresponding bipartition.
 $A$ is the union of all reachable hypernodes from $S'$ and the union of
 all reachable \emph{outgoing hyperedge nodes} $\outgoing{e}$ from $S'$ (see Section \ref{sec:heuer_network} 
@@ -472,6 +479,6 @@ and Lemma \ref{lemma:bipartition_construction}).
 \begin{figure}[ht!]
 \centering
 \includegraphics[width=0.95\textwidth]{../img/network_transformation/hybrid_transformation.eps}
-\caption{Illustration of all presented sparsifying techniques of the flow network of a hypergraph.}
-\label{img:transformation_chain}
+\caption{Illustration of all presented techniques to sparsify the flow network of a hypergraph.}
+\label{img:transformation_chain} 
 \end{figure}

@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE ipe SYSTEM "ipe.dtd">
 <ipe version="70107" creator="Ipe 7.1.10">
-<info created="D:20171009143434" modified="D:20171204110136"/>
+<info created="D:20171009143434" modified="D:20171212191927"/>
 <ipestyle name="basic">
 <symbol name="arrow/arc(spx)">
 <path stroke="sym-stroke" fill="sym-stroke" pen="sym-pen">
@@ -863,5 +863,7 @@ h
 <text matrix="1 0 0 1 273.325 232.734" transformations="translations" pos="1104 1600" stroke="black" type="label" width="68.678" height="12.896" depth="4.29" valign="baseline" size="LARGE">$T_H(H,V)$</text>
 <text matrix="1 0 0 1 281.325 -311.266" transformations="translations" pos="1104 1600" stroke="black" type="label" width="47.101" height="12.896" depth="4.29" valign="baseline" size="LARGE">$T_G(H)$</text>
 <text matrix="1 0 0 1 461.325 88.734" transformations="translations" pos="1104 1600" stroke="black" type="label" width="95.469" height="12.893" depth="4.91" valign="baseline" size="LARGE">$T_{Hybrid}(H,V)$</text>
+<text matrix="1 0 0 1 16 -24" transformations="translations" pos="1232 1408" stroke="black" type="label" width="76.676" height="11.761" depth="0" valign="baseline" size="LARGE">Lemma 4.4</text>
+<text matrix="1 0 0 1 16 328" transformations="translations" pos="1232 1408" stroke="black" type="label" width="76.676" height="11.761" depth="0" valign="baseline" size="LARGE">Lemma 4.1</text>
 </page>
 </ipe>

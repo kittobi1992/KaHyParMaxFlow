@@ -1,13 +1,12 @@
-We will give now a detailed overview of our flow-based refinement framework. The main
+We will now give a detailed overview of our flow-based refinement framework. The main
 idea is to extract a subhypergraph $H_{V'}$ out of a hypergraph $H$, which is already
-partitioned into $k$ blocks. $V'$ is chosen in such a way that it is a subset of two
+partitioned into $k$ blocks. $V'$ is chosen in such way that it is a subset of two
 adjacent blocks $V_i$ and $V_j$. We will show how to configure
 the sources $S$ and sinks $T$ of the corresponding flow network such that
 a minimum $(S,T)$-bipartition of $H_{V'}$ improves the connectivity metric of $H$
 (see Section \ref{sec:source_and_sink}). Further, we describe how the ideas of
-Sanders and Schulz \cite{sanders2011engineering} (see Section \ref{sec:flow_local_search_graph}) 
-can be adapted to work in an $n$-level hypergraph partitioner, called \emph{KaHyPar}
-(see Section \ref{sec:mbmc_hypergraphs} and \ref{sec:flow_local_search_hypergraph}). 
+Sanders and Schulz \cite{sanders2011engineering} 
+can be adapted to work in an $n$-level hypergraph partitioner, called \emph{KaHyPar}. 
 
 \subsection{Source and Sink Configuration}
 \label{sec:source_and_sink}
@@ -15,18 +14,19 @@ can be adapted to work in an $n$-level hypergraph partitioner, called \emph{KaHy
 Let $H = (V,E,c,\omega)$ be a hypergraph and $B_1$ be a bipartition of $H$.
 In the following, we show how to configure the source set $S$ and sink set $T$ of the flow
 network $T_L(H_{V'})$ of a subhypergraph $H_{V'}$ induced by $V' \subseteq V$. The goal is 
-to improve bipartition $B_1$ with a maximum $(S,T)$-flow calculation 
-on $T_L(H_{V'})$ (with $f$ as maximum flow) such that the resulting bipartition 
-$B_2$ yields an improved bipartition $B_2$ when cut is the objective.
+to improve bipartition $B_1$ of $H$ with a maximum $(S,T)$-flow calculation 
+on $T_L(H_{V'})$ (with $f$ as maximum flow) such that after inserting the minimum 
+$(S,T)$-bipartition of $H_{V'}$ on $H$ the resulting bipartition $B_2$ of $H$ has a 
+cut less than or equal to the cut of $B_1$.
 Let $E_{\text{cut}}(V',B) := \{ e \in E\ |\ \lambda(e,B) > 1 \land e \cap V' \neq \emptyset\}$ 
-be the set of all cut hyperedges of $H$ which are partially or fully contained in $H_{V'}$.
+be the set of all cut hyperedges of bipartition $B$ of $H$ which are partially or fully contained in $H_{V'}$.
 We define the cut of subhypergraph $H_{V'}$ related to a bipartition $B$ of $H$
 as follows:
 \[\omega_{H_{V'}}(B) := \sum_{e \in E_{\text{cut}}(V',B)} \omega(e) \]
-Some will wonder about the definition of the cut $\omega_{H_{V'}}$ over the
+Note, the cut $\omega_{H_{V'}}$ is defined over the
 cut nets of $H$. A cut hyperedge $e$ of $H$ is not necessarily a cut hyperedge
-of $H_{V'}$. If $e = \{v_1,v_2\}$ with $v_1 \in V_1$ and $v_2 \in V_2$, but
-$v_1 \in V'$ and $v_2 \notin V'$. Then $e$ is cut in $H$, but not in $H_{V'}$, because
+of $H_{V'}$. If $e = \{v_1,v_2\}$ is a hyperedge with $v_1 \in V_1$ and $v_2 \in V_2$ and
+$v_1 \in V'$ and $v_2 \notin V'$, then $e$ is cut in $H$, but not in $H_{V'}$, because
 $v_2$ is removed from $e$ of $H_{V'}$ per definition. However, the reason that we still
 define $e$ as cut hyperedge of $H_{V'}$ has to do with our problem statement, 
 which we will define as follows:
