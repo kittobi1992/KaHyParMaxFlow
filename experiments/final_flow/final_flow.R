@@ -85,7 +85,9 @@ get_legend_as_seperate_plot <- function(plot) {
 
 ####################### Performance Plots for instance types ####################### 
 instance_classes <- c("*","DAC","ISPD","Primal","Dual","Literal","SPM")
+source("experiments/plot_functions.R")
 i <- 1
+breaks <- list(pretty_breaks(6),pretty_breaks(7),pretty_breaks(7),pretty_breaks(7),pretty_breaks(7),pretty_breaks(7),pretty_breaks(6))
 type_plots <- list()
 for(type in instance_classes) {
   filter <- type
@@ -99,7 +101,7 @@ for(type in instance_classes) {
                                             patoh_q = patoh_q,
                                             patoh_d = patoh_d)$min_ratios, 
                        if(type == "*") "\\ALL" else paste("\\",filter,sep=""), 
-                       pretty_breaks(n=7),
+                       xbreaks=breaks[[i]],
                        showLegend = FALSE)
   type_plots[[i]] <- plot
   i <- i + 1

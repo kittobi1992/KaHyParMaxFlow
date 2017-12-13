@@ -160,7 +160,7 @@ cuberootplot = function(data, title, xbreaks,yexpand=c(0.0,0.1), legendPos=c(0.2
            xlab("\\# Instances") +
            ggtitle(title) +
            ylab(paste("1-(Best/Algorithm)")) +
-           scale_y_continuous(trans="cuberoot",  breaks = c(0.0,0.01,0.05,0.1,0.2,0.4,0.6,0.8,1.0,2), expand=yexpand) +
+           scale_y_continuous(trans="cuberoot",  breaks = c(0.0,0.01,0.05,0.2,0.5,0.75,1.0,2), expand=yexpand) +
            scale_x_continuous(trans="cuberoot", breaks = xbreaks) +
            scale_color_manual(values=colors) +
            theme_bw() +
@@ -176,8 +176,8 @@ cuberootplot = function(data, title, xbreaks,yexpand=c(0.0,0.1), legendPos=c(0.2
                  axis.text=element_text(size = 8),
                  axis.text.x=element_text(angle = 50,hjust = 1),
                  axis.line = element_line(size = 0.2, color = "black"),
-                 axis.title.y = element_text(vjust=1.5, margin = margin(10,10,10,10), size = fntsize),
-                 axis.title.x = element_text(vjust=1, size = fntsize),
+                 axis.title.y = element_text(vjust=1.5, margin = margin(10,10,10,10), size = 8),
+                 axis.title.x = element_text(vjust=1, size = 8),
                  plot.title = element_text(size=12, vjust=.5)) +
                  guides(colour = guide_legend(title="Algorithm", override.aes = list(size=2), ncol = 1, byrow = F, keywidth = .5, keyheight = 0.85, legend.margin =-.5)))
   
