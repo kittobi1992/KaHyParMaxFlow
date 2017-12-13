@@ -91,14 +91,14 @@ Motivated by the successfull integration of a \emph{flow}-based \emph{local sear
 partitioner \emph{KaFFPa} of Sanders and Schulz \cite{sanders2011engineering} to obtain balanced $k$-way
 partitions, this thesis investigates the integration of such an approach into the multilevel hypergraph
 partitioner \emph{KaHyPar} \cite{heuer2017improving}.\\
-First, we have to find an appropriate model of a hypergraph as flow network. Afterwards, 
-we can use the model to configure a flow problem on an abritrary subset of the hypernodes
-such that a \emph{Max-Flow-Min-Cut} computation improves a given bipartition of a hypergraph.
-On top of the theorectical foundations, a \emph{flow}-based \emph{local search} algorithm
-should be developed which works in a multilevel hypergraph partitioner and improves a given
-balanced $k$-way partition. We will integrate the framework into the
+In the first step, we have to find an appropriate model of a hypergraph as flow network. Afterwards, 
+we want to improve a given bipartition of a hypergraph with a \emph{Max-Flow-Min-Cut} 
+computation by using the flow network of the previous step.
+This work are the theorectical foundations for developing a \emph{flow}-based \emph{local search} 
+algorithm which works in a multilevel hypergraph partitioner and improves a given
+balanced $k$-way partition. The last step is to integrate the framework into the
 $n$-level hypergraph partitioner \emph{KaHyPar} \cite{heuer2017improving} and evaluate
-the performance on a large benchmark set compared to different state-of-the-art 
+the performance on a large benchmark set in comparison to different state-of-the-art 
 multilevel hypergraph partitioners. A major goal of this work is to outperform the 
 latest version of \emph{KaHyPar} on most of the benchmark instances and simultaneously
 ensure that the running time is only within a constant factor slower.
