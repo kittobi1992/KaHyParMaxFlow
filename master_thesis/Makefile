@@ -1,6 +1,6 @@
 
 master_thesis.pdf: master_thesis.tex ../literature.bib ../macros.tex Makefile $(wildcard sections/*.tex) $(wildcard img/*.tex)
-	   			   latexmk -pdf -f --shell-escape $<
+	   			   latexmk -pdf -f --shell-escape -interaction="batchmode" $<
 
 clean:
 		rm -rf *.out *.bbl *.log *.blg *.aux *.bcf *.fls *.loa *.gz *.md5 \
