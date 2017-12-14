@@ -35,16 +35,20 @@ maintains gain values (according to a objective function) of moving a node
 from its current block to another block \cite{fiduccia1988linear}. A move is performed, 
 if its gain value is maximum among all possible moves. The \emph{FM} heuristic is generally
 intuitive, flexible in adapting to different optimization objectives, easy to implement and
-relatively fast \cite{zhao2002effective}. However, a move is performed without
-a \emph{global} view on the problem instance and \emph{greedily}.
+relatively fast \cite{zhao2002effective}. \\
+However, the gain of moving a (hyper)node to another block only depends on the state of the
+incident (hyper)edges. Therefore, \emph{FM} has no \emph{global} view on the structure
+of the problem. A move is performed \emph{locally} and \emph{greedily}.
 Consequently, the algorithm tends to find locally optimal solutions, which quality heavily depends
 on the initial partition \cite{dutt1997vlsi}. Therefore, multiple runs are needed to find
 a solution close to the global optimum. The probability of finding a good approximation
-of the global optimum significantly drops if we partition large hypergraphs \cite{dutt1997vlsi}. 
-Executing \emph{FM} in the multilevel context partially solve the disadvantage for large benchmarks.
+of the global optimum significantly drops if we partition large hypergraphs \cite{dutt1997vlsi}.
+If we execute \emph{FM} in the multilevel context, we partially solve the problem.
 A move of an vertex in a \emph{coarsened} hypergraph corresponds to a movement
-of a subset of the hypernodes in the \emph{original} hypergraph which allows a more 
-effective exploration of the solution space \cite{papa2007hypergraph}.
+of a subset of the hypernodes on the \emph{original} hypergraph which allows a more 
+effective exploration of the solution space \cite{papa2007hypergraph}. The quality of
+the solution then depends more on the quality of the \emph{coarsening} rather than
+on the \emph{initial partition}.\\
 Further, a move of a node only influences the gain function if the state of an incident hyperedge
 changes \emph{immediately} after a move. If a hyperedge contains vertices from two different blocks,
 where only one hypernode is contained in the first and all remainings are in the second block,
@@ -62,28 +66,31 @@ However, the \emph{forecast} is limited by a predefined parameter. \\
 they are \emph{move}-based and only incoroperate \emph{local} informations about the structure of the problem.
 Finding a balanced global minimum cut of a (hyper)graph is NP-hard, but if we ask for a minimum
 cut separating two vertices $s$ and $t$ the problem becomes solvable in polynomial time \cite{edmonds1972theoretical}.
-The well-known \emph{max-flow min-cut} theorem \cite{ford1956maximal} established an analogy
+The well-known \emph{max-flow min-cut} theorem \cite{ford1956maximal} establish an analogy
 between the maximum flow from a source $s$ to a sink $t$ and the minimum cut separating
 $s$ and $t$ in a graph. \emph{Flow}-based approaches are not \emph{move}-based and
 incoroperate the \emph{global} structure of the problem.
 Therefore, it overcomes the drawbacks of the \emph{FM} algorithm. However, it was overlooked for a long time because
 it was perceived as computationally expensive and impractical for (hyper)graph partitioning
 \cite{liu1998network}. \\ 
-Recently, several algorithms to obtain a balanced bipartition of a hypergraph were developed
-\cite{liu1998network,patkar2004efficient,yang1996balanced}. The algorithms can be seen
-as an alternative to the \emph{multilevel paradigm}. The impact of a \emph{flow}-based 
-\emph{local search} algorithm on the solution quality of a multilevel hypergraph partitioner 
-has not been studied yet. Moreover, a balanced $k$-way hypergraph partition is only 
-obtainable by applying the bipartitioning algorithm recursively \cite{yang1996balanced}.
 Sanders and Schulz \cite{sanders2011engineering} successfully integrated a \emph{flow}-based refinement
-algorithm in their multilevel \emph{graph} partitioner. The algorithm is also applicable to the more
-complicated direct $k$-way partitioning case. In general, their basic approach is to 
-extract a subgraph around the cut of a bipartition and configure the source and sink sets
-of the flow problem such that a maximum flow calculation on the subgraph leads to a 
-smaller cut on the original graph. They combine the strength of \emph{flow}-based and \emph{FM}
+algorithm in their multilevel \emph{graph} partitioner. 
+%The algorithm is also applicable to the more
+%complicated direct $k$-way partitioning case. 
+%In general, their basic approach is to 
+%extract a subgraph around the cut of a bipartition and configure the source and sink sets
+%of the flow problem such that a maximum flow calculation on the subgraph leads to a 
+%smaller cut on the original graph. 
+They combine the strength of \emph{flow}-based and \emph{FM}
 \emph{local search} by executing both algorithms alternating throughout the multilevel hierarchy.
 As a result their multilevel graph partitioner produces the best partitions for 
 a wide range of graph partitioning benchmarks. 
+Recently, several algorithms were developed to obtain a balanced bipartition of a hypergraph 
+with \emph{Max-Flow-Min-Cut} computations \cite{liu1998network,patkar2004efficient,yang1996balanced}. 
+A balanced $k$-way hypergraph partition with such an approach is currently only
+obtainable by applying the bipartitioning algorithm recursively \cite{yang1996balanced}. 
+The impact of a \emph{flow}-based \emph{local search} algorithm on the solution quality of 
+a multilevel hypergraph partitioner has not been studied yet. 
 
 \subsection{Problem Statement}
 
@@ -94,7 +101,7 @@ partitioner \emph{KaHyPar} \cite{heuer2017improving}.\\
 In the first step, we have to find an appropriate model of a hypergraph as flow network. Afterwards, 
 we want to improve a given bipartition of a hypergraph with a \emph{Max-Flow-Min-Cut} 
 computation by using the flow network of the previous step.
-This work are the theorectical foundations for developing a \emph{flow}-based \emph{local search} 
+This work is the theorectical foundations for developing a \emph{flow}-based \emph{local search} 
 algorithm which works in a multilevel hypergraph partitioner and improves a given
 balanced $k$-way partition. The last step is to integrate the framework into the
 $n$-level hypergraph partitioner \emph{KaHyPar} \cite{heuer2017improving} and evaluate
