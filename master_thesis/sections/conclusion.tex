@@ -11,9 +11,11 @@ nodes, if all \emph{incoming} and \emph{outgoing} edges have a capacity equal to
 \emph{infinity}. The results are of independent interest, because they are also
 applicable on general flow networks with \emph{infinite} capacity edges. 
 As a consequence, we can remove all hypernodes from the flow network 
-of a hypergraph. However, the removal of a hypernode in the flow 
+of a hypergraph, because all \emph{incoming} and \emph{outgoing} edges have
+\emph{infinite} capacity in the corresponding flow network \cite{lawler1973}. 
+However, the removal of a hypernode in the flow 
 network introduce new edges between all incident nodes, which number depends
-on the degree of the vertex. We show that we can minimize the number of edges, if the
+on the degree of a vertex. We show that we can minimize the number of edges, if the
 degree of a hypernode is smaller than or equal to $3$. Further, we show that each weighted undirected
 graph can be modeled as a weighted directed graph with the same \emph{min-cut}
 property. The transformation introduces new nodes and edges in the corresponding
@@ -64,11 +66,11 @@ version of \emph{hMetis} and outperforms it on $82\%$ of the benchmark instances
 
 Due to the novelty of the approach, there is a lot of potential in optimizing our basic 
 framework. We made a trade-off between time and quality to obtain a \emph{High-Quality 
-Hypergraph Partitioner} which runs in reasonable time. The quality mainly depends
-on the number of flow executions through the multilevel hierarchy. The number of flow
-executions depends on the running time of the flow algorithm and the size of the flow
-problem. Optimizing those two basic building blocks of the framework will allow us to
-achieve better quality in the same amount of time.\\
+n-level Hypergraph Partitioner} which runs in reasonable time. The quality mainly depends
+on the number of flow executions throughout the multilevel hierarchy. The number of flow
+executions, which we can do in reasonable time, depends on the running time of the 
+flow algorithm and the size of the flow problem. Optimizing those two basic building 
+blocks of the framework will allow us to achieve better quality in the same amount of time.\\
 The flow network of a hypergraph proposed by Lawler \cite{lawler1973} has a bipartite 
 structure. Because of this structural regularity, there might be other more specialized
 flow algorithms which run faster on these types of networks. Therefore, a useful work 
@@ -91,8 +93,9 @@ for that behavior:
       \emph{augmenting path}.
 \item Many labels have to be introduced which lead to a large number of 
       main memory accesses.
-\item Also the implicit flow network is not flexible enough. Adding a new sparsifying
-      technique would require with great certainty a reimplementation of the implicit flow network.
+\item Also the implicit flow network is not flexible enough. Developing a new 
+      technique to sparsify the flow networ would require a new implementation of 
+      the implicit flow network.
 \end{enumerate}
 In Section \ref{sec:flow_local_search_hypergraph} and \ref{sec:speed_up} we show that with
 three simple speed up heuristics our \emph{flow}-based refinement framework is up to a factor
@@ -100,13 +103,13 @@ of $2$ faster with comparable quality. Therefore, it would be beneficial to furt
 the effectiveness ratio of the flow computation by introducing more heuristics. \\
 It is also possible to further sparsify the flow network. Assume there exists two hypernodes
 $v_1$ and $v_2$ with $d(v_1) = 3$ and $d(v_2) = 4$. Further, $|I(v_1) \cap I(v_2)| = 3$ which means
-that in each hyperedge $e$ where $v_1 \in e$ also $v_2 \in e$ and there exists one hyperedge $e'$
-where $v_2 \in e'$ and $v_1 \notin e'$. All hypernodes with $d(v) \le 3$ are removed in our
-hybrid flow network. Consequently, we would remove $v_1$ and insert a clique between all incident
-hyperedges. However, $v_2$ is part of the flow network and induced $2d(v_2) = 8$ edges.
-Alternatively, we could remove $v_2$ and expand the clique between all hyperedges of $I(v_1)$
+that in each hyperedge $e$ where $v_1 \in e$ also $v_2 \in e$ except for one hyperedge $e'$
+where $v_2 \in e'$ and $v_1 \notin e'$. We remove all hypernodes with $d(v) \le 3$ in our
+\emph{hybrid} flow network. Consequently, we would remove $v_1$ and insert a clique between all incident
+hyperedges. However, $v_2$ is part of the flow network and induce $2d(v_2) = 8$ edges because $d(v_2) > 3$.
+Alternatively, we can remove $v_2$ and expand the clique between all hyperedges of $I(v_1)$
 with $e'$. In that case, we have to insert an edge from each hyperedge in $I(v_1)$ to $e'$ and vice
-versa. Since $|I(v_1)| = d(v_1) = 3$ only $2|I(v_1)| = 6$ edges are induced and we can remove
+versa. Since $|I(v_1)| = d(v_1) = 3$ only $2|I(v_1)| = 6$ edges are inserted and we can remove
 one hypernode. In general, an expansion of a $k$-clique to a $(k+i)$-clique induced 
 $ik$ edges from the $k$ nodes already contained in the clique to the $i$ new nodes and
 $i(k+1-1)$ edges from the $i$ new nodes to the $k$ nodes in the clique. If we can remove a 
@@ -115,7 +118,7 @@ it is beneficial if the following inequality holds
 \[ik + i(k+i-1) = i^2 + 2ki - i \le 2(k+i)\]
 The inequality is only satisfied for $i = 1$. In this case, we can exactly remove $2$ edges and
 $1$ node from the flow network. A possible algorithm could be to sort the hypernodes according
-to their degree and for each hypernode store a clique label which indicates between how many
+to the degree and for each hypernode store a clique label which indicates between how many
 incident hyperedges already exist a clique. Afterwards, we iterate over the hypernodes and if we remove
 a hypernode, we have to update the clique label of all hypernodes in the intersection of the
 currently inserted clique. We iterate over the hypernodes until none of the hypernodes could

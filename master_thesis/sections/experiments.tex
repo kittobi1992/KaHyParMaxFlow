@@ -60,15 +60,24 @@ for the diffrent \emph{seeds} of a hypergraph instance partitioned into $k$ bloc
 Afterwards, we calculate the \emph{geometric mean} of 
 all instances to give each instance comparable influence on the final result. 
 To compare the performance of different hypergraph partitioners more detailed 
-we use performance plots introduced in \cite{schlag2016k}.
-\todo{Change description of performance plots}
-For each partitioner $P$ and instance $H$ we calculate the values $q_{H,P} := 1 - \text{best$_H$}/\text{algorithm$_{H,P}$}$ 
-where $\text{best$_{H}$}$ is the best quality achieved by a partitioner for instance $H$ and
-$\text{algorithm$_{H,P}$}$ refers to the quality achieved by partitioner $P$ for instance
-$H$. Afterwards, we sort all values $q_{H,P}$ of a partitioner $P$ in decreasing order. For each
-partitioner $P$ we plot the points $(H,q_{H,P})$. The faster the $q_{H,P}$ values intersect
-the zero line the better the performance of a partitioner in comparison to the others. If a partition
-of a partitioner $P$ is not $\epsilon$-balanced we set $q_{H,P} = 1 + \beta$ (with $\beta > 0$).
+we use performance plots introduced in \cite{schlag2016k} (see \autoref{fig:final_flow}).
+In the following, we will call a hypergraph partitioned into $k$ blocks an \emph{instance}.
+For each partitioner resp. algorithm we determine the instance with the 
+minimum cut (of the $10$ different \emph{seeds}). Each color in the plot corresponds to
+one algorithm. The $x$-axis represents an instance and the $y$-axis represents the quality
+produced by an algorithm for an instance relative to best partition of an algorithm produced for
+the instance. For example, partitioner $P_1$ produces a partition for an instance $X$ with
+quality $100$ and partitioner $P_2$ produces a partition for the same instance of quality $105$.
+Then, the $y$-value for instance $X$ of partitioner $P_2$ is $1 - \frac{105}{100} = 0.05$ and
+for partitioner $P_1$ is $1 - \frac{100}{100} = 0$ which means that the partition of partitioner $P_2$
+for instance $X$ is $5\%$ worse than the best partition produced for instance $X$.
+ A value of zero indicates that the algorithm
+produced the best partition. A point close to one indicates that the partition produced by the 
+corresponding partitioner was considerably worse than the partition produced by the best
+algorithm. Before we insert the points in the grid, we sort them in decreasing order 
+according to the $y$-values. An algorithm is considered to outperform another algorithm if its 
+corresponding ratio values are below those of the other algorithm. A point with an $y$-value
+greater than one corresponds to an infeasible solution that violated the balanced constraint.
 
 \subsection{Flow Algorithms and Networks}
 \label{sec:exp_flow_network}
