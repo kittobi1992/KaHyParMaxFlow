@@ -439,11 +439,7 @@ with one \BFS. After we execute a \BFS~on the residual graph, we search
 as many as possible edge-disjoint paths in the resulting \BFS-tree connecting a source $s$
 with a sink $t$. Our Goldberg \& Tarjan implementation uses a \emph{FIFO} queue and
 the \emph{global relabeling} and \emph{gap} heuristic \cite{cherkassky1997implementing}.
-We do not use an external implementation of a maximum flow algorithm.
-Since writing a flow problem to disk and reading the
-solution from disk would significantly slowdown the performance of our algorithm because we have
-to solve an enormous number of flow problems during the \emph{active block scheduling}
-refinement. After we determine a maximum $(S,T)$-flow on our flow network, we iterate over
+After we determine a maximum $(S,T)$-flow on our flow network, we iterate over
 all minimum $(S,T)$-bipartitions of $H_{V'}$ \cite{picard1980structure} and choose 
 the \emph{Most Balanced Minimum Cut} (see Section \ref{sec:related_mbmc} and 
 \ref{sec:mbmc_hypergraphs}) according to our \emph{balanced constraint}. \\
