@@ -211,41 +211,45 @@ Karlsruhe, den 22.12.2017
 \begin{abstract}
 \centerline{\textbf{Abstract}}
 
-\todo{refactor abstract}
-
-Most of the multilevel hypergraph partitioner implements the \emph{FM} heuristic \cite{fiduccia1988linear}
-to improve a given $k$-way partition. In each step, the \emph{FM} algorihm moves a node with
-maximum \emph{gain} from its current block to an other block. The \emph{gain} of a node is
-the difference of an objective function before and after moving the node. The algorithm
-is easy to implement, flexible in adapting to different optimization functions and relatively fast \cite{zhao2002effective}.
-However, a move is performed locally and greedily. Therefore, \emph{FM} tends to find local
-optimal solutions which quality heavily depends on the \emph{initial partition} \cite{dutt1997vlsi}. 
-Consequently, the probability to find a good
-approximation of a global optimum drops significantly if we partition large hypergraphs.
+All state-of-the-art multilevel hypergraph partitioner implements the \emph{FM} 
+heuristic \cite{fiduccia1988linear} to improve a balanced $k$-way partition. 
+In each step, the \emph{FM} algorihm moves a node with maximum \emph{gain} 
+from its current block to an other block according to an objective
+function. The \emph{gain} of moving a hypernode mainly depends on 
+the state of all incident hyperedges. Therefore, \emph{FM} only incorporates
+\emph{local} information about the problem structure and performs a move
+\emph{greedily}. Consequently, the solution quality heavily depends on the 
+\emph{initial partition} and the quality of the \emph{coarsening} algorithm \cite{dutt1997vlsi}.
 Moreover, if we have a large number of moves with equal gain, the quality of the solution 
-highly depends on random choices of the algorithm which makes the gain \emph{meaningless}
-\cite{krishnamurthy1984improved,mann2014formula}. Especially in large hyperedges, we often
+is a result of random choices made within the algorithm
+\cite{krishnamurthy1984improved,mann2014formula}. Especially for large hyperedges, we often
 have many moves of vertices which gain is equal to zero if e.g., \emph{cut} is the objective function. \\
-Techniques derived from the \emph{max-flow min-cut} theorem \cite{ford1956maximal} to improve
-a $k$-way partition of a (hyper)graph can be seen as counterpart to the \emph{FM} heuristic.
-They act \emph{globally} and are not \emph{move}-based. In this thesis, we present an alternative 
-\emph{local search} technique based on \emph{Max-Flow-Min-Cut}
+The well-known \emph{max-flow min-cut} theorem \cite{ford1956maximal} establish an analogy
+between the \emph{global} minimum cut of a network separating two vertices and the maximum flow between
+them. The technique incorporates \emph{global} information about the problem structure and
+is not \emph{move}-based. Therefore, utilizing such techniques as \emph{local search}
+heuristic would overcome the drawbacks of the \emph{FM} algorithm.\\
+In this thesis, we present an alternative 
+\emph{local search} algorithm based on \emph{Max-Flow-Min-Cut}
 computations for balanced direct $k$-way hypergraph partitioning.
-We integrate the work into the multilevel hypergraph partitioner \emph{KaHyPar} \cite{heuer2017improving}. 
+We integrate our framework into the $n$-level hypergraph partitioner \emph{KaHyPar} \cite{heuer2017improving}. 
 The framework is inspired by the work of Sanders and Schulz \cite{sanders2011engineering} who
 successfully showed that \emph{flow}-based \emph{local search} in combination with the \emph{FM}
-algorithm significantly improve the quality of partitions in a multilevel graph partitioner.
-We present several techniques to sparsify the state-of-the-art hypergraph flow network representation and
-show that maximum flow algorithms are up to a factor of $3$ faster on our network in practice.
-Further, we show how to improve the \emph{connectivity} metric of a $k$-way partition by solving a flow problem 
-only on a subset of the vertices. We tested our new approach
+algorithm significantly improves the quality of partitions in a multilevel graph partitioner.
+We generalize many ideas of them such that they are applicable in the multilevel hypergraph 
+partitioning context. We present several techniques to sparsify the state-of-the-art hypergraph 
+flow network representation \cite{lawler1973}. The theoretical results are of independent interest because they
+can be also applied to general flow networks. Our experiments indicates
+that maximum flow algorithms are up to a factor of $3$ faster on our network in practice.
+Further, we show how to configure a flow problem on a subhypergraph such that a 
+\emph{Max-Flow-Min-Cut} computations improves a balanced $k$-way partition. \\
+We tested our new approach
 on a large benchmark set with $3222$ instances. In comparison to $5$ different systems, 
 our new configuration outperforms the tested state-of-the-art hypergraph partitioner on $70\%$ 
 of the instances. In comparison to the latest version of \emph{KaHyPar} our new approach 
-produces $2\%$ better quality by a performance slowdown only by a factor of $2$. 
-Moreover, our partitioner has a comparable running time to the direct $k$-way partitioner 
-of \emph{hMetis} and outperforms it on $82\%$ of the benchmark instances with a
-$14.71\%$ better solution quality.
+produces $2\%$ better quality while only incurring a performance slowdown by a factor of $2$. 
+Moreover, our partitioner has a comparable running time to the direct $k$-way version 
+of \emph{hMetis} and outperforms it on $82\%$ of the benchmarks.
 
 \end{abstract}
 

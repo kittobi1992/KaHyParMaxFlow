@@ -37,7 +37,8 @@ type_revalue = c("DAC" = "\\DAC",
                  "Literal" = "\\Literal",
                  "SPM"="\\SPM")
 algo_revalue = c("goldberg_tarjan" = "\\GoldbergTarjan",
-                 "edmond_karp" = "\\EdmondKarp")
+                 "edmond_karp" = "\\EdmondKarp",
+                 "external_flow" = "\\BoykovKolmogorov")
 network_revalue = c("lawler" = "$\\ExpLawler$",
                     "node_degree" = "$\\ExpNodeDegree$",
                     "edge_size" = "$\\ExpEdgeSize$",
@@ -167,8 +168,8 @@ revalue_columns_to_latex <- function(db) {
   return(db)
 }
 
-speed_up_plot <- function(db) {
-  speed_up_db <- speedup_relative_to(db, "edmond_karp", "lawler")
+speed_up_plot <- function(db, relative_algo="edmond_karp", relative_network="lawler") {
+  speed_up_db <- speedup_relative_to(db, relative_algo, relative_network)
   speed_up_db <- revalue_columns_to_latex(speed_up_db)
   
   speed_up_db$speedup1 <- 1.0
