@@ -132,6 +132,77 @@ Hypergraph                                                                      
 \end{table}
 
 \newpage
+\section{Removing Infinite Weight Nodes of the Vertex Separator Problem}
+\label{sec:infinite_weight_vertex_separator}
+
+Finding a minimum-weight $(s,t)$-cutset of a hypergraph can be reduced to the problem 
+of finding a minimum-weight $(s,t)$-vertex separator of the bipartite graph representation
+of the hypergraph. The weight of the hyperedge nodes is the weight of the corresponding
+hyperedge and the weight of all hypernodes is \emph{infinity}. We can calculate
+a minimum-weight $(s,t)$-vertex separator with a maximum $(s,t)$-flow calculation 
+on the Lawler-Transformation \ShortT{L}. In Section \ref{sec:heuer_network} 
+we have shown how to remove a hypernode $v$ from \ShortT{L} by adding a 
+biclique between all outgoing hyperedges $\outgoing{e}$ and all
+incoming hyperedges $\incoming{e}$ with $e \in I(v)$. The correctness of the transformation
+follows with Lemma \ref{lemma:node_removal}. The inserted biclique induce exactly
+$d(v)^2$ edges where $d(v)$ is the degree of hypernode $v$. Since the underlying problem
+is to find a minimum-weight $(s,t)$-vertex separator, we can prove that $d(v)(d(v)-1)$ edges
+are sufficient to model the problem equivalent. The problem is illustrated in \autoref{img:vertex_separator_transformation}.
+In the following, we show that we can remove the red edges which are exactly the edges between
+two equivalent hyperedge nodes. 
+
+\begin{lemma}
+\label{lemma:vertex_separator_lemma}
+Let $G = (V,E,c)$ be an undirected graph where a node $v$ exists with $c(v) = \infty$.
+We can find a minimum-weight $(s,t)$-vertex separator of $G$ (weight must be smaller than 
+$\infty$) with graph $G'$ which is the graph without node $v$ and having a clique 
+between all adjacent nodes of $v$.
+\end{lemma}
+
+\begin{proof}
+We will show that each $(s,t)$-vertex separator of $G$ is also a $(s,t)$-vertex separator
+of $G'$ and vice versa. Since, the weight of each node in both network is the same, a minimum-weight
+$(s,t)$-vertex separator of $G$ is also a minimum-weight $(s,t)$-vertex separator of $G'$ and vice versa.
+We will call an edge of $G'$, which is part of the inserted clique, a \emph{shortcut} edge.\\
+Let $V' \subseteq V$ be a $(s,t)$-vertex separator of $G$ with $c(V') < \infty$. Assume after removing
+all $u \in V'$ from $G'$ there exists still a path from $s$ to $t$. If the path not contains any
+\emph{shortcut} edge, the same path must connect $s$ and $t$ in $G$ because we have removed all $u \in V'$
+from $G'$. This is a contradiction that $V'$ is a vertex separator of $G$. Assume the path contains
+a \emph{shortcut} edge $(u,w)$ of $G'$.  Because $c(V') < \infty$ and $c(v) = \infty$,
+it follows that $v \notin V'$. We can replace $(u,w)$ with two edges $(u,v)$ and $(v,w)$
+and obtain a path connecting $s$ and $t$ in $G$. This is also a contradiction that $V'$ is a vertex
+separator of $G$.\\
+The same argumentation holds, if we want to show that each $(s,t)$-vertex separator of $G'$
+is a $(s,t)$-vertex separator of $G$. If the path $P$ connecting $s$ and $t$ in $G$ contains
+the removed node $v$ with edges $(u,v) \in P$ and $(v,w) \in P$ we can replace the two edges
+with the \emph{shortcut} edge $(u,w)$ of $G'$. The resulting path connects $s$ and $t$ in $G'$.
+This is a contradiction that $V'$ is a vertex separator of $G'$.
+\end{proof}
+
+Lemma \ref{lemma:vertex_separator_lemma} can be used to remove the \emph{infinity} capacity
+edges between the same hyperedge nodes (see red edges in \autoref{img:vertex_separator_transformation}).
+Instead of removing a hypernode $v$ of \ShortT{L} with Lemma \ref{lemma:node_removal}, we can apply
+Lemma \ref{lemma:vertex_separator_lemma} on a hypernode $v$ of the bipartite graph representation
+of the hypergraph. Afterwards, we can use the vertex separator transformation (see Defintion \ref{def:vertex_seperator_transformation})
+to obtain a flow network in which the value of a maximum $(s,t)$-flow is equal with the
+weight of a minimum-weight $(s,t)$-vertex separator. Both networks on the right side of 
+\autoref{img:vertex_separator_transformation} are equivalent, but a removal of a hypernode
+now induce $d(v)(d(v) - 1)$ edges instead of $d(v)^2$ edges in the new network.
+
+\begin{figure}
+\centering
+\includegraphics[width=1.0\textwidth]{../img/network_transformation/vertex_separator_lemma.eps}
+\caption{Illustration of the technique to remove a hypernode such that the removal induce 
+         $d(v)(d(v) - 1)$ edges instead of $d(v)^2$ edges in the corresponding flow network.
+         The edges without an explicit capacity are \emph{infinite} capacity edges.
+         The transformation on the top of the figure illustrates the technique presented in
+         Section \ref{sec:heuer_network}. Using Lemma \ref{lemma:vertex_separator_lemma} and
+         the vertex separator transformation (see Defintion \ref{def:vertex_seperator_transformation})
+         results in a equivalent flow network without the red highlighted edges.}
+\label{img:vertex_separator_transformation}
+\end{figure}
+
+\newpage
 \section{Detailed Flow Network and Algorithm Evaluation}
 \begin{table}[ht]
 \renewcommand{\arraystretch}{0.8}
