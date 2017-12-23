@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE ipe SYSTEM "ipe.dtd">
 <ipe version="70107" creator="Ipe 7.1.10">
-<info created="D:20171223103649" modified="D:20171223104807"/>
+<info created="D:20171223103649" modified="D:20171223155523"/>
 <ipestyle name="basic">
 <symbol name="arrow/arc(spx)">
 <path stroke="sym-stroke" fill="sym-stroke" pen="sym-pen">
@@ -761,6 +761,6 @@ h
 </path>
 <text matrix="1 0 0 1 784 -16" transformations="translations" pos="1044 1276" stroke="KITblack" type="label" width="70.647" height="34.584" depth="7.48" valign="baseline" size="50">$H_{V&apos;}$</text>
 <text matrix="1 0 0 1 -32 -48" transformations="translations" pos="592 1520" stroke="KITblack" type="label" width="553.701" height="24.904" depth="5.98" valign="baseline" size="36">Hypergraph $H$ and Subhypergraph $H_{V&apos;}$</text>
-<text matrix="1 0 0 1 912 -48" transformations="translations" pos="592 1520" stroke="KITblack" type="label" width="276.306" height="26.889" depth="7.98" valign="baseline" size="36">Extension $Ex(H_{V&apos;})$</text>
+<text matrix="1 0 0 1 736 -48" transformations="translations" pos="592 1520" stroke="KITblack" type="label" width="613.776" height="26.953" depth="7.98" valign="baseline" size="36">Section Hypergraph $S_{V&apos;} := H \times (V&apos; \cup V&apos;&apos;)$</text>
 </page>
 </ipe>

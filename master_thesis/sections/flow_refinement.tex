@@ -19,7 +19,8 @@ to improve a bipartition $\Pi_1$ of $H$ with a maximum $(S,T)$-flow calculation
 on $T_L(H_{V'})$ (with $f$ as maximum flow) such that after applying the minimum 
 $(S,T)$-bipartition of $H_{V'}$ on $H$ the resulting bipartition $\Pi_2$ of $H$ has a 
 cut less than or equal to the cut of $\Pi_1$. However, an important concept of this Section will
-be the definition of the \emph{extension} of a subhypergraph (see \autoref{img:extension}).
+be the definition of the \emph{section hypergraph} (see Defintion
+\ref{def:section_hypergraph}). 
 
 \begin{figure}
 \centering
@@ -28,32 +29,36 @@ be the definition of the \emph{extension} of a subhypergraph (see \autoref{img:e
          the hypergraph $H$ which is fully or partially contained in $H_{V'}$ is fully
          contained $Ex(H_{V'})$. The nodes not contained in the rectangle of the right figure
          are part of $V''$.}
-\label{img:extension}
+\label{img:section_hypergraph}
 \end{figure}
 
 \begin{definition}[Extension of a Subhypergraph]
 \label{def:sub_extension}
-We define the extension $\SubExtension$ of a subhypergraph $H_{V'}$ such that each hyperedge of $H = (V,E,c,\omega)$ which is
-partially contained in $H_{V'}$ is fully contained in $\SubExtension$. More formally,
-$\SubExtension = (V' \cup V'', E', c, \omega)$ with $V'' = \bigcup_{\substack{e \in E \\ e \setminus V' \neq \emptyset}} e \setminus V'$
-and $E' = \{e \in E\ |\ e \subseteq (V' \cup V'')\}$.
+Given a subset $V' \subseteq V$ of a hypergraph $H = (V,E)$.
+We define the section hypergraph $\SectionHypergraph := H \times (V' \cup V'')$
+where $V''$ contains all pins $u \notin V'$ of hyperedges incident to a vertex 
+$v \in V'$. More formally, 
+\[V'' := \bigcup_{\substack{e \in I(V') \\ e \setminus V' \neq \emptyset}} e \setminus V'\]
 \end{definition}
 
-In the following, we will first define our source and sink set on flow network $T_L(\SubExtension)$ such that
+$\SectionHypergraph$ can be seen as an \emph{extension} of subhypergraph $H_{V'}$. Each
+hyperedge which is partially or fully contained in $H_{V'}$ is fully contained in $\SectionHypergraph$
+(see \autoref{img:section_hypergraph}).
+In the following, we will first define our source and sink set on flow network $T_L(\SectionHypergraph)$ such that
 each hypernode $v \in V''$ is either a source or sink node. We can show, that a maximum
-$(S,T)$-flow on $T_L(\SubExtension)$ then improves a given bipartition $\Pi_1$ of $H$.
-Afterwards, we will remove all hypernodes $v \in V''$ of $T_L(\SubExtension)$ with
+$(S,T)$-flow on $T_L(\SectionHypergraph)$ then improves a given bipartition $\Pi_1$ of $H$.
+Afterwards, we will remove all hypernodes $v \in V''$ of $T_L(\SectionHypergraph)$ with
 Theorem \ref{theorem:heuer_network} which will result in a source set $S'$ and sink 
-set $T'$ for $T_L(H_{V'})$. Moreover, the value of a maximum $(S,T)$-flow of $T_L(\SubExtension)$
+set $T'$ for $T_L(H_{V'})$. Moreover, the value of a maximum $(S,T)$-flow of $T_L(\SectionHypergraph)$
 and a maximum $(S',T')$-flow of $T_L(H_{V'})$ will be the same. \\
-We introduce the extension of subhypergraph $H_{V'}$ because we have to redefine the defintion
+We introduce the \emph{section hypergraph} $\SectionHypergraph$ because we have to redefine the defintion
 of the cut of $H_{V'}$ related to a bipartition $\Pi$ of $H$ as follows:
 \begin{equation}
 \label{eq:sub_cut}
-\omega_{H_{V'}}(\Pi) := \omega_{\SubExtension}(\Pi)
+\omega_{H_{V'}}(\Pi) := \omega_{\SectionHypergraph}(\Pi)
 \end{equation}
 Note, that the cut $\omega_{H_{V'}}$ is defined over the cut nets of $H$ (which are equal to 
-the cut nets of $\SubExtension$). A cut hyperedge $e$ of $H$ is not necessarily a cut hyperedge
+the cut nets of $\SectionHypergraph$). A cut hyperedge $e$ of $H$ is not necessarily a cut hyperedge
 of $H_{V'}$. For example, if $e = \{v_1,v_2\}$ is a hyperedge with $v_1 \in V_1$ and $v_2 \in V_2$ and
 $v_1 \in V'$ and $v_2 \notin V'$, then $e$ is cut in $H$, but not in $H_{V'}$, because
 $v_2$ is not contained in $H_{V'}$. The reason that we still
@@ -97,14 +102,14 @@ $\Delta_H = \Delta_{H_{V'}}$. \\
 %\item Cut hyperedges $e \in \delta B$ of $H$: $\delta B_2 = \delta B \setminus \delta B_1$
 %\end{enumerate}
 We will first define $S$ and $T$ for flow network
-$T_L(\SubExtension)$, because for each maximum $(S,T)$-flow $f$ of $T_L(\SubExtension)$
+$T_L(\SectionHypergraph)$, because for each maximum $(S,T)$-flow $f$ of $T_L(\SectionHypergraph)$
 and its corresponding minimum $(S,T)$-bipartition $\Pi_2$ the equality 
-$|f| = \omega_{\SubExtension}(\Pi_2) = \omega_{H_{V'}}(\Pi_2)$ holds per Equation
+$|f| = \omega_{\SectionHypergraph}(\Pi_2) = \omega_{H_{V'}}(\Pi_2)$ holds per Equation
 \ref{eq:sub_cut} and due to the \emph{max-flow-min-cut} theorem \cite{ford1956maximal}. 
 Defining a hypernode $v \in V_1$ resp. $v \in V_2$ as source resp. sink means, that
 it cannot change its block after a \emph{Max-Flow-Min-Cut} computation.
 However, we do not want that a hypernode $v \notin V'$ can change its block after
-a \emph{Max-Flow-Min-Cut} computation on $T_L(\SubExtension)$, because such hypernodes
+a \emph{Max-Flow-Min-Cut} computation on $T_L(\SectionHypergraph)$, because such hypernodes
 cannot move if we solve a flow problem on subhypergraph $H_{V'}$. Therefore, we define
 all hypernodes $V'' \cap V_1$ as sources and all hypernodes $V'' \cap V_2$ as sinks 
 ($V''$ is defined in Defintion \ref{def:sub_extension}). More formally:
@@ -112,14 +117,14 @@ all hypernodes $V'' \cap V_1$ as sources and all hypernodes $V'' \cap V_2$ as si
 S = V'' \cap V_1 \label{S_border_hyperedges}\\
 T = V'' \cap V_2 \label{T_border_hyperedges}
 \end{align}
-The pins of a hyperedge which is partially contained in the extension
-of the subhypergraph are not able to change its block after a \emph{Max-Flow-Min-Cut}
+The pins of a hyperedge which is partially contained in the \emph{section hypergraph}
+$\SectionHypergraph$ are not able to change its block after a \emph{Max-Flow-Min-Cut}
 computation, because we define them either as source or sink. Consequently, 
-no hyperedge partially contained in $\SubExtension$ can change its state 
+no hyperedge partially contained in $\SectionHypergraph$ can change its state 
 from non-cut to cut and therefore it follows with the \emph{max-flow-min-cut} 
 theorem \cite{ford1956maximal} that the inequality $\omega_H(\Pi_2) \le \omega_H(\Pi_1)$
-holds. Since, only nets fully contained in $\SubExtension$ can change its state and
-$|f| = \omega_{\SubExtension}(\Pi_2) = \omega_{H_{V'}}(\Pi_2)$, it holds that
+holds. Since, only nets fully contained in $\SectionHypergraph$ can change its state and
+$|f| = \omega_{\SectionHypergraph}(\Pi_2) = \omega_{H_{V'}}(\Pi_2)$, it holds that
 $\Delta_H = \Delta_{H_{V'}}$. \\
 We will now define the source and sink set of $T_L(H_{V'})$, which will be a consequence
 of the proof of Theorem \ref{theorem:ST}.
@@ -127,27 +132,27 @@ of the proof of Theorem \ref{theorem:ST}.
 S' = \{\incoming{e}\ |\ e \in I(S)\} \label{eq:S}\\
 T' = \{\outgoing{e}\ |\ e \in I(T)\} \label{eq:T}
 \end{align}
-For a source node $s \in S$ resp. sink node $t \in T$ of $T_L(\SubExtension)$ 
+For a source node $s \in S$ resp. sink node $t \in T$ of $T_L(\SectionHypergraph)$ 
 we define the corresponding \emph{incoming} resp. \emph{outgoing}
 hyperedge nodes of all incident hyperedges $e \in I(s)$ resp. $e \in I(t)$ as 
 source resp. sink nodes of $T_L(H_{V'})$.
 
 \begin{theorem}
 \label{theorem:ST}
-The value of a maximum $(S,T)$-flow of $T_L(\SubExtension)$ is equal with
+The value of a maximum $(S,T)$-flow of $T_L(\SectionHypergraph)$ is equal with
 a maximum $(S',T')$-flow of $T_L(H_{V'})$.
 \end{theorem}
 
 \begin{proof}
-The value of a maximum $(S,T)$-flow of $T_L(\SubExtension)$ is equal with a maximum
-$(S',T')$-flow of $T_H(\SubExtension,V'')$ according to Theorem \ref{theorem:heuer_network}.
-Since each $v \in V''$ is either a source or sink node of $T_L(\SubExtension)$, the 
-removal of $v$ does not induce any additional edges in $T_H(\SubExtension,V'')$
+The value of a maximum $(S,T)$-flow of $T_L(\SectionHypergraph)$ is equal with a maximum
+$(S',T')$-flow of $T_H(\SectionHypergraph,V'')$ according to Theorem \ref{theorem:heuer_network}.
+Since each $v \in V''$ is either a source or sink node of $T_L(\SectionHypergraph)$, the 
+removal of $v$ does not induce any additional edges in $T_H(\SectionHypergraph,V'')$
 (see Lemma \ref{lemma:source_and_sink_removal}). Therefore,
-$T_H(\SubExtension,V'') = T_L(H_{V'})$.
+$T_H(\SectionHypergraph,V'') = T_L(H_{V'})$.
 \end{proof}
 
-The value of a maximum $(S,T)$-flow of $T_L(\SubExtension)$ and a maximum $(S',T')$-flow
+The value of a maximum $(S,T)$-flow of $T_L(\SectionHypergraph)$ and a maximum $(S',T')$-flow
 of $T_L(H_{V'})$ are equal. Since $S$ and $T$ satisfy condition (i) and (ii) of our 
 problem statement, also $S'$ and $T'$ satisfy the two conditions. Furthermore, no hypernode
 of $T_L(H_{V'})$ is either a source or sink node. Consequently, all hypernodes of $V'$
@@ -395,11 +400,11 @@ the running time.
 %\end{align}
 %
 %We have to show that for a maximum $(S,T)$-flow $f$ of $T_L(H_{V'})$ holds $|f| = \omega_{H_{V'}}(\Pi_2)$.
-%The idea of the proof is to use the extension $\SubExtension$ of $H_{V'}$ and add 
+%The idea of the proof is to use the extension $\SectionHypergraph$ of $H_{V'}$ and add 
 %all $V'' \cap V_1$ to $S_1$ (see Equation \ref{S1_border_hyperedges}) and all $V'' \cap V_2$ to
 %$T_1$ (see Equation \ref{T1_border_hyperedges}). We can show that for a maximum $(S_1,T_1)$-flow 
-%$f'$ of $T_L(\SubExtension)$ holds that $|f'| = \omega_{H_{V'}}(\Pi_2)$.\\
-%Afterwards, we use a technique to remove all $v \in V''$ of $T_L(\SubExtension)$ and show
+%$f'$ of $T_L(\SectionHypergraph)$ holds that $|f'| = \omega_{H_{V'}}(\Pi_2)$.\\
+%Afterwards, we use a technique to remove all $v \in V''$ of $T_L(\SectionHypergraph)$ and show
 %that the resulting flow network is $T_L(H_{V'})$ with $S$ and $T$ as source and sink set as
 %defined in Equation \ref{S_border_hyperedges} and \ref{T_border_hyperedges}. Moreover, for a maximum
 %$(S,T)$-flow $f$ then holds that $|f| = |f'| = \omega_{H_{V'}}(\Pi_2)$. \\
@@ -494,13 +499,13 @@ the running time.
 %\end{theorem}
 %
 %\begin{proof}
-%Consider the extension $\SubExtension$ of subhypergraph $H_{V'}$ (see Definition \ref{def:sub_extension}).
-%Each maximum $(S,T)$-flow $f'$ of $T_L(\SubExtension)$ is then equal with a minimum-weight
+%Consider the extension $\SectionHypergraph$ of subhypergraph $H_{V'}$ (see Definition \ref{def:sub_extension}).
+%Each maximum $(S,T)$-flow $f'$ of $T_L(\SectionHypergraph)$ is then equal with a minimum-weight
 %$(S,T)$-cutset of $H_{V'}$ according to our definition of the cut $\omega_{H_{V'}}(\Pi_2)$ over
 %the cut hyperedges of $H$. Because each hyperedge which is partially contained in $H_{V'}$
-%is fully contained in $\SubExtension$. Therefore, it holds that $|f'| = \omega_{H_{V'}}(\Pi_2)$.
-%However, we have to model some restrictions into our source and sink set of $T_L(\SubExtension)$.
-%We will denote the source and sink set of $T_L(\SubExtension)$ with $S'$ and $T'$.
+%is fully contained in $\SectionHypergraph$. Therefore, it holds that $|f'| = \omega_{H_{V'}}(\Pi_2)$.
+%However, we have to model some restrictions into our source and sink set of $T_L(\SectionHypergraph)$.
+%We will denote the source and sink set of $T_L(\SectionHypergraph)$ with $S'$ and $T'$.
 %Each hypernode contained in a non-cut border hyperedge $e \in \delta B_1$ should not be able to move
 %such that we ensure that $e$ is not cut after a maximum $(S',T')$-flow calculation. Therefore,
 %we add $S_1$ and $T_1$ to $S'$ and $T'$ (see Equation \ref{S1_border_hyperedges} and \ref{T1_border_hyperedges}).
@@ -511,7 +516,7 @@ the running time.
 %to move and since $S_1 \subseteq S'$ and $T_1 \subseteq T'$, we ensure that $\omega_H(\Pi_2) \le \omega_H(\Pi_1)$
 %(see Lemma \ref{cut_decrease_proof}). \\
 %In the following, we apply Lemma \ref{lemma:general_source_and_sink_removal} on all
-%hypernodes $v \in V''$ such that the flow network $T_L(\SubExtension)$ converge against
+%hypernodes $v \in V''$ such that the flow network $T_L(\SectionHypergraph)$ converge against
 %$T_L(H_{V'})$ with $S$ and $T$ as source and sink set as defined in Equation 
 %\ref{S_border_hyperedges} and \ref{T_border_hyperedges} \emph{without} changing the
 %amount of the maximum flow $f'$. Since $|f'| = \omega_{H_{V'}}(\Pi_2)$, for a maximum $(S,T)$-flow
@@ -523,7 +528,7 @@ the running time.
 %we define $E_s = \{\incoming{e}\ |\ e \in I(s) \cap \delta B_1\}$. Remember, $\delta B_1$ contains
 %all non-cut border hyperedges of $H$. Thus, for each $e \in I(s) \cap \delta B_1$ exists
 %a source node $\bar{s} \in V'$ of $S_1$ such that edges $(s,\incoming{e})$ and $(\bar{s},\incoming{e})$
-%are contained in $T_L(\SubExtension)$ (see \autoref{img:delta_proof_illustration}). Therefore, $E_s$ is a removable subset of $\mathcal{R}(s)$.
+%are contained in $T_L(\SectionHypergraph)$ (see \autoref{img:delta_proof_illustration}). Therefore, $E_s$ is a removable subset of $\mathcal{R}(s)$.
 %For each $t \in T' \cap V''$ we define the removable subset $E_t = \{\outgoing{e}\ |\ e \in I(t) \cap \delta B_1\}$.
 %Applying Lemma \ref{lemma:general_source_and_sink_removal} on all source nodes $s \in V''$
 %with $E_s$ as removable subset and on all sink nodes $t \in V''$ with $E_t$ 

@@ -194,6 +194,13 @@ induced by $V' \subseteq V$ with $E_{V'} = \{e \cap V'\ |\ e \in E: e
 \label{def:subhypergraph}
 \end{definition}
 
+\begin{definition}
+Given a subset $A \subseteq V$ of hypergraph \HypergraphDef. The section hypergraph $H \times A$
+is the hypergraph induced by $A$ containing all hyperedges $e \in E$ which are a subset of $A$.
+More formally, $H \times A = (A, \{e\ |\ e \in E: e \subseteq A\}, \omega, c)$.
+\label{def:section_hypergraph}
+\end{definition}
+
 A hypergraph $H = (V,E,c,\omega)$ can be represented as an undirected graph. 
 There are two standard transformations, called \emph{clique} and \emph{bipartite} 
 representation \cite{HuMoerder85}. The \emph{clique} graph $G_x(H) = (V,E_x)$ models
