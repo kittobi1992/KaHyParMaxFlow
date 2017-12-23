@@ -43,7 +43,7 @@ flow_network_db$flow_network <- factor(flow_network_db$flow_network)
 flow_network_db$flow_algorithm <- factor(flow_network_db$flow_algorithm)
 flow_network_db$type <- factor(flow_network_db$type, levels = levels(factor(flow_network_db$type))[c(1,3,2,5,4,6)])
 flow_network_db$flow_network <- factor(flow_network_db$flow_network, levels = levels(flow_network_db$flow_network)[c(2,1,4,3)])
-flow_network_db$flow_algorithm <- factor(flow_network_db$flow_algorithm, levels = levels(flow_network_db$flow_algorithm)[c(2,1)])
+flow_network_db$flow_algorithm <- factor(flow_network_db$flow_algorithm, levels = levels(flow_network_db$flow_algorithm)[c(2,1,3)])
 
 ##############################################################################################################################
 
@@ -104,3 +104,8 @@ for(num_hn in levels(factor(hybrid$num_hypernodes))) {
 }
 
 sanityCheck(flow_network_db)
+
+goldberg_tarjan_db <- flow_network_db[flow_network_db$flow_algorithm == "goldberg_tarjan",]
+external_flow_db <- flow_network_db[flow_network_db$flow_algorithm != "goldberg_tarjan",]
+comparison_db <- merge(external_flow_db, goldberg_tarjan_db, by = c("hypergraph","flow_network","num_hypernodes"))[c("hypergraph","flow_network","num_hypernodes","flow_algorithm.x","avg_max_flow.x","avg_max_flow.y")]
+comparison_db <- comparison_db[comparison_db$avg_max_flow.x != comparison_db$avg_max_flow.y,]

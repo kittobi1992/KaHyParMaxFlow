@@ -25,6 +25,7 @@ library(dplyr)
 library(dtplyr)
 library(grid)
 
+
 num_hn_revalue = c("500" = "$500$",
                    "1000" = "$1000$",
                    "5000" = "$5000$",
@@ -164,7 +165,7 @@ revalue_columns_to_latex <- function(db) {
     db$ind <- factor(db$ind)
     db$ind <- factor(db$ind, levels = levels(db$ind)[c(2,1)])
   }
-
+  
   return(db)
 }
 
