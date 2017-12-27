@@ -1,0 +1,347 @@
+We will now give a detailed overview of our \emph{flow}-based refinement framework. The main
+idea is to extract a subhypergraph $H_{V'}$ from an already partitioned hypergraph $H$. 
+$V'$ is chosen in such way that it is a subset of two
+adjacent blocks $V_i$ and $V_j$. Afterwards, we transform the subhypergraph
+$H_{V'}$ into one of the flow networks proposed in Section \ref{sec:opt_flow_network}.
+We will show how to configure the sources $S$ and sinks $T$ of the corresponding flow 
+network such that a minimum $(S,T)$-bipartition of $H_{V'}$ can be used to improve the connectivity 
+metric of $H$ (see Section \ref{sec:source_and_sink}). Further, we describe how 
+the ideas of Sanders and Schulz \cite{sanders2011engineering} presented in Section \ref{sec:flow_local_search_graph}
+can be adapted to work in the $n$-level hypergraph partitioner \emph{KaHyPar}. 
+
+\subsection{Source and Sink Configuration}
+\label{sec:source_and_sink}
+
+Let $H = (V,E,c,\omega)$ be a hypergraph and $\Pi_1$ be a bipartition of $H$.
+In the following, we show how to configure the source set $S$ and sink set $T$ of the flow
+network $T_L(H_{V'})$ of a subhypergraph $H_{V'}$ induced by $V' \subseteq V$. The goal is 
+to improve a bipartition $\Pi_1$ of $H$ with a maximum $(S,T)$-flow calculation 
+on $T_L(H_{V'})$ (with $f$ as maximum flow) such that after applying the minimum 
+$(S,T)$-bipartition of $H_{V'}$ on $H$ the resulting bipartition $\Pi_2$ of $H$ has a 
+cut less than or equal to the cut of $\Pi_1$. However, an important concept of this Section will
+be the definition of the \emph{section hypergraph} (see Defintion
+\ref{def:section_hypergraph}). 
+
+\begin{figure}
+\centering
+\includegraphics[width=1.0\textwidth]{../img/source_and_sink_set/extension.eps}
+\caption{Illustration of the \emph{section hypergraph} $\SectionHypergraph$. Each hyperedge of the
+         the hypergraph $H$ which is fully or partially contained in $H_{V'}$ is fully
+         contained in $\SectionHypergraph$. The nodes not contained in the rectangle of the right figure
+         are part of $V''$.}
+\label{img:section_hypergraph}
+\end{figure}
+
+\begin{definition}[Extension of a Subhypergraph]
+\label{def:sub_extension}
+Given a subset $V' \subseteq V$ of a hypergraph $H = (V,E)$.
+We define the section hypergraph $\SectionHypergraph := H \times (V' \cup V'')$
+where $V''$ contains all pins $u \notin V'$ of hyperedges incident to a vertex 
+$v \in V'$. More formally, 
+\[V'' := \bigcup_{\substack{e \in I(V') \\ e \setminus V' \neq \emptyset}} e \setminus V'\]
+\end{definition}
+
+$\SectionHypergraph$ can be seen as an \emph{extension} of subhypergraph $H_{V'}$. Each
+hyperedge which is partially or fully contained in $H_{V'}$ is fully contained in $\SectionHypergraph$
+(see \autoref{img:section_hypergraph}). The source and sink set of $T_L(H_{V'})$ should be
+chosen in such a way that the two conditions of following problem statement are satisfied:
+%In the following, we will first define our source and sink set on flow network $T_L(\SectionHypergraph)$ such that
+%each hypernode $v \in V''$ is either a source or sink node. We can show, that a maximum
+%$(S,T)$-flow on $T_L(\SectionHypergraph)$ then improves a given bipartition $\Pi_1$ of $H$.
+%Afterwards, we will remove all hypernodes $v \in V''$ of $T_L(\SectionHypergraph)$ with
+%Theorem \ref{theorem:heuer_network} which will result in a source set $S'$ and sink 
+%set $T'$ for $T_L(H_{V'})$. Moreover, the value of a maximum $(S,T)$-flow of $T_L(\SectionHypergraph)$
+%and a maximum $(S',T')$-flow of $T_L(H_{V'})$ will be the same. \\
+%We introduce the \emph{section hypergraph} $\SectionHypergraph$ because we have to redefine the defintion
+%of the cut of $H_{V'}$ related to a bipartition $\Pi$ of $H$ as follows:
+%\begin{equation}
+%\label{eq:sub_cut}
+%\omega_{H_{V'}}(\Pi) := \omega_{\SectionHypergraph}(\Pi)
+%\end{equation}
+%Note, that the cut $\omega_{H_{V'}}$ is defined over the cut nets of $H$ (which are equal to 
+%the cut nets of $\SectionHypergraph$). A cut hyperedge $e$ of $H$ is not necessarily a cut hyperedge
+%of $H_{V'}$. For example, if $e = \{v_1,v_2\}$ is a hyperedge with $v_1 \in V_1$ and $v_2 \in V_2$ and
+%$v_1 \in V'$ and $v_2 \notin V'$, then $e$ is cut in $H$, but not in $H_{V'}$, because
+%$v_2$ is not contained in $H_{V'}$. The reason that we still
+%define $e$ as cut hyperedge of $H_{V'}$ has to do with our problem statement, 
+%which we will define as follows:
+
+\begin{problem}
+\label{prob:ST} 
+Given a subhypergraph $H_{V'}$ ($V' \subseteq V$) and bipartition $\Pi_1$ of hypergraph $H$.
+How should $S$ and $T$ be defined such that after a maximum $(S,T)$-flow calculation on $T_L(H_{V'})$ (with 
+$f$ as maximum flow) the resulting minimum $(S,T)$-bipartition $\Pi_2$ of $H$ satisfy
+the following conditions:
+\begin{enumerate}
+\item $\omega_H(\Pi_2) \le \omega_H(\Pi_1)$
+\item $\Delta_{H} := \omega_H(\Pi_1) - \omega_H(\Pi_2) = \omega_{\SectionHypergraph}(\Pi_1) - |f| =: \Delta_{H_{V'}}$
+\end{enumerate}
+\end{problem}
+
+The first condition ensures that a \emph{Max-Flow-Min-Cut} computation on $T_L(H_{V'})$ never 
+increases the cut of $H$. While the second condition allows us to update the cut metric in
+constant time via $\omega_H(\Pi_2) = w_H(\Pi_1) - \Delta_{H_{V'}}$, instead of having 
+to sum up the weight of all cut hyperedges. Since we have to build the subhypergraph
+$H_{V'}$ before each maximum flow computation, we can implicitly calculate $\omega_{\SectionHypergraph}(\Pi_1)$.\\
+Note, we define $\Delta_{H_{V'}}$ over the cut of the \emph{section hypergraph} $\SectionHypergraph$.
+If only hypernodes contained $V'$ can change its block after a \emph{Max-Flow-Min-Cut} computation
+then the equality
+\[\Delta_{H} := \omega_H(\Pi_1) - \omega_H(\Pi_2) = \omega_{\SectionHypergraph}(\Pi_1) - \omega_{\SectionHypergraph}(\Pi_2) =: \Delta_{H_{V'}}\]
+holds. Because all hyperedges partially contained in $H_{V'}$ are fully contained in $\SectionHypergraph$.
+For example, if a \emph{Max-Flow-Min-Cut} computation
+on $H_{V'}$ removes a hyperedge $e$ from the cut of $H_{V'}$, but $e$ is still cut on
+$H$, then the equality did not hold if we define $\Delta_{H_{V'}}$ over the cut
+of $H_{V'}$. Because $\Delta_{H_{V'}}$ would be equal to $1$ and $\Delta_{H}$
+equal to $0$. Further, if we can show that $|f| = \omega_{\SectionHypergraph}(\Pi_2)$, 
+we simultaneously show that our source and sink set modeling approach satisfies condition (ii) 
+$\Delta_H = \Delta_{H_{V'}}$. \\
+We will now define our source and sink set for the flow problem $T_L(H_{V'})$ such that
+we satisfy the two conditions of Problem \ref{prob:ST}. Let $\Pi_1 = (V_1,V_2)$ be
+a bipartition of hypergraph $H$. Further, $H_{V'}$ is the subhypergraph induced by
+$V' \subseteq V$ and $V''$ is the hypernode set as defined in Definition \ref{def:sub_extension}.
+We define the following source and sink set:
+\begin{align}
+S = \{\incoming{e}\ |\ e \in I(V'' \cap V_1)\} \label{eq:S}\\
+T = \{\outgoing{e}\ |\ e \in I(V'' \cap V_2)\} \label{eq:T}
+\end{align}
+In general, each hyperedge partially contained in $H_{V'}$, which contains at least one pin
+$v \notin V'$ of block $V_1$ resp. $V_2$ is a source resp. sink node.
+
+\begin{theorem}
+\label{theorem:ST}
+Let $\Pi_1$ be a bipartition of $H$. The resulting bipartition $\Pi_2$ 
+of $H$ of a maximum $(S,T)$-flow computation on $T_L(H_{V'})$ with
+$S$ and $T$ as defined in Equation \ref{eq:S} and \ref{eq:T} satisfy the following two
+conditions:
+\begin{enumerate}
+\item $\omega_H(\Pi_2) \le \omega_H(\Pi_1)$
+\item $\Delta_H = \Delta_{H_{V'}}$
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+We will first define $S$ and $T$ for flow network
+$T_L(\SectionHypergraph)$, because for each maximum $(S,T)$-flow $f$ of $T_L(\SectionHypergraph)$
+and its corresponding minimum $(S,T)$-bipartition $\Pi_2$ the equality 
+$|f| = \omega_{\SectionHypergraph}(\Pi_2)$ holds due to the 
+\emph{max-flow-min-cut} theorem \cite{ford1956maximal}. 
+Defining a hypernode $v \in V_1$ resp. $v \in V_2$ as source resp. sink means, that
+it cannot change its block after a \emph{Max-Flow-Min-Cut} computation.
+However, we do not want that a hypernode $v \notin V'$ can change its block after
+a \emph{Max-Flow-Min-Cut} computation on $T_L(\SectionHypergraph)$, because such hypernodes
+cannot move if we solve a flow problem on subhypergraph $H_{V'}$. Therefore, we define
+all hypernodes $V'' \cap V_1$ as sources and all hypernodes $V'' \cap V_2$ as sinks 
+($V''$ is defined in Defintion \ref{def:sub_extension}). More formally:
+\begin{align*}
+S' = V'' \cap V_1 \\
+T' = V'' \cap V_2 
+\end{align*}
+The pins of a hyperedge which is partially contained in the \emph{section hypergraph}
+$\SectionHypergraph$ are not able to change its block after a \emph{Max-Flow-Min-Cut}
+computation, because we define them either as source or sink. Consequently, 
+no hyperedge partially contained in $\SectionHypergraph$ can change its state 
+from non-cut to cut and therefore it follows with the \emph{max-flow-min-cut} 
+theorem \cite{ford1956maximal} that the inequality $\omega_H(\Pi_2) \le \omega_H(\Pi_1)$
+holds. Since, only nets fully contained in $\SectionHypergraph$ can change its state and
+$|f| = \omega_{\SectionHypergraph}(\Pi_2)$, it holds that
+$\Delta_H = \Delta_{H_{V'}}$. \\
+%We will now define the source and sink set of $T_L(H_{V'})$, which will be a consequence
+%of the proof of Theorem \ref{theorem:ST}.
+%\begin{align}
+%S' = \{\incoming{e}\ |\ e \in I(S)\} \label{eq:S}\\
+%T' = \{\outgoing{e}\ |\ e \in I(T)\} \label{eq:T}
+%\end{align}
+%For a source node $s \in S$ resp. sink node $t \in T$ of $T_L(\SectionHypergraph)$ 
+%we define the corresponding \emph{incoming} resp. \emph{outgoing}
+%hyperedge nodes of all incident hyperedges $e \in I(s)$ resp. $e \in I(t)$ as 
+%source resp. sink nodes of $T_L(H_{V'})$.\\
+The value of a maximum $(S',T')$-flow of $T_L(\SectionHypergraph)$ is equal with a maximum
+$(S,T)$-flow of $T_H(\SectionHypergraph,V'')$ according to Theorem \ref{theorem:heuer_network}.
+Since each $v \in V''$ is either a source or sink node of $T_L(\SectionHypergraph)$, the 
+removal of $v$ does not induce any additional edges in $T_H(\SectionHypergraph,V'')$
+(see Lemma \ref{lemma:source_and_sink_removal}). Therefore,
+$T_H(\SectionHypergraph,V'') = T_L(H_{V'})$.
+\end{proof}
+
+The value of a maximum $(S',T')$-flow of $T_L(\SectionHypergraph)$ and a maximum $(S,T)$-flow
+of $T_L(H_{V'})$ are equal. Since $S'$ and $T'$ satisfy condition (i) and (ii) of our 
+problem statement, also $S$ and $T$ satisfy the two conditions. Furthermore, no hypernode
+of $T_L(H_{V'})$ is either a source or sink node. Consequently, all hypernodes of $V'$
+can change its block after a \emph{Max-Flow-Min-Cut} computation. According to the 
+\emph{max-flow-min-cut} theorem, the value of the cut of bipartition $\Pi_2$ is the minimum
+cut of all possible bipartitions with the restriction that only hypernodes of $V'$ can move.\\
+\begin{figure}
+\centering
+\includegraphics[width=0.95\textwidth]{../img/source_and_sink_set/edge_size_two.eps}
+\caption{Illustration of modeling hyperedges of size two if the incoming or outgoing
+         hyperedge node is a source or a sink node of the flow problem.}
+\label{img:edge_size_two}
+\end{figure}
+If we compare our source and sink set modeling approach with the one of Sanders and Schulz
+\cite{sanders2011engineering} (see Section \ref{sec:balanced_bipartitioning}), we can show that
+with our technique better minimum $(S,T)$-bipartitions are achievable. They define each node of the graph
+as source resp. sink which is adjacent to a node not contained in the flow problem of block $V_1$
+resp. $V_2$. Consequently, a non-cut edge of the graph partially contained in the flow problem
+cannot become a cut edge. Therefore, their modeling approach satisfy condition (i) of our problem
+statement. However, it might be more benificial if we move a node incident to a non-cut edge because
+we remove instead more edges from cut. A graph can still be interpreted as hypergraph. Therefore,
+we can use our modeling approach on network $T_L(H_{V'})$ with $S$ and $T$ as source and sink
+set. 
+%Further, we can reduce the number of nodes and edges, if model each edge which is fully contained
+%in $H_{V'}$ as graph edge according to Lemma \ref{lemma:undirected_transformation}. Each edge
+%partially contained in the flow problem is modeled as hyperedge of size one (see \autoref{img:edge_size_two}).
+All nodes incident to a non-cut edge which is partially contained in the flow problem
+now are able to change its block and the corresponding minimum $(S,T)$-bipartition is minimum
+among all possible bipartitions where only nodes of $V'$ can move. \\
+However, we can model hyperedges of size one more efficiently (see \autoref{img:edge_size_two}).
+If the incoming hyperedge node $\incoming{e}$ is a source node, we can replace the hyperedge of
+size one with a directed edge $(\incoming{e},v)$ with $v \in e \cap V'$ and capacity $\omega(e)$.
+If the outgoing hyperege node $\outgoing{e}$ is a sink node, we add a directed edge
+$(v,\outgoing{e})$ with capacity $\omega(e)$. If $\incoming{e}$ and $\outgoing{e}$ is not a source
+and sink node, we can remove the hyperedge from the flow problem. \\
+With the given approach we can optimize the cut metric of a given
+bipartition of a hypergraph $H$. We can transfer those results to improve
+a $k$-way partition $\Pi = (V_1,\ldots,V_k)$ if the objective is the connectivity
+metric. Let $V' \subseteq V_i \cup V_j$ be a subset of the hypernodes of two adjacent
+blocks $V_i$ and $V_j$. If we optimize the cut of
+subhypergraph $H_{V'}$ we simultaneously optimize the connectivity metric of $H$.
+The reduction of the cut of $H_{V'}$ is then equal with the decrease in
+the connectivity metric of $H$.
+
+%\begin{figure}[ht!]
+%\centering
+%\includegraphics[width=0.95\textwidth]{../img/source_and_sink_set/st_modelling_summary.eps}
+%\caption{Illustration of modeling sources and sinks defined in Equation \ref{S_border_hyperedges}
+%         and \ref{T_border_hyperedges}. }
+%\label{img:st_modelling_summary}
+%\end{figure}
+
+\subsection{Most Balanced Minimum Cuts on Hypergraphs}
+\label{sec:mbmc_hypergraphs}
+
+Picard and Queyranne \cite{picard1980structure} show that all minimum $(s,t)$-cuts 
+of a graph $G$ are computable with one maximum $(s,t)$-flow computation by 
+iterating through all \emph{closed node sets} of the residual graph of $G$. 
+The corresponding algorithm is presented in Section \ref{sec:related_mbmc}. \\
+We can apply the same algorithm on hypergraphs. A minimum-capacity $(s,t)$-cutset of \ShortT{L}
+is equal with a minimum-weight $(s,t)$-cutset of $H$. With the algorithm
+of Section \ref{sec:related_mbmc} we can find all minimum-capacities
+$(s,t)$-cutsets of \ShortT{L}, which are also minimum-weight $(s,t)$-cutsets
+of $H$. The corresponding minimum-weight $(s,t)$-bipartitions are all
+\emph{closed node sets} of the residual graph of \ShortT{L}. 
+However, when we use e.g., \ShortExT{H}{V'} (see Section \ref{sec:heuer_network})
+or \ShortHybrid~(see Section \ref{sec:hybrid_network}) as underlying flow network,
+some hypernodes are removed from the flow problem. Note, we can use 
+Lemma \ref{lemma:bipartition_construction} to find all minimum
+$(s,t)$-cutsets with one maximum $(s,t)$-flow calculation. However, the algorithm would
+become a lot more complicated. Since the algorithm has a linear running time, we decided
+to use simple trick. \\
+After a maximum $(s,t)$-flow calculation (with $f$ as maximum flow)
+on one of the two mentioned networks we insert all removed hypernodes with
+their corresponding edges again into the residual graph of our flow network.
+If we remove a hypernode, we insert a biclique between all \emph{incoming}
+and \emph{outgoing} edges with \emph{infinite} capacity. Since $|f| < \infty$,
+there cannot be any inserted edge which is the minimum-capacity $(s,t)$-cutset
+regarding to maximum $(s,t)$-flow $f$. Otherwise, an edge of the biclique
+would be in the minimum-capacity $(s,t)$-cutset, too and this would imply that
+$|f| = \infty$. Further, the maximum $(s,t)$-flow $f$ is still maximal. If we
+find an \emph{augmenting} path in the network with the inserted hypernodes, we can
+map the path to an \emph{augmenting} path in the network without them
+by simply using the shortcut edges instead of the inserted edges. Note, that
+the mapping is valid because all edges involve in the transformation have
+\emph{infinite} capacity. This is a contradiction that $f$ is a maximum $(s,t)$-flow. 
+
+
+\subsection{A direct $k$-way Flow-Based Refinement Framework}
+\label{sec:flow_local_search_hypergraph}
+
+We have described how a hypergraph $H$ can be transformed into
+a flow network \ShortT{L} such that each minimum-capacity $(S,T)$-cutset of \ShortT{L} is a 
+minimum-weight  $(S,T)$-cutset of $H$ (see Section \ref{sec:related_lawler}). 
+Additionaly, we present techniques to sparsify the
+flow network \ShortT{L} \cite{lawler1973} to reduce the complexity of 
+the flow problem (see Section \ref{sec:opt_flow_network}). 
+Further, we show how to configure the source and sink sets of the flow network of a 
+subhypergraph $H_{V'}$ (with $V' \subseteq V$) such that a \emph{Max-Flow-Min-Cut} 
+computation improves a given bipartition of $H$ (see Section \ref{sec:source_and_sink}). 
+Finally, we can enumerate all minimum-weight $(S,T)$-cutsets of a subhypergraph 
+$H_{V'}$ with one maximum $(S,T)$-flow calculation \cite{picard1980structure}. \\
+We will now present our direct $k$-way \emph{flow}-based refinement framework which we integrate
+into the $n$-level hypergraph partitioner \emph{KaHyPar} \cite{heuer2017improving} 
+(see Section \ref{sec:kahypar}). Our framework optimizes
+the \emph{connectivity} metric. We use a similiar architecture as proposed
+by Sanders and Schulz \cite{sanders2011engineering} (see Section 
+\ref{sec:flow_local_search_graph}). The basic concepts of the framework are
+illustrated in \autoref{img:flow_framework}. \\
+We perform a \emph{flow}-based \emph{local search} on two adjacent blocks of
+the partition $\Pi$. We embed our \emph{Max-Flow-Min-Cut} computations into an \emph{active block scheduling}
+refinement strategy \cite{holtgrewe2010engineering} (see Section \ref{sec:abs}).
+The algorithm starts by constructing the quotient graph $Q$ of $\Pi$ (see definition \ref{def:quotient_graph}). 
+Afterwards, we iterate over all edges of $Q$ in random order. For each edge
+$(V_i,V_j)$ of $Q$, we build a flow problem around the cut of the bipartition
+induced by $V_i$ and $V_j$. We use two \BFS s, one only 
+touches hypernodes of $V_i$ and the second only touches hypernodes of $V_j$.
+The \BFS~is initialized with all hypernodes contained in a cut hyperedge
+of the bipartition $(V_i,V_j)$. We embed the pairwise \emph{flow}-based refinement
+into an \emph{adaptive flow iterations} strategy \cite{sanders2011engineering}
+(see Section \ref{sec:adaptive_flow_iterations}) which also determines
+the size of the flow problem. \\
+After we define the subhypergraph $H_{V'}$, which we use to improve the bipartition
+$(V_i,V_j)$, we construct one of the flow networks proposed in Section
+\ref{sec:opt_flow_network} with sources $S$ and sinks $T$ defined in
+Section \ref{sec:source_and_sink}. We implement two maximum flow algorithms.
+One is a slightly modified \emph{augmenting path} algorithm of Edmond \& Karp
+\cite{edmonds1972theoretical} (see Section \ref{sec:aug_path}) 
+and the second is the \emph{Push-Relabel} algorithm of
+Goldberg \& Tarjan \cite{cherkassky1997implementing,goldberg1988new} 
+(see Section \ref{sec:push_relabel}). Since we have a 
+\emph{Multi-Source-Multi-Sink} problem, we can find several \emph{augmenting paths}
+with one \BFS. After we execute a \BFS~on the residual graph, we search 
+as many as possible edge-disjoint paths in the resulting \BFS-tree connecting a source $s$
+with a sink $t$. Our Goldberg \& Tarjan implementation uses a \emph{FIFO} queue and
+the \emph{global relabeling} and \emph{gap} heuristic \cite{cherkassky1997implementing}.
+After we determine a maximum $(S,T)$-flow on our flow network, we iterate over
+all minimum $(S,T)$-bipartitions of $H_{V'}$ \cite{picard1980structure} and choose 
+the \emph{Most Balanced Minimum Cut} (see Section \ref{sec:related_mbmc} and 
+\ref{sec:mbmc_hypergraphs}) according to our \emph{balanced constraint}. \\
+\emph{KaHyPar} is an $n$-level hypergraph partitioner ($|V| = n$) taking the 
+multilevel paradigm to its extreme by removing only a single vertex in each level
+of the hierarchy \cite{akhremtsev2017engineering} (see Section \ref{sec:kahypar}). 
+During the refinement step $n$ local searches are instantiated. Therefore, 
+using our \emph{flow}-based refinement as local search algorithm on each level is not 
+applicable, because the performance slowdown would be tremendous. Therefore,
+we introduce \emph{Flow Execution Policies}. One is to execute our \emph{flow}-based
+refinement on each level $i$ where $i = \beta\cdot j$ with $j \in \mathbb{N}_+$ and
+$\beta$ as a predefined tunning parameter. Another approach is to simulate a
+multilevel partitioner with $\log(n)$ hierarchies. A \emph{flow}-based refinement is then
+executed on each level $i$ where $i = 2^j$ with $j \in \mathbb{N}_+$. Each policy also
+performs the \emph{active block scheduling} refinement strategy on the last level of the
+hierarchy. In all remaining levels where no flow is executed, we can use an 
+\emph{FM} algorithm 
+\cite{akhremtsev2017engineering,fiduccia1988linear,sanchis1989multiple} (see Section 
+\ref{sec:abs}). \\
+An observation during the implementation of this framework was that only a minority
+of the pairwise refinements based on flows yields an improvement
+on hypergraph $H$. Thus, we introduce several rules which might prevent
+\emph{unpromising} flow executions to improve the effectiveness ratio by simultaneously speeding up
+the running time.
+
+\begin{enumerate}
+\item[(R1)] If a \emph{flow}-based refinement did not lead to an improvement on two blocks in all previous
+            runs, we use the \emph{Max-Flow-Min-Cut} computations only in the first iteration of 
+            \emph{active block scheduling}.
+\item[(R2)] If the cut between two adjacent blocks in the quotient graph is small (e.g. $\le 10$) we
+            skip the \emph{flow}-based refinement on the blocks except on the last level of the hierarchy.
+\item[(R3)] If the value of the cut of a minimum $(S,T)$-bipartition of $H_{V'}$ is the same 
+            as the cut before, we stop the \emph{adaptive flow iteration} strategy.
+\end{enumerate}
+
+\begin{figure}
+\centering 
+\includegraphics[width=1.0\textwidth]{../img/flow_local_search/flow_framework_hypergraph.eps}
+\caption{Illustration of our \emph{flow}-based refinement framework for direct $k$-way hypergraph
+         partitioning.}
+\label{img:flow_framework}
+\end{figure} 
+
+
