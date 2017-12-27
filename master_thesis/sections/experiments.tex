@@ -235,6 +235,12 @@ $\alpha'$ & Avg.$[\%]$ & $t[s]$ & Avg.$[\%]$ & $t[s]$ & Avg.$[\%]$ & $t[s]$ & Av
 \midrule%
 \csname @@input\endcsname experiments/flow_alpha/flow_alpha_table.tex 
 \bottomrule
+ Config. & \multicolumn{2}{c||}{\FlowVariant{+}{-}{-}} & \multicolumn{2}{c||}{\FlowVariant{+}{+}{-}}  & \multicolumn{2}{c|}{\FlowVariant{+}{+}{+}} & \multicolumn{2}{c|}{\Constant{128}} \\
+\midrule
+$\alpha'$ & Avg.$[\%]$ & $t[s]$ & Avg.$[\%]$ & $t[s]$ & Avg.$[\%]$ & $t[s]$ & Avg.$[\%]$ & $t[s]$ \\
+\midrule%
+\csname @@input\endcsname experiments/flow_alpha/flow_alpha_table_old.tex 
+\bottomrule
 \end{tabular}
 \caption{ Table contains results for different configurations of our flow-based refinement
           framework for increasing $\alpha'$. The quality in column \emph{Avg.} is relative
@@ -271,6 +277,10 @@ configuration \KaHyParConfig{MF}{R1,R2,R3} with \KaHyPar{MF}.
 Variant & Avg.$[\%]$ & Min.$[\%]$ & $t_{\text{flow}}[s]$ & $t[s]$ \\
 \midrule%
 \csname @@input\endcsname experiments/speed_up_heuristics/heuristic_table.tex 
+\bottomrule
+Variant & Avg.$[\%]$ & Min.$[\%]$ & $t_{\text{flow}}[s]$ & $t[s]$ \\
+\midrule%
+\csname @@input\endcsname experiments/speed_up_heuristics/heuristic_table_old.tex 
 \bottomrule
 \end{tabular} 
 \caption{Results of our flow-based refinement framework with different speedup heuristics.}
