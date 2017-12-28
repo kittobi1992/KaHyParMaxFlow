@@ -1,15 +1,12 @@
 setwd("/home/theuer/Dropbox/Studium Informatik/10. Semester/KaHyParMaxFlow/experiments")
 source("plot_functions.R")
 
-dbs <- c( "flow_alpha_experiment/db/flow_cut_he.db",
-          "flow_alpha_experiment/db/flow_cut_he_mbmc.db",
+dbs <- c( "flow_alpha_experiment/db/flow.db",
+          "flow_alpha_experiment/db/flow_mbmc.db",
           "flow_alpha_experiment/db/flow_fm.db",
-          "flow_alpha_experiment/db/constant.db",
-          "flow_alpha_experiment/db/flow_cut_he_eff.db",
-          "flow_alpha_experiment/db/flow_cut_he_mbmc_eff.db",
-          "flow_alpha_experiment/db/flow_fm_eff.db")
+          "flow_alpha_experiment/db/constant.db")
 
-algo <- c( "flow","flow_mbmc","flow_fm","constant","flow_eff","flow_mbmc_eff","flow_fm_eff")
+algo <- c( "flow","flow_mbmc","flow_fm","constant")
 
 select_km1_soed = 'select graph,k,epsilon,flow_region_size_alpha AS alpha, seed,km1,soed,imbalance,coarseningTime,uncoarseningRefinementTime, totalPartitionTime from experiments'
 select_km1 = 'select graph,k,epsilon,flow_region_size_alpha AS alpha,seed,1 AS soed, kMinusOne AS km1, imbalance,coarseningTime,uncoarseningRefinementTime, totalPartitionTime from experiments'
@@ -31,8 +28,6 @@ aggreg = function(df) data.frame(min_km1=min(df$km1),
 
 kahypar_sea <- ddply(dbGetQuery(dbConnect(SQLite(), dbname="flow_alpha_experiment/db/kahypar_sea.db"),
                                 select_soed), c("graph","k"), aggreg)
-kahypar_sea_eff <- ddply(dbGetQuery(dbConnect(SQLite(), dbname="flow_alpha_experiment/db/kahypar_ca.db"),
-                                    select_soed), c("graph","k"), aggreg)
 
 flow_dbs <- list()
 for(i in 1:length(dbs)) {
@@ -42,14 +37,12 @@ for(i in 1:length(dbs)) {
 
 #extract graph classes from graph names
 kahypar_sea$type <- as.factor(apply(kahypar_sea, 1, function(x) graphclass(x)))
-kahypar_sea_eff$type <- as.factor(apply(kahypar_sea_eff, 1, function(x) graphclass(x)))
 for(i in 1:length(dbs)) {
   flow_dbs[[i]]$type <- as.factor(apply(flow_dbs[[i]], 1, function(x) graphclass(x)))
 }
 
 # give each DF a name to identify the algorithm
 kahypar_sea$algorithm = "kahypar_sea"
-kahypar_sea_eff$algorithm = "kahypar_sea_eff"
 for(i in 1:length(dbs)) {
   flow_dbs[[i]]$algorithm <- algo[i]
 }
@@ -58,19 +51,19 @@ for(i in 1:length(dbs)) {
  flow_mbmc <- flow_dbs[[2]]
  flow_fm <- flow_dbs[[3]]
  constant <- flow_dbs[[4]]
- flow_eff <- flow_dbs[[5]]
- flow_mbmc_eff <- flow_dbs[[6]]
- flow_fm_eff <- flow_dbs[[7]]
+# flow_eff <- flow_dbs[[5]]
+# flow_mbmc_eff <- flow_dbs[[6]]
+# flow_fm_eff <- flow_dbs[[7]]
  
- flow_eff <- rbind(flow_eff, flow[flow$graph == "sat14_6s133.cnf.hgr" &
-                                    flow$k == 8 &
-                                    flow$alpha == 1,])
- flow_mbmc_eff <- rbind(flow_mbmc_eff, flow_mbmc[flow_mbmc$graph == "sat14_dated-10-17-u.cnf.dual.hgr" &
-                                                   flow_mbmc$k == 4 &
-                                                   flow_mbmc$alpha >= 8,])
- flow_fm_eff <- rbind(flow_fm_eff, flow_fm[flow_fm$graph == "sat14_dated-10-17-u.cnf.dual.hgr" &
-                                           flow_fm$k == 4 &
-                                           flow_fm$alpha == 16,])
+# flow_eff <- rbind(flow_eff, flow[flow$graph == "sat14_6s133.cnf.hgr" &
+#                                    flow$k == 8 &
+#                                    flow$alpha == 1,])
+# flow_mbmc_eff <- rbind(flow_mbmc_eff, flow_mbmc[flow_mbmc$graph == "sat14_dated-10-17-u.cnf.dual.hgr" &
+#                                                   flow_mbmc$k == 4 &
+#                                                   flow_mbmc$alpha >= 8,])
+# flow_fm_eff <- rbind(flow_fm_eff, flow_fm[flow_fm$graph == "sat14_dated-10-17-u.cnf.dual.hgr" &
+#                                           flow_fm$k == 4 &
+#                                           flow_fm$alpha == 16,])
 
  ############################################################################################
  

@@ -39,7 +39,8 @@ type_revalue = c("DAC" = "\\DAC",
                  "SPM"="\\SPM")
 algo_revalue = c("goldberg_tarjan" = "\\GoldbergTarjan",
                  "edmond_karp" = "\\EdmondKarp",
-                 "external_flow" = "\\BoykovKolmogorov")
+                 "boykov_kolmogorov" = "\\BoykovKolmogorov",
+                 "ibfs" = "\\IBFS")
 network_revalue = c("lawler" = "$\\ExpLawler$",
                     "node_degree" = "$\\ExpNodeDegree$",
                     "edge_size" = "$\\ExpEdgeSize$",
@@ -153,7 +154,7 @@ revalue_columns_to_latex <- function(db) {
   if("flow_algorithm" %in% colnames(db)) {
     db$flow_algorithm <- revalue(as.character(db$flow_algorithm), algo_revalue) 
     db$flow_algorithm <- factor(db$flow_algorithm)
-    db$flow_algorithm <- factor(db$flow_algorithm, levels = levels(db$flow_algorithm)[c(2,1)])
+    db$flow_algorithm <- factor(db$flow_algorithm, levels = levels(db$flow_algorithm)[c(2,3,1,4)])
   }
   if("flow_network" %in% colnames(db)) {
     db$flow_network <- revalue(as.character(db$flow_network), network_revalue) 
@@ -169,9 +170,12 @@ revalue_columns_to_latex <- function(db) {
   return(db)
 }
 
-speed_up_plot <- function(db, relative_algo="edmond_karp", relative_network="lawler") {
-  speed_up_db <- speedup_relative_to(db, relative_algo, relative_network)
+speed_up_plot <- function(db) {
+  speed_up_db <- speedup_relative_to_lawler(db)
+  #speed_up_db <- speed_up_db[speed_up_db$flow_network != "lawler"]
   speed_up_db <- revalue_columns_to_latex(speed_up_db)
+  
+  speed_up_db <- speed_up_db[speed_up_db$flow_network != "$\\ExpLawler$",]
   
   speed_up_db$speedup1 <- 1.0
   speed_up_db$speedup2 <- 2.0
@@ -183,12 +187,34 @@ speed_up_plot <- function(db, relative_algo="edmond_karp", relative_network="law
     facet_grid(type ~ num_hypernodes, scales = "free") +
     geom_hline(aes(yintercept = speedup1), color="red", linetype="dashed") +
     geom_hline(aes(yintercept = speedup2), color="blue", linetype="dashed") +
-    ylab("Speed up $\\frac{\\ExpLawler}{T_X}$") +
+    ylab("Speed up relative to $\\ExpLawler$") +
     xlab("Flow Network") +
     theme_complete_bw()
   
   return(plot)
 }
+
+speed_up_plot_relative_to <- function(db, relative_algo="edmond_karp", relative_network="lawler") {
+  speed_up_db <- speedup_relative_to(db,relative_algo,relative_network)
+  speed_up_db <- revalue_columns_to_latex(speed_up_db)
+  
+  speed_up_db$speedup1 <- 1.0
+  speed_up_db$speedup2 <- 2.0
+  speed_up_db$speedup3 <- 3.0
+  
+  plot <- ggplot(speed_up_db, aes( x= flow_network, y = avg_max_flow_time)) + 
+    geom_bar(aes(fill = flow_algorithm), stat = "identity", position="dodge") +
+    #geom_text(aes(label=round(avg_max_flow_time, digits=1), group = flow_algorithm), vjust=0, position=position_dodge(width = 1), check_overlap = TRUE ) +
+    facet_grid(type ~ num_hypernodes, scales = "free") +
+    geom_hline(aes(yintercept = speedup1), color="red", linetype="dashed") +
+    geom_hline(aes(yintercept = speedup2), color="blue", linetype="dashed") +
+    ylab("Speed up relative to $\\ExpLawler$") +
+    xlab("Flow Network") +
+    theme_complete_bw()
+  
+  return(plot)
+}
+
 
 max_flow_time_per_network_plot <- function(db, aggreg_by=c("flow_network", "flow_algorithm", "num_hypernodes", "type"), title="") {
   aggreg <- function(df) data.frame(objective=mean(df$avg_max_flow_time))
@@ -292,20 +318,55 @@ create_flow_network_max_flow_table <- function(df, instance_type = "ALL") {
   aggreg <- function(df) data.frame(build_time=gm_mean(df$avg_network_build_time),
                                     max_flow_time=gm_mean(df$avg_max_flow_time))
   db <- ddply(df, c("num_hypernodes", "flow_algorithm", "flow_network"), aggreg)
+  
   for( num_hn in levels(factor(db$num_hypernodes)) ) {
-    column <- db[db$num_hypernodes == num_hn,]["max_flow_time"][c(1:8),]
+    column <- db[db$num_hypernodes == num_hn,]["max_flow_time"][c(1:12),]
+    column <- c(column[9:12],column[5:8],column[1:4])
     min_idx <- which.min(column)
-    column[2:8] <- (column[2:8]/column[1] - 1.0)*100.0
+    column[2:12] <- (column[2:12]/column[1] - 1.0)*100.0
     column <- c(num_hn, as.character(round(column, digits = 2)))
     type <- ""
     if(num_hn == 500) {
       type <- paste("\\multirow{5}{*}{\\rotatebox{90}{\\", instance_type, "}}", sep="")
     }
-    column <- c(type, paste("$",column[1],"$",sep=""), paste("$",column[2],"$",sep=""), sapply(column[3:9], to_latex_math_mode))
+    column <- c(type, paste("$",column[1],"$",sep=""), paste("$",column[2],"$",sep=""), sapply(column[3:13], to_latex_math_mode))
     column[min_idx+2] <- to_latex_bold_math_mode(column[min_idx+2])
     cat(paste(column, collapse = " & "))
     cat(" \\\\ \n")
   }
+}
+
+create_flow_network_max_flow_table_hybrid <- function(df) {
+  aggreg <- function(df) data.frame(build_time=gm_mean(df$avg_network_build_time),
+                                    max_flow_time=gm_mean(df$avg_max_flow_time))
+  df <- df[df$flow_network == "hybrid",]
+  db <- ddply(df, c("num_hypernodes", "flow_algorithm", "flow_network"), aggreg)
+  
+  for( num_hn in levels(factor(db$num_hypernodes)) ) {
+    column <- db[db$num_hypernodes == num_hn,]["max_flow_time"][c(1:4),]
+    column <- rev(column)
+    min_idx <- which.min(column)
+    column[2:4] <- (column[2:4]/column[1] - 1.0)*100.0
+    column <- c(num_hn, as.character(round(column, digits = 2)))
+    column <- c(paste("$",column[1],"$",sep=""), paste("$",column[2],"$",sep=""), sapply(column[3:5], to_latex_math_mode))
+    column[min_idx+1] <- to_latex_bold_math_mode(column[min_idx+1])
+    cat(paste(column, collapse = " & "))
+    cat(" \\\\ \n")
+  }
+}
+
+speedup_relative_to_lawler <- function(db) {
+  aggreg <- function(df) data.frame(avg_max_flow_time=gm_mean(df$avg_max_flow_time))
+  df <- ddply(db, c("num_hypernodes", "type", "flow_algorithm", "flow_network"), aggreg) 
+  for( num_hn in levels(factor(df$num_hypernodes)) ) {
+    for( type in levels(factor(df$type))) {
+      for(algo in levels(factor(df$flow_algorithm))) {
+        lawler_algo <- df[df$num_hypernodes == num_hn & df$type == type & df$flow_network == "lawler" & df$flow_algorithm == algo,]
+        df[df$num_hypernodes == num_hn & df$type == type & df$flow_algorithm == algo,]$avg_max_flow_time <- lawler_algo$avg_max_flow_time / df[df$num_hypernodes == num_hn & df$type == type & df$flow_algorithm == algo,]$avg_max_flow_time 
+      }
+    }
+  }
+  return(df)
 }
 
 speedup_relative_to <- function(db, algo, network) {

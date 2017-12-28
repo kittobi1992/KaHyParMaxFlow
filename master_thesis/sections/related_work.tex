@@ -4,7 +4,7 @@
 \label{sec:max_flow}
 
 In Section \ref{sec:applications} we introduce the concept of flows in a network. We
-will now present two algorithms to solve the maximum flow problem.
+will now present two approaches to solve the maximum flow problem.
 
 \subsubsection{Augmenting-Path Algorithms}
 \label{sec:aug_path}
@@ -30,7 +30,20 @@ along an \emph{augmenting path} of minimal length. The shortest path from $s$ to
 graph with unit lengths can be found with a simple \BFS. It can be shown, that the
 total number of \emph{augmentations} is \BigO{|V||E|}. The running time of Edmond \& Karp's
 maximum flow algorithm is \BigO{|V||E|^2}. A sample execution of the algorithm
-is presented in \autoref{img:edmond_karp_example}.
+is presented in \autoref{img:edmond_karp_example}. \\
+Boykov and Kolmogorov proposed a maximum flow algorithm based on \emph{augmenting path} especially
+designed for applications in computer vision \cite{boykov2004experimental}. Their basic idea is to 
+grow two search trees simultanousely. One is starting from the source and one from the sink.
+The two search trees maintains the invariant that all edges in the tree are non-saturated. More formally,
+for an edge $e$ the residual capacity $r_f(e)$ must be greater than zero.
+A node is added to one of the two trees if a non-saturated edge exists connecting
+the node with one of the nodes in the search trees. If the two trees touch at a given node, we found
+an \emph{augmenting path} from the source to the sink. After we increase the flow along this
+path, some of the edges in the two search trees are saturated. Therefore, the algorithm
+tries to restore the search tree invariant by finding a new non-saturated edge for each node which
+is connected through a saturated edge to the tree. If its not possible, then the node is removed
+from the tree. The algorithm has no polynomial complexity (worst case \BigO{|E||V|^2|f|}), but it
+outperforms many state-of-the-art maximum flow algorithms on computer vision benchmarks \cite{boykov2004experimental}.
 
 \begin{figure}
 \centering

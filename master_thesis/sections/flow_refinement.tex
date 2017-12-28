@@ -59,9 +59,14 @@ Since we have a \emph{Multi-Source-Multi-Sink} problem, we can find several \emp
 with one \BFS. After we execute a \BFS~on the residual graph, we search 
 as many as possible edge-disjoint paths in the resulting \BFS-tree connecting a source $s$
 with a sink $t$. Our Goldberg \& Tarjan implementation uses a \emph{FIFO} queue and
-the \emph{global relabeling} and \emph{gap} heuristic \cite{cherkassky1997implementing}.
+the \emph{global relabeling} and \emph{gap} heuristic \cite{cherkassky1997implementing}. \\
+Further, we integrate an external implementation of the maximum flow algorithm of 
+Boykov \& Kolmogorov \cite{boykov2004experimental} (\BoykovKolmogorov
+\footnote{Available at \url{https://github.com/gerddie/maxflow} (Accessed at 14.12.2017)}).
+Before we call the external algorithm, we map our internal flow network representation to
+the one of the \BoykovKolmogorov~implementation. Afterwards, we map the flow of each edge back
+to our flow network.
 
-\todo{Describe Boykov Kolmogorov Maximum Flow Algorithm}
 
 \subsection{Source and Sink Configuration}
 \label{sec:source_and_sink}

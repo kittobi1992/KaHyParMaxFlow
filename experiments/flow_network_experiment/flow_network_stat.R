@@ -33,23 +33,20 @@ flow_network_db$avg_network_build_time <- as.numeric(as.character(flow_network_d
 flow_network_db$min_max_flow_time <- as.numeric(as.character(flow_network_db$min_max_flow_time))
 flow_network_db$avg_max_flow_time <- as.numeric(as.character(flow_network_db$avg_max_flow_time))
 
-flow_network_hybrid <- flow_network_db[grep("hybrid", flow_network_db$flow_network),]
-flow_network_db <- subset(flow_network_db, flow_network_db$flow_network != "hybrid_d4" & flow_network_db$flow_network != "hybrid_d5" & flow_network_db$flow_network != "hybrid_v2", drop=TRUE)
-rownames(flow_network_db) <- NULL
-
 flow_network_db$num_hypernodes <- factor(flow_network_db$num_hypernodes)
 flow_network_db$type <- factor(flow_network_db$type)
 flow_network_db$flow_network <- factor(flow_network_db$flow_network)
 flow_network_db$flow_algorithm <- factor(flow_network_db$flow_algorithm)
 flow_network_db$type <- factor(flow_network_db$type, levels = levels(factor(flow_network_db$type))[c(1,3,2,5,4,6)])
 flow_network_db$flow_network <- factor(flow_network_db$flow_network, levels = levels(flow_network_db$flow_network)[c(2,1,4,3)])
-flow_network_db$flow_algorithm <- factor(flow_network_db$flow_algorithm, levels = levels(flow_network_db$flow_algorithm)[c(2,1)])
+flow_network_db$flow_algorithm <- factor(flow_network_db$flow_algorithm, levels = levels(flow_network_db$flow_algorithm)[c(2,3,1,4)])
 
 ##############################################################################################################################
 
+source(paste(working_dir, "experiments/flow_network_functions.R", sep="/"))
 table_file <- paste(working_dir, "master_thesis/experiments/flow_network/flow_network_max_flow_summary_table.tex", sep="/")
 sink(table_file)
-create_flow_network_max_flow_table(flow_network_db)
+create_flow_network_max_flow_table_hybrid(flow_network_db)
 sink()
 
 table_file <- paste(working_dir, "master_thesis/experiments/flow_network/flow_network_max_flow_table.tex", sep="/")
@@ -104,3 +101,38 @@ for(num_hn in levels(factor(hybrid$num_hypernodes))) {
 }
 
 sanityCheck(flow_network_db)
+
+##############################################################################################################################
+
+flow_network_gt <- flow_network_db[flow_network_db$flow_algorithm == "goldberg_tarjan" & flow_network_db$flow_network == "hybrid",]
+flow_network_bk <- flow_network_db[flow_network_db$flow_algorithm == "boykov_kolmogorov" & flow_network_db$flow_network == "hybrid",]
+flow_network <- merge(flow_network_gt, flow_network_bk, by=c("hypergraph","flow_network","num_hypernodes"))
+flow_network$ratio <- flow_network$avg_max_flow_time.y / flow_network$avg_max_flow_time.x
+flow_network$density <- flow_network$avg_num_edges.x / flow_network$avg_num_nodes.x
+flow_network <- flow_network[c("hypergraph","flow_network","num_hypernodes","ratio","density")]
+flow_network$type <- as.factor(apply(flow_network, 1, function(x) graphclass(x)))
+
+threshold <- 8.5
+plot <- ggplot(flow_network) + 
+        geom_point(aes( x= density, y = ratio, color = type)) +
+        geom_hline(aes(yintercept = 1), color="red", linetype="dashed") +
+        geom_vline(aes(xintercept = threshold), color="red", linetype="dashed") +
+        scale_x_log10() +
+        scale_y_log10() +
+        #ylim(0,25) +
+        ylab("Ratio") +
+        xlab("Density") +
+        theme_complete_bw()
+print(plot)
+
+flow_network_summary <- flow_network_db[flow_network_db$flow_algorithm != "edmond_karp" & flow_network_db$flow_network == "hybrid",]
+flow_network_summary$density <- flow_network_summary$avg_num_edges / flow_network_summary$avg_num_nodes
+flow_network_low_density <- flow_network_summary[flow_network_summary$density < threshold, ]
+flow_network_high_density <- flow_network_summary[flow_network_summary$density >= threshold, ]
+gmean_network_algorithm_table(flow_network_low_density)
+gmean_network_algorithm_table(flow_network_high_density)
+
+##############################################################################################################################
+
+source(paste(working_dir, "experiments/flow_network_functions.R", sep="/"))
+plot(speed_up_plot_relative_to(flow_network_db, relative_algo="boykov_kolmogorov", relative_network="lawler"))
