@@ -31,6 +31,16 @@ graph with unit lengths can be found with a simple \BFS. It can be shown, that t
 total number of \emph{augmentations} is \BigO{|V||E|}. The running time of Edmond \& Karp's
 maximum flow algorithm is \BigO{|V||E|^2}. A sample execution of the algorithm
 is presented in \autoref{img:edmond_karp_example}. \\
+\begin{figure}
+\centering
+\includegraphics[width=0.9\textwidth]{../img/maximum_flow/edmond_karp_example.eps}
+\caption{Execution of Edmond \& Karps maximum flow algorithm \cite{edmonds1972theoretical}.
+         The network $G$ with its capacities $c$ (black values) and flow $f$ (red values) is illustrated
+         on the left side. The residual graph $G_f$ with its \emph{residual capacities} $r_f$ (black values)
+         is presented on the right side. In each step the current \emph{augmenting path} in $G_f$ is highlighted
+         by a red path. }
+\label{img:edmond_karp_example}
+\end{figure}
 Boykov and Kolmogorov proposed a maximum flow algorithm based on \emph{augmenting path} especially
 designed for applications in computer vision \cite{boykov2004experimental}. Their basic idea is to 
 grow two search trees simultanousely. One is starting from the source and one from the sink.
@@ -43,18 +53,25 @@ path, some of the edges in the two search trees are saturated. Therefore, the al
 tries to restore the search tree invariant by finding a new non-saturated edge for each node which
 is connected through a saturated edge to the tree. If its not possible, then the node is removed
 from the tree. The algorithm has no polynomial complexity (worst case \BigO{|E||V|^2|f|}), but it
-outperforms many state-of-the-art maximum flow algorithms on computer vision benchmarks \cite{boykov2004experimental}.
-
-\begin{figure}
-\centering
-\includegraphics[width=0.9\textwidth]{../img/maximum_flow/edmond_karp_example.eps}
-\caption{Execution of Edmond \& Karps maximum flow algorithm \cite{edmonds1972theoretical}.
-         The network $G$ with its capacities $c$ (black values) and flow $f$ (red values) is illustrated
-         on the left side. The residual graph $G_f$ with its \emph{residual capacities} $r_f$ (black values)
-         is presented on the right side. In each step the current \emph{augmenting path} in $G_f$ is highlighted
-         by a red path. }
-\label{img:edmond_karp_example}
-\end{figure}
+outperforms many state-of-the-art maximum flow algorithms on computer vision benchmarks \cite{boykov2004experimental}.\\
+An extension of the algorithm of Boykov \& Kolmogorov is the \emph{incremental breadth-first search}
+algorithm \cite{goldberg2011maximum}, which guarantes polynomial running time (\BigO{|V|^2|E|}).
+The algorithm maintains two distance labels $d_s$ and $d_t$ for each node. For some values 
+$D_s$ and $D_t$, the source tree contains all nodes up to a distance $D_s$ and the sink tree
+up to distance $D_t$. Also they maintain the invariant that $L = D_s + D_t + 1$ is an lower bound
+for the shortest \emph{augmenting path}. Initially, $d_s(s) = d_t(t) = 0$ and $D_s = D_t = 0$.
+The algorithm works in passes and in a pass one of the two trees is choosen to grow. Assume, we have choosen
+the source tree. Each node $u$ contained in the source tree with distance label $d_s(u) = D_s$ is
+marked as \emph{active}. In a pass all \emph{active} nodes are processed. If a \emph{active} node
+$u$ is adjacent to a node $v$ not contained in any of the two trees, we add $v$ to the source tree
+and set $d_s(v) = d_s(u) + 1$. If $v$ is in the sink tree, we have found an \emph{augmenting path}.
+After \emph{augmenting} along that path some of the nodes are not connected to the tree through a non-saturated
+edge. For such a node $v$ the adjacency list is scanned and if an adjacent node $u$ exist with
+$d_s(u) = d_s(v) - 1$ and $r_f(u,v) > 0$, the parent of $v$ is set to $u$. If such a node is not found,
+we search for an adjacent node $u$ for which $d_s(u)$ is minimal and $r_f(u,v) > 0$. If such
+a node is found, we set the parent of $v$ to $u$ and $d_s(v) = d_s(u) + 1$. Otherwise, $v$ is removed
+from the source tree. If after a pass a node $v$ exists with $d_s(v) = D_s + 1$, $D_s$ is set to $D_s + 1$,
+otherwise the algorithm terminates.
 
 \subsubsection{Push-Relabel Algorithm}
 \label{sec:push_relabel}

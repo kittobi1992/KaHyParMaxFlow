@@ -136,9 +136,9 @@ speed-ups the running time of several maximum flow algorithms.\\
 \end{figure} 
 In \autoref{tbl:flow_algo_network_summary}, we compare the absolute running times of the 
 algorithms on our fastest flow network $\ExpHybrid$. The \IBFS~algorithm works best on
-large instances ($|V'| > 1000$). For smaller benchmarks ($|V'| \le 1000$) algorithms
-based on the \emph{augmenting path} concept, like \BoykovKolmogorov~or \EdmondKarp, are faster
-than \IBFS~and \GoldbergTarjan. However, we are currently not able to use the \IBFS~algorithm
+large instances ($|V'| > 1000$). For smaller benchmarks ($|V'| \le 1000$) 
+\BoykovKolmogorov~and \EdmondKarp~are faster than the \IBFS~algorithm. 
+However, we are currently not able to use the \IBFS~algorithm
 in our \emph{flow}-based local search algorithm. The data structure of the algorithm
 is not optimized for multiple executions on different flow networks, because it did not 
 implement an efficient strategy to reuse the allocated memory. The usage of the \IBFS~algorithm in our
@@ -159,7 +159,7 @@ $|V'|$ &  $t[ms]$ & $t[\%]$ & $t[\%]$ & $t[\%]$
 \end{tabular}
 \caption{Absolute running time of our maximum flow algorithms on flow network $\ExpHybrid$.
          Note, all values in the table are in percentage relative to the running time
-         of the \IBFS algorithm. In each line the fastest variant is marked bold.}
+         of the \IBFS~algorithm. In each line the fastest variant is marked bold.}
 \label{tbl:flow_algo_network_summary}
 \end{table}
 
