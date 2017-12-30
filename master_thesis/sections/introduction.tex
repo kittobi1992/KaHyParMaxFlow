@@ -29,11 +29,11 @@ of smaller hypergraphs is \emph{uncontracted} in reverse order and, at each leve
 \emph{local search} heuristic is used to improve the quality of the partition 
 (\emph{refinement phase}). \\
 There exist several \emph{local search} heuristics for improving hypergraph partitions.
-One algorithm used in the state-of-the-art multilevel hypergraph partitioners is
-the \emph{Fiduccia-Mattheyses} heuristic (FM). The \emph{FM} algorithm
-maintains gain values (according to a objective function) of moving a node
-from its current block to another block \cite{fiduccia1988linear}. A move is performed, 
-if its gain value is maximum among all possible moves. The \emph{FM} heuristic is generally
+Currently, \emph{local search} algorithms based on the \emph{FM} idea \cite{fiduccia1988linear} 
+are used in all state-of-the-art multilevel hypergraph partitioner. All variations
+of the algorithm have in common that they greedily \emph{move} (hyper)nodes between
+blocks of a partition according to an associated \emph{gain}, which value depends on
+the \emph{local} structure around an vertex. The \emph{FM} heuristic is generally
 intuitive, flexible in adapting to different optimization objectives, easy to implement and
 relatively fast \cite{zhao2002effective}. \\
 However, the gain of moving a (hyper)node to another block only depends on the state of the
@@ -113,28 +113,28 @@ ensure that the running time is only within a constant factor slower.
 \subsection{Contributions}
 
 We present several techniques to sparsify the state-of-the-art hypergraph flow network
-modeling approach proposed by Lawler \cite{lawler1973}. Our experiments indicate that
-maximum flow algorithms are up to a factor of $3$ faster with our new network. The
+representation proposed by Lawler \cite{lawler1973}. Our experiments indicate that
+maximum flow algorithms are up to a factor of $2$ faster on our new networks. The
 theorectical results, which leads to the presented sparsification techniques, are
 of independent interest and can also be applied on general flow networks.
-Further, we show how to configure a flow problem on a subhypergraph of $H$ such that a 
-maximum $(S,T)$-flow yields an improved cut of a given bipartition. We choose $S$ and
-$T$ in a way such that the value of the cut of $H$ after a \emph{Max-Flow-Min-Cut} computation on a subhypergraph 
-can be calculated with the value of a maximum $(S,T)$-flow.
-Our \emph{flow}-based \emph{local search} framework is inspired by algorithmic ideas of
+Our \emph{Max-Flow-Min-Cut} refinement framework is inspired by algorithmic ideas of
 Sanders and Schulz \cite{sanders2011engineering}. However, we generalize many results of
-their work such that they are applicable on hypergraph partitioning. Further, we implement
-several heuristics which might prevent unpromising \emph{Max-Flow-Min-Cut} computations 
+their work such that they are applicable on hypergraph partitioning. We show how to 
+configure a flow problem on a subhypergraph of $H$ such that a 
+maximum $(S,T)$-flow yields an improved cut of a given bipartition. 
+A major result of our choice of $S$ and $T$ is that it yield to better minimum cuts compared 
+to the source and sink set modeling approach of Sanders and Schulz \cite{sanders2011engineering}.
+Further, we implement several heuristics which might prevent unpromising \emph{Max-Flow-Min-Cut} computations 
 throughout the multilevel hierarchy and show that they speed-up the framework by factor
 of $2$ while maintaining the quality of the solutions on average.
-We integrate our \emph{flow}-based \emph{local search} algorithm into the $n$-level hypergraph partitioner
-\emph{KaHyPar} and show that \emph{flow}-based refinement in combination with the
+We integrate our \emph{flow}-based refinement algorithm into the $n$-level hypergraph partitioner
+\emph{KaHyPar} and show that our framework in combination with the
 \emph{FM} algorithm produces the best partitions on a majority of real world benchmarks
 in comparison to other state-of-the-art hypergraph partitioners. 
-Ccompared to $5$ different systems we achieve the best partitions on $70\%$ 
+Compared to $5$ different systems, we achieve the best partitions on $70\%$ 
 of $3222$ benchmark instances. In comparison to the 
 latest version of \emph{KaHyPar}, our new approach produces solutions that are
-$2\%$ better on average, while only incurring a slowdown by a factor of $2$.
+$2.4\%$ better on average, while only incurring a slowdown by a factor of $2$.
 Moreover, our partitioner has a comparable running time to the direct $k$-way
 version of \emph{hMetis} and outperforms it on $82\%$ of the benchmark instances
 

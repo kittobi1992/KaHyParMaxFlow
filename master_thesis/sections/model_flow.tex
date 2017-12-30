@@ -163,8 +163,8 @@ problem. Because for all incoming resp. outgoing edges of vertices $v$ of
 \label{theorem:st_cutset_equal}
 A minimum-weight $(S,T)$-cutset of a hypergraph \HypergraphDef~(with $S,T \subseteq V,
 S \cap T = \emptyset$) is equivalent with a minimum-capacity $(S',T')$-cutset of the
-flow network \ShortExT{H}{V'} ($V' \subseteq V$) with $S' = S \setminus V'\ \cup \bigcup\limits_{e \in N(V' \cap S)} \{\incoming{e}\}$ and 
-$T' = T \setminus V'\ \cup \bigcup\limits_{e \in N(V'\cap T)} \{\outgoing{e}\}$.
+flow network \ShortExT{H}{V'} ($V' \subseteq V$) with $S' = S \setminus V'\ \cup \bigcup\limits_{e \in I(V' \cap S)} \{\incoming{e}\}$ and 
+$T' = T \setminus V'\ \cup \bigcup\limits_{e \in I(V'\cap T)} \{\outgoing{e}\}$.
 \label{theorem:heuer_network}
 \end{theorem}
 
@@ -460,6 +460,14 @@ many low degree hypernodes or small hyperedges. Taking our observation from real
 into account means that \ShortT{G} performs significantly better on high density hypergraphs
 and \ShortExT{H}{V_d(3)} on low density hypergraphs. It would be preferable to combine 
 the two approaches into one network which performs best on most instances. \\
+\begin{figure}[ht!]
+\centering
+\includegraphics[width=0.95\textwidth]{../img/network_transformation/hybrid_transformation.eps}
+\caption{Illustration of all presented techniques to sparsify the flow network of a hypergraph.
+         Transformation from \ShortT{L} to \ShortExT{H}{V} follows with Lemma \ref{lemma:node_removal}.
+         Transformation from \ShortT{L} to \ShortT{G} follows with Lemma \ref{lemma:undirected_transformation}.}
+\label{img:transformation_chain} 
+\end{figure}
 
 \begin{definition}
 Let $T_{\text{Hybrid}}$ be a transformation that converts a hypergraph \HypergraphDef~into 
@@ -494,11 +502,3 @@ The minimum-weight $(S,T)$-cutset of $H$ can be calculated using the technique d
 $A$ is the union of all reachable hypernodes from $S'$ and the union of
 all reachable \emph{outgoing hyperedge nodes} $\outgoing{e}$ from $S'$ (see Section \ref{sec:heuer_network} 
 and Lemma \ref{lemma:bipartition_construction}). 
-\begin{figure}[ht!]
-\centering
-\includegraphics[width=0.95\textwidth]{../img/network_transformation/hybrid_transformation.eps}
-\caption{Illustration of all presented techniques to sparsify the flow network of a hypergraph.
-         Transformation from \ShortT{L} to \ShortExT{H}{V} follows with Lemma \ref{lemma:node_removal}.
-         Transformation from \ShortT{L} to \ShortT{G} follows with Lemma \ref{lemma:undirected_transformation}.}
-\label{img:transformation_chain} 
-\end{figure}

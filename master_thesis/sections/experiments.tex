@@ -233,7 +233,19 @@ flow-based refinements.
 %$\alpha = 16$, \Constant{128} is only $0.57\%$ better and around roughly $25$ times slower.\\
 Our best configuration is \FlowVariant{+}{+}{+} with $\alpha' = 16$. 
 %It is also the most effective one (see Effectiveness Test in Appendix \ref{appendix:effectiveness_test}). 
-For further experiments, we refer to this variant as \KaHyPar{MF}.
+For further experiments, we refer to this variant as \KaHyPar{MF}. \\
+At the end of Section \ref{sec:source_and_sink}, we compare our source and sink set modeling
+approach (\textsc{M2}) with the one of Sanders and Schulz \cite{sanders2011engineering} (\textsc{M1}). The main result is
+that our approach should theorectically yield to better minimum cuts, because we do not restrict
+all hypernodes contained in a non-cut hyperedge, which is partially contained in the flow problem,
+to stay in the same block after a \emph{Max-Flow-Min-Cut} computation. In \autoref{tbl:alpha_comparison_exp}
+we compare the two modeling approaches in practice. The quality of our \emph{flow}-based
+configurations without the \emph{FM} algorithm are up to $5\%$ to $10\%$ better for 
+$\alpha' \le 4$. For $\alpha' > 4$ the improvement is around $1.5\%$ to $2.5\%$. For small
+$\alpha'$ most of the hypernodes of the flow problem are incident to a non-cut hyperedge partially
+contained in the flow problem. Therefore, \textsc{M1} restricts them to stay in the same block
+after a \emph{Max-Flow-Min-Cut} computation. \textsc{M2} allows them to change its block, if 
+it yields to a smaller minimum cut.
 
 \begin{table}
 \renewcommand{\arraystretch}{1.15}
