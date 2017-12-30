@@ -98,7 +98,7 @@ for(i in 1:length(dbs)) {
 }
 hmetis_r = merge(hmetis_r,full_instance_stats,by='graph')
 
-flow_000 <- flow_dbs[[1]]
+flow_000_ <- flow_dbs[[1]]
 flow_001 <- flow_dbs[[2]]
 flow_011 <- flow_dbs[[3]]
 flow_111 <- flow_dbs[[4]]

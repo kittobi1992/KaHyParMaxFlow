@@ -134,5 +134,3 @@ gmean_network_algorithm_table(flow_network_high_density)
 
 ##############################################################################################################################
 
-source(paste(working_dir, "experiments/flow_network_functions.R", sep="/"))
-plot(speed_up_plot_relative_to(flow_network_db, relative_algo="boykov_kolmogorov", relative_network="lawler"))

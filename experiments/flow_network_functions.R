@@ -355,6 +355,33 @@ create_flow_network_max_flow_table_hybrid <- function(df) {
   }
 }
 
+create_flow_network_max_flow_table_hybrid2 <- function(df) {
+  aggreg <- function(df) data.frame(max_flow_time=gm_mean(df$avg_max_flow_time))
+  df <- df[df$flow_network == "hybrid",]
+  db <- ddply(df, c("flow_algorithm", "num_hypernodes"), aggreg)
+  db <- unstack(db, max_flow_time ~ num_hypernodes)
+  db <- db[c(4,3,2,1),]
+  min_idx <- c()
+  for(i in c(1:ncol(db))) {
+    min_idx <- c(min_idx, which.min(db[,i]))
+  }
+  for(i in c(2:nrow(db))) {
+    db[i,] <- (db[i,] / db[1,] - 1.0) * 100.0
+  }
+  for(i in c(1:ncol(db))) {
+    db[,i] <- as.character(round(db[,i],digits=2))
+    db[1,i] <- paste("$",db[1,i],"$",sep="")
+    db[2:nrow(db),i] <- to_latex_math_mode(db[2:nrow(db),i])
+    db[min_idx[i],i] <- to_latex_bold_math_mode(db[min_idx[i],i])
+  }
+  db$algorithm <- c("\\IBFS", "\\BoykovKolmogorov", "\\GoldbergTarjan", "\\EdmondKarp")
+  db <- db[,c(6,1,2,3,4,5)]
+  for(i in c(1:nrow(db))) {
+    cat(paste(db[i,], collapse = " & "))
+    cat(" \\\\ \n")
+  }
+}
+
 speedup_relative_to_lawler <- function(db) {
   aggreg <- function(df) data.frame(avg_max_flow_time=gm_mean(df$avg_max_flow_time))
   df <- ddply(db, c("num_hypernodes", "type", "flow_algorithm", "flow_network"), aggreg) 

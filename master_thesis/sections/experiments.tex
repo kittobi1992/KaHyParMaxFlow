@@ -187,6 +187,24 @@ on each level $i$ with $i = 2^j$ ($j \in \mathbb{N}_+$).
 %computations in combination with \emph{FM} refinement. We refer to this variant as \Constant{128}. 
 Further, we use \KaHyPar{CA} as reference \cite{heuer2017improving} and refer to it 
 as \FlowVariant{-}{-}{+}. \\
+\begin{table}[ht]
+\renewcommand{\arraystretch}{1.15}
+\centering
+\begin{tabular}{|r||c|c||c|c||c|c|c|c|}
+\toprule
+ Config. & \multicolumn{2}{c||}{\FlowVariant{+}{-}{-}} & \multicolumn{2}{c||}{\FlowVariant{+}{+}{-}}  & \multicolumn{2}{c|}{\FlowVariant{+}{+}{+}} & \multicolumn{2}{c|}{\Constant{128}} \\
+\midrule
+$\alpha'$ & Avg.$[\%]$ & $t[s]$ & Avg.$[\%]$ & $t[s]$ & Avg.$[\%]$ & $t[s]$ & Avg.$[\%]$ & $t[s]$ \\
+\midrule%
+\csname @@input\endcsname experiments/flow_alpha/flow_alpha_table.tex 
+\bottomrule
+\end{tabular}
+\caption{ Table contains results for different configurations of our flow-based refinement
+          framework for increasing $\alpha'$. The quality in column \emph{Avg.} is relative
+          to our baseline configuration without the usage of flows. }
+\label{tbl:alpha_exp}
+\end{table}
+
 The results are summarized in \autoref{tbl:alpha_exp}. The values
 in column \emph{Avg} are improvements
 relative to our baseline configuration \FlowVariant{-}{-}{+}. The running
@@ -220,41 +238,40 @@ For further experiments, we refer to this variant as \KaHyPar{MF}.
 \begin{table}
 \renewcommand{\arraystretch}{1.15}
 \centering
-\begin{tabular}{|r||c|c||c|c||c|c|c|c|}
+\begin{tabular}{|r||c|c||c|c||c|c|}
 \toprule
- Config. & \multicolumn{2}{c||}{\FlowVariant{+}{-}{-}} & \multicolumn{2}{c||}{\FlowVariant{+}{+}{-}}  & \multicolumn{2}{c|}{\FlowVariant{+}{+}{+}} & \multicolumn{2}{c|}{\Constant{128}} \\
+ Config. & \multicolumn{2}{c||}{\FlowVariant{+}{-}{-}} & \multicolumn{2}{c||}{\FlowVariant{+}{+}{-}}  & \multicolumn{2}{c|}{\FlowVariant{+}{+}{+}} \\
 \midrule
-$\alpha'$ & Avg.$[\%]$ & $t[s]$ & Avg.$[\%]$ & $t[s]$ & Avg.$[\%]$ & $t[s]$ & Avg.$[\%]$ & $t[s]$ \\
+$\alpha'$ & \footnotesize{\textsc{M1} - Avg.$[\%]$} & \footnotesize{\textsc{M2} - Avg.$[\%]$} & \footnotesize{\textsc{M1} - Avg.$[\%]$} & \footnotesize{\textsc{M2} - Avg.$[\%]$} & \footnotesize{\textsc{M1} - Avg.$[\%]$} & \footnotesize{\textsc{M2} - Avg.$[\%]$}  \\
 \midrule%
-\csname @@input\endcsname experiments/flow_alpha/flow_alpha_table.tex 
+\csname @@input\endcsname experiments/flow_alpha/flow_alpha_modeling_comparison_table.tex
 \bottomrule
 \end{tabular}
-\caption{ Table contains results for different configurations of our flow-based refinement
-          framework for increasing $\alpha'$. The quality in column \emph{Avg.} is relative
-          to our baseline configuration without the usage of flows. }
-\label{tbl:alpha_exp}
+\caption{ Comparison of quality of our framework with different source and sink set
+          modeling approaches. \textsc{M1} represents the approach of Sanders and Schulz
+          \cite{sanders2011engineering} and \textsc{M2} is our new variant proposed 
+          in Section \ref{sec:source_and_sink}.  }
+\label{tbl:alpha_comparison_exp}
 \end{table}
 
 
 \subsection{Speed-Up Heuristics}
 \label{sec:speed_up}
 
-At the end of Section \ref{sec:integration_kahypar}, we have presented several heuristics
-to prevent \emph{unpromising} flow executions during the \emph{active block scheduling} refinement ((R1)-(R3)).
+At the end of Section \ref{sec:integration_kahypar}, we presented several heuristics
+to prevent \emph{unpromising} flow executions during \emph{active block scheduling} ((R1)-(R3)).
 The main assumption is that only a minority of \emph{Max-Flow-Min-Cut} computations
 lead to an improvement. To verify this assumption, 
 we execute \KaHyPar{MF} in combination with different speed-up heuristics 
 on our benchmark subset (see Table \ref{tbl:benchmark_subset}). \\
-Table \ref{tbl:heuristics} summarizes the results of the experiment. \KaHyPar{CA} is the current
-version of \emph{KaHyPar} and \KaHyPar{MF} is our current flow configuration of
-Section \ref{sec:flow_configuration}. The indices of the different variants of \KaHyPar{MF} 
-describes which speed-up heuristic is enabled (see Section \ref{sec:flow_local_search_hypergraph}).
+Table \ref{tbl:heuristics} summarizes the results of the experiment. The indices of the 
+different variants of \KaHyPar{MF} describe which speed-up heuristic is enabled.
 On average, enabling all speed-up heuristics worsen the quality of \KaHyPar{MF} only by 
-$0.09\%$. On the other hand, the framework is significantly faster 
-by a factor of $\approx 2$. In its final configuration \KaHyParConfig{MF}{R1,R2,R3} computes 
-partitions with $2\%$ better quality ($(\lambda - 1)$-metric) than \KaHyPar{CA}, while only
+$0.07\%$. On the other hand, the framework is significantly faster 
+by a factor of $2$. In its final configuration \KaHyParConfig{MF}{R1,R2,R3} computes 
+partitions with $2.41\%$ better quality than \KaHyPar{CA}, while only
 incurring a slowdown of a factor of $2$. In the following, we will denote our final 
-configuration \KaHyParConfig{MF}{R1,R2,R3} with \KaHyPar{MF}.
+configuration \KaHyParConfig{MF}{R1,R2,R3} as \KaHyPar{MF}.
 
 \begin{table}[ht]
 \renewcommand{\arraystretch}{1.15}
@@ -264,10 +281,6 @@ configuration \KaHyParConfig{MF}{R1,R2,R3} with \KaHyPar{MF}.
 Variant & Avg.$[\%]$ & Min.$[\%]$ & $t_{\text{flow}}[s]$ & $t[s]$ \\
 \midrule%
 \csname @@input\endcsname experiments/speed_up_heuristics/heuristic_table.tex 
-\bottomrule
-Variant & Avg.$[\%]$ & Min.$[\%]$ & $t_{\text{flow}}[s]$ & $t[s]$ \\
-\midrule%
-\csname @@input\endcsname experiments/speed_up_heuristics/heuristic_table_old.tex 
 \bottomrule
 \end{tabular} 
 \caption{Results of our flow-based refinement framework with different speedup heuristics.}
