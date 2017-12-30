@@ -29,7 +29,7 @@ hmetis_k <- read.csv("experiments/common_dbs/hmetis_k_detailed.csv")
 patoh_q <- read.csv("experiments/common_dbs/patoh_q_detailed.csv")
 patoh_d <- read.csv("experiments/common_dbs/patoh_d_detailed.csv")
 
-kahypar_mf = ddply(dbGetQuery(dbConnect(SQLite(), dbname="experiments/final_flow/db/kahypar_mf_old.db"),
+kahypar_mf = ddply(dbGetQuery(dbConnect(SQLite(), dbname="experiments/final_flow/db/kahypar_mf.db"),
                             select_soed), c("graph","k"), aggreg)
 
 full_instance_stats = dbGetQuery(dbConnect(SQLite(), dbname="experiments/common_dbs/hgr_stats.db"),

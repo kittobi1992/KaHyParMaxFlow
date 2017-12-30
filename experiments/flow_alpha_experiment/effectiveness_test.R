@@ -2,12 +2,10 @@ setwd("/home/theuer/Dropbox/Studium Informatik/10. Semester/KaHyParMaxFlow/exper
 source("plot_functions.R")
 
 dbs <- c( "flow_alpha_experiment/db/flow.db",
-          "flow_alpha_experiment/db/flow_cut_he.db",
           "flow_alpha_experiment/db/flow_mbmc.db",
-          "flow_alpha_experiment/db/flow_cut_he_mbmc.db",
           "flow_alpha_experiment/db/flow_fm.db")
 
-algo <- c( "flow","flow_cut_he","flow_mbmc","flow_cut_he_mbmc","flow_fm")
+algo <- c( "flow","flow_mbmc","flow_fm")
 
 select_km1_soed = 'select graph,k,epsilon,flow_region_size_alpha AS alpha, seed,km1,soed,imbalance,coarseningTime,uncoarseningRefinementTime, totalPartitionTime from experiments'
 select_km1 = 'select graph,k,epsilon,flow_region_size_alpha AS alpha,seed,1 AS soed, kMinusOne AS km1, imbalance,coarseningTime,uncoarseningRefinementTime, totalPartitionTime from experiments'
@@ -49,16 +47,14 @@ for(i in 1:length(dbs)) {
 }
 
  flow <- flow_dbs[[1]]
- flow_cut_he <- flow_dbs[[2]]
- flow_mbmc <- flow_dbs[[3]]
- flow_cut_he_mbmc <- flow_dbs[[4]]
- flow_fm <- flow_dbs[[5]]
+ flow_mbmc <- flow_dbs[[2]]
+ flow_fm <- flow_dbs[[3]]
  
  kahypar_sea$alpha <- 1
  
  aggreg = function(df) data.frame(min_time=min(df$avg_time),
                                   max_time=max(df$avg_time))
- all <- rbind(kahypar_sea,flow,flow_cut_he,flow_mbmc,flow_cut_he_mbmc,flow_fm)
+ all <- rbind(kahypar_sea,flow,flow_mbmc,flow_fm)
  all <- ddply(all, c("graph","k"), aggreg)
  
 write.csv(all, file = "effectiveness_table.csv")

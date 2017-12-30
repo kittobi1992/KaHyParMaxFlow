@@ -1,61 +1,40 @@
-In this thesis, we present a novel \emph{local search} technique based on \emph{Max-Flow-Min-Cut}
-computations for multilevel hypergraph partitioning. We have integrated our \emph{flow}-based
-\emph{local search} algorithm into the $n$-level hypergraph partitioner \emph{KaHyPar} and show that
-in combination with the \emph{FM} heurisitc our new approach produces the best partitions
+In this thesis, we present a novel refinement algorithm based on \emph{Max-Flow-Min-Cut}
+computations for multilevel hypergraph partitioning. We integrate our framework
+into the $n$-level hypergraph partitioner \emph{KaHyPar} and show that
+in combination with the \emph{FM} algorithm our new approach produces the best partitions
 for a wide range of applications.\\
-On the road to a practical implementation, we introduce several techniques to 
-sparsify the state-of-the-art hypergraph flow network representation \cite{lawler1973}. 
-The network consists of many edges with \emph{infinite} capacity. We present
+We introduce several techniques to 
+sparsify the standard hypergraph flow network \cite{lawler1973},
+which consists of many edges with \emph{infinite} capacity. We present
 several theoretical results, which allows us to remove such edges or even to remove
-nodes, if all \emph{incoming} and \emph{outgoing} edges have a capacity equal to
-\emph{infinity}. The results are of independent interest, because they are also
-applicable on general flow networks with \emph{infinite} capacity edges. 
-As a consequence, we can remove all hypernodes from the flow network 
-of a hypergraph, because all \emph{incoming} and \emph{outgoing} edges have
-\emph{infinite} capacity in the corresponding flow network \cite{lawler1973}. 
-However, the removal of a hypernode in the flow 
-network introduce new edges between all incident nodes, which number depends
-on the degree of a vertex. We show that we can minimize the number of edges, if the
-degree of a hypernode is smaller than or equal to $3$. Further, we show that each weighted undirected
-graph can be modeled as a weighted directed graph with the same \emph{min-cut}
-property. The transformation introduces new nodes and edges in the corresponding
-weighted directed graph. However, we have shown that the transformation of an undirected
-edge results in the same structure as the transformation of hyperedges of size $2$
-in the hypergraph flow network. As a consequence, we can model each hyperedge $e$ with
-$|e| = 2$ as a undirected flow edge. We combine both techniques in a \emph{Hybrid}-Network 
-and show that maximum flow algorithms are up to a factor of $3$ faster compared to
-the execution on the \emph{Lawler}-Network \cite{lawler1973} on real-world hypergraph benchmarks. \\
-Our \emph{flow}-based refinement framework is based on the ideas of Sanders and Schulz
+nodes. The results are of independent interest, because they are also
+applicable on general flow networks with \emph{infinite} capacity edges.
+The main practical implications are that we can remove any hypernode 
+from the hypergraph flow network and model hyperedges of size $2$ more efficiently. 
+Our final flow network combines the two techniques, which reduces 
+the problem size of the resulting flow networks on various benchmark types by up to 
+a factor of $2$ compared to the state-of-the-art representation and
+simultanousely speed-up the running time of different maximum flow algorithms 
+by the same amount.  \\
+Our \emph{flow}-based refinement framework is based on ideas of Sanders and Schulz
 \cite{sanders2011engineering} (developed for multilevel graph partitioning). However,
-we generalize many results such that they are applicable on hypergraph partitioning.
-We show how one can improve a given bipartition of a hypergraph by executing
-a \emph{Max-Flow-Min-Cut} computation only on a subhypergraph. 
-Further, if we use the \emph{FM} heuristic, the value of the cut after moving a node from one 
-block to another can be calculated with the gain value of the move and the cut before.
-We show how the source and sink set of the corresponding flow problem can be modeled such 
-that the value of the cut of the improved bipartition can be calculated with the value 
-of a maximum $(S,T)$-flow. Additionally, we explain how one can find all 
-minimum $(s,t)$-cutsets with one maximum $(s,t)$-flow calculation on hypergraphs. \\
-We integrated our framework into the $n$-level hypergraph partitioner
-\emph{KaHyPar}. We embed our \emph{flow}-based \emph{local search} algorithm into 
-an \emph{active block scheduling} refinment strategy. The algorithm works in rounds and in
-each round we start a \emph{flow-based} refinement between each adjacent block. The
-algorithm terminates if no hypernode changed its block in a round. The flow problem
-is build around the cut of two adjacent blocks.
-The sizes of the flow problems are chosen adaptively. If a \emph{flow} computation on two blocks
-yields an improvement, we increase the flow problem size, otherwise we decrease it. 
-Additionally, we try to automatically balance the partition after \emph{Max-Flow-Min-Cut}
-computation by using the \emph{Most Balanced Minimum Cut} heuristic. The \emph{active block
-scheduling} refinement is executed in $\log{n}$ levels of the multilevel hierarchy.
-In the remaining levels, where no flow is performed, 
-the classical \emph{FM} heuristic is used to improve the quality 
-of a partition. An observation during implementation was that only a minority of 
-the \emph{Max-Flow-Min-Cut} computations leads to an improvement in quality. 
-Therefore, we implement several speed-up heuristics which prevents the
-execution of unpromising pairwise \emph{flow} refinements. \\
+we generalize many results such that they are applicable to hypergraph partitioning.
+We configure a flow problem on a subhypergraph in such a way that a \emph{Max-Flow-Min-Cut}
+computation improves a given bipartition of a hypergraph. Further, we show theoretically
+and practically that with our modeling approach better minimum cuts are achievable
+compared to the results of Sanders and Schulz. The bipartitioning algorithm is transferred
+to the direct $k$-way partitioning case by executing pairwise \emph{flow}-based refinements
+on two adjacent blocks according to the \emph{active block scheduling} strategy \cite{holtgrewe2010engineering}.
+We integrate the framework into the $n$-level hypergraph partitioner \emph{KaHyPar}.
+The total number of \emph{flow}-based refinements throughout the multilevel hierarchy
+is controlled by a \emph{flow execution policy}. In each level, where no \emph{flow}
+is execeuted, the \emph{FM} algorithm is used to improve the partition. Additionally,
+we develop several heuristics to prevent \emph{unpromising} \emph{Max-Flow-Min-Cut}
+computations on two adjacent blocks, which speed-up our framework
+by a factor of $2$. \\
 The new configuration \KaHyPar{MF} produces on $95\%$ of our benchmark instances
 better partitions than our old configuration \KaHyPar{CA}. On average the solution 
-quality is $2\%$ better, while only incurring a slowdown by a factor of $2$. 
+quality is $2.4\%$ better, while only incurring a slowdown by a factor of $2$. 
 In comparison with $5$ different state-of-the-art hypergraph partitioners, \KaHyPar{MF} 
 produces on $70\%$ of $3222$ benchmark instances the best partitions. 
 Moreover, our partitioner has a comparable running time to the direct $k$-way

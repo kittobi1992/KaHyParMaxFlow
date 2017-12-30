@@ -298,6 +298,12 @@ $\alpha'$ & Avg.$[\%]$ & Avg.$[\%]$ & Avg.$[\%]$ \\
 \midrule%
 \csname @@input\endcsname experiments/final_flow/final_flow_km1_per_instance.tex 
 \bottomrule
+\multirow{2}{*}{Partitioner} & \multicolumn{7}{c}{Average $\lambda - 1$} \\
+\cmidrule{2-8}
+ & \ALL & \DAC & \ISPD & \Primal & \Literal & \Dual & \SPM \\
+\midrule%
+\csname @@input\endcsname experiments/final_flow/final_flow_km1_per_instance_old.tex 
+\bottomrule
 \end{tabular} 
 \caption{Comparison of average $(\lambda - 1)$ metric of \KaHyPar{MF} with \KaHyPar{CA} and
          other systems on different benchmark types. The results are in percentage 
@@ -316,6 +322,12 @@ $\alpha'$ & Avg.$[\%]$ & Avg.$[\%]$ & Avg.$[\%]$ \\
 \midrule%
 \csname @@input\endcsname experiments/final_flow/final_flow_km1_per_k.tex 
 \bottomrule
+\multirow{2}{*}{Partitioner} & \multicolumn{7}{c}{Average $\lambda - 1$} \\
+\cmidrule{2-8}
+ & $k = 2$ & $k = 4$ & $k = 8$ & $k = 16$ & $k = 32$ & $k = 64$ & $k = 128$ \\
+\midrule%
+\csname @@input\endcsname experiments/final_flow/final_flow_km1_per_k_old.tex 
+\bottomrule
 \end{tabular} 
 \caption{Comparison of average $(\lambda - 1)$ metric of \KaHyPar{MF} with \KaHyPar{CA} and
          other systems for different values of $k$. The results are in percentage 
@@ -333,6 +345,12 @@ $\alpha'$ & Avg.$[\%]$ & Avg.$[\%]$ & Avg.$[\%]$ \\
  & $k = 2$ & $k = 4$ & $k = 8$ & $k = 16$ & $k = 32$ & $k = 64$ & $k = 128$ \\
 \midrule%
 \csname @@input\endcsname experiments/final_flow/final_flow_running_time_per_k.tex
+\bottomrule
+\multirow{2}{*}{Partitioner} & \multicolumn{7}{c}{Running Time $t[s]$} \\
+\cmidrule{2-8}
+ & $k = 2$ & $k = 4$ & $k = 8$ & $k = 16$ & $k = 32$ & $k = 64$ & $k = 128$ \\
+\midrule%
+\csname @@input\endcsname experiments/final_flow/final_flow_running_time_per_k_old.tex
 \bottomrule
 \end{tabular} 
 \caption{Comparing the average running time of \KaHyPar{MF} with \KaHyPar{CA} and
