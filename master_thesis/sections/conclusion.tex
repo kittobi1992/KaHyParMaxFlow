@@ -43,65 +43,68 @@ version of \emph{hMetis} and outperforms it on $82\%$ of the benchmark instances
 
 \subsection{Future Work}
 
-Due to the novelty of the approach, there is a lot of potential in optimizing our basic 
-framework. We made a trade-off between time and quality to obtain a \emph{High-Quality 
-n-level Hypergraph Partitioner} which runs in reasonable time. The quality mainly depends
-on the number of flow executions throughout the multilevel hierarchy. The number of flow
-executions, which we can do in reasonable time, depends on the running time of the 
-flow algorithm and the size of the flow problem. Optimizing those two basic building 
-blocks of the framework will allow us to achieve better quality in the same amount of time.\\
-The flow network of a hypergraph proposed by Lawler \cite{lawler1973} has a bipartite 
+The quality of our framework mainly depends on the number of flow executions
+throughout the multilevel hierarchy and the running time of our maximum flow algorithms.
+Optimizing those two basic building blocks of the framework will allow us to achieve 
+better quality in the same amount of time.\\
+The hypergraph flow network proposed by Lawler \cite{lawler1973} has a bipartite 
 structure. Because of this structural regularity, there might be other more specialized
-flow algorithms which run faster on these types of networks. Therefore, a useful work 
-would be to evaluate many different maximum flow algorithms on our benchmark set. Further,
+flow algorithms which run faster on these types of networks. Further,
 one could investigate if it is possible to maintain the whole flow network over the
-multilevel hierarchy without explicitly setting up the flow network before each flow
+multilevel hierarchy instead of explicitly creating the flow network before each flow
 execution. Also, it would be interesting if information from previous flow calculations can 
-be used to speed-up the current flow calculation. Pistorius \cite{pistorius2003} described
-an algorithm which implicitly executes \EdmondKarp~on a hypergraph using
-labels on the hypernodes. In our first version of the framework, we also used a similar 
+be used to speed-up the current flow calculation. Currently, it is possible to add edges and nodes to a flow network and speed-up
+the flow computation by using informations of previous runs \cite{goldberg2015faster}. This 
+would be an useful extension of the \emph{adaptive flow iteration} strategy, where we solve
+a sequence of similar flow problems around the cut of two blocks of a partition. \\
+Pistorius \cite{pistorius2003} describes an algorithm which implicitly 
+executes \EdmondKarp~on hypergraphs using labels on the hypernodes. 
+In our first version of the framework, we used a similar 
 technique and implicitly executes a flow algorithm on an implicit representation of 
-the underlying network. During experiments, it turned out that the explicit representation
-was up to a factor of $2$-$3$ faster than the implicit version. We encountered several reasons
-for that behavior: 
-\begin{enumerate}
-\item Our flow network represents a subhypergraph of the original hypergraph. Iterating 
-      over the edges of a node means to iterate also over hypernodes which are not part of 
-      the flow problem and therefore have to be ignored.
-\item There are many different cases when we want to increase the flow along an 
-      \emph{augmenting path}.
-\item Many labels have to be introduced which lead to a large number of 
-      main memory accesses.
-\item Also the implicit flow network is not flexible enough. Developing a new 
-      technique to sparsify the flow networ would require a new implementation of 
-      the implicit flow network.
-\end{enumerate}
-In Section \ref{sec:flow_local_search_hypergraph} and \ref{sec:speed_up} we show that with
-three simple speed up heuristics our \emph{flow}-based refinement framework is up to a factor
-of $2$ faster with comparable quality. Therefore, it would be beneficial to further increase
-the effectiveness ratio of the flow computation by introducing more heuristics. \\
-It is also possible to further sparsify the flow network. Assume there exists two hypernodes
-$v_1$ and $v_2$ with $d(v_1) = 3$ and $d(v_2) = 4$. Further, $|I(v_1) \cap I(v_2)| = 3$ which means
-that in each hyperedge $e$ where $v_1 \in e$ also $v_2 \in e$ except for one hyperedge $e'$
-where $v_2 \in e'$ and $v_1 \notin e'$. We remove all hypernodes with $d(v) \le 3$ in our
-\emph{hybrid} flow network. Consequently, we would remove $v_1$ and insert a clique between all incident
-hyperedges. However, $v_2$ is part of the flow network and induce $2d(v_2) = 8$ edges because $d(v_2) > 3$.
-Alternatively, we can remove $v_2$ and expand the clique between all hyperedges of $I(v_1)$
-with $e'$. In that case, we have to insert an edge from each hyperedge in $I(v_1)$ to $e'$ and vice
-versa. Since $|I(v_1)| = d(v_1) = 3$ only $2|I(v_1)| = 6$ edges are inserted and we can remove
-one hypernode. In general, an expansion of a $k$-clique to a $(k+i)$-clique induced 
-$ik$ edges from the $k$ nodes already contained in the clique to the $i$ new nodes and
-$i(k+1-1)$ edges from the $i$ new nodes to the $k$ nodes in the clique. If we can remove a 
-hypernode from the flow network by expanding a $k$-clique between hyperedge nodes to a $(k+i)$-clique,
-it is beneficial if the following inequality holds 
-\[ik + i(k+i-1) = i^2 + 2ki - i \le 2(k+i)\]
-The inequality is only satisfied for $i = 1$. In this case, we can exactly remove $2$ edges and
-$1$ node from the flow network. A possible algorithm could be to sort the hypernodes according
-to the degree and for each hypernode store a clique label which indicates between how many
-incident hyperedges already exist a clique. Afterwards, we iterate over the hypernodes and if we remove
-a hypernode, we have to update the clique label of all hypernodes in the intersection of the
-currently inserted clique. We iterate over the hypernodes until none of the hypernodes could
-be removed anymore. However, we didn't find an efficient implementation of the above-described
-algorithm. The algorithm requires a fast calculation between the intersection of several
-hyperedges. An explicit construction of the intersection hypergraph would occupy too much
-memory. 
+the underlying network. During initial experiments, it turned out that the explicit representation
+was up to a factor of $2$-$3$ faster than the implicit version. 
+This is due to the fact that our flow network represents a subhypergraph of the 
+original hypergraph. Iterating over the edges of a node means to iterate also 
+over hypernodes which are not part of the flow problem and therefore have to be ignored.
+Further, many labels have to be introduced which lead to a large number of 
+main memory accesses. Also the implicit flow network is not flexible enough. Developing a new 
+technique to sparsify the flow network would require a new implementation of 
+the implicit flow network.\\
+Our current framework optimizes the \emph{connectivity} metric of a $k$-way partition.
+It turned out that it is relatively simply to adapt the algorithm to different objective
+functions. If we want to improve the \emph{cut} metric of a $k$-way partition with a 
+\emph{Max-Flow-Min-Cut} computation on two adjacent blocks $V_i$ and $V_j$, we only have to extend the
+source and sink set of the resulting flow problem with additional nodes. More precisely,
+if a hyperedge contains a block $V_k$ with $V_k \notin \{V_i,V_j\}$, we add the
+\emph{incoming} and \emph{outgoing} hyperedge node to the source and sink set (without a proof).
+If we want to optimize \emph{sum of external degree} metric, we can use the same source and
+sink set as for the \emph{connectivity metric} and double the capacity of each hyperedge $e$
+with $\lambda(e,\Pi) \le 2$ (without a proof). In future versions of the framework, we want to
+generalize our observations such that it can optimize any objective function, which value depends
+on the \emph{connectivity} of a hyperedge.
+
+%It is also possible to further sparsify the flow network. Assume there exists two hypernodes
+%$v_1$ and $v_2$ with $d(v_1) = 3$ and $d(v_2) = 4$. Further, $|I(v_1) \cap I(v_2)| = 3$ which means
+%that in each hyperedge $e$ where $v_1 \in e$ also $v_2 \in e$ except for one hyperedge $e'$
+%where $v_2 \in e'$ and $v_1 \notin e'$. We remove all hypernodes with $d(v) \le 3$ in our
+%\emph{hybrid} flow network. Consequently, we would remove $v_1$ and insert a clique between all incident
+%hyperedges. However, $v_2$ is part of the flow network and induce $2d(v_2) = 8$ edges because $d(v_2) > 3$.
+%Alternatively, we can remove $v_2$ and expand the clique between all hyperedges of $I(v_1)$
+%with $e'$. In that case, we have to insert an edge from each hyperedge in $I(v_1)$ to $e'$ and vice
+%versa. Since $|I(v_1)| = d(v_1) = 3$ only $2|I(v_1)| = 6$ edges are inserted and we can remove
+%one hypernode. In general, an expansion of a $k$-clique to a $(k+i)$-clique induced 
+%$ik$ edges from the $k$ nodes already contained in the clique to the $i$ new nodes and
+%$i(k+1-1)$ edges from the $i$ new nodes to the $k$ nodes in the clique. If we can remove a 
+%hypernode from the flow network by expanding a $k$-clique between hyperedge nodes to a $(k+i)$-clique,
+%it is beneficial if the following inequality holds 
+%\[ik + i(k+i-1) = i^2 + 2ki - i \le 2(k+i)\]
+%The inequality is only satisfied for $i = 1$. In this case, we can exactly remove $2$ edges and
+%$1$ node from the flow network. A possible algorithm could be to sort the hypernodes according
+%to the degree and for each hypernode store a clique label which indicates between how many
+%incident hyperedges already exist a clique. Afterwards, we iterate over the hypernodes and if we remove
+%a hypernode, we have to update the clique label of all hypernodes in the intersection of the
+%currently inserted clique. We iterate over the hypernodes until none of the hypernodes could
+%be removed anymore. However, we didn't find an efficient implementation of the above-described
+%algorithm. The algorithm requires a fast calculation between the intersection of several
+%hyperedges. An explicit construction of the intersection hypergraph would occupy too much
+%memory. 

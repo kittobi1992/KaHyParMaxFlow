@@ -257,31 +257,31 @@ of \emph{hMetis} and outperforms it on $82\%$ of the benchmarks.
 \begin{abstract}
 \centerline{\textbf{Zusammenfassung}}
 
-In dieser Arbeiten stellen wir ein Framework vor basierend auf \emph{Max-Flow-Min-Cut}
-Berechnungen, um eine balancierte $k$-teilige Aufteilung eines Hypergraphen zu verbessern.
-Varianten des \emph{FM} Algorithmus \cite{fiduccia1988linear} werden aktuell in allen modernen \emph{Multilevel Hypergraph
-Partitionierer} als lokaler Suchalgorithmus eingesetzt. Solche \emph{bewegungsbasierende} Heuristiken
+In dieser Arbeit wird ein Framework basierend auf \emph{Max-Flow-Min-Cut} Berechnungen 
+vorgestellt, zur Verbesserung einer balancierten $k$-teilige Aufteilung eines Hypergraphen.
+Aktuell werden Varianten des \emph{FM} Algorithmus \cite{fiduccia1988linear} in allen modernen \emph{Multilevel Hypergraph
+Partitionierer} als lokaler Suchalgorithmus verwendet. Solche \emph{bewegungsbasierende} Heuristiken
 haben den Nachteil, dass sie nur \emph{lokale} Informationen über die Problemstruktur
-in die Berechnungen miteinfließen lassen und wenn viele Knotenbewegungen den selben
-Einfluss auf die Lösungsqualität haben, dann hängt das Ergebnis oft von
-zufälligen Entscheidungen ab, die der Algorithmus selber trifft 
+in die Berechnungen miteinfließen lassen. Außerdem, haben viele Knotenbewegungen den selben
+Einfluss auf die Lösungsqualität, dann hängt das Ergebnis oft von
+zufälligen Entscheidungen ab, welche der Algorithmus selbst trifft 
 \cite{dutt1997vlsi,krishnamurthy1984improved,mann2014formula}. Flussbasierende Ansätze
 sind nicht \emph{bewegungbasiert} und finden einen \emph{globalen} minimalen Schnitt, welcher 
-zwei Knoten $s$ und $t$ trennt \cite{ford1956maximal}.\\
-Unser Framework ist inspierend durch die Arbeit von Sanders und Schulz \cite{sanders2011engineering}
-die erfolgreich eine \emph{Fluss}-basierende Heuristik in Ihren \emph{Multilevel Graph Partitionierer}
-integriert haben. Wir generalisieren viele Ihrer Ideen, sodass sie im \emph{Multilevel Hypergraph
-Partitionierung}-Kontext anwendbar sind. Wir haben mehrere Techniken entwickelt, um das aktuelle 
-\emph{Hypergraph Flussnetzwerk} kleiner zu machen, welche die resultierende Problemgröße um
-einen Faktor $2$ reduziert, verglichen zu der aktuellen Representation \cite{lawler1973}.
-Zusätzlich haben wir gezeigt, wie ein Flussproblem auf einem \emph{Subhypergraphen} konfiguriert
+zwei Knoten $s$ und $t$ eines Graphen trennt \cite{ford1956maximal}.\\
+Unser Framework ist durch die Arbeit von Sanders und Schulz \cite{sanders2011engineering} inspiriert.
+Diese integrierten eine \emph{flussbasierende} Heuristik erfolgreich in Ihren \emph{Multilevel Graph 
+Partitionierer}. Wir generalisieren viele Ihrer Ideen, sodass sie im \emph{Multilevel Hypergraph
+Partitionierung}-Kontext anwendbar sind. Wir entwickeln mehrere Techniken, um das aktuelle 
+\emph{Hypergraph Flussnetzwerk} zu verkleinern, welche die resultierende Problemgröße im Vergleich
+zu der aktuellen Representation \cite{lawler1973}, um den Faktor $2$ reduziert.
+Zusätzlich zeigen wir, wie ein Flussproblem auf einem \emph{Subhypergraphen} konfiguriert
 werden kann, sodass das eine \emph{Max-Flow-Min-Cut} Berechnung eine bessere Qualität erzielt, 
 als die Modellierung von Sanders und Schulz. Am Ende haben wir unsere Arbeit als 
 Verbesserungsstrategie in den $n$-level \emph{Hypergraph Partitionierer KaHyPar} integriert \cite{heuer2017improving}.\\
-Wir haben unser Framework auf $3222$ verschiedenen Instanzen getestet. Im Vergleich zu $5$
-verschiedenen Systemen erzielt unsere neue Konfiguration auf $70\%$ der Instanzen
+Wir haben unser Framework auf $3222$ verschiedenen Instanzen getestet. Im Vergleich mit $5$
+verschiedenen Systemen erzielt unsere neue Konfiguration, auf $70\%$ der Instanzen,
 die besten Ergebnisse. Im Vergleich zu der aktuellen Variante von \emph{KaHyPar} ist die
-Qualität der Lösungen um $2.4\%$ gestiegen, während die Laufzeit nur um einen Faktor von $2$
+Qualität der Lösungen um $2.4\%$ gestiegen, während die Laufzeit nur um den Faktor $2$
 langsamer ist. Jedoch hat unser Algorithmus eine vergleichbare Laufzeit mit \emph{hMetis}
 und erzielt auf $82\%$ der Instanzen bessere Ergebnisse.
 
