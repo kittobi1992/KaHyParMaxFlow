@@ -1,20 +1,31 @@
 \subsection{Graphs}
-
-\begin{definition}
+%\begin{definition}[Graph]
+%A directed weighted graph $G = (V,E,c,\omega)$ is a set of nodes $V$ 
+%and a set of edges $E$ with a node weight function 
+%$c: V \rightarrow \mathbb{R}_{\ge 0}$ and an edge weight 
+%function $\omega: E \rightarrow \mathbb{R}_{\ge 0}$. An edge $e = (u,v)$ 
+%is a relation between two nodes $u,v \in V$.
+%\label{def:hypergraph}
+%\end{definition}
+%
+%\begin{definition}[Subgraph]
+%$G_{V'} = (V',E_{V'},c,\omega)$ is a subgraph of a graph $G = (V,E,c,\omega)$
+%induced by $V' \subseteq V$ with $E_{V'} = \{(u,v) \in E\ |\ u,v \in V'\}$.
+%\label{def:subgraph}
+%\end{definition}
 A directed weighted graph $G = (V,E,c,\omega)$ is a set of nodes $V$ 
 and a set of edges $E$ with a node weight function 
-$c: V \rightarrow \mathbb{R}_{\ge 0}$ and an edge weight 
-function $\omega: E \rightarrow \mathbb{R}_{\ge 0}$. An edge $e = (u,v)$ 
+$c: V \rightarrow \mathbb{R}$ and an edge weight 
+function $\omega: E \rightarrow \mathbb{R}$. An edge $e = (u,v)$ 
 is a relation between two nodes $u,v \in V$.
-\label{def:hypergraph}
-\end{definition}
-
+$G_{V'} = (V',E_{V'},c,\omega)$ is a subgraph of a graph $G = (V,E,c,\omega)$
+induced by $V' \subseteq V$ with $E_{V'} = \{(u,v) \in E\ |\ u,v \in V'\}$.
 Two vertices $u$ and $v$ are \emph{adjacent}, if there exists an edge
 $(u,v) \in E$. Two edges $e_1$ and $e_2$ are \emph{incident} to each other if they
 share a node. $N(v)$ denotes the set of all \emph{adjacent} nodes of 
 $v$. The \emph{degree} of a node $v$ is $d(v) = |N(v)|$.
 
-\begin{definition}
+\begin{definition}[Contraction]
 Given a directed graph $G = (V,E)$. A contraction of two nodes
 $u$ and $v$ results in a new graph $G_{(u,v)} = (V\setminus\{v\},E')$, where
 each edge of the form $(v,w)$ or $(w,v)$ in $E$ is replaced with an edge 
@@ -27,31 +38,24 @@ each $i \in [1,k-1]: (v_i,v_{i+1}) \in E$. A \emph{cycle} is a \emph{path}
 $P = (v_1,\ldots,v_k)$ with $v_1 = v_k$. A \emph{strongly connected 
 component} $C \subseteq V$ is a set of nodes where for each $u,v \in C$
 exists a \emph{path} from $u$ to $v$. We can enumerate all \emph{strongly
-connected components} (\emph{SCC}) in a directed graph $G$ with a linear time algorithm
+connected components} (\emph{SCCs}) in a directed graph $G$ with a linear time algorithm
 proposed by Tarjan \cite{tarjan1972depth}. A directed graph $G$ without
 any \emph{cycles} is called \emph{directed acyclic graph} (\emph{DAG}). On such
 graphs we can define a \emph{topological order} $\gamma: V \rightarrow \mathbb{N}_+$ such
 that for each $(u,v) \in E: \gamma(u) < \gamma(v)$. A \emph{topological order}
 of a \emph{DAG} can be found in linear time with Kahn's algorithm \cite{kahn1962topological}.
-We can transform a general directed graph $G$ into a \emph{DAG} if we contract
-each \emph{strongly connected component}. All concepts are illustrated in 
-\autoref{img:scctoposort}.
+We can transform a general directed graph $G$ into a \emph{DAG} by contracting
+each \emph{strongly connected component}. \emph{Strongly connected components}
+and a \emph{topological order} of a graph are illustrated in \autoref{img:scctoposort}.
 
 \begin{figure}[ht!]
 \centering
 \includegraphics[width=0.9\textwidth]{../img/preliminaries/scctoposort.eps}
-\caption{Example of \emph{Strongly Connected Components} in a directed graph and
-         a \emph{Topological Order} of a \emph{Directed Acyclic Graph}. Each 
+\caption{Example of \emph{strongly connected components} in a directed graph and
+         a \emph{topological order} of a \emph{directed acyclic graph}. Each 
          \emph{SCC} is marked with the same color.} 
 \label{img:scctoposort}
 \end{figure}
-
-\begin{definition}
-Let $G_{V'} = (V',E_{V'},c,\omega)$ be the subgraph of a graph $G$
-induced by $V' \subseteq V$ with $E_{V'} = \{(u,v) \in E\ |\ u,v \in V'\}$.
-\label{def:subgraph}
-\end{definition}
-
 
 \subsection{Flows and Applications}
 \label{sec:applications}
@@ -59,19 +63,18 @@ induced by $V' \subseteq V$ with $E_{V'} = \{(u,v) \in E\ |\ u,v \in V'\}$.
 Given a graph $G = (V,E,u)$ with capacity function $\capa: E \rightarrow \mathbb{R}_+$ and a source 
 $s \in V$ and a sink $t \in V$, the maximum flow problem is to find
 the maximum amount of flow from $s$ to $t$ in $G$. A flow is a function 
-$f: E \rightarrow \mathbb{R}_+$, which have to satisfy the following constraints:
+$f: E \rightarrow \mathbb{R}_+$, which has to satisfy the following constraints:
 \begin{enumerate}
 \item $\forall (u,v) \in E: f(u,v) \le \capacity{u,v}$ (capacity constraint)
 \item $\forall v \in V \setminus \{s,t\}: \sum_{(u,v) \in E} f(u,v) = \sum_{(v,u) \in E} f(v,u)$ (conservation of flow constraint)
 \end{enumerate}
 The capacity constraint restricts the flow on edge $(u,v)$ by its capacity 
-$\capacity{u,v}$. Whereas the conservation of flow constraint ensures that the amount
-of flow entering a node $v \in V \setminus \{s,t\}$ is the same as leaving a node.
+$\capacity{u,v}$, whereas the conservation of flow constraint ensures that the amount
+of flow entering a node $v \in V \setminus \{s,t\}$ is the same as the amount leaving a node.
 The value of the flow is defined as $|f| = \sum_{(s,v) \in E} f(s,v) = \sum_{(v,t) \in E} f(v,t)$.
 A flow $f$ is maximal, if there exists no other flow $f'$ with $|f'| > |f|$. \\
-Further, we define the \emph{residual graph} $G_f$ and the 
-\emph{residual capacity} $r_f$ of a flow function $f$ on graph $G$.
-The \emph{residual capacity} $r_f: V \times V \rightarrow \mathbb{R}_+$ is defined as follows:
+The \emph{residual capacity} $r_f: V \times V \rightarrow \mathbb{R}_+$ of a flow function
+$f$ is defined as follows:
 \begin{enumerate}
 \item $\forall (u,v) \in E: r_f(u,v) = \capacity{u,v} - f(u,v)$
 \item $\forall (u,v) \in E:$ If $f(u,v) > 0$ and $\capacity{v,u} = 0$, then $r_f(v,u) = f(u,v)$
@@ -96,9 +99,9 @@ is illustrated on the right side. The red highlighted path is an \emph{augmentin
 The \emph{Max-Flow-Min-Cut}-Theorem is fundamental for many applications related to the maximum
 flow problem \cite{ford1956maximal}.
 
-\begin{theorem}
-The value of a maximum $(s,t)$-flow obtainable in a graph $G$ is equal with 
-the minimum-weight cutset in $G$ separating $s$ and $t$.
+\begin{theorem}[Max-Flow Min-Cut]
+The value of a maximum $(s,t)$-flow obtainable in a graph $G$ is equal to the 
+weight of a minimum-weight cutset in $G$ separating $s$ and $t$.
 \end{theorem}
 
 Let $f$ be a maximum $(s,t)$-flow in a graph $G = (V,E,\omega)$ with $s \in V$ and $t \in V$. 
@@ -106,20 +109,20 @@ Further, let $A$ be the set containing all $v \in V$, which are \emph{reachable}
 in $G_f$. A node $v$ is \emph{reachable} from a node $u$ if there exists a path from $u$
 to $v$. Then the set of all cut edges between the bipartition $(A,V\setminus A)$ 
 is a minimum-weight $(s,t)$-cutset \cite{ford2015flows}. $A$ can be calculated with a \BFS~in $G_f$ starting
-from $s$. \\
-We can solve with maximum flows many related problems like e.g., maximum bipartite-matching,
+from $s$. \\ 
+Many related problems can be solved with maximum flows. For example, maximum bipartite-matching,
 number of edge- or vertex-disjoint paths in a graph or to find a minimum-weight vertex
-separator. Solutions for those problems sometimes involve a transformation $T$ of the graph $G$
+separator. Solutions to those problems sometimes involve a transformation $T$ of the graph $G$
 into a flow network $T(G)$, such that the \emph{Max-Flow-Min-Cut}-Theorem is applicable. 
 A problem essential for this work is to find a minimum-weight $(s,t)$-vertex separator
 in a graph $G = (V,E,c)$ with $c: V \rightarrow \mathbb{R}_+$.
 
-\begin{definition}
+\begin{definition}[Vertex Separator]
 Let $G = (V,E,c)$ be a graph with $c: V \rightarrow \mathbb{R}_+$. $S \subseteq V$
 is a vertex separator for non-adjacent vertices $s \in V$ and $t \in V$ if the
 removal of $S$ from graph $G$ separates $s$ and $t$ ($s$ not \emph{reachable} from $t$).
 A vertex separator $S$ is a minimum-weight $(s,t)$-vertex separator, if for all 
-$(s,t)$-vertex separators $S' \subseteq V$ follows that $c(S) \le c(S')$.
+$(s,t)$-vertex separators $S' \subseteq V$ it follows that $c(S) \le c(S')$.
 \end{definition}
 
 We can calculate a minimum-weight $(s,t)$-vertex separator with a maximum flow
@@ -132,9 +135,9 @@ a flow network $T_V(G) = (V_V, E_V, \capa_V)$ (with $\capa_V: E_V \rightarrow \m
 $T_V$ is defined as follows:
 \begin{enumerate}
 \item $V_V = \bigcup\limits_{v \in V}\ \{\incoming{v}, \outgoing{v}\}$
-\item $\forall v \in V$ add a directed edge $(\incoming{v},\outgoing{v})$
+\item $\forall v \in V:$ add a directed edge $(\incoming{v},\outgoing{v})$
       with capacity $\capa_V(\incoming{v},\outgoing{v}) = c(v)$
-\item $\forall (u,v) \in E$ add two directed edges $(\outgoing{u}, \incoming{v})$ and 
+\item $\forall (u,v) \in E:$ add two directed edges $(\outgoing{u}, \incoming{v})$ and 
       $(\outgoing{v}, \incoming{u})$ with capacity $\capa_V(\outgoing{u}, \incoming{v}) = \capa_V(\outgoing{v}, \incoming{u}) = \infty$.
 \end{enumerate} 
 \end{definition}
@@ -162,11 +165,11 @@ $\capacity{s,s'} = \capacity{t',t} = \infty$.
 \subsection{Hypergraphs}
 \label{sec:hypergraph}
 
-\begin{definition}
-An undirected weighted hypergraph $H = (V,E,c,\omega)$ is a set of hypernodes $V$ 
+\begin{definition}[Hypergraph]
+An undirected weighted hypergraph $H = (V,E,c,\omega)$ consists of a set of hypernodes $V$ 
 and a set of hyperedges $E$ with a hypernode weight function 
-$c: V \rightarrow \mathbb{R}_{\ge 0}$ and a hyperedge weight 
-function $\omega: E \rightarrow \mathbb{R}_{\ge 0}$. A hyperedge $e$ 
+$c: V \rightarrow \mathbb{R}$ and a hyperedge weight 
+function $\omega: E \rightarrow \mathbb{R}$. A hyperedge $e$ 
 is a subset of $V$ (formally: $\forall e \in E: e \subseteq V$).
 \label{def:hypergraph}
 \end{definition}
@@ -187,17 +190,18 @@ $e \in E$ such that $u \in e$ and $v \in e$. $I(v)$ denotes the set of all
 \emph{incident} nets of $v$. The \emph{degree} of a hypernode 
 $v$ is $d(v) = |I(v)|$. The size of a net $e$ is its cardinality $|e|$.
 
-\begin{definition}
-Let $H_{V'} = (V',E_{V'},c,\omega)$ be the subhypergraph of a hypergraph $H$
-induced by $V' \subseteq V$ with $E_{V'} = \{e \cap V'\ |\ e \in E: e 
+\begin{definition}[Subhypergraph]
+$H_{V'} = (V',E_{V'},c,\omega)$ is a subhypergraph of a hypergraph $H$
+induced by $V' \subseteq V$ with $E_{V'} := \{e \cap V'\ |\ e \in E: e 
 \cap V' \neq \emptyset\}$.
 \label{def:subhypergraph}
 \end{definition}
 
-\begin{definition}
+\begin{definition}[Section Hypergraph]
 Given a subset $A \subseteq V$ of hypergraph \HypergraphDef. The section hypergraph $H \times A$
-is the hypergraph induced by $A$ containing all hyperedges $e \in E$ which are a subset of $A$.
-More formally, $H \times A = (A, \{e\ |\ e \in E: e \subseteq A\}, \omega, c)$.
+is the hypergraph induced by subset $A$ and contains all hyperedges $e \in E$ which are 
+fully contained in $A$.
+More formally, $H \times A := (A, \{e\ |\ e \in E: e \subseteq A\}, \omega, c)$.
 \label{def:section_hypergraph}
 \end{definition}
 
@@ -219,7 +223,7 @@ are illustrated in \autoref{img:hypergraph_transformation}.
 \subsection{Hypergraph Partitioning}
 \label{sec:hypergraph_partitioning}
 
-\begin{definition}
+\begin{definition}[$k$-Way Partition]
 A $k$-way partition of a hypergraph $H$ is a partition of its hypernodes into
 $k$ disjoint blocks $\Pi = \{V_1,\ldots,V_k\}$ such that $\bigcup_{i=1}^{k} V_i = V$
 and $V_i \neq \emptyset$.
@@ -231,12 +235,12 @@ hyperedge $e$ with $\Lambda(e,\Pi) = \{V_i \in \Pi\ |\ V_i \cap e \neq \emptyset
 of a net $e$ is $\lambda(e,\Pi) = |\Lambda(e,\Pi)|$. A hyperedge $e$ is \emph{cut}, if
 $\lambda(e,\Pi) > 1$. $E(\Pi) = \{e\ |\ \lambda(e,\Pi) > 1\}$ is the set of all \emph{cut} 
 nets. We say two blocks $V_i$ and $V_j$ are adjacent, if there exists a hyperedge
-$e$ with $V_i \in \Lambda(e,\Pi)$ and $V_j \in \Lambda(e,\Pi)$. 
+$e$ with $\{V_i,V_j\} \subseteq \Lambda(e,\Pi)$. 
 A $k$-way partition is $\epsilon$-balanced 
 if each block $V_i \in \Pi$ satisfies the \emph{balance constraint} 
 $c(V_i) \le (1+\epsilon)\lceil\frac{c(V)}{k}\rceil$.
 
-\begin{definition}
+\begin{definition}[Hypergraph Partitioning Problem]
 The $k$-way hypergraph partitioning problem is to find an $\epsilon$-balanced $k$-way
 partition $\Pi$ of a hypergraph $H$ such that a certain objective function is minimized.
 \label{def:kway_partitioning_problem}
@@ -252,10 +256,10 @@ which is defined as
 \[(\lambda - 1)_H(\Pi) = \sum_{e \in E} (\lambda(e) - 1)\omega(e)\]
 The idea behind this function is to minimize the \emph{connectivity} of all hyperedges.
 
-\begin{definition}
-We define for a $k$-way partition $\Pi = \{V_1,\ldots,V_k\}$ of a hypergraph $H$ 
-the quotient graph $Q = (\Pi,E')$ which contains an 
-edge between each pair of adjacent blocks of $\Pi$.
-More formally, $E' = \{(V_i,V_j)\ |\ \exists e \in E: V_i,V_j \in \Lambda(e,\Pi)\}$
+\begin{definition}[Quotient Graph]
+$Q = (\Pi,E')$ is a graph, which contains an edge between each pair of 
+adjacent blocks of a $k$-way partition $\Pi = \{V_1,\ldots,V_k\}$ 
+of a hypergraph $H$. More formally, 
+$E' = \{(V_i,V_j)\ |\ \exists e \in E: V_i,V_j \in \Lambda(e,\Pi)\}$.
 \label{def:quotient_graph}
 \end{definition}

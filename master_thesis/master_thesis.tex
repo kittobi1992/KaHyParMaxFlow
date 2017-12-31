@@ -206,7 +206,6 @@ Karlsruhe, den 22.12.2017
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\vspace*{0pt}\vfill
 
 \selectlanguage{english}
 \addto\extrasenglish{\def\figureautorefname{Fig.}}
@@ -214,34 +213,32 @@ Karlsruhe, den 22.12.2017
 \begin{abstract}
 \centerline{\textbf{Abstract}}
 
-In this thesis, we introduce an framework based on \emph{Max-Flow-Min-Cut}
-computations for improving a balanced direct $k$-way partition of a hypergraph.
-Currently, \emph{local search} algorithms based on the \emph{FM} idea \cite{fiduccia1988linear} 
-are used in all state-of-the-art multilevel hypergraph partitioner. Such \emph{move}-based
-heuristics have the disadvantage that they only incorporate \emph{local} informations about the problem 
-structure and in case of ties, the quality mainly depends on random choices made within 
+In this thesis, we introduce a framework based on \emph{Max-Flow-Min-Cut}
+computations for improving balanced $k$-way partitions of hypergraphs.
+Currently, variations of the \emph{FM} heuristic \cite{fiduccia1988linear} are used 
+as \emph{local search} algorithms in all state-of-the-art multilevel hypergraph partitioners. 
+Such \emph{move}-based heuristics have the disadvantage that they only incorporate \emph{local} 
+information about the problem structure and if many \emph{moves} of vertices have an equal 
+impact on the solution quality, the outcome mainly depends on random choices made within 
 the algorithm \cite{dutt1997vlsi,krishnamurthy1984improved,mann2014formula}.
-\emph{Flow}-based approaches are not \emph{move}-based and able to find a \emph{global}
-minimum cut separating to vertices $s$ and $t$ \cite{ford1956maximal}.
-Therefore, utilizing such techniques as \emph{refinement} heuristic would 
-overcome the drawbacks of the \emph{FM} algorithm.\\
+\emph{Flow}-based approaches are not \emph{move}-based and they are able to find a \emph{global}
+minimum cut separating two vertices $s$ and $t$ \cite{ford1956maximal}. \\
 Our framework is inspired by the work of Sanders and Schulz \cite{sanders2011engineering} who
-successfully integrate a \emph{flow}-based refinement algorithm in a multilevel graph partitioner.
-We generalize many ideas of them such that they are applicable in the multilevel hypergraph 
-partitioning context. We develop several techniques to sparsify the flow network of 
-a hypergraph, which reduces the resulting problem size on average by a factor of $2$ compared to
+successfully integrate a \emph{flow}-based refinement algorithm into a multilevel graph partitioner.
+We generalize many ideas such that they are applicable in the multilevel hypergraph 
+partitioning context. We develop several techniques to sparsify the hypergraph flow network, 
+which reduces the resulting problem size by a factor of $2$ on average compared to
 the state-of-the-art representation \cite{lawler1973}. Additionally, we show how to configure
 a flow problem on a subhypergraph such that the quality achievable with a \emph{Max-Flow-Min-Cut}
 computation is significantly better than with the modeling approach of Sanders and Schulz.
 Finally, we integrate our work as refinement strategy into the $n$-level hypergraph 
 partitioner \emph{KaHyPar} \cite{heuer2017improving}. \\
 We tested our framework on a large benchmark set with $3222$ instances. In comparison to $5$ different systems, 
-our new configuration outperforms the tested state-of-the-art hypergraph partitioner on $70\%$ 
+our new configuration outperforms the tested state-of-the-art hypergraph partitioners on $70\%$ 
 of the instances. In comparison to the latest version of \emph{KaHyPar}, our new approach 
-produces $2.4\%$ better quality while only incurring a performance slowdown by a factor of $2$. 
-Moreover, our partitioner has a comparable running time to the direct $k$-way version 
+improves quality by $2.4\%$ while only incurring a performance slowdown by a factor of $2$. 
+However, our algorithm is still as fast as the direct $k$-way version 
 of \emph{hMetis} and outperforms it on $82\%$ of the benchmarks.
-
 %All variations
 %of the algorithm have in common that they greedily \emph{move} (hyper)nodes between
 %blocks of a partition according to an associated \emph{gain}, which value depends on
@@ -255,33 +252,40 @@ of \emph{hMetis} and outperforms it on $82\%$ of the benchmarks.
 %We generalize many ideas of them such that they are applicable in the multilevel hypergraph 
 %partitioning context.
 \end{abstract}
+\clearpage
+\selectlanguage{german}
+\begin{abstract}
+\centerline{\textbf{Zusammenfassung}}
 
-%\selectlanguage{german}
-%\begin{abstract}
-%\centerline{\textbf{Zusammenfassung}}
-%
-%Algorithmen basierend auf der \emph{FM}-Idee \cite{fiduccia1988linear} sind zur Zeit 
-%die einzigsten praktischen Heuristiken, um eine $k$-teilige
-%Partitionierung in einem \emph{Multilevel Hypergraph Partitioner} zu verbessern. 
-%Jedoch werden sie oft kritisiert für ihre limitierte Eigenschaft
-%vorrauszuschauen \cite{zhao2002effective}. Zum Beispiel könnte es von Vorteil sein ein
-%Knoten mit geringem \emph{Gain} zu verschieben, weil er vielleicht später viele bessere
-%Verschiebungen induziert. Wir präsentieren einen alternativen \emph{Lokale 
-%Suche} Ansatz basierend auf \emph{Max-Flow-Min-Cut} Berechnungen. Das Framework ist inspiriert 
-%durch die Arbeit von Sanders und Schulz, welche gezeigt haben, dass ein \emph{flow}-basierter
-%Ansatz in Kombination mit dem \emph{FM}-Algorithmus signifikant die Qualität von Partitionierungen
-%in einem \emph{Multilevel Graph Partitioner} verbessert \cite{sanders2011engineering}. 
-%In dieser Arbeit entwickeln wir verschiedene Modellierungstechnicken eines Hypergraphen 
-%als Flussnetzwerk und zeigen wie die \emph{connectivity metric} einer $k$-teiligen 
-%Partitionierung verbessert werden kann, indem ein Flussproblem auf einer
-%Teilmenge der Knoten aufgebaut wird. Wir haben das Framework in den
-%\emph{Hypergraph Partitioner KaHyPar} integriert, indem wir das Framework von \cite{sanders2011engineering}
-%übernommen und angepasst haben. Auf unserem großen \emph{Benchmark Set} mit $3222$ Instanzen
-%erzielt unsere neue Konfiguration auf $70\%$ der Instanzen eine bessere Qualität als die meisten
-%\emph{State-of-the-Art} Partitionierer. Im Vergleich zu der letzten Konfiguration von \emph{KaHyPar}
-%erreichen wir mit unserem Ansatz $2\%$ bessere Qualität mit nur doppelt so langer Laufzeit.
-%
-%\end{abstract}
+In dieser Arbeiten stellen wir ein Framework vor basierend auf \emph{Max-Flow-Min-Cut}
+Berechnungen, um eine balancierte $k$-teilige Aufteilung eines Hypergraphen zu verbessern.
+Varianten des \emph{FM} Algorithmus \cite{fiduccia1988linear} werden aktuell in allen modernen \emph{Multilevel Hypergraph
+Partitionierer} als lokaler Suchalgorithmus eingesetzt. Solche \emph{bewegungsbasierende} Heuristiken
+haben den Nachteil, dass sie nur \emph{lokale} Informationen über die Problemstruktur
+in die Berechnungen miteinfließen lassen und wenn viele Knotenbewegungen den selben
+Einfluss auf die Lösungsqualität haben, dann hängt das Ergebnis oft von
+zufälligen Entscheidungen ab, die der Algorithmus selber trifft 
+\cite{dutt1997vlsi,krishnamurthy1984improved,mann2014formula}. Flussbasierende Ansätze
+sind nicht \emph{bewegungbasiert} und finden einen \emph{globalen} minimalen Schnitt, welcher 
+zwei Knoten $s$ und $t$ trennt \cite{ford1956maximal}.\\
+Unser Framework ist inspierend durch die Arbeit von Sanders und Schulz \cite{sanders2011engineering}
+die erfolgreich eine \emph{Fluss}-basierende Heuristik in Ihren \emph{Multilevel Graph Partitionierer}
+integriert haben. Wir generalisieren viele Ihrer Ideen, sodass sie im \emph{Multilevel Hypergraph
+Partitionierung}-Kontext anwendbar sind. Wir haben mehrere Techniken entwickelt, um das aktuelle 
+\emph{Hypergraph Flussnetzwerk} kleiner zu machen, welche die resultierende Problemgröße um
+einen Faktor $2$ reduziert, verglichen zu der aktuellen Representation \cite{lawler1973}.
+Zusätzlich haben wir gezeigt, wie ein Flussproblem auf einem \emph{Subhypergraphen} konfiguriert
+werden kann, sodass das eine \emph{Max-Flow-Min-Cut} Berechnung eine bessere Qualität erzielt, 
+als die Modellierung von Sanders und Schulz. Am Ende haben wir unsere Arbeit als 
+Verbesserungsstrategie in den $n$-level \emph{Hypergraph Partitionierer KaHyPar} integriert \cite{heuer2017improving}.\\
+Wir haben unser Framework auf $3222$ verschiedenen Instanzen getestet. Im Vergleich zu $5$
+verschiedenen Systemen erzielt unsere neue Konfiguration auf $70\%$ der Instanzen
+die besten Ergebnisse. Im Vergleich zu der aktuellen Variante von \emph{KaHyPar} ist die
+Qualität der Lösungen um $2.4\%$ gestiegen, während die Laufzeit nur um einen Faktor von $2$
+langsamer ist. Jedoch hat unser Algorithmus eine vergleichbare Laufzeit mit \emph{hMetis}
+und erzielt auf $82\%$ der Instanzen bessere Ergebnisse.
+
+\end{abstract}
 
 \vfill
 
