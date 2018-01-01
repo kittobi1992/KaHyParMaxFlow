@@ -333,7 +333,7 @@ the same.
 
 
 \subsection{Integration into KaHyPar}
-\label{sec:integration_kahypar}
+\label{sec:integration_kahypar}  
 
 \subsubsection*{Flow Execution Policies}
 Since \emph{KaHyPar} is an $n$-level hypergraph partitioner, local searches
@@ -349,7 +349,7 @@ performs the \emph{active block scheduling} refinement strategy on the last leve
 hierarchy. In all remaining levels where no flow is executed, we can use an 
 \emph{FM} algorithm 
 \cite{akhremtsev2017engineering,fiduccia1988linear,sanchis1989multiple} (see Section 
-\ref{sec:abs}). \\
+\ref{sec:abs}). 
 
 \subsubsection*{Combining Flow-Based Refinements with the FM algorithm}
 The \emph{FM} algorithms integrated into \emph{KaHyPar} use a \emph{gain cache} to maintain
@@ -358,7 +358,7 @@ of gain values if a \emph{FM} local search is instantiated. However, if we use \
 refinement in combination with the \emph{FM} algorithm, we have to ensure that the 
 \emph{gain cache} contains valid entries at each time. Therefore, we undo all changes after a \emph{flow}-based
 refinement and simulate the moves with the \emph{FM} algorithm to ensure that all entries in
-the \emph{gain cache} are valid.\\
+the \emph{gain cache} are valid.
 
 \subsubsection*{Speedup Heuristics}
 An observation during early experiments was that only a minority

@@ -112,6 +112,7 @@ Hypergraph                                                                      
   human-gene2                                                                                                                 &             &                                           &                                           &                                           & \ding{109}$\triangle$                     & \ding{109}$\triangle$                              & \ding{109}$\triangle$                              \\
   IMDB                                                                                                                        &             &                                           &                                           & $\triangle$                               & $\triangle$                               & $\triangle$                                        & $\triangle$                                        \\
   kron-g500-logn16                                                                                                            &             & $\triangle$                               & $\triangle$                               & $\triangle$                               & $\triangle$                               & \ding{109}$\triangle$                              & \ding{109}$\triangle$                              \\
+  nlpkkt120                                                                                                                   &             & $\triangle$                               & $\triangle$                               & $\triangle$                               & $\triangle$                               & $\triangle$                              & \ding{109}$\triangle$                              \\
   Rucci1                                                                                                                      &             &                                           &                                           &                                           & $\square$                                 &                                                    &                                                    \\
   sls                                                                                                                         & $\square$   & $\square$                                 & $\square$                                 & \ding{109}$\square$                       & \ding{109}$\square$                       & \ding{109}$\square$                                & \ding{109}$\square$                                \\
   Trec14                                                                                                                      &             &                                           &                                           &                                           &                                           &                                                    & \ding{109}                                         
@@ -204,23 +205,23 @@ now induce $d(v)(d(v) - 1)$ edges instead of $d(v)^2$ edges in the new network.
 
 \newpage
 \section{Detailed Flow Network and Algorithm Evaluation}
-\begin{table}[ht]
-\renewcommand{\arraystretch}{0.8}
+
+\begin{table}[ht!]
+\renewcommand{\arraystretch}{1.15}
+\footnotesize
 \centering
-\begin{tabular}{lr|*{4}{r@{\hspace{3mm}}}|*{4}{r@{\hspace{3mm}}}}
+\begin{tabular}{lr|C{2.5cm}|c|c|c}
 \toprule
- \multirow{2}{*}{\rotatebox{90}{\footnotesize{Instance}}} & \quad\quad & \multicolumn{4}{c}{\GoldbergTarjan} & \multicolumn{4}{c}{\EdmondKarp} \\
-\cmidrule{3-10}
- &  & $\ExpHybrid$ & $\ExpEdgeSize$ & $\ExpNodeDegree$ & $\ExpLawler$ & $\ExpHybrid$ & $\ExpEdgeSize$ & $\ExpNodeDegree$ & $\ExpLawler$ \\
- & $|V'|$ &  \tiny{$t[ms]$} & \tiny{$t[\%]$} & \tiny{$t[\%]$} & \tiny{$t[\%]$} & \tiny{$t[\%]$} & \tiny{$t[\%]$} & \tiny{$t[\%]$} & \tiny{$t[\%]$}
-\\\midrule%
+ \multirow{2}{*}{\rotatebox{90}{\tiny{Instance}}} & \quad\quad & \IBFS & \BoykovKolmogorov & \GoldbergTarjan & \EdmondKarp \\
+ & $|V'|$ &  $t[ms]$ & $t[\%]$ & $t[\%]$ & $t[\%]$ 
+\\\midrule% 
 \csname @@input\endcsname experiments/flow_network/flow_network_max_flow_table.tex 
 \bottomrule
 \end{tabular}
-\caption{Running time comparison of maximum flow algorithms on different flow networks.
-         Note, all values in the table are in percentage relative to Goldberg-Tarjan 
-         on flow network $T_{Hybrid}$. In each line the fastest variant is marked bold.}
-\label{tbl:space}
+\caption{Absolute running time of our maximum flow algorithms on flow network $\ExpHybrid$.
+         Note, all values in the table are in percentage relative to the running time
+         of the \IBFS~algorithm. In each line the fastest variant is marked bold.}
+\label{tbl:flow_algo_network_detail_summary}
 \end{table}
 
 \newpage

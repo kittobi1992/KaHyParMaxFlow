@@ -46,15 +46,15 @@ flow_network_db$flow_algorithm <- factor(flow_network_db$flow_algorithm, levels 
 source(paste(working_dir, "experiments/flow_network_functions.R", sep="/"))
 table_file <- paste(working_dir, "master_thesis/experiments/flow_network/flow_network_max_flow_summary_table.tex", sep="/")
 sink(table_file)
-create_flow_network_max_flow_table_hybrid(flow_network_db)
+create_flow_network_max_flow_table_hybrid(flow_network_db, showType=TRUE)
 sink()
 
 table_file <- paste(working_dir, "master_thesis/experiments/flow_network/flow_network_max_flow_table.tex", sep="/")
 sink(table_file)
-create_flow_network_max_flow_table(flow_network_db)
+create_flow_network_max_flow_table_hybrid(flow_network_db, showType=TRUE)
 for( type in levels(factor(flow_network_db$type))) {
   cat("\\midrule% \n")
-  create_flow_network_max_flow_table(flow_network_db[flow_network_db$type == type,], instance_type=as.character(type))
+  create_flow_network_max_flow_table_hybrid(flow_network_db[flow_network_db$type == type,], instance_type=as.character(type), showType=TRUE)
 }
 sink()
 

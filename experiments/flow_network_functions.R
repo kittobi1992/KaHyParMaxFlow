@@ -336,12 +336,12 @@ create_flow_network_max_flow_table <- function(df, instance_type = "ALL") {
   }
 }
 
-create_flow_network_max_flow_table_hybrid <- function(df) {
+create_flow_network_max_flow_table_hybrid <- function(df, instance_type="ALL", showType=FALSE) {
   aggreg <- function(df) data.frame(build_time=gm_mean(df$avg_network_build_time),
                                     max_flow_time=gm_mean(df$avg_max_flow_time))
   df <- df[df$flow_network == "hybrid",]
   db <- ddply(df, c("num_hypernodes", "flow_algorithm", "flow_network"), aggreg)
-  
+
   for( num_hn in levels(factor(db$num_hypernodes)) ) {
     column <- db[db$num_hypernodes == num_hn,]["max_flow_time"][c(1:4),]
     column <- rev(column)
@@ -350,6 +350,13 @@ create_flow_network_max_flow_table_hybrid <- function(df) {
     column <- c(num_hn, as.character(round(column, digits = 2)))
     column <- c(paste("$",column[1],"$",sep=""), paste("$",column[2],"$",sep=""), sapply(column[3:5], to_latex_math_mode))
     column[min_idx+1] <- to_latex_bold_math_mode(column[min_idx+1])
+    type <- ""
+    if(num_hn == 500) {
+      type <- paste("\\multirow{5}{*}{\\rotatebox{90}{\\", instance_type, "}}", sep="")
+    }
+    if(showType) {
+      column <- c(type, column)
+    }
     cat(paste(column, collapse = " & "))
     cat(" \\\\ \n")
   }
