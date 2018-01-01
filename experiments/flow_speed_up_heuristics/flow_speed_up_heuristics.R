@@ -98,7 +98,7 @@ for(i in 1:length(dbs)) {
 }
 hmetis_r = merge(hmetis_r,full_instance_stats,by='graph')
 
-flow_000_ <- flow_dbs[[1]]
+flow_000 <- flow_dbs[[1]]
 flow_001 <- flow_dbs[[2]]
 flow_011 <- flow_dbs[[3]]
 flow_111 <- flow_dbs[[4]]
@@ -160,6 +160,7 @@ sink()
 # performance plots
 ##############################
 
+source("plot_functions.R")
 
 kahypar_sea$algorithm <- "\\KaHyPar{CA}"
 flow_000$algorithm <- "\\KaHyPar{MF}"
@@ -169,6 +170,13 @@ flow_111$algorithm <- "\\KaHyParConfig{MF}{R1,R2,R3}"
 
 instance_classes <- c("*","DAC","ISPD","Primal","Dual","Literal","SPM")
 i <- 1
+breaks <- list(c(1,10,25,50,100,200,300,400,600,800,1000,1200),
+               c(1,5,10,15,20,25,30,35),
+               c(1,5,10,20,30,40,50,60,75),
+               c(1,10,25,50,75,100,125,175,225),
+               c(1,10,25,50,75,100,125,175,225),
+               c(1,10,25,50,75,100,125,175,225),
+               c(1,10,25,50,100,150,200,275,350,425))
 type_plots <- list()
 for(type in instance_classes) {
   filter <- type
@@ -181,7 +189,7 @@ for(type in instance_classes) {
                                             flow_011 = flow_011,
                                             flow_111 = flow_111)$min_ratios, 
                        if(type == "*") "\\ALL" else paste("\\",filter,sep=""), 
-                       pretty_breaks(n=7),
+                       xbreaks=breaks[[i]],
                        showLegend = FALSE)
   type_plots[[i]] <- plot
   i <- i + 1

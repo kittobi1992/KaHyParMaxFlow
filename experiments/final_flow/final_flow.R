@@ -87,7 +87,13 @@ get_legend_as_seperate_plot <- function(plot) {
 instance_classes <- c("*","DAC","ISPD","Primal","Dual","Literal","SPM")
 source("experiments/plot_functions.R")
 i <- 1
-breaks <- list(pretty_breaks(6),pretty_breaks(7),pretty_breaks(7),pretty_breaks(7),pretty_breaks(7),pretty_breaks(7),pretty_breaks(6))
+breaks <- list(c(1,10,25,50,100,250,500,750,1000,1500,2000,2500,3000,3500),
+               c(1,5,10,20,30,40,50,60,70),
+               c(1,5,10,25,50,75,100,125),
+               c(1,10,25,50,100,150,200,300,400,500,600),
+               c(1,10,25,50,100,150,200,300,400,500,600),
+               c(1,10,25,50,100,150,200,300,400,500,600),
+               c(1,10,25,50,100,200,300,400,600,800,1000,1200,1400))
 type_plots <- list()
 for(type in instance_classes) {
   filter <- type
@@ -117,6 +123,13 @@ dev.off()
 K <- c(2,4,8,16,32,64,128)
 k_plots <- list()
 i <- 1
+breaks <- list(c(1,10,25,50,100,200,300,400,500),
+               c(1,10,25,50,100,200,300,400,500),
+               c(1,10,25,50,100,200,300,400,500),
+               c(1,10,25,50,100,200,300,400,500),
+               c(1,10,25,50,100,200,300,400,500),
+               c(1,10,25,50,100,200,300,400,500),
+               c(1,10,25,50,100,200,300,400,500))
 for(k in K) {
   filter <- "*"
   plot <- cuberootplot(createRatioDFsFilter(filter = filter,
@@ -127,7 +140,7 @@ for(k in K) {
                                             hmetis_r = hmetis_r[hmetis_r$k == k,],
                                             hmetis_k = hmetis_k[hmetis_k$k == k,],
                                             patoh_q = patoh_q[patoh_q$k == k,],
-                                            patoh_d = patoh_d[patoh_d$k == k,])$min_ratios, paste("$k=",k,"$",sep=""), pretty_breaks(n=7), showLegend=FALSE)
+                                            patoh_d = patoh_d[patoh_d$k == k,])$min_ratios, paste("$k=",k,"$",sep=""), xbreaks=breaks[[i]], showLegend=FALSE)
   k_plots[[i]] <- plot
   i <- i + 1
 }

@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE ipe SYSTEM "ipe.dtd">
 <ipe version="70107" creator="Ipe 7.1.10">
-<info created="D:20171207121512" modified="D:20171207124938"/>
+<info created="D:20171207121512" modified="D:20180101162100"/>
 <ipestyle name="basic">
 <symbol name="arrow/arc(spx)">
 <path stroke="sym-stroke" fill="sym-stroke" pen="sym-pen">
@@ -465,25 +465,25 @@ h
 816 752
 852 764 c
 </path>
-<text matrix="1 0 0 1 288 -28" transformations="translations" pos="512 772" stroke="KITblack" type="label" width="32.229" height="10.756" depth="3.59" valign="baseline" size="Large">$-1/0$</text>
+<text matrix="1 0 0 1 288 -28" transformations="translations" pos="512 772" stroke="KITblack" type="label" width="28.094" height="10.756" depth="3.59" valign="baseline" size="Large">--$1/0$</text>
 <path matrix="1 0 0 1 -96 0" stroke="KITblack" pen="fat" rarrow="normal/normal">
 780 764 m
 816 752
 852 764 c
 </path>
-<text matrix="1 0 0 1 192 -28" transformations="translations" pos="512 772" stroke="KITblack" type="label" width="32.229" height="10.756" depth="3.59" valign="baseline" size="Large">$-1/0$</text>
+<text matrix="1 0 0 1 192 -28" transformations="translations" pos="512 772" stroke="KITblack" type="label" width="28.094" height="10.756" depth="3.59" valign="baseline" size="Large">--$1/0$</text>
 <path matrix="1 0 0 1 -288 0" stroke="KITblack" pen="fat" rarrow="normal/normal">
 780 764 m
 816 752
 852 764 c
 </path>
-<text matrix="1 0 0 1 0 -28" transformations="translations" pos="512 772" stroke="KITblack" type="label" width="32.229" height="10.756" depth="3.59" valign="baseline" size="Large">$-1/0$</text>
+<text matrix="1 0 0 1 0 -28" transformations="translations" pos="512 772" stroke="KITblack" type="label" width="28.094" height="10.756" depth="3.59" valign="baseline" size="Large">--$1/0$</text>
 <path matrix="1 0 0 1 -384 0" stroke="KITblack" pen="fat" rarrow="normal/normal">
 780 764 m
 816 752
 852 764 c
 </path>
-<text matrix="1 0 0 1 -96 -28" transformations="translations" pos="512 772" stroke="KITblack" type="label" width="32.229" height="10.756" depth="3.59" valign="baseline" size="Large">$-1/0$</text>
+<text matrix="1 0 0 1 -96 -28" transformations="translations" pos="512 772" stroke="KITblack" type="label" width="28.094" height="10.756" depth="3.59" valign="baseline" size="Large">--$1/0$</text>
 <text matrix="1 0 0 1 100 12" transformations="translations" pos="512 772" stroke="KITblack" type="label" width="23.163" height="10.756" depth="3.59" valign="baseline" size="Large">$\mathbf{1/1}$</text>
 <path matrix="1 0 0 1 192 0" stroke="KITblack" pen="fat" arrow="normal/normal">
 396 772 m
@@ -495,7 +495,7 @@ h
 816 752
 852 764 c
 </path>
-<text matrix="1 0 0 1 96 -28" transformations="translations" pos="512 772" stroke="KITblack" type="label" width="32.229" height="10.756" depth="3.59" valign="baseline" size="Large">$-1/0$</text>
+<text matrix="1 0 0 1 96 -28" transformations="translations" pos="512 772" stroke="KITblack" type="label" width="28.094" height="10.756" depth="3.59" valign="baseline" size="Large">--$1/0$</text>
 <use matrix="1 0 0 1 32 -256" name="mark/disk(sx)" pos="448 832" size="15" stroke="black"/>
 <use matrix="1 0 0 1 128 -256" name="mark/square(sx)" pos="448 832" size="15" stroke="KITred50"/>
 <use matrix="1 0 0 1 224 -256" name="mark/square(sx)" pos="448 832" size="15" stroke="KITred50"/>
@@ -583,8 +583,8 @@ h
 <text matrix="1 0 0 1 108 -192" transformations="translations" pos="512 772" stroke="KITblack" type="label" width="7.024" height="9.245" depth="0" valign="baseline" size="Large">$1$</text>
 <text matrix="1 0 0 1 -32 -32" transformations="translations" pos="384 1232" stroke="KITblack" type="label" width="102.588" height="11.954" depth="3.35" valign="baseline" size="LARGE">Hypergraph $H$</text>
 <text matrix="1 0 0 1 -32 -192" transformations="translations" pos="384 1232" stroke="KITblack" type="label" width="147.786" height="12.896" depth="4.29" valign="baseline" size="LARGE">Flow Network $T_L(H)$</text>
-<text matrix="1 0 0 1 -32 -384" transformations="translations" pos="384 1232" stroke="KITblack" type="label" width="275.879" height="12.896" depth="4.29" valign="baseline" size="LARGE">Flow Network $T_L(H)$ after \emph{augmenting}</text>
-<text matrix="1 0 0 1 -32 -576" transformations="translations" pos="384 1232" stroke="KITblack" type="label" width="305.22" height="12.896" depth="4.29" valign="baseline" size="LARGE">Residual Graph of $T_L(H)$ after \emph{augmenting}</text>
+<text matrix="1 0 0 1 -32 -384" transformations="translations" pos="384 1232" stroke="KITblack" type="label" width="290.719" height="12.896" depth="4.29" valign="baseline" size="LARGE">Flow Network $T_L(H)$ after \emph{augmentation}</text>
+<text matrix="1 0 0 1 -32 -576" transformations="translations" pos="384 1232" stroke="KITblack" type="label" width="320.06" height="12.896" depth="4.29" valign="baseline" size="LARGE">Residual Graph of $T_L(H)$ after \emph{augmentation}</text>
 <use matrix="1 0 0 1 -32 320" name="mark/disk(sx)" pos="848 832" size="small" stroke="KITblack"/>
 <use matrix="1 0 0 1 -32 320" name="mark/disk(sx)" pos="856 832" size="small" stroke="KITblack"/>
 <use matrix="1 0 0 1 -32 320" name="mark/disk(sx)" pos="864 832" size="small" stroke="KITblack"/>

@@ -156,11 +156,11 @@ cuberootplot = function(data, title, xbreaks,yexpand=c(0.0,0.1), legendPos=c(0.2
   return(ggplot(data, aes(x=x, y=1-ratio, color=algo)) +
            geom_point( size=0.75 ) + 
            geom_hline(yintercept = 1) +
-           annotate("text", Inf,Inf,  label="infeasible solutions", size=3, hjust = 1.05, vjust = 1.5)+
+           annotate("text", Inf,Inf,  label="infeasible solutions", size=2, hjust = 1.05, vjust = 1.5)+
            xlab("\\# Instances") +
            ggtitle(title) +
            ylab(paste("1-(Best/Algorithm)")) +
-           scale_y_continuous(trans="cuberoot",  breaks = c(0.0,0.01,0.05,0.2,0.5,0.75,1.0,2), expand=yexpand) +
+           scale_y_continuous(trans="cuberoot",  breaks = c(0.0,0.01,0.05,0.1,0.2,0.4,0.6,0.8,1.0,2), expand=yexpand) +
            scale_x_continuous(trans="cuberoot", breaks = xbreaks) +
            scale_color_manual(values=colors) +
            theme_bw() +
@@ -173,7 +173,7 @@ cuberootplot = function(data, title, xbreaks,yexpand=c(0.0,0.1), legendPos=c(0.2
                  panel.grid.major = element_line(linetype="dotted",size = 0.5, color = "grey"),
                  panel.grid.minor = element_line(),
                  panel.border = element_rect(colour = "black"),
-                 axis.text=element_text(size = 8),
+                 axis.text=element_text(size = 5),
                  axis.text.x=element_text(angle = 50,hjust = 1),
                  axis.line = element_line(size = 0.2, color = "black"),
                  axis.title.y = element_text(vjust=1.5, margin = margin(10,10,10,10), size = 8),
