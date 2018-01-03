@@ -6,7 +6,7 @@ for a wide range of applications.\\
 We introduce several techniques to 
 sparsify the standard hypergraph flow network \cite{lawler1973},
 which consists of many edges with \emph{infinite} capacity. We present
-several theoretical results, which allows us to remove such edges or even to remove
+several theoretical results, which allow us to remove such edges or even to remove
 nodes. The results are of independent interest, because they are also
 applicable on general flow networks with \emph{infinite} capacity edges.
 The main practical implications are that we can remove any hypernode 
@@ -14,7 +14,7 @@ from the hypergraph flow network and model hyperedges of size $2$ more efficient
 Our final flow network combines the two techniques, which reduces 
 the problem size of the resulting flow networks on various benchmark types by up to 
 a factor of $2$ compared to the state-of-the-art representation and
-simultanousely speed-up the running time of different maximum flow algorithms 
+simultanousely speeds-up the running time of different maximum flow algorithms 
 by the same amount.  \\
 Our \emph{flow}-based refinement framework is based on ideas of Sanders and Schulz
 \cite{sanders2011engineering} (developed for multilevel graph partitioning). However,
@@ -25,26 +25,26 @@ and practically that with our modeling approach better minimum cuts are achievab
 compared to the results of Sanders and Schulz. The bipartitioning algorithm is transferred
 to the direct $k$-way partitioning case by executing pairwise \emph{flow}-based refinements
 on two adjacent blocks according to the \emph{active block scheduling} strategy \cite{holtgrewe2010engineering}.
-We integrate the framework into the $n$-level hypergraph partitioner \emph{KaHyPar}.
 The total number of \emph{flow}-based refinements throughout the multilevel hierarchy
-is controlled by a \emph{flow execution policy}. In each level, where no \emph{flow}
-is execeuted, the \emph{FM} algorithm is used to improve the partition. Additionally,
+is controlled by a \emph{flow execution policy}. Additionally, we combine our framework
+with the \emph{FM} algorithm, which is executed in each level. Furthermore,
 we develop several heuristics to prevent \emph{unpromising} \emph{Max-Flow-Min-Cut}
 computations on two adjacent blocks, which speed-up our framework
 by a factor of $2$. \\
-The new configuration \KaHyPar{MF} produces on $97\%$ of our benchmark instances
-better partitions than our old configuration \KaHyPar{CA}. On average the solution 
+The new configuration \KaHyPar{MF} produces better partitions than our old 
+configuration \KaHyPar{CA} on $97\%$ of the benchmark instances. On average the solution 
 quality is $2.5\%$ better, while only incurring a slowdown by a factor of $2$. 
 In comparison with $5$ different state-of-the-art hypergraph partitioners, \KaHyPar{MF} 
-produces on $73\%$ of $3216$ benchmark instances the best partitions. 
-Moreover, our partitioner has a comparable running time to the direct $k$-way
+produces the best partitions  on $73\%$ of $3216$ benchmark instances. 
+However, our algorithm is still as fast as the direct $k$-way
 version of \emph{hMetis} and outperforms it on $84\%$ of the benchmark instances.
 
 
 \subsection{Future Work}
 
 The quality of our framework mainly depends on the number of flow executions
-throughout the multilevel hierarchy and the running time of our maximum flow algorithms.
+throughout the multilevel hierarchy. The number of flow executions is a trade-off between
+time and quality, which depends on the running time of the maximum flow algorithm.
 Optimizing those two basic building blocks of the framework will allow us to achieve 
 better quality in the same amount of time.\\
 The hypergraph flow network proposed by Lawler \cite{lawler1973} has a bipartite 
@@ -53,33 +53,34 @@ flow algorithms which run faster on these types of networks. Further,
 one could investigate if it is possible to maintain the whole flow network over the
 multilevel hierarchy instead of explicitly creating the flow network before each flow
 execution. Also, it would be interesting if information from previous flow calculations can 
-be used to speed-up the current flow calculation. Currently, it is possible to add edges and nodes to a flow network and speed-up
-the flow computation by using informations of previous runs \cite{goldberg2015faster}. This 
+be used to speed-up the current flow calculation. The \IBFS~maximum flow algorithm \cite{goldberg2015faster}
+supports the functionality to add edges and nodes to the flow network and speed-up
+the flow computation by using informations of previous runs. This 
 would be an useful extension of the \emph{adaptive flow iteration} strategy, where we solve
 a sequence of similar flow problems around the cut of two blocks of a partition. \\
 Pistorius \cite{pistorius2003} describes an algorithm which implicitly 
 executes \EdmondKarp~on hypergraphs using labels on the hypernodes. 
 In our first version of the framework, we used a similar 
-technique and implicitly executes a flow algorithm on an implicit representation of 
+technique and implicitly execute a flow algorithm on an implicit representation of 
 the underlying network. During initial experiments, it turned out that the explicit representation
 was up to a factor of $2$-$3$ faster than the implicit version. 
 This is due to the fact that our flow network represents a subhypergraph of the 
-original hypergraph. Iterating over the edges of a node means to iterate also 
-over hypernodes which are not part of the flow problem and therefore have to be ignored.
+original hypergraph. Iterating over the edges of a node means to also iterate 
+over hypernodes which are not part of the flow problem and thus have to be ignored.
 Further, many labels have to be introduced which lead to a large number of 
-main memory accesses. Also the implicit flow network is not flexible enough. Developing a new 
+main memory accesses. Furthermore, the implicit flow network is not flexible enough. Developing a new 
 technique to sparsify the flow network would require a new implementation of 
 the implicit flow network.\\
 Our current framework optimizes the \emph{connectivity} metric of a $k$-way partition.
-It turned out that it is relatively simply to adapt the algorithm to different objective
+It turned out that it is relatively simple to adapt the algorithm to different objective
 functions. If we want to improve the \emph{cut} metric of a $k$-way partition with a 
 \emph{Max-Flow-Min-Cut} computation on two adjacent blocks $V_i$ and $V_j$, we only have to extend the
 source and sink set of the resulting flow problem with additional nodes. More precisely,
 if a hyperedge contains a block $V_k$ with $V_k \notin \{V_i,V_j\}$, we add the
-\emph{incoming} and \emph{outgoing} hyperedge node to the source and sink set (without a proof).
+\emph{incoming} and \emph{outgoing} hyperedge node to the source and sink set.
 If we want to optimize \emph{sum of external degree} metric, we can use the same source and
 sink set as for the \emph{connectivity metric} and double the capacity of each hyperedge $e$
-with $\lambda(e,\Pi) \le 2$ (without a proof). In future versions of the framework, we want to
+with $\lambda(e,\Pi) \le 2$. In future versions of the framework, we want to
 generalize our observations such that it can optimize any objective function, which value depends
 on the \emph{connectivity} of a hyperedge.
 
