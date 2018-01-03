@@ -151,7 +151,7 @@ ids_trans = function() trans_new('ids',
 # kahypar-R = #a65628
 # kahypar-r* = #999999
 
-cuberootplot = function(data, title, xbreaks,yexpand=c(0.0,0.1), legendPos=c(0.285,0.2), colors = c("#e41a1c","#a65628","#377eb8", "#4daf4a", "#984ea3", "#ff7f00"), showLegend = FALSE) {
+cuberootplot = function(data, title, xbreaks,yexpand=c(0.0,0.1), legendPos=c(0.285,0.2), colors = c("#377eb8","#e41a1c","#4daf4a", "#984ea3","#a65628","#ff7f00"), showLegend = FALSE) {
   fntsize = 11
   return(ggplot(data, aes(x=x, y=1-ratio, color=algo)) +
            geom_point( size=0.75 ) + 
