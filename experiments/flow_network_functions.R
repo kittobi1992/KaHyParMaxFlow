@@ -66,7 +66,7 @@ theme_complete_bw <- function(base_size = 11, base_family = "") {
     axis.text.x =        element_text(size = base_size * 0.8, 
                                       lineheight = 0.9, angle = 0, colour = "black",
                                       vjust = 0.5,margin=margin(3,0,0,0)),
-    axis.text.y =        element_text(size = base_size * 0.8 , 
+    axis.text.y =        element_text(size = base_size * 0.5 , 
                                       lineheight = 0.9, colour = "black",
                                       hjust = 1,margin=margin(0,3,0,0)),
     axis.ticks =         element_line(colour = "black"),
@@ -96,7 +96,7 @@ theme_complete_bw <- function(base_size = 11, base_family = "") {
     panel.border =       element_blank(),
     panel.grid.major =   element_line(colour = "grey90", size = 0.7),
     panel.grid.minor =   element_line(colour = "grey90", size = 0.3),
-    panel.margin =       unit(0.25, "lines"),
+    panel.margin =       unit(0.75, "lines"),
     
     strip.background =   element_rect(fill = "grey90", colour = "grey90"),
     strip.text.x =       element_text(colour = "black", size = base_size * 1.0, margin=margin(5,10,5,10)),
@@ -259,14 +259,14 @@ node_edge_distribution_plot2 <- function(db) {
   df <- ddply(db, c("flow_network", "flow_algorithm", "num_hypernodes","type"), aggreg)
   df <- cbind(df[1:4],stack(df[5:6]))
   df <- revalue_columns_to_latex(df)
-  
+  point <- format_format(big.mark = ".", decimal.mark = ",", scientific = FALSE)
   plot <- ggplot(df) + 
           geom_bar(aes( x= flow_network, y = values, fill = ind), stat = "identity", position="dodge") +
           geom_hline(aes(yintercept = 25000), color="red", linetype="dashed") +
-          facet_wrap( ~ type ) + 
+          facet_wrap( ~ type, scales = "free" ) + 
           ylab("Number of Nodes/Edges") +
           xlab("Flow Network") +
-          
+          scale_y_continuous(labels = point) +
           theme_complete_bw()
   
   return(plot)
