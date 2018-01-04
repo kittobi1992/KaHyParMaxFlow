@@ -4,11 +4,13 @@ source("plot_functions.R")
 dbs <- c( "flow_alpha_experiment/db/flow.db",
           "flow_alpha_experiment/db/flow_mbmc.db",
           "flow_alpha_experiment/db/flow_fm.db",
+          "flow_alpha_experiment/db/constant.db",
           "flow_alpha_experiment/old_db/flow_cut_he.db",
           "flow_alpha_experiment/old_db/flow_cut_he_mbmc.db",
-          "flow_alpha_experiment/old_db/flow_fm.db")
+          "flow_alpha_experiment/old_db/flow_fm.db",
+          "flow_alpha_experiment/old_db/constant.db")
 
-algo <- c( "flow","flow_mbmc","flow_fm","flow_old", "flow_mbmc_old", "flow_fm_old")
+algo <- c( "flow","flow_mbmc","flow_fm","constant","flow_old", "flow_mbmc_old", "flow_fm_old","constant_old")
 
 select_km1_soed = 'select graph,k,epsilon,flow_region_size_alpha AS alpha, seed,km1,soed,imbalance,coarseningTime,uncoarseningRefinementTime, totalPartitionTime from experiments'
 select_km1 = 'select graph,k,epsilon,flow_region_size_alpha AS alpha,seed,1 AS soed, kMinusOne AS km1, imbalance,coarseningTime,uncoarseningRefinementTime, totalPartitionTime from experiments'
@@ -52,9 +54,11 @@ for(i in 1:length(dbs)) {
  flow <- flow_dbs[[1]]
  flow_mbmc <- flow_dbs[[2]]
  flow_fm <- flow_dbs[[3]]
- flow_old <- flow_dbs[[4]]
- flow_mbmc_old <- flow_dbs[[5]]
- flow_fm_old <- flow_dbs[[6]]
+ constant <- flow_dbs[[4]]
+ flow_old <- flow_dbs[[5]]
+ flow_mbmc_old <- flow_dbs[[6]]
+ flow_fm_old <- flow_dbs[[7]]
+ constant_old <- flow_dbs[[8]]
  
 
  ############################################################################################

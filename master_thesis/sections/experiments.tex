@@ -180,16 +180,16 @@ abbreviations is explained in the enumeration above (see letters inside parenthe
 each configuration for $k \in \{2,4,8,16,32,64,128\}$, $\alpha' \in \{1,2,4,8,16\}$
 and $10$ different seeds and an imbalance of $\epsilon = 3\%$.  We execute a \emph{flow}-based refinement
 on each level $i$ with $i = 2^j$ ($j \in \mathbb{N}_+$).
-%Additionally, we add configuration \FlowVariant{+}{+}{+} with \emph{flow execution policy} 
-%$i = 128j$ ($j \in \mathbb{N}_+$). This configuration has a prohibitively large running time, 
-%but it is used as an upper bound for the quality achievable with \emph{Max-Flow-Min-Cut} 
-%computations in combination with \emph{FM} refinement. We refer to this variant as \Constant{128}. 
+Additionally, we add configuration \FlowVariant{+}{+}{+} with \emph{flow execution policy} 
+$i = 128j$ ($j \in \mathbb{N}_+$). This configuration has a prohibitively large running time, 
+but it is used as an upper bound for the quality achievable with \emph{Max-Flow-Min-Cut} 
+computations in combination with \emph{FM} refinement. We refer to this variant as \Constant{128}. 
 We use \KaHyPar{CA} as reference \cite{heuer2017improving} and refer to it 
 as \FlowVariant{-}{-}{+}. \\
 \begin{table}[ht]
 \renewcommand{\arraystretch}{1.15}
 \centering
-\begin{tabular}{|r||c|c||c|c||c|c|c|c|}
+\begin{tabular}{|r||c|c||c|c||c|c||c|c|}
 \toprule
  Config. & \multicolumn{2}{c||}{\FlowVariant{+}{-}{-}} & \multicolumn{2}{c||}{\FlowVariant{+}{+}{-}}  & \multicolumn{2}{c|}{\FlowVariant{+}{+}{+}} & \multicolumn{2}{c|}{\Constant{128}} \\
 \midrule
@@ -224,13 +224,13 @@ than all previous flow configurations because we transfer more work to the \emph
 Consequently, a block becomes \emph{inactive} faster during the \emph{active block 
 scheduling} algorithm and this decreases the number of rounds of complete pairwise 
 flow-based refinements. 
-%Finally, \Constant{128} gives us a lower bound of the quality
-%achievable with a combination of \emph{flow}-based and \emph{FM} refinement. Flows are executed 
-%in each $128$th level of the multilevel hierarchy. The quality is $2.44\%$ better than our
-%baseline configuration, but roughly $100$ times slower. Compared to \FlowVariant{+}{+}{+} for 
-%$\alpha = 16$, \Constant{128} is only $0.57\%$ better and around roughly $25$ times slower.\\
+Finally, \Constant{128} gives us an upper bound of the quality
+achievable with a combination of \emph{flow}-based and \emph{FM} refinement. Flows are executed 
+in each $128$th level of the multilevel hierarchy. The quality is $2.69\%$ better than our
+baseline configuration, but roughly $50$ times slower. Compared to \FlowVariant{+}{+}{+} for 
+$\alpha = 16$, \Constant{128} is only $0.48\%$ better and around roughly $10$ times slower.\\
 Our best configuration is \FlowVariant{+}{+}{+} with $\alpha' = 16$. 
-%It is also the most effective one (see Effectiveness Test in Appendix \ref{appendix:effectiveness_test}). 
+It is also the most effective one (see Effectiveness Test in Appendix \ref{appendix:effectiveness_test}). 
 For further experiments, we refer to this variant as \KaHyPar{MF}. \\
 At the end of Section \ref{sec:source_and_sink}, we compare our source and sink set modeling
 approach (\textsc{M2}) with the one of Sanders and Schulz \cite{sanders2011engineering} (\textsc{M1}). The main result is
@@ -243,7 +243,7 @@ $\alpha' \le 4$. For $\alpha' > 4$ the improvement is around $1.5\%$ to $2.5\%$.
 $\alpha'$ most of the hypernodes of the flow problem are incident to a non-cut hyperedge partially
 contained in the flow problem. Therefore, \textsc{M1} restricts them to stay in the same block
 after a \emph{Max-Flow-Min-Cut} computation. \textsc{M2} allows them to change its block, if 
-it yields to a smaller minimum cut.
+it yields a smaller minimum cut.
 
 \begin{table}
 \renewcommand{\arraystretch}{1.15}

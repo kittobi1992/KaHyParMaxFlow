@@ -4,9 +4,12 @@ source("plot_functions.R")
 dbs <- c( "flow_alpha_experiment/db/flow.db",
           "flow_alpha_experiment/db/flow_mbmc.db",
           "flow_alpha_experiment/db/flow_fm.db",
-          "flow_alpha_experiment/db/constant.db")
+          "flow_alpha_experiment/db/constant.db",
+          "flow_alpha_experiment/db/flow_eff.db",
+          "flow_alpha_experiment/db/flow_mbmc_eff.db",
+          "flow_alpha_experiment/db/flow_fm_eff.db")
 
-algo <- c( "flow","flow_mbmc","flow_fm","constant")
+algo <- c( "flow","flow_mbmc","flow_fm","constant","flow_eff","flow_mbmc_eff","flow_fm_eff")
 
 select_km1_soed = 'select graph,k,epsilon,flow_region_size_alpha AS alpha, seed,km1,soed,imbalance,coarseningTime,uncoarseningRefinementTime, totalPartitionTime from experiments'
 select_km1 = 'select graph,k,epsilon,flow_region_size_alpha AS alpha,seed,1 AS soed, kMinusOne AS km1, imbalance,coarseningTime,uncoarseningRefinementTime, totalPartitionTime from experiments'
@@ -27,6 +30,8 @@ aggreg = function(df) data.frame(min_km1=min(df$km1),
                                  cnt=length(df$seed))
 
 kahypar_sea <- ddply(dbGetQuery(dbConnect(SQLite(), dbname="flow_alpha_experiment/db/kahypar_sea.db"),
+                                select_soed), c("graph","k"), aggreg)
+kahypar_ca <- ddply(dbGetQuery(dbConnect(SQLite(), dbname="flow_alpha_experiment/db/kahypar_ca.db"),
                                 select_soed), c("graph","k"), aggreg)
 
 flow_dbs <- list()
@@ -51,19 +56,31 @@ for(i in 1:length(dbs)) {
  flow_mbmc <- flow_dbs[[2]]
  flow_fm <- flow_dbs[[3]]
  constant <- flow_dbs[[4]]
-# flow_eff <- flow_dbs[[5]]
-# flow_mbmc_eff <- flow_dbs[[6]]
-# flow_fm_eff <- flow_dbs[[7]]
+ flow_eff <- flow_dbs[[5]]
+ flow_mbmc_eff <- flow_dbs[[6]]
+ flow_fm_eff <- flow_dbs[[7]]
  
-# flow_eff <- rbind(flow_eff, flow[flow$graph == "sat14_6s133.cnf.hgr" &
-#                                    flow$k == 8 &
-#                                    flow$alpha == 1,])
-# flow_mbmc_eff <- rbind(flow_mbmc_eff, flow_mbmc[flow_mbmc$graph == "sat14_dated-10-17-u.cnf.dual.hgr" &
-#                                                   flow_mbmc$k == 4 &
-#                                                   flow_mbmc$alpha >= 8,])
-# flow_fm_eff <- rbind(flow_fm_eff, flow_fm[flow_fm$graph == "sat14_dated-10-17-u.cnf.dual.hgr" &
-#                                           flow_fm$k == 4 &
-#                                           flow_fm$alpha == 16,])
+ missing_instances <- function(db, complete_db) {
+   K <- c(2,4,8,16,32,64,128)
+   for(hg in levels(factor(db$graph))) {
+     for(k in K) {
+       if(length(db[db$graph == hg & db$k == k,]$alpha) != 5) {
+         missing_alpha <- setdiff(c(1,2,4,8,16), db[db$graph == hg & db$k == k,]$alpha)
+         print(paste("graph=",hg," - k=",k,sep=""))
+         print(paste("alpha=",missing_alpha,sep=""))
+         db <- rbind(db, complete_db[complete_db$graph == hg &
+                                     complete_db$k == k &
+                                     complete_db$alpha %in% missing_alpha,])
+       }
+     }
+   }
+   return(db)
+ }
+ 
+ flow_eff <- missing_instances(flow_eff, flow)
+ flow_mbmc_eff <- missing_instances(flow_mbmc_eff, flow_mbmc)
+ flow_fm_eff <- missing_instances(flow_fm_eff, flow_fm)
+
 
  ############################################################################################
  
@@ -80,7 +97,7 @@ for(i in 1:length(dbs)) {
    ref_vec <- c("Ref.", "\\multicolumn{2}{c||}{\\FlowVariant{-}{-}{+}}", 
                          to_latex_math_mode(round(ref$gmean_km1[1], digits=2)), 
                          to_latex_math_mode(round(ref$gmean_time[1],digits=2)),
-                         "\\multicolumn{2}{c|}{}",
+                         "\\multicolumn{2}{c||}{}",
                          "\\multicolumn{2}{c|}{}")
 
    alpha_vec <- list(c(1),c(2),c(4),c(8),c(16))
@@ -136,6 +153,9 @@ for(i in 1:length(dbs)) {
  sink()
  
  sink("../master_thesis/experiments/flow_alpha/flow_alpha_effectiveness_table.tex")
- flow_alpha_effectiveness_table(kahypar_sea_eff, flow_eff, flow_mbmc_eff, flow_fm_eff)
+ flow_alpha_effectiveness_table(kahypar_ca, flow_eff, flow_mbmc_eff, flow_fm_eff)
  sink()
+ 
+ 
+ 
  
