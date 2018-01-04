@@ -82,8 +82,7 @@ to improve $\Pi_1$ with a maximum $(S,T)$-flow calculation
 on $T_L(H_{V'})$ such that after applying the minimum 
 $(S,T)$-bipartition of $H_{V'}$ to $H$ the resulting bipartition $\Pi_2$ has a 
 cut less than or equal to the cut of $\Pi_1$. An important concept of this section will
-be the definition of the \emph{section hypergraph} (see Defintion
-\ref{def:section_hypergraph}). 
+be the definition of the following \emph{section hypergraph}. 
 
 \begin{figure}
 \centering
@@ -101,11 +100,11 @@ Given a subset $V' \subseteq V$ of a hypergraph $H = (V,E)$.
 The section hypergraph $\SectionHypergraph := H \times (V' \cup V'')$ is a hypergraph
 where $V''$ contains all pins $u \notin V'$ of hyperedges incident to a vertex 
 $v \in V'$. More formally, 
-\[V'' := \bigcup_{\substack{e \in I(V') \\ e \setminus V' \neq \emptyset}} e \setminus V'\]
+\[V'' := \bigcup_{e \in I(V')} e \setminus V'\]
 \end{definition}
 
 $\SectionHypergraph$ can be seen as an \emph{extension} of subhypergraph $H_{V'}$. Each
-hyperedge which is partially or fully contained in $H_{V'}$ is fully contained in $\SectionHypergraph$
+hyperedge, which is partially or fully contained in $H_{V'}$ is fully contained in $\SectionHypergraph$
 (see \autoref{img:section_hypergraph}). The source and sink set of $T_L(H_{V'})$ should be
 chosen in such a way that the two conditions of following problem statement are satisfied:
 %In the following, we will first define our source and sink set on flow network $T_L(\SectionHypergraph)$ such that
@@ -159,10 +158,7 @@ equal to $0$. Further, if we can show that $|f| = \omega_{\SectionHypergraph}(\P
 we simultaneously show that our source and sink set modeling approach satisfies condition (ii) 
 $\Delta_H = \Delta_{H_{V'}}$. \\
 We will now define our source and sink set for the flow network $T_L(H_{V'})$ such that
-we satisfy the two conditions of Problem \ref{prob:ST}. In the following, $H_{V'}$ is 
-the subhypergraph induced by $V' \subseteq V$ and $V''$ is the hypernode set as defined 
-in Definition \ref{def:sub_extension}.
-
+we satisfy the two conditions of Problem \ref{prob:ST}.
 \begin{theorem}
 \label{theorem:ST}
 Let $\Pi_1 = (V_1,V_2)$ be the bipartition of $H$. The resulting bipartition $\Pi_2$ 
@@ -173,7 +169,6 @@ T = \{\outgoing{e}\ |\ e \in I(V'' \cap V_2)\}
 \end{align*}
 satisfies the following two conditions:
 \begin{enumerate}
-\centering
 \item $\omega_H(\Pi_2) \le \omega_H(\Pi_1)$
 \item $\Delta_H = \Delta_{H_{V'}}$
 \end{enumerate}
@@ -191,7 +186,7 @@ However, we do not want that a hypernode $v \notin V'$ can change its block afte
 a \emph{Max-Flow-Min-Cut} computation on $T_L(\SectionHypergraph)$, because such hypernodes
 cannot move if we solve a flow problem on subhypergraph $H_{V'}$. Therefore, we define
 all hypernodes of $V''$ contained in block $V_1$ as sources and all hypernodes of $V''$ contained
-in block $V_2$ as sinks ($V''$ is defined in Defintion \ref{def:sub_extension}). More formally:
+in block $V_2$ as sinks. More formally:
 \begin{align*}
 S' = V'' \cap V_1 \\
 T' = V'' \cap V_2 
@@ -217,8 +212,8 @@ The value of a maximum $(S',T')$-flow of $T_L(\SectionHypergraph)$ is equal to t
 $(S,T)$-flow of $T_H(\SectionHypergraph,V'')$ according to Theorem \ref{theorem:heuer_network}
 with
 \begin{align*}
-S = \overbrace{S' \setminus V''}^{= \emptyset}\ \cup \bigcup\limits_{e \in I(\underbrace{\scriptstyle V'' \cap S'}_{= V'' \cap V_1})} \{\incoming{e}\} = \bigcup\limits_{e \in I(V'' \cap V_1)} \{\incoming{e}\} = \{\incoming{e}\ |\ e \in I(V'' \cap V_1)\} \\
-T = \overbrace{T' \setminus V''}^{= \emptyset}\ \cup \bigcup\limits_{e \in I(\underbrace{\scriptstyle V'' \cap T'}_{= V'' \cap V_2})} \{\outgoing{e}\} = \bigcup\limits_{e \in I(V'' \cap V_2)} \{\outgoing{e}\} = \{\outgoing{e}\ |\ e \in I(V'' \cap V_2)\}
+S = \overbrace{S' \setminus V''}^{= \emptyset}\ \cup \bigcup\limits_{e \in I(\underbrace{\scriptstyle V'' \cap S'}_{= V'' \cap V_1})} \{\incoming{e}\} = \{\incoming{e}\ |\ e \in I(V'' \cap V_1)\} \\
+T = \overbrace{T' \setminus V''}^{= \emptyset}\ \cup \bigcup\limits_{e \in I(\underbrace{\scriptstyle V'' \cap T'}_{= V'' \cap V_2})} \{\outgoing{e}\} = \{\outgoing{e}\ |\ e \in I(V'' \cap V_2)\}
 \end{align*}
 Since each $v \in V''$ is either a source or sink node of $T_L(\SectionHypergraph)$, the 
 removal of $v$ does not induce any additional edges in $T_H(\SectionHypergraph,V'')$
@@ -261,7 +256,7 @@ subhypergraph $H_{V'}$ we simultaneously optimize the connectivity metric of $H$
 The reduction of the cut of $H_{V'}$ is then equal with the decrease in
 the connectivity metric of $H$.
 
-\subparagraph{Implications for Graph Partitioning.}
+\fakepar{Implications for Graph Partitioning.}
 \normalfont\normalsize
 If we compare our source and sink set modeling approach with the one of Sanders and Schulz
 \cite{sanders2011engineering} (see Section \ref{sec:balanced_bipartitioning}), we can show that
@@ -337,7 +332,7 @@ $(S,T)$-cutsets of \ShortExT{H}{V'}, because the value of a maximum $(S,T)$-flow
 \subsection{Integration into KaHyPar}
 \label{sec:integration_kahypar}  
 
-\subparagraph{Flow Execution Policies.}
+\fakepar{Flow Execution Policies.}
 \normalfont\normalsize
 Since \emph{KaHyPar} is an $n$-level hypergraph partitioner, local searches
 are executed after each uncontraction of a single vertex (see Section \ref{sec:kahypar}). 
@@ -354,7 +349,7 @@ hierarchy. In all remaining levels where no flow is executed, we can use an
 \cite{akhremtsev2017engineering,fiduccia1988linear,sanchis1989multiple} (see Section 
 \ref{sec:abs}). 
 
-\subparagraph{Combining Flow-Based Refinements with the FM algorithm.}
+\fakepar{Combining Flow-Based Refinements with the FM algorithm.}
 \normalfont\normalsize
 The \emph{FM} algorithms integrated into \emph{KaHyPar} use a \emph{gain cache} to maintain
 the gain values of moves througout the multilevel hierarchy. The concept prevents expensive recalculations
@@ -364,7 +359,7 @@ refinement in combination with the \emph{FM} algorithm, we have to ensure that t
 refinement and simulate the moves with the \emph{FM} algorithm to ensure that all entries in
 the \emph{gain cache} are valid.
 
-\subparagraph{Speedup Heuristics.}
+\fakepar{Speedup Heuristics.}
 \normalfont\normalsize
 An observation during early experiments was that only a minority
 of the pairwise refinements based on flows leads to an improvement
