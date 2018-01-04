@@ -165,7 +165,7 @@ $|V'|$ &  $t[ms]$ & $t[\%]$ & $t[\%]$ & $t[\%]$
 \label{tbl:flow_algo_network_summary}
 \end{table}
 
-\subsection{Configuring direct $k$-way Flow-Based Refinement}
+\subsection{Configuring direct $k$-way Flow-based Refinement}
 \label{sec:flow_configuration}
 
 In this section, we analyze the quality of our $k$-way flow-based refinement algorithm with
@@ -186,7 +186,7 @@ on each level $i$ with $i = 2^j$ ($j \in \mathbb{N}_+$).
 Additionally, we add configuration \FlowVariant{+}{+}{+} with \emph{flow execution policy} 
 $i = 128j$ ($j \in \mathbb{N}_+$). This configuration has a prohibitively large running time, 
 but it is used as an upper bound for the quality achievable with \emph{Max-Flow-Min-Cut} 
-computations in combination with \emph{FM} refinement. We refer to this variant as \Constant{128}. 
+computations in combination with \emph{FM} refinement. We refer to this variant as \Constant{128}\footnote{Due to the large running time this configuration uses all three speed-up heuristics}. 
 We use \KaHyPar{CA} as reference \cite{heuer2017improving} and refer to it 
 as \FlowVariant{-}{-}{+}. \\
 
@@ -198,7 +198,7 @@ as \FlowVariant{-}{-}{+}. \\
                     *{2}{S[table-number-alignment = center]|}|
                     *{2}{S[table-number-alignment = center]|}}
 \toprule
- Config. & \multicolumn{2}{c||}{\FlowVariant{+}{-}{-}} & \multicolumn{2}{c||}{\FlowVariant{+}{+}{-}}  & \multicolumn{2}{c|}{\FlowVariant{+}{+}{+}} & \multicolumn{2}{c|}{\Constant{128}} \\
+ Config. & \multicolumn{2}{c||}{\FlowVariant{+}{-}{-}} & \multicolumn{2}{c||}{\FlowVariant{+}{+}{-}}  & \multicolumn{2}{c||}{\FlowVariant{+}{+}{+}} & \multicolumn{2}{c|}{\Constant{128}} \\
 \midrule
 $\alpha'$ & Avg $[\%]$ & $t[s]$ & Avg $[\%]$ & $t[s]$ & Avg $[\%]$ & $t[s]$ & Avg $[\%]$ & $t[s]$ \\
 \midrule%
