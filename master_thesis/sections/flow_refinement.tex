@@ -11,7 +11,7 @@ The algorithm starts by constructing the quotient graph $Q$ of $\Pi$.
 Afterwards, we iterate over all edges of $Q$ in random order. For each edge
 $(V_i,V_j)$ of $Q$, we build a flow problem around the cut of the bipartition
 induced by $V_i$ and $V_j$. To construct the flow problem, we use two \BFS s. The first only 
-touches hypernodes of $V_i$ and the second only touches hypernodes of $V_j$.
+touch hypernodes of $V_i$ and the second only touch hypernodes of $V_j$.
 The \BFS~is initialized with all hypernodes contained in cut hyperedges
 of the bipartition $(V_i,V_j)$. We will denote all hypernodes touched by 
 the two \BFS s with $V' \subseteq V_i \cup V_j$.
@@ -175,7 +175,7 @@ satisfies the following two conditions:
 \end{theorem}
 
 \begin{proof}
-We will first define $S$ and $T$ for flow network
+We first define $S$ and $T$ for flow network
 $T_L(\SectionHypergraph)$, because for each maximum $(S,T)$-flow $f$ of $T_L(\SectionHypergraph)$
 and its corresponding minimum $(S,T)$-bipartition $\Pi_2$ the equality 
 $|f| = \omega_{\SectionHypergraph}(\Pi_2)$ holds due to the 
@@ -337,14 +337,14 @@ $(S,T)$-cutsets of \ShortExT{H}{V'}, because the value of a maximum $(S,T)$-flow
 Since \emph{KaHyPar} is an $n$-level hypergraph partitioner, local searches
 are executed after each uncontraction of a single vertex (see Section \ref{sec:kahypar}). 
 Using our \emph{flow}-based refinement algorithm in each level would be too expensive.
-Therefore, we introduce \emph{Flow Execution Policies}, which control total number of
+Therefore, we introduce \emph{Flow Execution Policies}, which control the total number of
 \emph{flow}-based refinements throughout the multilevel hierarchy. The first policy is to 
 execute our \emph{flow}-based refinement on each level $i$ where $i = \beta\cdot j$ with 
 $j \in \mathbb{N}_+$ and $\beta$ as a predefined tuning parameter. Another approach is to simulate a
 multilevel partitioner with $\log(n)$ hierarchies. A \emph{flow}-based refinement is then
 executed on each level $i$ where $i = 2^j$ with $j \in \mathbb{N}_+$. Each policy also
 performs the \emph{active block scheduling} refinement strategy on the last level of the
-hierarchy. In all remaining levels where no flow is executed, we can use an 
+hierarchy. In all remaining levels where no flow is executed, we can use the 
 \emph{FM} algorithm 
 \cite{akhremtsev2017engineering,fiduccia1988linear,sanchis1989multiple} (see Section 
 \ref{sec:abs}). 

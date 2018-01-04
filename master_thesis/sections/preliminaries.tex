@@ -18,7 +18,7 @@ and a set of edges $E$ with a node weight function
 $c: V \rightarrow \mathbb{R}$ and an edge weight 
 function $\omega: E \rightarrow \mathbb{R}$. An edge $e = (u,v)$ 
 is a relation between two nodes $u,v \in V$.
-$G_{V'} = (V',E_{V'},c,\omega)$ is a subgraph of a graph $G = (V,E,c,\omega)$
+$G_{V'} = (V',E_{V'},c,\omega)$ is a subgraph of a graph $G$
 induced by $V' \subseteq V$ with $E_{V'} = \{(u,v) \in E\ |\ u,v \in V'\}$.
 Two vertices $u$ and $v$ are \emph{adjacent}, if there exists an edge
 $(u,v) \in E$. Two edges $e_1$ and $e_2$ are \emph{incident} to each other if they
@@ -62,7 +62,7 @@ and a \emph{topological order} of a graph are illustrated in \autoref{img:scctop
 
 Given a graph $G = (V,E,u)$ with capacity function $\capa: E \rightarrow \mathbb{R}_+$ and a source 
 $s \in V$ and a sink $t \in V$, the maximum flow problem is to find
-the maximum amount of flow from $s$ to $t$ in $G$. A flow is a function 
+the maximum value of flow from $s$ to $t$ in $G$. A flow is a function 
 $f: E \rightarrow \mathbb{R}_+$, which has to satisfy the following constraints:
 \begin{enumerate}
 \item $\forall (u,v) \in E: f(u,v) \le \capacity{u,v}$ (capacity constraint)
@@ -107,7 +107,7 @@ weight of a minimum-weight cutset in $G$ separating $s$ and $t$.
 Let $f$ be a maximum $(s,t)$-flow in a graph $G = (V,E,\omega)$ with $s \in V$ and $t \in V$. 
 Further, let $A$ be the set containing all $v \in V$, which are \emph{reachable} from $s$
 in $G_f$. A node $v$ is \emph{reachable} from a node $u$ if there exists a path from $u$
-to $v$. Then the set of all cut edges between the bipartition $(A,V\setminus A)$ 
+to $v$. Then the set of all edges from nodes in $A$ to nodes in $V \setminus A$
 is a minimum-weight $(s,t)$-cutset \cite{ford2015flows}. $A$ can be calculated with a \BFS~in $G_f$ starting
 from $s$. \\ 
 Many related problems can be solved with maximum flows. For example, maximum bipartite-matching,
@@ -128,7 +128,7 @@ $(s,t)$-vertex separators $S' \subseteq V$ it follows that $c(S) \le c(S')$.
 We can calculate a minimum-weight $(s,t)$-vertex separator with a maximum flow
 calculation on the following flow network \cite{west2001introduction}:
 
-\begin{definition}
+\begin{definition}[Vertex Separator Transformation]
 \label{def:vertex_seperator_transformation}
 Let $T_V$ be a transformation of a graph $G = (V,E,c)$ into 
 a flow network $T_V(G) = (V_V, E_V, \capa_V)$ (with $\capa_V: E_V \rightarrow \mathbb{R}_+$). 
@@ -223,7 +223,7 @@ are illustrated in \autoref{img:hypergraph_transformation}.
 \subsection{Hypergraph Partitioning}
 \label{sec:hypergraph_partitioning}
 
-\begin{definition}[$k$-Way Partition]
+\begin{definition}[$k$-way Partition]
 A $k$-way partition of a hypergraph $H$ is a partition of its hypernodes into
 $k$ disjoint blocks $\Pi = \{V_1,\ldots,V_k\}$ such that $\bigcup_{i=1}^{k} V_i = V$
 and $V_i \neq \emptyset$.
@@ -253,7 +253,7 @@ is the $\text{cut}$ metric (especially for \emph{graph partitioning}), which is 
 The goal is to minimize the weight of all \emph{cut} hyperedges. Another important metric
 for this work is the $(\lambda - 1)$-metric or \emph{connectivity} metric, 
 which is defined as
-\[(\lambda - 1)_H(\Pi) = \sum_{e \in E} (\lambda(e) - 1)\omega(e)\]
+\[(\lambda - 1)_H(\Pi) = \sum_{e \in E} (\lambda(e,\Pi) - 1)\omega(e)\]
 The idea behind this function is to minimize the \emph{connectivity} of all hyperedges.
 
 \begin{definition}[Quotient Graph]

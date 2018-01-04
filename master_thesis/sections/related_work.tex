@@ -77,7 +77,7 @@ otherwise the algorithm terminates.
 \label{sec:push_relabel}
 
 Goldberg and Tarjan \cite{goldberg1988new} proposed a maximum flow algorithm
-not based on finding an augmenting path in the \emph{residual graph} instead, the idea is
+not based on finding an augmenting path in the \emph{residual graph}. Instead, the idea is
 to maintain a \emph{preflow} during the execution of the algorithm which satisfies the capacity 
 constraints, but only a weakened form of the conservation of flow constraint:
 \[\forall v \in V \setminus \{s,t\}: \sum_{u \in V} f(v,u) \le \sum_{u \in V} f(u,v)\]
@@ -122,14 +122,14 @@ is equal to a minimum-weight $(s,t)$-cutset of a hypergraph $H$.
 Finding such a separator is a flow problem and can be calculated with the flow network \ShortT{L} 
 presented by Lawler \cite{lawler1973}:
 
-\begin{definition}
+\begin{definition}[Lawler Transformation]
 Let $T_L$ be the transformation of a hypergraph \HypergraphDef~into 
 a flow network \T{L} proposed by Lawler \cite{lawler1973}. \ShortT{L} is defined as follows:
 \begin{enumerate}
 \item $V_L = V \cup \bigcup\limits_{e \in E}\ \{\incoming{e}, \outgoing{e}\}$
-\item $\forall e \in E$ we add a directed edge $(\incoming{e},\outgoing{e})$ 
+\item $\forall e \in E:$ we add a directed edge $(\incoming{e},\outgoing{e})$ 
       with capacity $\capa_L(\incoming{e},\outgoing{e}) = \omega(e)$
-\item $\forall v \in V$ and $\forall e \in I(v)$ we add two directed edges $(v, \incoming{e})$ and 
+\item $\forall v \in V$ and $\forall e \in I(v):$ we add two directed edges $(v, \incoming{e})$ and 
       $(\outgoing{e}, v)$ with capacity $\capa_L(v, \incoming{e}) = \capa_L(\outgoing{e},v) = \infty$.
 \end{enumerate} 
 \end{definition}
@@ -205,8 +205,8 @@ of the concepts and advanced techniques to improve graph partitions.
 \end{figure}
 Let $(V_1,V_2)$ be a balanced bipartition of a graph $G = (V,E,c,\omega)$. 
 Further, let $P(v) = 1$, if $v \in V_1$ and
-$P(v) = 2$ otherwise. We will now explain how a given bipartition 
-can be improved with flow computations. This technique can also be applied on a $k$-way 
+$P(v) = 2$ otherwise. We now explain how a given bipartition 
+can be improved with flow computations. The technique can also be applied on a $k$-way 
 partition by applying the approach on two adjacent blocks \cite{sanders2011engineering}. \\
 Let $\delta := \{ u\ |\ \exists (u,v) \in E: P(u) \neq P(v) \}$ be the set of nodes
 around the cut of $G$. For a set $B \subseteq V$ we define its border 
@@ -240,7 +240,7 @@ We define $\epsilon' := \alpha\epsilon$ for a $\alpha \ge 1$ and let the size of
 on $\epsilon'$ rather than on $\epsilon$. If we find an improvement, we
 increase $\alpha$ to $\min\{2\alpha, \alpha'\}$ where $\alpha'$ is a predefined upper bound
 for $\alpha$. If not, we decrease the size of $\alpha$ to 
-$\max\{\frac{\alpha}{2},1\}$. This approach is called
+$\max\{\frac{\alpha}{2},1\}$. The approach is called
 \emph{adaptive flow iterations} \cite{sanders2011engineering}.
 
 \subsubsection{Most Balanced Minimum Cut}
@@ -261,7 +261,7 @@ is that all nodes on a cycle have to be in the same \emph{closed node set} per d
 we can contract all \emph{Strongly Connected Components} (SCC) of $G$ with a linear time algorithm
 proposed by Tarjan \cite{tarjan1972depth} and sweep over the contracted graph in reverse
 topological order to enumerate all \emph{closed node sets}. If
-we contract all SCCs of $G$ the resulting graph is a \emph{Directed Acyclic Graph} (DAG). Therefore, 
+we contract all SCCs of $G$ the resulting graph is a \emph{directed acyclic graph} (DAG). Therefore, 
 a topological order exists. \\
 With the Theorem of Picard and Queyranne \cite{picard1980structure} we can enumerate
 all minimum $(s,t)$-cuts of $G$ with one maximum flow computation.

@@ -211,7 +211,6 @@ $\alpha'$ & Avg $[\%]$ & $t[s]$ & Avg $[\%]$ & $t[s]$ & Avg $[\%]$ & $t[s]$ & Av
 \label{tbl:alpha_exp}
 \end{table}
 
-
 The results are summarized in \autoref{tbl:alpha_exp}. The values
 in column \emph{Avg} are improvements
 relative to our baseline configuration \FlowVariant{-}{-}{+}. The running
@@ -279,7 +278,7 @@ $\alpha'$ & \footnotesize{\textsc{M1} - Avg $[\%]$} & \footnotesize{\textsc{M2} 
 \label{sec:speed_up}
 
 At the end of Section \ref{sec:integration_kahypar}, we presented several heuristics
-to prevent \emph{unpromising} flow executions during active block scheduling ((R1)-(R3)).
+which help to prevent \emph{unpromising} flow executions during active block scheduling ((R1)-(R3)).
 The main assumption is that only a minority of \emph{Max-Flow-Min-Cut} computations
 lead to an improvement. To verify this assumption, 
 we execute \KaHyPar{MF} in combination with different speed-up heuristics 

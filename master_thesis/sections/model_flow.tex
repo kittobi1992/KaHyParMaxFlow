@@ -3,7 +3,7 @@ In Section \ref{sec:related_lawler} we have shown how a hypergraph $H$ can be tr
 a flow network \ShortT{L} such that each minimum-capacity $(S,T)$-cutset of \ShortT{L} is a 
 minimum-weight $(S,T)$-cutset of $H$ \cite{lawler1973}. However, the resulting flow
 network has significantly more nodes and edges than the original hypergraph. The running time
-of a maximum $(S,T)$-flow algorithm depends heavily on the problem size. 
+of a maximum flow algorithm depends heavily on the problem size. 
 Therefore, different modeling approaches, which reduce the number of nodes and edges,
 can have a crucial impact on the running time of the flow algorithm. \\
 We will present techniques to sparsify the flow network 
@@ -16,7 +16,7 @@ increasing the number of edges (see Section \ref{sec:degree_network}). Additiona
 how every hyperedge $e$ of size $2$ can be removed by inserting an undirected flow edge between
 the corresponding nodes (see Section \ref{sec:edge_size_network}). 
 Finally, we combine the two suggested approaches into a Hybrid-Network 
-(see Section \ref{sec:hybrid_network}). The following transformations are illustrated in
+(see Section \ref{sec:hybrid_network}). The presented transformations are illustrated in
 \autoref{img:transformation_chain}.
 
 \begin{figure}[ht!]
@@ -28,19 +28,26 @@ Finally, we combine the two suggested approaches into a Hybrid-Network
 \label{img:transformation_chain} 
 \end{figure}
 
-\subsection{Removing Hypernodes via Clique-Expansion}
+\subsection{Removing Hypernodes}
 \label{sec:heuer_network}
 
-In this Section we show how all hypernodes of \ShortT{L} can be removed such that a maximum 
+In this section we show how all hypernodes of \ShortT{L} can be removed such that a maximum 
 $(S,T)$-flow on the new network induces a minimum-weight $(S,T)$-cutset on $H$. If a hypernode $v \in V$
 occurs in an augmenting path $P$ the previous node in the path must be a hyperedge node, either
 $\incoming{e}$ or $\outgoing{e}$. Further, for all $\incoming{e} \in I(v)$ the capacity $\capa_L(v,\incoming{e})$ is $\infty$. 
 Therefore, we can push a positive flow entering node $v$ to any $\incoming{e} \in I(v)$ during the
-whole maximum flow computation because $\capa_L(v,\incoming{e}) = \infty$. 
+whole maximum flow computation because $\capa_L(v,\incoming{e}) = \infty$. The idea is to remove
+the hypernode $v$ from the flow network \ShortT{L} and insert \emph{shortcut} edges between
+all incident hyperedge nodes in the flow network.
 The following lemma is central to our first sparsifying 
 technique and is illusrated in \autoref{img:clique_expansion}. Given a graph $G = (V,E)$ we define the two sets
 $in(u) := \{v\ |\ (v,u) \in E\}$ and $out(u) := \{v\ |\ (u,v) \in E\}$ with $u \in V$. 
-
+\begin{figure}[ht!]
+\centering
+\includegraphics[width=0.8\textwidth]{../img/network_transformation/clique_expansion.eps}
+\caption{Illustration of Lemma \ref{lemma:node_removal} and Equation \ref{eq:eq1} and \ref{eq:eq2}.}
+\label{img:clique_expansion}
+\end{figure}
 \begin{lemma}[Shortcut Edges]
 \label{lemma:node_removal}
 Let $G = (V,E,\capa)$ be a flow network and $u \in V$ a node where
@@ -50,7 +57,6 @@ $u$ and inserting a shortcut edge between each $v \in in(u)$ and $w \in out(u)$ 
 If $f$ is a maximum $(S,T)$-flow of G with $|f| < \infty$, then $|f|$ is equal to the value of a maximum
 $(S,T)$-flow $f'$ of $G(u)$ with $u \notin S \cup T$.
 \end{lemma}
-
 \begin{proof}
 Let $f$ be a maximum $(S,T)$-flow of $G$. We define a maximum $(S,T)$-flow $f'$ 
 of $G(u)$ as follows:
@@ -79,14 +85,6 @@ The amount of flow from each $v \in in(u)$ to each $w \in out(u)$ of flow functi
 $f'$ is redirected over $u$ in $f$. Therefore, $f$ is an valid flow function.
 Since $u \notin S\cup T$, it follows that $|f| = |f'|$.
 \end{proof}
-
-\begin{figure}
-\centering
-\includegraphics[width=0.8\textwidth]{../img/network_transformation/clique_expansion.eps}
-\caption{Illustration of Lemma \ref{lemma:node_removal} and Equation \ref{eq:eq1} and \ref{eq:eq2}.}
-\label{img:clique_expansion}
-\end{figure}
-
 In \ShortT{L} all incoming and outgoing edges of a hypernode $v$ have
 capacities equal to $\infty$. For all $e \in I(v)$ there is an edge from $v$
 to $\incoming{e}$ and from $\outgoing{e}$ to $v$. Consequently, $in(v) = \bigcup_{e \in I(v)} e''$
@@ -332,7 +330,7 @@ This theorem can also be proven for undirected graphs if we replace each undirec
 $e = \{u,v\}$ by five directed edges $(v,\incoming{x}),(w,\incoming{x}),(\incoming{x},\outgoing{x}),(\outgoing{x},v),(\outgoing{x},w)$ (see \autoref{img:menger_transformation})
 \cite{menger1927allgemeinen}. Obviously, we can map each set of edge-disjoint paths from $s$ to $t$ from $G'$ to $G$
 and vice versa. Therefore, the maximum number of edge-disjoint paths from $s$ to $t$ in
-$G'$ is then the same as $G$ and therefore, $|f| = |f'|$. \\
+$G'$ is then the same as in $G$ and therefore, $|f| = |f'|$. \\
 Consider the general case where $\forall e \in E: \capacity{e} \in \mathbb{N}_+$. We can transform the
 weighted undirected graph $G$ into an unweighted directed multigraph by replacing each undirected
 edge $e = \{u,v\}$ with $\capacity{e}$ undirected edges of weight $1$ (see \autoref{img:menger_transformation}).
@@ -348,7 +346,7 @@ edges between $u$ and $v$ of the multigraph.
 \includegraphics[width=0.8\textwidth]{../img/network_transformation/menger_transformation.eps}
 \caption{Illustration of the transformation of an unweighted or weighted undirected graph into
          an unweighted or weighted directed graph. The equivalence of a maximum $(s,t)$-flow
-         of a unweighted multigraph and their correspondnig weighted graph is a result of 
+         of a unweighted multigraph and the correspondnig weighted graph is a result of 
          a work by Newman \cite{newman2004analysis}.}
 \label{img:menger_transformation}
 \end{figure}
@@ -395,7 +393,7 @@ flow network \T{G}.
 
 \begin{proof}
 Consider a hyperedge $e = \{u,v\}$. The capacity of
-$(u,e')$, $(v,e')$, $(e'',u)$ and $(e'',v)$ is infinity in flow network \ShortT{L}. 
+$(u,e')$, $(v,e')$, $(e'',u)$ and $(e'',v)$ is $\infty$ in flow network \ShortT{L}. 
 Before we can apply Lemma \ref{lemma:undirected_transformation} on all hyperedges 
 $e$ with $|e| = 2$, we have to show how to handle the infinite capacity edges.
 The flow leaving $\incoming{e}$ is restricted by $\capacity{\incoming{e},\outgoing{e}} = \omega(e)$. Therefore, the flow entering
