@@ -7,13 +7,13 @@
 \begin{table}[ht!]
 \renewcommand{\arraystretch}{1.15}
 \centering
-\begin{tabular}{l|cccccc}
+\begin{tabular}{l|*{6}{r}} 
 \toprule
-Type & Num & $\min{|V|}$ & Avg.$|V|$ & $\max{|V|}$ & $\min{|E|}$ & Avg.$|E|$ \\
+Type & Num & $\min{|V|}$ & Avg. $|V|$ & $\max{|V|}$ & $\min{|E|}$ & Avg. $|E|$ \\
 \midrule%
 \csname @@input\endcsname experiments/instances/parameter_tunning_stats1.tex 
 \midrule
-Type & $\max{|E|}$ & Avg.$|e|$ & Med.$|e|$ & Avg.$d(v)$ & Med.$d(v)$ & Avg.$\frac{|E|}{|V|}$ \\
+Type & $\max{|E|}$ & Avg. $|e|$ & Med. $|e|$ & Avg. $d(v)$ & Med. $d(v)$ & Avg. $\frac{|E|}{|V|}$ \\
 \midrule%
 \csname @@input\endcsname experiments/instances/parameter_tunning_stats2.tex 
 \bottomrule
@@ -28,7 +28,7 @@ Type & $\max{|E|}$ & Avg.$|e|$ & Med.$|e|$ & Avg.$d(v)$ & Med.$d(v)$ & Avg.$\fra
 \begin{table}[ht!]
 \renewcommand{\arraystretch}{1.15}
 \centering
-\begin{tabular}{l|cccccc}
+\begin{tabular}{l|*{6}{r}}
 \toprule
 Type & Num & $\min{|V|}$ & Avg.$|V|$ & $\max{|V|}$ & $\min{|E|}$ & Avg.$|E|$ \\
 \midrule%
@@ -50,7 +50,7 @@ Type & $\max{|E|}$ & Avg.$|e|$ & Med.$|e|$ & Avg.$d(v)$ & Med.$d(v)$ & Avg.$\fra
 \begin{table}[ht!]
 \renewcommand{\arraystretch}{1.15}
 \centering
-\begin{tabular}{l|cccccc}
+\begin{tabular}{l|*{6}{r}}
 \toprule
 Type & Num & $\min{|V|}$ & Avg.$|V|$ & $\max{|V|}$ & $\min{|E|}$ & Avg.$|E|$ \\
 \midrule%
@@ -210,9 +210,12 @@ now induce $d(v)(d(v) - 1)$ edges instead of $d(v)^2$ edges in the new network.
 \renewcommand{\arraystretch}{1.15}
 \footnotesize
 \centering
-\begin{tabular}{lr|C{2.5cm}|c|c|c}
+\begin{tabular}{lr|S[table-number-alignment = center,table-column-width=2.5cm]|
+                   S[table-number-alignment = center]|
+                   S[table-number-alignment = center]| 
+                   S[table-number-alignment = center]}
 \toprule
- \multirow{2}{*}{\rotatebox{90}{\tiny{Instance}}} & \quad\quad & \IBFS & \BoykovKolmogorov & \GoldbergTarjan & \EdmondKarp \\
+ \multirow{2}{*}{\rotatebox{90}{\tiny{Instance}}} & \quad\quad & \multicolumn{1}{c|}{\IBFS} & \BoykovKolmogorov & \GoldbergTarjan & \EdmondKarp \\
  & $|V'|$ &  $t[ms]$ & $t[\%]$ & $t[\%]$ & $t[\%]$ 
 \\\midrule% 
 \csname @@input\endcsname experiments/flow_network/flow_network_max_flow_table.tex 
@@ -243,11 +246,13 @@ The results of the tests mirrors our results of Section \ref{sec:flow_configurat
 \begin{table}[ht]
 \renewcommand{\arraystretch}{1.15}
 \centering
-\begin{tabular}{|r|c|c|c|}
+\begin{tabular}{|r|S[table-number-alignment = center]|
+                   S[table-number-alignment = center]|
+                   S[table-number-alignment = center]|}
 \toprule
- Config. & \FlowVariant{+}{-}{-} & \FlowVariant{+}{+}{-}  & \FlowVariant{+}{+}{+} \\
+ Config. &  \multicolumn{1}{|c|}{\FlowVariant{+}{-}{-}} &  \multicolumn{1}{|c|}{\FlowVariant{+}{+}{-}}  &  \multicolumn{1}{|c|}{\FlowVariant{+}{+}{+}} \\
 \midrule
-$\alpha'$ & Avg.$[\%]$ & Avg.$[\%]$ & Avg.$[\%]$ \\
+$\alpha'$ & Avg $[\%]$ & Avg $[\%]$ & Avg $[\%]$ \\
 \midrule%
 \csname @@input\endcsname experiments/flow_alpha/flow_alpha_effectiveness_table.tex 
 \bottomrule
@@ -272,11 +277,11 @@ $\alpha'$ & Avg.$[\%]$ & Avg.$[\%]$ & Avg.$[\%]$ \\
 \begin{table}[ht!]
 \renewcommand{\arraystretch}{1.15}
 \centering
-\begin{tabular}{l|ccccccc}
+\begin{tabular}{l|*{7}{S[table-number-alignment = center,table-column-width=1.45cm]}}
 \toprule
 \multirow{2}{*}{Partitioner} & \multicolumn{7}{c}{Running Time $t[s]$} \\
 \cmidrule{2-8}
- & \ALL & \DAC & \ISPD & \Primal & \Literal & \Dual & \SPM \\
+ & \multicolumn{1}{c}{\ALL} & \multicolumn{1}{c}{\DAC} & \multicolumn{1}{c}{\ISPD} & \multicolumn{1}{c}{\Primal} & \multicolumn{1}{c}{\Literal} & \multicolumn{1}{c}{\Dual} & \multicolumn{1}{c}{\SPM} \\
 \midrule%
 \csname @@input\endcsname experiments/speed_up_heuristics/subset_flow_running_time.tex 
 \bottomrule
@@ -291,11 +296,11 @@ $\alpha'$ & Avg.$[\%]$ & Avg.$[\%]$ & Avg.$[\%]$ \\
 \begin{table}[ht!]
 \renewcommand{\arraystretch}{1.15}
 \centering
-\begin{tabular}{l|rrrrrrr}
+\begin{tabular}{l|*{7}{S[table-number-alignment = center,table-column-width=1.45cm]}}
 \toprule
 \multirow{2}{*}{Partitioner} & \multicolumn{7}{c}{Average $\lambda - 1$} \\
 \cmidrule{2-8}
- & \ALL & \DAC & \ISPD & \Primal & \Literal & \Dual & \SPM \\
+& \multicolumn{1}{c}{\ALL} & \multicolumn{1}{c}{\DAC} & \multicolumn{1}{c}{\ISPD} & \multicolumn{1}{c}{\Primal} & \multicolumn{1}{c}{\Literal} & \multicolumn{1}{c}{\Dual} & \multicolumn{1}{c}{\SPM} \\
 \midrule%
 \csname @@input\endcsname experiments/final_flow/final_flow_km1_per_instance.tex 
 \bottomrule
@@ -309,11 +314,11 @@ $\alpha'$ & Avg.$[\%]$ & Avg.$[\%]$ & Avg.$[\%]$ \\
 \begin{table}[ht!]
 \renewcommand{\arraystretch}{1.15}
 \centering
-\begin{tabular}{l|rrrrrrr}
+\begin{tabular}{l|*{7}{S[table-number-alignment = center,table-column-width=1.45cm]}}
 \toprule
 \multirow{2}{*}{Partitioner} & \multicolumn{7}{c}{Average $\lambda - 1$} \\
 \cmidrule{2-8}
- & $k = 2$ & $k = 4$ & $k = 8$ & $k = 16$ & $k = 32$ & $k = 64$ & $k = 128$ \\
+ & \multicolumn{1}{c}{$k = 2$} & \multicolumn{1}{c}{$k = 4$} & \multicolumn{1}{c}{$k = 8$} & \multicolumn{1}{c}{$k = 16$} & \multicolumn{1}{c}{$k = 32$} & \multicolumn{1}{c}{$k = 64$} & \multicolumn{1}{c}{$k = 128$}\\
 \midrule%
 \csname @@input\endcsname experiments/final_flow/final_flow_km1_per_k.tex 
 \bottomrule
@@ -327,11 +332,11 @@ $\alpha'$ & Avg.$[\%]$ & Avg.$[\%]$ & Avg.$[\%]$ \\
 \begin{table}[ht!]
 \renewcommand{\arraystretch}{1.15}
 \centering
-\begin{tabular}{l|rrrrrrr}
+\begin{tabular}{l|*{7}{S[table-number-alignment = center,table-column-width=1.45cm]}}
 \toprule
 \multirow{2}{*}{Partitioner} & \multicolumn{7}{c}{Running Time $t[s]$} \\
 \cmidrule{2-8}
- & $k = 2$ & $k = 4$ & $k = 8$ & $k = 16$ & $k = 32$ & $k = 64$ & $k = 128$ \\
+ & \multicolumn{1}{c}{$k = 2$} & \multicolumn{1}{c}{$k = 4$} & \multicolumn{1}{c}{$k = 8$} & \multicolumn{1}{c}{$k = 16$} & \multicolumn{1}{c}{$k = 32$} & \multicolumn{1}{c}{$k = 64$} & \multicolumn{1}{c}{$k = 128$} \\
 \midrule%
 \csname @@input\endcsname experiments/final_flow/final_flow_running_time_per_k.tex
 \bottomrule

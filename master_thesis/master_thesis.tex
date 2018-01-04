@@ -97,7 +97,9 @@
 \usepackage{xcolor,hyperref}
 \usepackage{subcaption}
 \usepackage{graphicx}
-\usepackage{siunitx}
+\usepackage{etoolbox,siunitx}
+\sisetup{detect-weight=true,detect-inline-weight=math}
+\robustify\bfseries
 
 \hypersetup{
   pdftitle={High Quality Hypergraph Partitioning via Max-Flow-Min-Cut Computations},

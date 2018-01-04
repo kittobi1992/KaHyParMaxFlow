@@ -13,19 +13,19 @@ to_latex_math_mode <- function(x) {
   return(paste("$",x,"$", sep=""))
 }
 
-aggreg1 = function(df) data.frame(cnt = to_latex_math_mode(length(df$type)),
-                                  minHN = to_latex_math_mode(round(min(df$HNs))),
-                                  HN = to_latex_math_mode(round(gm_mean(df$HNs))),
-                                  maxHN = to_latex_math_mode(round(max(df$HNs))),
-                                  minHE = to_latex_math_mode(round(min(df$HEs))),
-                                  HE = to_latex_math_mode(round(gm_mean(df$HEs))))
+aggreg1 = function(df) data.frame(cnt = to_latex_math_mode(formatC(length(df$type),digits=0,format='f')),
+                                  minHN = to_latex_math_mode(formatC(min(df$HNs),digits=0,format='f')),
+                                  HN = to_latex_math_mode(formatC(gm_mean(df$HNs),digits=0,format='f')),
+                                  maxHN = to_latex_math_mode(formatC(max(df$HNs),digits=0,format='f')),
+                                  minHE = to_latex_math_mode(formatC(min(df$HEs),digits=0,format='f')),
+                                  HE = to_latex_math_mode(formatC(gm_mean(df$HEs),digits=0,format='f')))
 
-aggreg2 = function(df) data.frame(maxHE = to_latex_math_mode(round(max(df$HEs))),
-                                  avgHEsize = to_latex_math_mode(round(gm_mean(df$avgHEsize), digits=2)),
-                                  medHEsize = to_latex_math_mode(round(gm_mean(df$medHEsize), digits = 2)),
-                                  avgHNdegree = to_latex_math_mode(round(gm_mean(df$avgHNdegree), digits=2)),
-                                  medHNdegree = to_latex_math_mode(round(gm_mean(df$medHNdegree), digits = 2)),
-                                  density = to_latex_math_mode(round(gm_mean(df$density), digits = 2)))
+aggreg2 = function(df) data.frame(maxHE = to_latex_math_mode(formatC(max(df$HEs),digits=0,format='f')),
+                                  avgHEsize = to_latex_math_mode(format(gm_mean(df$avgHEsize))),
+                                  medHEsize = to_latex_math_mode(format(gm_mean(df$medHEsize))),
+                                  avgHNdegree = to_latex_math_mode(format(gm_mean(df$avgHNdegree))),
+                                  medHNdegree = to_latex_math_mode(format(gm_mean(df$medHNdegree))),
+                                  density = to_latex_math_mode(format(gm_mean(df$density))))
 
 to_latex_instance_type_table <- function(db, file, aggreg) {
   df <- ddply(db, c("type"), aggreg)

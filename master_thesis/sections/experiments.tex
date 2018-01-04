@@ -148,9 +148,12 @@ flow algorithm in combination with our flow network $\ExpHybrid$ in the followin
 \renewcommand{\arraystretch}{1.15} 
 \footnotesize
 \centering
-\begin{tabular}{r|C{2.5cm}|c|c|c}
+\begin{tabular}{r|S[table-number-alignment = center,table-column-width=2.5cm]|
+                  S[table-number-alignment = center]|
+                  S[table-number-alignment = center]|
+                  S[table-number-alignment = center]} 
 \toprule
-\quad\quad & \IBFS & \BoykovKolmogorov & \GoldbergTarjan & \EdmondKarp \\
+\quad\quad & \multicolumn{1}{c|}{\IBFS} & \BoykovKolmogorov & \GoldbergTarjan & \EdmondKarp \\
 $|V'|$ &  $t[ms]$ & $t[\%]$ & $t[\%]$ & $t[\%]$ 
 \\\midrule% 
 \csname @@input\endcsname experiments/flow_network/flow_network_max_flow_summary_table.tex 
@@ -186,23 +189,28 @@ but it is used as an upper bound for the quality achievable with \emph{Max-Flow-
 computations in combination with \emph{FM} refinement. We refer to this variant as \Constant{128}. 
 We use \KaHyPar{CA} as reference \cite{heuer2017improving} and refer to it 
 as \FlowVariant{-}{-}{+}. \\
+
 \begin{table}[ht]
 \renewcommand{\arraystretch}{1.15}
 \centering
-\begin{tabular}{|r||c|c||c|c||c|c||c|c|}
+\begin{tabular}{|r||*{2}{S[table-number-alignment = center]|}|
+                    *{2}{S[table-number-alignment = center]|}|
+                    *{2}{S[table-number-alignment = center]|}|
+                    *{2}{S[table-number-alignment = center]|}}
 \toprule
  Config. & \multicolumn{2}{c||}{\FlowVariant{+}{-}{-}} & \multicolumn{2}{c||}{\FlowVariant{+}{+}{-}}  & \multicolumn{2}{c|}{\FlowVariant{+}{+}{+}} & \multicolumn{2}{c|}{\Constant{128}} \\
 \midrule
-$\alpha'$ & Avg.$[\%]$ & $t[s]$ & Avg.$[\%]$ & $t[s]$ & Avg.$[\%]$ & $t[s]$ & Avg.$[\%]$ & $t[s]$ \\
+$\alpha'$ & Avg $[\%]$ & $t[s]$ & Avg $[\%]$ & $t[s]$ & Avg $[\%]$ & $t[s]$ & Avg $[\%]$ & $t[s]$ \\
 \midrule%
 \csname @@input\endcsname experiments/flow_alpha/flow_alpha_table.tex 
-\bottomrule
+\bottomrule 
 \end{tabular}
 \caption{ Table contains results for different configurations of our flow-based refinement
           framework for increasing $\alpha'$. The quality in column \emph{Avg.} is relative
           to our baseline configuration \FlowVariant{-}{-}{+}. }
 \label{tbl:alpha_exp}
 \end{table}
+
 
 The results are summarized in \autoref{tbl:alpha_exp}. The values
 in column \emph{Avg} are improvements
@@ -248,11 +256,13 @@ it yields a smaller minimum cut.
 \begin{table}
 \renewcommand{\arraystretch}{1.15}
 \centering
-\begin{tabular}{|r||c|c||c|c||c|c|}
+\begin{tabular}{|r||*{2}{S[table-number-alignment = center]|}|
+                    *{2}{S[table-number-alignment = center]|}|
+                    *{2}{S[table-number-alignment = center]|}|}
 \toprule
  Config. & \multicolumn{2}{c||}{\FlowVariant{+}{-}{-}} & \multicolumn{2}{c||}{\FlowVariant{+}{+}{-}}  & \multicolumn{2}{c|}{\FlowVariant{+}{+}{+}} \\
 \midrule
-$\alpha'$ & \footnotesize{\textsc{M1} - Avg.$[\%]$} & \footnotesize{\textsc{M2} - Avg.$[\%]$} & \footnotesize{\textsc{M1} - Avg.$[\%]$} & \footnotesize{\textsc{M2} - Avg.$[\%]$} & \footnotesize{\textsc{M1} - Avg.$[\%]$} & \footnotesize{\textsc{M2} - Avg.$[\%]$}  \\
+$\alpha'$ & \footnotesize{\textsc{M1} - Avg $[\%]$} & \footnotesize{\textsc{M2} - Avg $[\%]$} & \footnotesize{\textsc{M1} - Avg $[\%]$} & \footnotesize{\textsc{M2} - Avg $[\%]$} & \footnotesize{\textsc{M1} - Avg $[\%]$} & \footnotesize{\textsc{M2} - Avg $[\%]$}  \\
 \midrule%
 \csname @@input\endcsname experiments/flow_alpha/flow_alpha_modeling_comparison_table.tex
 \bottomrule
@@ -281,14 +291,14 @@ $0.07\%$. On the other hand, the framework is significantly faster
 by a factor of $2$. In its final configuration, \KaHyParConfig{MF}{R1,R2,R3} computes 
 partitions with $2.41\%$ better quality than \KaHyPar{CA}, while only
 incurring a slowdown of a factor of $2$. In the following, we denote our final 
-configuration \KaHyParConfig{MF}{R1,R2,R3} as \KaHyPar{MF}.
+configuration \KaHyParConfig{MF}{R1,R2,R3} as \KaHyPar{MF}. 
 
 \begin{table}[ht]
 \renewcommand{\arraystretch}{1.15}
 \centering
-\begin{tabular}{l|cccc}
+\begin{tabular}{l|*{4}{S[table-number-alignment = center,table-column-width=2cm]}}
 \toprule
-Variant & Avg.$[\%]$ & Min.$[\%]$ & $t_{\text{flow}}[s]$ & $t[s]$ \\
+Variant & \multicolumn{1}{c}{Avg $[\%]$} & \multicolumn{1}{c}{Min $[\%]$} & \multicolumn{1}{c}{$t_{\text{flow}}[s]$} & \multicolumn{1}{c}{$t[s]$} \\ 
 \midrule%
 \csname @@input\endcsname experiments/speed_up_heuristics/heuristic_table.tex 
 \bottomrule
@@ -326,11 +336,11 @@ is comparable to the running time of \hMetis{K} and \hMetis{R}.
 \begin{table}[ht!]
 \renewcommand{\arraystretch}{1.15}
 \centering
-\begin{tabular}{c|ccccccc}
+\begin{tabular}{c|*{7}{S[table-number-alignment = center,table-column-width=1.45cm]}}
 \toprule
 \multirow{2}{*}{Partitioner} & \multicolumn{7}{c}{Running Time $t[s]$} \\
 \cmidrule{2-8}
- & \ALL & \DAC & \ISPD & \Primal & \Literal & \Dual & \SPM \\
+ & \multicolumn{1}{c}{\ALL} & \multicolumn{1}{c}{\DAC} & \multicolumn{1}{c}{\ISPD} & \multicolumn{1}{c}{\Primal} & \multicolumn{1}{c}{\Literal} & \multicolumn{1}{c}{\Dual} & \multicolumn{1}{c}{\SPM}  \\
 \midrule%
 \csname @@input\endcsname experiments/final_flow/final_flow_running_time.tex 
 \bottomrule

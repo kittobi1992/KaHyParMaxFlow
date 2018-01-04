@@ -83,6 +83,10 @@ get_legend_as_seperate_plot <- function(plot) {
   return(legend)
 }
 
+format <- function(x) {
+  return(formatC(x, digits=2, format='f'))
+}
+
 ####################### Performance Plots for instance types ####################### 
 instance_classes <- c("*","DAC","ISPD","Primal","Dual","Literal","SPM")
 source("experiments/plot_functions.R")
@@ -164,7 +168,7 @@ calculateGmeanRunningTime <- function(..., type="ALL") {
   if(type != "ALL") {
     df <- df[df$type == type,]
   }
-  aggreg = function(df) data.frame(time=to_latex_math_mode(round(gm_mean(df$avg_time), digits = 2)))
+  aggreg = function(df) data.frame(time=format(gm_mean(df$avg_time)))
   df <- ddply(df, c("algorithm"), aggreg)
 }
 
@@ -192,7 +196,7 @@ calculateGmeanRunningTimePerK <- function(..., k) {
   df <- rbind(...)
   df$algorithm <- factor(df$algorithm, levels = levels(factor(df$algorithm))[c(4,3,2,1,6,5)])
   df <- df[df$k == k,]
-  aggreg = function(df) data.frame(time=to_latex_math_mode(round(gm_mean(df$avg_time), digits = 2)))
+  aggreg = function(df) data.frame(time=format(gm_mean(df$avg_time)))
   df <- ddply(df, c("algorithm"), aggreg)
 }
 
@@ -224,9 +228,8 @@ calculateGmeanAvgKm1 <- function(..., type="ALL") {
   }
   aggreg = function(df) data.frame(km1=gm_mean(df$avg_km1))
   df <- ddply(df, c("algorithm"), aggreg)
-  df$km1[2:6] <- round((df$km1[2:6]/df$km1[1] - 1.0)*100.0, digits = 2)
-  df$km1[1] <- round(df$km1[1], digits = 2)
-  df$km1[1:6] <- to_latex_math_mode(df$km1[1:6])
+  df$km1[2:6] <- format((df$km1[2:6]/df$km1[1] - 1.0)*100.0)
+  df$km1[1] <- format(as.numeric(df$km1[1]))
   return(df)
 }
 
@@ -259,9 +262,8 @@ calculateGmeanAvgKm1PerK <- function(..., k) {
   df <- df[df$k == k,]
   aggreg = function(df) data.frame(km1=gm_mean(df$avg_km1))
   df <- ddply(df, c("algorithm"), aggreg)
-  df$km1[2:6] <- round((df$km1[2:6]/df$km1[1] - 1.0)*100.0, digits = 2)
-  df$km1[1] <- round(df$km1[1], digits = 2)
-  df$km1[1:6] <- to_latex_math_mode(df$km1[1:6])
+  df$km1[2:6] <- format((df$km1[2:6]/df$km1[1] - 1.0)*100.0)
+  df$km1[1] <- format(as.numeric(df$km1[1]))
   return(df)
 }
 

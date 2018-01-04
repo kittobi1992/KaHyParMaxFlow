@@ -46,7 +46,7 @@ flow_network_db$flow_algorithm <- factor(flow_network_db$flow_algorithm, levels 
 source(paste(working_dir, "experiments/flow_network_functions.R", sep="/"))
 table_file <- paste(working_dir, "master_thesis/experiments/flow_network/flow_network_max_flow_summary_table.tex", sep="/")
 sink(table_file)
-create_flow_network_max_flow_table_hybrid(flow_network_db, showType=TRUE)
+create_flow_network_max_flow_table_hybrid(flow_network_db, showType=FALSE)
 sink()
 
 table_file <- paste(working_dir, "master_thesis/experiments/flow_network/flow_network_max_flow_table.tex", sep="/")

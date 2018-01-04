@@ -111,6 +111,10 @@ get_legend_as_seperate_plot <- function(plot) {
   return(legend)
 }
 
+format <- function(x) {
+  return(formatC(x, digits=2, format='f'))
+}
+
 
 ##############################
 # geometric mean calculation
@@ -138,19 +142,19 @@ speedup_table <- "../master_thesis/experiments/speed_up_heuristics/heuristic_tab
 sink(speedup_table)
 flow_algo <- improvement_table[improvement_table$algo == "baseline",]
 cat(paste("\\KaHyPar{CA}",
-          to_latex_math_mode(round(flow_algo["gmean_avg"][1,], digits = 2)),
-          to_latex_math_mode(round(flow_algo["gmean_min"][1,], digits = 2)),
-          "-",
-          to_latex_math_mode(round(flow_algo["gmean_time"][1,], digits = 2)),
+          format(flow_algo["gmean_avg"][1,]),
+          format(flow_algo["gmean_min"][1,]),
+          "\\multicolumn{1}{c}{-}",
+          format(flow_algo["gmean_time"][1,]),
           sep=" & "))
 cat(" \\\\ \n")
 for(flow_heuristic in algo) {
   flow_algo <- improvement_table[improvement_table$algo == flow_heuristic,]
   cat(paste(flow_heuristic,
-            to_latex_math_mode(round(flow_algo["avg_imp"][1,], digits = 2)),
-            to_latex_math_mode(round(flow_algo["min_imp"][1,], digits = 2)),
-            to_latex_math_mode(round(flow_algo["gmean_flow_time"][1,], digits = 2)),
-            to_latex_math_mode(round(flow_algo["gmean_time"][1,], digits = 2)),
+            format(flow_algo["avg_imp"][1,]),
+            format(flow_algo["min_imp"][1,]),
+            format(flow_algo["gmean_flow_time"][1,]),
+            format(flow_algo["gmean_time"][1,]),
             sep=" & "))
   cat(" \\\\ \n")
 }
@@ -212,7 +216,7 @@ calculateGmeanRunningTime <- function(..., type="ALL") {
   if(type != "ALL") {
     df <- df[df$type == type,]
   }
-  aggreg = function(df) data.frame(time=to_latex_math_mode(round(gm_mean(df$avg_time), digits = 2)))
+  aggreg = function(df) data.frame(time=format(gm_mean(df$avg_time)))
   df <- ddply(df, c("algorithm"), aggreg)
 }
 

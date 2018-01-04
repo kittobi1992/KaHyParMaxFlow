@@ -139,6 +139,9 @@ gm_mean = function(x, na.rm=TRUE, zero.propagate = FALSE){
   }
 }
 
+format <- function(x) {
+  return(formatC(x, digits=2, format='f'))
+}
 
 revalue_columns_to_latex <- function(db) {
   if("num_hypernodes" %in% colnames(db)) {
@@ -309,9 +312,16 @@ to_latex_math_mode <- function(x) {
   return(paste("$",sign,abs(as.numeric(x)),"$", sep=""))
 }
 
+add_sign <- function(x) {
+  sign <- '+'
+  if(substring(x,1,1) == "-") {
+    sign <- '-'
+  }
+  return(paste(sign,format(abs(as.numeric(x))), sep=""))
+}
+
 to_latex_bold_math_mode <- function(x) {
-  # Input is a string of the form "$+2.34$"
-  return(paste("$","\\mathbf{",substr(x,2,nchar(x)-1),"}$",sep=""))
+  return(paste("\\bfseries{",x,"}",sep=""))
 }
 
 create_flow_network_max_flow_table <- function(df, instance_type = "ALL") {
@@ -347,8 +357,8 @@ create_flow_network_max_flow_table_hybrid <- function(df, instance_type="ALL", s
     column <- rev(column)
     min_idx <- which.min(column)
     column[2:4] <- (column[2:4]/column[1] - 1.0)*100.0
-    column <- c(num_hn, as.character(round(column, digits = 2)))
-    column <- c(paste("$",column[1],"$",sep=""), paste("$",column[2],"$",sep=""), sapply(column[3:5], to_latex_math_mode))
+    column <- c(num_hn, format(column))
+    column <- c(paste("$",column[1],"$",sep=""), column[2], sapply(column[3:5], add_sign))
     column[min_idx+1] <- to_latex_bold_math_mode(column[min_idx+1])
     type <- ""
     if(num_hn == 500) {
