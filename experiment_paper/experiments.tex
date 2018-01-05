@@ -1,0 +1,230 @@
+% Vorlage für eine Bachelorarbeit - 2012-2013 Timo Bingmann
+
+% Dies ist nur eine Vorlage. Strikte Vorgaben wie die Bachelorarbeit auszusehen
+% hat gibt es nicht. Darum können auch alle Teile angepasst werden.
+
+\documentclass[12pt,a4paper,twoside, enabledeprecatedfontcommands]{scrartcl}
+
+% Diese (und weitere) Eingabedateien sind in UTF-8
+\usepackage[utf8]{inputenc}
+
+% Verwende gute Type 1 Font: Latin Modern
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{titling}
+
+% Sprache des Dokuments (für Silbentrennung und mehr)
+\usepackage[german,english]{babel}
+
+% Seitengröße - verwende fast die ganze A4 Seite
+\usepackage[tmargin=22mm,bmargin=22mm,lmargin=20mm,rmargin=20mm]{geometry}
+
+% Einrückung und Abstand zwischen Paragraphen
+\setlength\parskip{\smallskipamount}
+\setlength\parindent{0pt}
+
+% Einige Standard-Mathematik Pakete
+\usepackage{latexsym,amsmath,amssymb,mathtools,textcomp}
+\usepackage{listings}
+
+% Unterstützung für Sätze und Definitionen
+\usepackage{amsthm}
+\usepackage{booktabs} %for top, middle and bottomline
+\usepackage{bigstrut}
+    \setlength\bigstrutjot{3pt}
+
+\newtheorem{Satz}{Satz}[section]
+\newtheorem{Definition}[Satz]{Definition}
+\newtheorem{Lemma}[Satz]{Lemma}
+
+\numberwithin{equation}{section}
+
+% Deutsches Literaturverzeichnis
+\usepackage{bibgerm}
+
+% Unterstützung zum Einbinden von Graphiken
+\usepackage{graphicx}
+
+% Pakete die tabular und array verbessern
+\usepackage{array,multirow}
+\newcolumntype{C}[1]{>{\centering}m{#1}}
+
+% Kleiner enumerate und itemize Umgebungen
+\usepackage{enumitem}
+
+\setlist[enumerate]{topsep=0pt}
+\setlist[itemize]{topsep=0pt}
+\setlist[description]{font=\normalfont,topsep=0pt}
+
+\setlist[enumerate,1]{label=(\roman*)}
+
+% TikZ für Graphiken in LaTeX
+\usepackage{tikz}
+\usetikzlibrary{calc}
+
+\usepackage{pgfplots}
+\usepgfplotslibrary{external}
+\tikzexternalize[prefix=experiments/]
+
+\usepackage{pifont}
+\usepackage{pbox}
+\usepackage{longtable}
+
+% Aktuelle Section und Untersection am Seitenkopf
+\usepackage{fancyhdr}
+
+\fancypagestyle{plain}{
+  \fancyhead{}
+  \fancyfoot{}
+  \fancyfoot[LE,RO]{\normalsize\thepage}
+  \renewcommand{\headrulewidth}{0pt}
+  \renewcommand{\footrulewidth}{0pt}
+}
+
+\fancypagestyle{normal}{
+  \setlength{\headheight}{20pt}
+  \setlength\footskip{32pt}
+  \fancyhead{}
+  \fancyhead[LE]{\normalsize\textsc{\nouppercase{\leftmark}}}
+  \fancyhead[RO]{\normalsize\textsc{\nouppercase{\rightmark}}}
+  \fancyfoot{}
+  \fancyfoot[LE,RO]{\normalsize\thepage}
+  \renewcommand{\headrulewidth}{0.4pt}
+  \renewcommand{\footrulewidth}{0pt}
+}
+
+% Hyperref für Hyperlink und Sprungtexte
+\usepackage{xcolor,hyperref}
+\usepackage{subcaption}
+\usepackage{graphicx}
+\usepackage{etoolbox,siunitx}
+\sisetup{detect-weight=true,detect-inline-weight=math}
+\robustify\bfseries
+
+\hypersetup{
+  pdftitle={High Quality Hypergraph Partitioning via Max-Flow-Min-Cut Computations},
+  pdfauthor={Tobias Heuer},
+  pdfsubject={Stichworte, weiteres Stichwort},
+  colorlinks=true,
+  pdfborder={0 0 0},
+  bookmarksopen=true,
+  bookmarksopenlevel=1,
+  bookmarksnumbered=true,
+  linkcolor=blue!60!black,
+  %linkcolor=black,
+  citecolor=blue!60!black,
+  urlcolor=blue!60!black,
+  filecolor=green!60!black,
+  pdfpagemode=UseNone,
+  unicode=true,
+}
+
+% Paket zum Setzen von Algorithmen in Pseudocode mit kleinen Stilanpassungen
+\usepackage[ruled,vlined,linesnumbered,norelsize]{algorithm2e}
+\DontPrintSemicolon
+\def\NlSty#1{\textnormal{\fontsize{8}{10}\selectfont{}#1}}
+\SetKwSty{texttt}
+\SetCommentSty{emph}
+\def\listalgorithmcfname{Algorithmenverzeichnis}
+\def\algorithmautorefname{Algorithmus}
+\let\chapter=\section % repariert ein Problem mit algorithm2e
+
+\input{../macros}
+
+\begin{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\pagestyle{empty} % keine Seitenzahlen
+
+\title{High Quality Hypergraph Partitioning via Max-Flow-Min-Cut Computations}
+\author{Tobias Heuer}
+
+% Titelblatt der Arbeit
+\begin{titlepage}
+
+  \begin{center}\large
+ 
+    \quad\includegraphics[height=17mm]{../img/logo/kit_logo_en.pdf} \hfill
+    %\includegraphics[height=20mm]{../img/logo/grouplogo-algo-blue.pdf}\quad\null
+
+    \vfill
+
+    Master-Thesis
+    \vspace*{2cm}
+
+    {\linespread{1.1}\huge\textbf{\thetitle}\par}
+    % Siehe auch oben die Felder pdftitle={}
+    % mit \par am Ende stimmt der Zeilenabstand
+
+    \vfill
+
+    \theauthor
+
+    \vspace*{45mm}
+
+    \begin{tabular}{rl}
+      Advisors: & Prof. Dr. Peter Sanders \\
+      & M. Sc. Sebastian Schlag\\
+    \end{tabular}
+    
+    \vspace*{10mm}
+
+    %Institut für Theoretische Informatik, Algorithmik \\
+    %Fakultät für Informatik \\
+    %Karlsruher Institut für Technologie
+
+    % English:
+    Institute of Theoretical Informatics, Algorithmics \\
+    Department of Informatics \\
+    Karlsruhe Institute of Technology
+
+    \vspace*{15mm}
+
+    Date of submission: 05.01.2018
+
+    \vspace*{12mm}
+  \end{center}
+
+\end{titlepage}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\selectlanguage{english}
+\addto\extrasenglish{\def\figureautorefname{Fig.}}
+
+\vfill
+
+\selectlanguage{english}
+
+\vfill\vfill\vfill
+\clearpage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\pagestyle{normal}
+% markiere sections im Seitenkopf links und subsections rechts
+\renewcommand\sectionmark[1]{\markboth{\thesection\quad\MakeUppercase{#1}}{\thesection\quad\MakeUppercase{#1}}}
+\renewcommand\subsectionmark[1]{\markright{\thesubsection\quad\MakeUppercase{#1}}}
+
+% Inhaltsverzeichnis
+\setcounter{tocdepth}{2} 
+\tableofcontents
+
+\clearpage
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Experimental Results}
+
+\input{sections/experiments}
+
+\newpage
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\end{document}

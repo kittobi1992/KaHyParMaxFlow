@@ -5,6 +5,10 @@ source("plot_functions.R")
 library(gridExtra)
 library(grid)
 
+paper <- "experiment_paper"
+experiment <- "speed_up_heuristics"
+modeling <- "m1"
+flow_algo <- "gt"
 
 dbs <- c( "flow_speed_up_heuristics/db/flow-000.db",
           "flow_speed_up_heuristics/db/flow-001.db",
@@ -138,7 +142,7 @@ revalue_algo <- c("baseline" = "baseline",
 improvement_table$algo <- revalue(as.character(improvement_table$algo), revalue_algo) 
 algo <- c("\\KaHyPar{MF}", "\\KaHyParConfig{MF}{R1}", "\\KaHyParConfig{MF}{R1,R2}", "\\KaHyParConfig{MF}{R1,R2,R3}")
 
-speedup_table <- "../master_thesis/experiments/speed_up_heuristics/heuristic_table.tex"
+speedup_table <- output_file(paper,experiment,"heuristic_table",modeling,flow_algo)
 sink(speedup_table)
 flow_algo <- improvement_table[improvement_table$algo == "baseline",]
 cat(paste("\\KaHyPar{CA}",

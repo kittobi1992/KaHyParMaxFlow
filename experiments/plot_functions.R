@@ -220,6 +220,10 @@ createRatioFilter = function(filter, column, mimima, UsePenalty, ...) {
   }
 }
 
+output_file <- function(paper, experiment, file, modeling, flow_algo) {
+  return(paste("../",paper,"/experiments/",experiment,"/",file,"_",modeling,"_",flow_algo,".tex",sep=""))
+}
+
 createRatioDFsFilter = function(filter, avg_obj, min_obj, UsePenalty, ...) {
   # We set all "0" km1s to "1" in order to be able to calculate ratios
   dataframes = list(...)

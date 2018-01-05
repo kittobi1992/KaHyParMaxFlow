@@ -1,6 +1,11 @@
-setwd("/home/theuer/Dropbox/Studium Informatik/10. Semester/KaHyParMaxFlow")
+setwd("/home/theuer/Dropbox/Studium Informatik/10. Semester/KaHyParMaxFlow/experiments")
 #setwd("C:\\Users\\tobia\\Dropbox\\Studium Informatik\\10. Semester\\KaHyParMaxFlow")
-source("experiments/plot_functions.R")
+source("plot_functions.R")
+
+paper <- "experiment_paper"
+experiment <- "final_flow"
+modeling <- "m1"
+flow_algo <- "gt"
 
 library(gridExtra)
 library(grid)
@@ -23,16 +28,16 @@ aggreg = function(df) data.frame(min_km1=min(df$km1),
                                  avg_time=mean(df$totalPartitionTime),
                                  cnt=length(df$seed))
 
-kahypar_ca <- read.csv("experiments/common_dbs/kahypar_ca_detailed.csv")
-hmetis_r <- read.csv("experiments/common_dbs/hmetis_r_detailed.csv")
-hmetis_k <- read.csv("experiments/common_dbs/hmetis_k_detailed.csv")
-patoh_q <- read.csv("experiments/common_dbs/patoh_q_detailed.csv")
-patoh_d <- read.csv("experiments/common_dbs/patoh_d_detailed.csv")
+kahypar_ca <- read.csv("common_dbs/kahypar_ca_detailed.csv")
+hmetis_r <- read.csv("common_dbs/hmetis_r_detailed.csv")
+hmetis_k <- read.csv("common_dbs/hmetis_k_detailed.csv")
+patoh_q <- read.csv("common_dbs/patoh_q_detailed.csv")
+patoh_d <- read.csv("common_dbs/patoh_d_detailed.csv")
 
-kahypar_mf = ddply(dbGetQuery(dbConnect(SQLite(), dbname="experiments/final_flow/db/kahypar_mf.db"),
+kahypar_mf = ddply(dbGetQuery(dbConnect(SQLite(), dbname="final_flow/db/kahypar_mf_old.db"),
                             select_soed), c("graph","k"), aggreg)
 
-full_instance_stats = dbGetQuery(dbConnect(SQLite(), dbname="experiments/common_dbs/hgr_stats.db"),
+full_instance_stats = dbGetQuery(dbConnect(SQLite(), dbname="common_dbs/hgr_stats.db"),
                                  "Select * from experiments")
 
 
@@ -178,7 +183,7 @@ for(type in instance_classes) {
   running_time <- cbind(running_time, calculateGmeanRunningTime(kahypar_mf, kahypar_ca, hmetis_r, hmetis_k, patoh_q, patoh_d, type=type)["time"])
 }
 
-table_file <- "master_thesis/experiments/final_flow/final_flow_running_time.tex"
+table_file <- output_file(paper,experiment,"final_flow_running_time",modeling,flow_algo)
 sink(table_file)
 for( algo in levels(factor(running_time$algorithm))) {
   algo_df <- running_time[running_time$algorithm == algo,]
@@ -206,7 +211,7 @@ for(k in K) {
   running_time <- cbind(running_time, calculateGmeanRunningTimePerK(kahypar_mf, kahypar_ca, hmetis_r, hmetis_k, patoh_q, patoh_d, k=k)["time"])
 }
 
-table_file <- "master_thesis/experiments/final_flow/final_flow_running_time_per_k.tex"
+table_file <- output_file(paper,experiment,"final_flow_running_time_per_k",modeling,flow_algo)
 sink(table_file)
 for( algo in levels(factor(running_time$algorithm))) {
   algo_df <- running_time[running_time$algorithm == algo,]
@@ -242,7 +247,7 @@ for(type in instance_classes) {
 km1_table$algorithm <- as.character(km1_table$algorithm)
 partitioner <- c("\\KaHyPar{MF}","\\KaHyPar{CA}","\\hMetis{R}","\\hMetis{K}","\\PaToH{Q}","\\PaToH{D}")
 
-table_file <- "master_thesis/experiments/final_flow/final_flow_km1_per_instance.tex"
+table_file <-  output_file(paper,experiment,"final_flow_km1_per_instance",modeling,flow_algo)
 sink(table_file)
 for( algo in partitioner) {
   algo_df <- km1_table[km1_table$algorithm == algo,]
@@ -276,7 +281,7 @@ for(k in K) {
 km1_table$algorithm <- as.character(km1_table$algorithm)
 partitioner <- c("\\KaHyPar{MF}","\\KaHyPar{CA}","\\hMetis{R}","\\hMetis{K}","\\PaToH{Q}","\\PaToH{D}")
 
-table_file <- "master_thesis/experiments/final_flow/final_flow_km1_per_k.tex"
+table_file <-  output_file(paper,experiment,"final_flow_km1_per_k",modeling,flow_algo)
 sink(table_file)
 for( algo in partitioner) {
   algo_df <- km1_table[km1_table$algorithm == algo,]

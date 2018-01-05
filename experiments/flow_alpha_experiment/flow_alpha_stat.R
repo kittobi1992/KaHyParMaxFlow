@@ -153,12 +153,16 @@ for(i in 1:length(dbs)) {
    cat(" \\\\ \n")
  }
  
+ paper <- "experiment_paper"
+ experiment <- "flow_alpha"
+ modeling <- "m2"
+ flow_algo <- "bk"
  
- sink("../master_thesis/experiments/flow_alpha/flow_alpha_table.tex")
+ sink(output_file(paper,experiment,"flow_alpha_table",modeling,flow_algo))
  flow_alpha_table(kahypar_sea, flow, flow_mbmc, flow_fm, constant)
  sink()
  
- sink("../master_thesis/experiments/flow_alpha/flow_alpha_effectiveness_table.tex")
+ sink(output_file(paper,experiment,"flow_alpha_effectiveness_table",modeling,flow_algo))
  flow_alpha_effectiveness_table(kahypar_ca, flow_eff, flow_mbmc_eff, flow_fm_eff)
  sink()
  
