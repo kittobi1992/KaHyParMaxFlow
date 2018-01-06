@@ -4,8 +4,8 @@ source("plot_functions.R")
 
 paper <- "experiment_paper"
 experiment <- "final_flow"
-modeling <- "m1"
-flow_algo <- "gt"
+modeling <- "m2"
+flow_algo <- "bk"
 
 library(gridExtra)
 library(grid)
@@ -34,7 +34,7 @@ hmetis_k <- read.csv("common_dbs/hmetis_k_detailed.csv")
 patoh_q <- read.csv("common_dbs/patoh_q_detailed.csv")
 patoh_d <- read.csv("common_dbs/patoh_d_detailed.csv")
 
-kahypar_mf = ddply(dbGetQuery(dbConnect(SQLite(), dbname="final_flow/db/kahypar_mf_old.db"),
+kahypar_mf = ddply(dbGetQuery(dbConnect(SQLite(), dbname=paste("final_flow/db/kahypar_mf_",flow_algo,".db",sep="")),
                             select_soed), c("graph","k"), aggreg)
 
 full_instance_stats = dbGetQuery(dbConnect(SQLite(), dbname="common_dbs/hgr_stats.db"),
@@ -122,7 +122,7 @@ for(type in instance_classes) {
   i <- i + 1
 }
 
-fullset_file <- paste("master_thesis/experiments/final_flow/fullset.tex", sep="")
+fullset_file <- output_file(paper,experiment,"fullset_type",modeling,flow_algo)
 tikz(fullset_file, width=7, height=9, pointsize=12)
 grid.arrange(type_plots[[1]],type_plots[[2]],type_plots[[3]],type_plots[[4]],type_plots[[5]],type_plots[[6]],type_plots[[7]],get_legend_as_seperate_plot(type_plots[[1]]),ncol=2)
 dev.off()
@@ -154,7 +154,7 @@ for(k in K) {
   i <- i + 1
 }
 
-fullset_k_file <- paste("master_thesis/experiments/final_flow/fullset-k.tex", sep="")
+fullset_k_file <- output_file(paper,experiment,"fullset_k",modeling,flow_algo)
 tikz(fullset_k_file, width=7, height=9, pointsize=12)
 grid.arrange(k_plots[[1]],k_plots[[2]],k_plots[[3]],k_plots[[4]],k_plots[[5]],k_plots[[6]],k_plots[[7]],get_legend_as_seperate_plot(k_plots[[1]]),ncol=2)
 dev.off()

@@ -1,13 +1,18 @@
 setwd("/home/theuer/Dropbox/Studium Informatik/10. Semester/KaHyParMaxFlow/experiments")
 source("plot_functions.R")
 
-dbs <- c( "flow_alpha_experiment/db/flow.db",
-          "flow_alpha_experiment/db/flow_mbmc.db",
-          "flow_alpha_experiment/db/flow_fm.db",
-          "flow_alpha_experiment/db/constant.db",
-          "flow_alpha_experiment/db/flow_eff.db",
-          "flow_alpha_experiment/db/flow_mbmc_eff.db",
-          "flow_alpha_experiment/db/flow_fm_eff.db")
+paper <- "experiment_paper"
+experiment <- "final_flow"
+modeling <- "m2"
+flow_algo <- "bk"
+
+dbs <- c( paste("flow_alpha_experiment/db_",flow_algo,"/flow.db",sep=""),
+          paste("flow_alpha_experiment/db_",flow_algo,"/flow_mbmc.db",sep=""),
+          paste("flow_alpha_experiment/db_",flow_algo,"/flow_fm.db",sep=""),
+          paste("flow_alpha_experiment/db_",flow_algo,"/constant.db",sep=""),
+          paste("flow_alpha_experiment/db_",flow_algo,"/flow_eff.db",sep=""),
+          paste("flow_alpha_experiment/db_",flow_algo,"/flow_mbmc_eff.db",sep=""),
+          paste("flow_alpha_experiment/db_",flow_algo,"/flow_fm_eff.db",sep=""))
 
 algo <- c( "flow","flow_mbmc","flow_fm","constant","flow_eff","flow_mbmc_eff","flow_fm_eff")
 
@@ -29,9 +34,9 @@ aggreg = function(df) data.frame(min_km1=min(df$km1),
                                  avg_time=mean(df$totalPartitionTime),
                                  cnt=length(df$seed))
 
-kahypar_sea <- ddply(dbGetQuery(dbConnect(SQLite(), dbname="flow_alpha_experiment/db/kahypar_sea.db"),
+kahypar_sea <- ddply(dbGetQuery(dbConnect(SQLite(), dbname=paste("flow_alpha_experiment/db_",flow_algo,"/kahypar_sea.db",sep="")),
                                 select_soed), c("graph","k"), aggreg)
-kahypar_ca <- ddply(dbGetQuery(dbConnect(SQLite(), dbname="flow_alpha_experiment/db/kahypar_ca.db"),
+kahypar_ca <- ddply(dbGetQuery(dbConnect(SQLite(), dbname=paste("flow_alpha_experiment/db_",flow_algo,"/kahypar_ca.db",sep="")),
                                 select_soed), c("graph","k"), aggreg)
 
 flow_dbs <- list()
@@ -152,11 +157,6 @@ for(i in 1:length(dbs)) {
    cat(paste(ref_vec,collapse=" & "))
    cat(" \\\\ \n")
  }
- 
- paper <- "experiment_paper"
- experiment <- "flow_alpha"
- modeling <- "m2"
- flow_algo <- "bk"
  
  sink(output_file(paper,experiment,"flow_alpha_table",modeling,flow_algo))
  flow_alpha_table(kahypar_sea, flow, flow_mbmc, flow_fm, constant)

@@ -1,14 +1,14 @@
 setwd("/home/theuer/Dropbox/Studium Informatik/10. Semester/KaHyParMaxFlow/experiments")
 source("plot_functions.R")
 
-dbs <- c( "flow_alpha_experiment/db/flow.db",
-          "flow_alpha_experiment/db/flow_mbmc.db",
-          "flow_alpha_experiment/db/flow_fm.db",
-          "flow_alpha_experiment/db/constant.db",
-          "flow_alpha_experiment/old_db/flow_cut_he.db",
-          "flow_alpha_experiment/old_db/flow_cut_he_mbmc.db",
-          "flow_alpha_experiment/old_db/flow_fm.db",
-          "flow_alpha_experiment/old_db/constant.db")
+dbs <- c( "flow_alpha_experiment/db_bk/flow.db",
+          "flow_alpha_experiment/db_bk/flow_mbmc.db",
+          "flow_alpha_experiment/db_bk/flow_fm.db",
+          "flow_alpha_experiment/db_bk/constant.db",
+          "flow_alpha_experiment/db_gt/flow.db",
+          "flow_alpha_experiment/db_gt/flow_mbmc.db",
+          "flow_alpha_experiment/db_gt/flow_fm.db",
+          "flow_alpha_experiment/db_gt/constant.db")
 
 algo <- c( "flow","flow_mbmc","flow_fm","constant","flow_old", "flow_mbmc_old", "flow_fm_old","constant_old")
 
@@ -30,7 +30,7 @@ aggreg = function(df) data.frame(min_km1=min(df$km1),
                                  avg_time=mean(df$totalPartitionTime),
                                  cnt=length(df$seed))
 
-kahypar_sea <- ddply(dbGetQuery(dbConnect(SQLite(), dbname="flow_alpha_experiment/db/kahypar_sea.db"),
+kahypar_sea <- ddply(dbGetQuery(dbConnect(SQLite(), dbname="flow_alpha_experiment/db_bk/kahypar_sea.db"),
                                 select_soed), c("graph","k"), aggreg)
 
 flow_dbs <- list()

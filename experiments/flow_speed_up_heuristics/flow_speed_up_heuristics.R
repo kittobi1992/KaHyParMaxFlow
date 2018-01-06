@@ -10,10 +10,10 @@ experiment <- "speed_up_heuristics"
 modeling <- "m1"
 flow_algo <- "gt"
 
-dbs <- c( "flow_speed_up_heuristics/db/flow-000.db",
-          "flow_speed_up_heuristics/db/flow-001.db",
-          "flow_speed_up_heuristics/db/flow-011.db",
-          "flow_speed_up_heuristics/db/flow-111.db")
+dbs <- c( paste("flow_speed_up_heuristics/db_",flow_algo,"/flow-000.db",sep=""),
+          paste("flow_speed_up_heuristics/db_",flow_algo,"/flow-001.db",sep=""),
+          paste("flow_speed_up_heuristics/db_",flow_algo,"/flow-011.db",sep=""),
+          paste("flow_speed_up_heuristics/db_",flow_algo,"/flow-111.db",sep=""))
 
 algo <- c( "flow_000",
            "flow_001",
@@ -203,7 +203,7 @@ for(type in instance_classes) {
   i <- i + 1
 }
 
-speed_up_file <- paste("../master_thesis/experiments/speed_up_heuristics/subset.tex", sep="")
+speed_up_file <- output_file(paper,experiment,"subset_plot",modeling,flow_algo)
 tikz(speed_up_file, width=7, height=8.5, pointsize=12)
 grid.arrange(type_plots[[1]],type_plots[[2]],type_plots[[3]],type_plots[[4]],type_plots[[5]],type_plots[[6]],type_plots[[7]],get_legend_as_seperate_plot(type_plots[[1]]),ncol=2)
 dev.off()
@@ -213,6 +213,12 @@ dev.off()
 to_latex_math_mode <- function(x) {
   return(paste("$",x,"$", sep=""))
 }
+
+kahypar_sea$algorithm <- "\\KaHyPar{CA}"
+flow_000$algorithm <- "\\KaHyPar{MF}"
+flow_001$algorithm <- "\\KaHyParConfig{MF}{R1}"
+flow_011$algorithm <- "\\KaHyParConfig{MF}{R1,R2}"
+flow_111$algorithm <- "\\KaHyParConfig{MF}{R1,R2,R3}"
 
 calculateGmeanRunningTime <- function(..., type="ALL") {
   df <- rbind(...)
@@ -230,7 +236,7 @@ for(type in instance_classes) {
   running_time <- cbind(running_time, calculateGmeanRunningTime(kahypar_sea, flow_000, flow_001, flow_011, flow_111, type=type)["time"])
 }
 
-table_file <- "../master_thesis/experiments/speed_up_heuristics/subset_flow_running_time.tex"
+table_file <- output_file(paper,experiment,"subset_flow_running_time",modeling,flow_algo)
 sink(table_file)
 for( algo in levels(factor(running_time$algorithm))) {
   algo_df <- running_time[running_time$algorithm == algo,]

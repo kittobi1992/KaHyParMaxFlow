@@ -40,6 +40,27 @@ $|V'|$ &  $t[ms]$ & $t[\%]$ & $t[\%]$ & $t[\%]$
 \label{fig:max_flow_network_algo}
 \end{figure} 
 
+\begin{table}[ht!]
+\renewcommand{\arraystretch}{1.15}
+\footnotesize
+\centering
+\begin{tabular}{lr|S[table-number-alignment = center,table-column-width=2.5cm]|
+                   S[table-number-alignment = center]|
+                   S[table-number-alignment = center]| 
+                   S[table-number-alignment = center]}
+\toprule
+ \multirow{2}{*}{\rotatebox{90}{\tiny{Instance}}} & \quad\quad & \multicolumn{1}{c|}{\IBFS} & \BoykovKolmogorov & \GoldbergTarjan & \EdmondKarp \\
+ & $|V'|$ &  $t[ms]$ & $t[\%]$ & $t[\%]$ & $t[\%]$ 
+\\\midrule% 
+\csname @@input\endcsname experiments/flow_network/flow_network_max_flow_table.tex 
+\bottomrule
+\end{tabular}
+\caption{Average running times of our maximum flow algorithms on flow network $\ExpHybrid$.
+         Note, all values in the table are in percentage relative to the running time
+         of the \IBFS~algorithm. In each line the fastest variant is marked bold.}
+\label{tbl:flow_algo_network_detail_summary}
+\end{table}
+
 \clearpage
 
 \subsection{Configuring direct $k$-way Flow-based Refinement}
@@ -104,17 +125,17 @@ $\alpha'$ & \footnotesize{\textsc{M1} - Avg $[\%]$} & \footnotesize{\textsc{M2} 
                    S[table-number-alignment = center]|
                    S[table-number-alignment = center]|}
 \toprule
- & \multicolumn{3}{|c|}{\textsc{M2} - \BoykovKolmogorov} \\
+ & \multicolumn{3}{c|}{\textsc{M2} - \BoykovKolmogorov} \\
  \cmidrule{2-4}
- Config. &  \multicolumn{1}{|c|}{\FlowVariant{+}{-}{-}} &  \multicolumn{1}{|c|}{\FlowVariant{+}{+}{-}}  &  \multicolumn{1}{|c|}{\FlowVariant{+}{+}{+}} \\
+ Config. &  \multicolumn{1}{c|}{\FlowVariant{+}{-}{-}} &  \multicolumn{1}{|c}{\FlowVariant{+}{+}{-}}  &  \multicolumn{1}{|c|}{\FlowVariant{+}{+}{+}} \\
 \midrule
 $\alpha'$ & Avg $[\%]$ & Avg $[\%]$ & Avg $[\%]$ \\
 \midrule%
 \csname @@input\endcsname experiments/flow_alpha/flow_alpha_effectiveness_table_m2_bk.tex 
 \bottomrule
- & \multicolumn{3}{|c|}{\textsc{M1} - \GoldbergTarjan} \\
+ & \multicolumn{3}{c|}{\textsc{M1} - \GoldbergTarjan} \\
  \cmidrule{2-4}
- Config. &  \multicolumn{1}{|c|}{\FlowVariant{+}{-}{-}} &  \multicolumn{1}{|c|}{\FlowVariant{+}{+}{-}}  &  \multicolumn{1}{|c|}{\FlowVariant{+}{+}{+}} \\
+ Config. &  \multicolumn{1}{c|}{\FlowVariant{+}{-}{-}} &  \multicolumn{1}{|c}{\FlowVariant{+}{+}{-}}  &  \multicolumn{1}{|c|}{\FlowVariant{+}{+}{+}} \\
 \midrule
 $\alpha'$ & Avg $[\%]$ & Avg $[\%]$ & Avg $[\%]$ \\
 \midrule%
@@ -138,13 +159,13 @@ $\alpha'$ & Avg $[\%]$ & Avg $[\%]$ & Avg $[\%]$ \\
 \centering
 \begin{tabular}{l|*{4}{S[table-number-alignment = center,table-column-width=2cm]}}
 \toprule
- & \multicolumn{4}{|c}{\textsc{M2} - \BoykovKolmogorov} \\
+ & \multicolumn{4}{c}{\textsc{M2} - \BoykovKolmogorov} \\
  \cmidrule{2-5}
 Variant & \multicolumn{1}{c}{Avg $[\%]$} & \multicolumn{1}{c}{Min $[\%]$} & \multicolumn{1}{c}{$t_{\text{flow}}[s]$} & \multicolumn{1}{c}{$t[s]$} \\ 
 \midrule%
 \csname @@input\endcsname experiments/speed_up_heuristics/heuristic_table_m2_bk.tex 
 \bottomrule
- & \multicolumn{4}{|c}{\textsc{M1} - \GoldbergTarjan} \\
+ & \multicolumn{4}{c}{\textsc{M1} - \GoldbergTarjan} \\
  \cmidrule{2-5}
 Variant & \multicolumn{1}{c}{Avg $[\%]$} & \multicolumn{1}{c}{Min $[\%]$} & \multicolumn{1}{c}{$t_{\text{flow}}[s]$} & \multicolumn{1}{c}{$t[s]$} \\ 
 \midrule%
@@ -154,6 +175,48 @@ Variant & \multicolumn{1}{c}{Avg $[\%]$} & \multicolumn{1}{c}{Min $[\%]$} & \mul
 \caption{Results of our flow-based refinement framework with different speedup heuristics.}
 \label{tbl:heuristics}
 \end{table} 
+
+\begin{table}[ht!]
+\renewcommand{\arraystretch}{1.15}
+\centering
+\begin{tabular}{l|*{7}{S[table-number-alignment = center,table-column-width=1.45cm]}}
+\toprule
+ & \multicolumn{7}{c}{\textsc{M2} - \BoykovKolmogorov} \\
+\multirow{2}{*}{Partitioner} & \multicolumn{7}{c}{Running Time $t[s]$} \\
+\cmidrule{2-8}
+ & \multicolumn{1}{c}{\ALL} & \multicolumn{1}{c}{\DAC} & \multicolumn{1}{c}{\ISPD} & \multicolumn{1}{c}{\Primal} & \multicolumn{1}{c}{\Literal} & \multicolumn{1}{c}{\Dual} & \multicolumn{1}{c}{\SPM} \\
+\midrule%
+\csname @@input\endcsname experiments/speed_up_heuristics/subset_flow_running_time_m2_bk.tex 
+\bottomrule
+ & \multicolumn{7}{c}{\textsc{M1} - \GoldbergTarjan} \\
+\multirow{2}{*}{Partitioner} & \multicolumn{7}{c}{Running Time $t[s]$} \\
+\cmidrule{2-8}
+ & \multicolumn{1}{c}{\ALL} & \multicolumn{1}{c}{\DAC} & \multicolumn{1}{c}{\ISPD} & \multicolumn{1}{c}{\Primal} & \multicolumn{1}{c}{\Literal} & \multicolumn{1}{c}{\Dual} & \multicolumn{1}{c}{\SPM} \\
+\midrule%
+\csname @@input\endcsname experiments/speed_up_heuristics/subset_flow_running_time_m1_gt.tex 
+\bottomrule
+\end{tabular} 
+\caption{Comparing the average running time of \KaHyPar{MF} with \KaHyPar{CA}.}
+\label{tbl:running_time} 
+\end{table}
+
+\clearpage
+
+\begin{figure}[h!]
+\centering
+\input{experiments/speed_up_heuristics/subset_plot_m2_bk.tex} %
+\caption{Min-Cut performance plots comparing \KaHyPar{MF} with \KaHyPar{CA}. 
+          \textsc{M2} - \BoykovKolmogorov}
+\label{fig:subset_flow}
+\end{figure}  
+
+\begin{figure}[h!]
+\centering
+\input{experiments/speed_up_heuristics/subset_plot_m1_gt.tex} %
+\caption{Min-Cut performance plots comparing \KaHyPar{MF} with \KaHyPar{CA}. 
+          \textsc{M1} - \GoldbergTarjan}
+\label{fig:subset_flow}
+\end{figure}  
 
 \clearpage
 
@@ -165,14 +228,14 @@ Variant & \multicolumn{1}{c}{Avg $[\%]$} & \multicolumn{1}{c}{Min $[\%]$} & \mul
 \centering
 \begin{tabular}{c|*{7}{S[table-number-alignment = center,table-column-width=1.45cm]}}
 \toprule
- & \multicolumn{7}{|c}{\textsc{M2} - \BoykovKolmogorov} \\
+ & \multicolumn{7}{c}{\textsc{M2} - \BoykovKolmogorov} \\
 \multirow{2}{*}{Partitioner} & \multicolumn{7}{c}{Running Time $t[s]$} \\
 \cmidrule{2-8}
  & \multicolumn{1}{c}{\ALL} & \multicolumn{1}{c}{\DAC} & \multicolumn{1}{c}{\ISPD} & \multicolumn{1}{c}{\Primal} & \multicolumn{1}{c}{\Literal} & \multicolumn{1}{c}{\Dual} & \multicolumn{1}{c}{\SPM}  \\
 \midrule%
 \csname @@input\endcsname experiments/final_flow/final_flow_running_time_m2_bk.tex 
 \bottomrule
- & \multicolumn{7}{|c}{\textsc{M1} - \GoldbergTarjan} \\ 
+ & \multicolumn{7}{c}{\textsc{M1} - \GoldbergTarjan} \\ 
 \multirow{2}{*}{Partitioner} & \multicolumn{7}{c}{Running Time $t[s]$} \\
 \cmidrule{2-8}
  & \multicolumn{1}{c}{\ALL} & \multicolumn{1}{c}{\DAC} & \multicolumn{1}{c}{\ISPD} & \multicolumn{1}{c}{\Primal} & \multicolumn{1}{c}{\Literal} & \multicolumn{1}{c}{\Dual} & \multicolumn{1}{c}{\SPM}  \\
@@ -191,14 +254,14 @@ Variant & \multicolumn{1}{c}{Avg $[\%]$} & \multicolumn{1}{c}{Min $[\%]$} & \mul
 \centering
 \begin{tabular}{l|*{7}{S[table-number-alignment = center,table-column-width=1.45cm]}}
 \toprule
- & \multicolumn{7}{|c}{\textsc{M2} - \BoykovKolmogorov} \\
+ & \multicolumn{7}{c}{\textsc{M2} - \BoykovKolmogorov} \\
 \multirow{2}{*}{Partitioner} & \multicolumn{7}{c}{Average $\lambda - 1$} \\
 \cmidrule{2-8}
 & \multicolumn{1}{c}{\ALL} & \multicolumn{1}{c}{\DAC} & \multicolumn{1}{c}{\ISPD} & \multicolumn{1}{c}{\Primal} & \multicolumn{1}{c}{\Literal} & \multicolumn{1}{c}{\Dual} & \multicolumn{1}{c}{\SPM} \\
 \midrule%
 \csname @@input\endcsname experiments/final_flow/final_flow_km1_per_instance_m2_bk.tex 
 \bottomrule
- & \multicolumn{7}{|c}{\textsc{M1} - \GoldbergTarjan} \\
+ & \multicolumn{7}{c}{\textsc{M1} - \GoldbergTarjan} \\
 \multirow{2}{*}{Partitioner} & \multicolumn{7}{c}{Average $\lambda - 1$} \\
 \cmidrule{2-8}
 & \multicolumn{1}{c}{\ALL} & \multicolumn{1}{c}{\DAC} & \multicolumn{1}{c}{\ISPD} & \multicolumn{1}{c}{\Primal} & \multicolumn{1}{c}{\Literal} & \multicolumn{1}{c}{\Dual} & \multicolumn{1}{c}{\SPM} \\
@@ -212,27 +275,19 @@ Variant & \multicolumn{1}{c}{Avg $[\%]$} & \multicolumn{1}{c}{Min $[\%]$} & \mul
 \label{tbl:full_quality} 
 \end{table}
 
-\begin{figure}
-\centering
-\input{experiments/final_flow/fullset.tex} %
-\caption{Min-Cut performance plots comparing \KaHyPar{MF} with \KaHyPar{CA} and
-         other partitioners. Plots are explained in Section \ref{sec:methodology}.}
-\label{fig:final_flow}
-\end{figure} 
-
 \begin{table}[ht!]
 \renewcommand{\arraystretch}{1.15}
 \centering
 \begin{tabular}{l|*{7}{S[table-number-alignment = center,table-column-width=1.45cm]}}
 \toprule
- & \multicolumn{7}{|c}{\textsc{M2} - \BoykovKolmogorov} \\
+ & \multicolumn{7}{c}{\textsc{M2} - \BoykovKolmogorov} \\
 \multirow{2}{*}{Partitioner} & \multicolumn{7}{c}{Running Time $t[s]$} \\
 \cmidrule{2-8}
  & \multicolumn{1}{c}{$k = 2$} & \multicolumn{1}{c}{$k = 4$} & \multicolumn{1}{c}{$k = 8$} & \multicolumn{1}{c}{$k = 16$} & \multicolumn{1}{c}{$k = 32$} & \multicolumn{1}{c}{$k = 64$} & \multicolumn{1}{c}{$k = 128$} \\
 \midrule%
 \csname @@input\endcsname experiments/final_flow/final_flow_running_time_per_k_m2_bk.tex
 \bottomrule
- & \multicolumn{7}{|c}{\textsc{M1} - \GoldbergTarjan} \\
+ & \multicolumn{7}{c}{\textsc{M1} - \GoldbergTarjan} \\
 \multirow{2}{*}{Partitioner} & \multicolumn{7}{c}{Running Time $t[s]$} \\
 \cmidrule{2-8}
  & \multicolumn{1}{c}{$k = 2$} & \multicolumn{1}{c}{$k = 4$} & \multicolumn{1}{c}{$k = 8$} & \multicolumn{1}{c}{$k = 16$} & \multicolumn{1}{c}{$k = 32$} & \multicolumn{1}{c}{$k = 64$} & \multicolumn{1}{c}{$k = 128$} \\
@@ -250,14 +305,14 @@ Variant & \multicolumn{1}{c}{Avg $[\%]$} & \multicolumn{1}{c}{Min $[\%]$} & \mul
 \centering
 \begin{tabular}{l|*{7}{S[table-number-alignment = center,table-column-width=1.45cm]}}
 \toprule
- & \multicolumn{7}{|c}{\textsc{M2} - \BoykovKolmogorov} \\
+ & \multicolumn{7}{c}{\textsc{M2} - \BoykovKolmogorov} \\
 \multirow{2}{*}{Partitioner} & \multicolumn{7}{c}{Average $\lambda - 1$} \\
 \cmidrule{2-8}
  & \multicolumn{1}{c}{$k = 2$} & \multicolumn{1}{c}{$k = 4$} & \multicolumn{1}{c}{$k = 8$} & \multicolumn{1}{c}{$k = 16$} & \multicolumn{1}{c}{$k = 32$} & \multicolumn{1}{c}{$k = 64$} & \multicolumn{1}{c}{$k = 128$}\\
 \midrule%
 \csname @@input\endcsname experiments/final_flow/final_flow_km1_per_k_m2_bk.tex 
 \bottomrule
- & \multicolumn{7}{|c}{\textsc{M1} - \GoldbergTarjan} \\
+ & \multicolumn{7}{c}{\textsc{M1} - \GoldbergTarjan} \\
 \multirow{2}{*}{Partitioner} & \multicolumn{7}{c}{Average $\lambda - 1$} \\
 \cmidrule{2-8}
  & \multicolumn{1}{c}{$k = 2$} & \multicolumn{1}{c}{$k = 4$} & \multicolumn{1}{c}{$k = 8$} & \multicolumn{1}{c}{$k = 16$} & \multicolumn{1}{c}{$k = 32$} & \multicolumn{1}{c}{$k = 64$} & \multicolumn{1}{c}{$k = 128$}\\
@@ -271,11 +326,36 @@ Variant & \multicolumn{1}{c}{Avg $[\%]$} & \multicolumn{1}{c}{Min $[\%]$} & \mul
 \label{tbl:full_quality_k} 
 \end{table}
 
+\clearpage
 
 \begin{figure}
 \centering
-\input{experiments/final_flow/fullset-k.tex} %
+\input{experiments/final_flow/fullset_type_m2_bk.tex} %
 \caption{Min-Cut performance plots comparing \KaHyPar{MF} with \KaHyPar{CA} and
-         other partitioners for different values of $k$.}
+         other partitioners. \textsc{M2} - \BoykovKolmogorov}
+\label{fig:final_flow}
+\end{figure} 
+
+\begin{figure}
+\centering
+\input{experiments/final_flow/fullset_type_m1_gt.tex} %
+\caption{Min-Cut performance plots comparing \KaHyPar{MF} with \KaHyPar{CA} and
+         other partitioners. \textsc{M1} - \GoldbergTarjan}
+\label{fig:final_flow}
+\end{figure} 
+
+\begin{figure}
+\centering
+\input{experiments/final_flow/fullset_k_m2_bk.tex} %
+\caption{Min-Cut performance plots comparing \KaHyPar{MF} with \KaHyPar{CA} and
+         other partitioners for different values of $k$. \textsc{M2} - \BoykovKolmogorov}
+\label{fig:final_flow_k}
+\end{figure}
+
+\begin{figure}
+\centering
+\input{experiments/final_flow/fullset_k_m1_gt.tex} %
+\caption{Min-Cut performance plots comparing \KaHyPar{MF} with \KaHyPar{CA} and
+         other partitioners for different values of $k$. \textsc{M1} - \GoldbergTarjan}
 \label{fig:final_flow_k}
 \end{figure}
