@@ -2,9 +2,9 @@ setwd("/home/theuer/Dropbox/Studium Informatik/10. Semester/KaHyParMaxFlow/exper
 source("plot_functions.R")
 
 paper <- "experiment_paper"
-experiment <- "final_flow"
+experiment <- "flow_alpha"
 modeling <- "m2"
-flow_algo <- "bk"
+flow_algo <- "ibfs"
 
 dbs <- c( paste("flow_alpha_experiment/db_",flow_algo,"/flow.db",sep=""),
           paste("flow_alpha_experiment/db_",flow_algo,"/flow_mbmc.db",sep=""),

@@ -66,7 +66,7 @@ $|V'|$ &  $t[ms]$ & $t[\%]$ & $t[\%]$ & $t[\%]$
 \subsection{Configuring direct $k$-way Flow-based Refinement}
 \label{sec:flow_configuration}
 
-\begin{table}[ht]
+\begin{table}[!htb]
 \renewcommand{\arraystretch}{1.15}
 \centering
 \begin{tabular}{|r||*{2}{S[table-number-alignment = center]|}|
@@ -74,6 +74,14 @@ $|V'|$ &  $t[ms]$ & $t[\%]$ & $t[\%]$ & $t[\%]$
                     *{2}{S[table-number-alignment = center]|}|
                     *{2}{S[table-number-alignment = center]|}}
 \toprule
+ & \multicolumn{8}{|c|}{\textsc{M2} - \IBFS} \\
+ \cmidrule{2-9}
+ Config. & \multicolumn{2}{c||}{\FlowVariant{+}{-}{-}} & \multicolumn{2}{c||}{\FlowVariant{+}{+}{-}}  & \multicolumn{2}{c||}{\FlowVariant{+}{+}{+}} & \multicolumn{2}{c|}{\Constant{128}} \\
+\midrule
+$\alpha'$ & Avg $[\%]$ & $t[s]$ & Avg $[\%]$ & $t[s]$ & Avg $[\%]$ & $t[s]$ & Avg $[\%]$ & $t[s]$ \\
+\midrule%
+\csname @@input\endcsname experiments/flow_alpha/flow_alpha_table_m2_ibfs.tex 
+\bottomrule 
  & \multicolumn{8}{|c|}{\textsc{M2} - \BoykovKolmogorov} \\
  \cmidrule{2-9}
  Config. & \multicolumn{2}{c||}{\FlowVariant{+}{-}{-}} & \multicolumn{2}{c||}{\FlowVariant{+}{+}{-}}  & \multicolumn{2}{c||}{\FlowVariant{+}{+}{+}} & \multicolumn{2}{c|}{\Constant{128}} \\
