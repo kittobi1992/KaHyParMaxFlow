@@ -7,8 +7,8 @@ library(grid)
 
 paper <- "experiment_paper"
 experiment <- "speed_up_heuristics"
-modeling <- "m1"
-flow_algo <- "gt"
+modeling <- "m2"
+flow_algo <- "ibfs"
 
 dbs <- c( paste("flow_speed_up_heuristics/db_",flow_algo,"/flow-000.db",sep=""),
           paste("flow_speed_up_heuristics/db_",flow_algo,"/flow-001.db",sep=""),
@@ -245,3 +245,27 @@ for( algo in levels(factor(running_time$algorithm))) {
   cat("\\\\ \n")
 }
 sink()
+
+flow_ibfs <- ddply(dbGetQuery(dbConnect(SQLite(), dbname=paste("flow_speed_up_heuristics/db_ibfs/flow-111.db",sep="")),
+                              select_km1_soed), c("graph","k"), aggreg)
+flow_bk <- ddply(dbGetQuery(dbConnect(SQLite(), dbname=paste("flow_speed_up_heuristics/db_bk/flow-111.db",sep="")),
+                            select_km1_soed), c("graph","k"), aggreg)
+
+flow_ibfs$algorithm <- "ibfs"
+flow_bk$algorithm <- "bk"
+flow_ibfs$type <- as.factor(apply(flow_ibfs, 1, function(x) graphclass(x)))
+flow_bk$type <- as.factor(apply(flow_bk, 1, function(x) graphclass(x)))
+
+semi_join_filter = semi_join(flow_ibfs, flow_bk, by=c('graph','k'))
+flow_bk = semi_join(flow_bk, semi_join_filter, by=c('graph','k'))
+flow_ibfs = semi_join(flow_ibfs, semi_join_filter, by=c('graph','k'))
+
+filter <- "*"
+print(cuberootplot(createRatioDFsFilter(filter = filter,
+                                        avg_obj = "avg_km1", min_obj = "min_km1",
+                                        UsePenalty = FALSE,
+                                        kahypar = flow_bk,
+                                        flow_ibfs = flow_ibfs
+)$min_ratios, 
+title=paste("ALL",sep=""), xbreaks=pretty_breaks(7), showLegend = TRUE))
+

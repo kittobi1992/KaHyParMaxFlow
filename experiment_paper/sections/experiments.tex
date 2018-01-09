@@ -74,7 +74,15 @@ $|V'|$ &  $t[ms]$ & $t[\%]$ & $t[\%]$ & $t[\%]$
                     *{2}{S[table-number-alignment = center]|}|
                     *{2}{S[table-number-alignment = center]|}}
 \toprule
- & \multicolumn{8}{|c|}{\textsc{M2} - \IBFS} \\
+ & \multicolumn{8}{|c|}{\textsc{M2} - \IBFS~without \textsc{HE} $1$ removal} \\
+ \cmidrule{2-9}
+ Config. & \multicolumn{2}{c||}{\FlowVariant{+}{-}{-}} & \multicolumn{2}{c||}{\FlowVariant{+}{+}{-}}  & \multicolumn{2}{c||}{\FlowVariant{+}{+}{+}} & \multicolumn{2}{c|}{\Constant{128}} \\
+\midrule
+$\alpha'$ & Avg $[\%]$ & $t[s]$ & Avg $[\%]$ & $t[s]$ & Avg $[\%]$ & $t[s]$ & Avg $[\%]$ & $t[s]$ \\
+\midrule%
+\csname @@input\endcsname experiments/flow_alpha/flow_alpha_table_m2_ibfs2.tex 
+\bottomrule 
+ & \multicolumn{8}{|c|}{\textsc{M2} - \IBFS~with \textsc{HE} $1$ removal} \\
  \cmidrule{2-9}
  Config. & \multicolumn{2}{c||}{\FlowVariant{+}{-}{-}} & \multicolumn{2}{c||}{\FlowVariant{+}{+}{-}}  & \multicolumn{2}{c||}{\FlowVariant{+}{+}{+}} & \multicolumn{2}{c|}{\Constant{128}} \\
 \midrule
@@ -82,21 +90,13 @@ $\alpha'$ & Avg $[\%]$ & $t[s]$ & Avg $[\%]$ & $t[s]$ & Avg $[\%]$ & $t[s]$ & Av
 \midrule%
 \csname @@input\endcsname experiments/flow_alpha/flow_alpha_table_m2_ibfs.tex 
 \bottomrule 
- & \multicolumn{8}{|c|}{\textsc{M2} - \BoykovKolmogorov} \\
+ & \multicolumn{8}{|c|}{\textsc{M2} - \BoykovKolmogorov~without \textsc{HE} $1$ removal} \\
  \cmidrule{2-9}
  Config. & \multicolumn{2}{c||}{\FlowVariant{+}{-}{-}} & \multicolumn{2}{c||}{\FlowVariant{+}{+}{-}}  & \multicolumn{2}{c||}{\FlowVariant{+}{+}{+}} & \multicolumn{2}{c|}{\Constant{128}} \\
 \midrule
 $\alpha'$ & Avg $[\%]$ & $t[s]$ & Avg $[\%]$ & $t[s]$ & Avg $[\%]$ & $t[s]$ & Avg $[\%]$ & $t[s]$ \\
 \midrule%
 \csname @@input\endcsname experiments/flow_alpha/flow_alpha_table_m2_bk.tex 
-\bottomrule 
- & \multicolumn{8}{|c|}{\textsc{M1} - \GoldbergTarjan} \\
- \cmidrule{2-9}
- Config. & \multicolumn{2}{c||}{\FlowVariant{+}{-}{-}} & \multicolumn{2}{c||}{\FlowVariant{+}{+}{-}}  & \multicolumn{2}{c||}{\FlowVariant{+}{+}{+}} & \multicolumn{2}{c|}{\Constant{128}} \\
-\midrule
-$\alpha'$ & Avg $[\%]$ & $t[s]$ & Avg $[\%]$ & $t[s]$ & Avg $[\%]$ & $t[s]$ & Avg $[\%]$ & $t[s]$ \\
-\midrule%
-\csname @@input\endcsname experiments/flow_alpha/flow_alpha_table_m1_gt.tex 
 \bottomrule 
 \end{tabular}
 \caption{ Table contains results for different configurations of our flow-based refinement
@@ -163,10 +163,16 @@ $\alpha'$ & Avg $[\%]$ & Avg $[\%]$ & Avg $[\%]$ \\
 \label{sec:speed_up}
 
 \begin{table}[ht]
-\renewcommand{\arraystretch}{1.15}
+\renewcommand{\arraystretch}{1.15} 
 \centering
 \begin{tabular}{l|*{4}{S[table-number-alignment = center,table-column-width=2cm]}}
 \toprule
+ & \multicolumn{4}{c}{\textsc{M2} - \IBFS} \\
+ \cmidrule{2-5}
+Variant & \multicolumn{1}{c}{Avg $[\%]$} & \multicolumn{1}{c}{Min $[\%]$} & \multicolumn{1}{c}{$t_{\text{flow}}[s]$} & \multicolumn{1}{c}{$t[s]$} \\ 
+\midrule%
+\csname @@input\endcsname experiments/speed_up_heuristics/heuristic_table_m2_ibfs.tex 
+\bottomrule
  & \multicolumn{4}{c}{\textsc{M2} - \BoykovKolmogorov} \\
  \cmidrule{2-5}
 Variant & \multicolumn{1}{c}{Avg $[\%]$} & \multicolumn{1}{c}{Min $[\%]$} & \multicolumn{1}{c}{$t_{\text{flow}}[s]$} & \multicolumn{1}{c}{$t[s]$} \\ 
@@ -189,6 +195,13 @@ Variant & \multicolumn{1}{c}{Avg $[\%]$} & \multicolumn{1}{c}{Min $[\%]$} & \mul
 \centering
 \begin{tabular}{l|*{7}{S[table-number-alignment = center,table-column-width=1.45cm]}}
 \toprule
+ & \multicolumn{7}{c}{\textsc{M2} - \IBFS} \\
+\multirow{2}{*}{Partitioner} & \multicolumn{7}{c}{Running Time $t[s]$} \\
+\cmidrule{2-8}
+ & \multicolumn{1}{c}{\ALL} & \multicolumn{1}{c}{\DAC} & \multicolumn{1}{c}{\ISPD} & \multicolumn{1}{c}{\Primal} & \multicolumn{1}{c}{\Literal} & \multicolumn{1}{c}{\Dual} & \multicolumn{1}{c}{\SPM} \\
+\midrule%
+\csname @@input\endcsname experiments/speed_up_heuristics/subset_flow_running_time_m2_ibfs.tex 
+\bottomrule
  & \multicolumn{7}{c}{\textsc{M2} - \BoykovKolmogorov} \\
 \multirow{2}{*}{Partitioner} & \multicolumn{7}{c}{Running Time $t[s]$} \\
 \cmidrule{2-8}
@@ -209,6 +222,15 @@ Variant & \multicolumn{1}{c}{Avg $[\%]$} & \multicolumn{1}{c}{Min $[\%]$} & \mul
 \end{table}
 
 \clearpage
+
+\begin{figure}[h!]
+\centering
+\input{experiments/speed_up_heuristics/subset_plot_m2_ibfs.tex} %
+\caption{Min-Cut performance plots comparing \KaHyPar{MF} with \KaHyPar{CA}. 
+          \textsc{M2} - \IBFS}
+\label{fig:subset_flow}
+\end{figure}  
+
 
 \begin{figure}[h!]
 \centering

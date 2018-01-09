@@ -167,5 +167,23 @@ for(i in 1:length(dbs)) {
  sink()
  
  
+ flow_ibfs <- ddply(dbGetQuery(dbConnect(SQLite(), dbname=paste("flow_alpha_experiment/db_ibfs/flow_mbmc2.db",sep="")),
+                               select_km1_soed), c("graph","k","alpha"), aggreg)
+ flow_bk <- ddply(dbGetQuery(dbConnect(SQLite(), dbname=paste("flow_alpha_experiment/db_bk/flow_mbmc.db",sep="")),
+                             select_km1_soed), c("graph","k","alpha"), aggreg)
+ 
+ flow_ibfs$algorithm <- "ibfs"
+ flow_bk$algorithm <- "bk"
+ flow_ibfs$type <- as.factor(apply(flow_ibfs, 1, function(x) graphclass(x)))
+ flow_bk$type <- as.factor(apply(flow_bk, 1, function(x) graphclass(x)))
+ 
+ filter <- "*"
+ print(cuberootplot(createRatioDFsFilter(filter = filter,
+                                         avg_obj = "avg_km1", min_obj = "min_km1",
+                                         UsePenalty = FALSE,
+                                         kahypar = flow_bk,
+                                         flow_ibfs = flow_ibfs
+ )$min_ratios, 
+ title=paste("alpha={1,2,4,8,16}",sep=""), xbreaks=pretty_breaks(7), showLegend = TRUE))
  
  
