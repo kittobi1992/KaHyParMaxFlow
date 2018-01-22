@@ -4,7 +4,7 @@ source("plot_functions.R")
 paper <- "experiment_paper"
 experiment <- "flow_alpha"
 modeling <- "m2"
-flow_algo <- "ibfs"
+flow_algo <- "ibfs2"
 
 dbs <- c( paste("flow_alpha_experiment/db_",flow_algo,"/flow.db",sep=""),
           paste("flow_alpha_experiment/db_",flow_algo,"/flow_mbmc.db",sep=""),
@@ -167,15 +167,17 @@ for(i in 1:length(dbs)) {
  sink()
  
  
- flow_ibfs <- ddply(dbGetQuery(dbConnect(SQLite(), dbname=paste("flow_alpha_experiment/db_ibfs/flow_mbmc2.db",sep="")),
+ flow_ibfs <- ddply(dbGetQuery(dbConnect(SQLite(), dbname=paste("flow_alpha_experiment/db_ibfs/flow.db",sep="")),
                                select_km1_soed), c("graph","k","alpha"), aggreg)
- flow_bk <- ddply(dbGetQuery(dbConnect(SQLite(), dbname=paste("flow_alpha_experiment/db_bk/flow_mbmc.db",sep="")),
+ flow_bk <- ddply(dbGetQuery(dbConnect(SQLite(), dbname=paste("flow_alpha_experiment/db_bk/flow.db",sep="")),
                              select_km1_soed), c("graph","k","alpha"), aggreg)
  
  flow_ibfs$algorithm <- "ibfs"
  flow_bk$algorithm <- "bk"
  flow_ibfs$type <- as.factor(apply(flow_ibfs, 1, function(x) graphclass(x)))
  flow_bk$type <- as.factor(apply(flow_bk, 1, function(x) graphclass(x)))
+ 
+ flow_ibfs$ratio <- flow_ibfs$min_km1 / flow_bk$min_km1
  
  filter <- "*"
  print(cuberootplot(createRatioDFsFilter(filter = filter,

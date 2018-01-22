@@ -1,0 +1,126 @@
+\documentclass[11pt]{llncs}
+\usepackage{fullpage}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+
+\newcommand{\changefont}[3]{\fontfamily{#1}\fontseries{#2}\fontshape{#3}\selectfont}
+
+\usepackage{booktabs}
+\usepackage{url}
+\usepackage{xspace}
+\usepackage{graphicx}
+\usepackage{wrapfig}
+\usepackage{amsmath, amsfonts}
+\usepackage{algorithm}
+\usepackage[noend]{algpseudocode}
+
+\usepackage{enumitem,amssymb}
+\newlist{todolist}{itemize}{2}
+\setlist[todolist]{label=$\square$}
+\usepackage{pifont}
+\newcommand{\cmark}{\ding{51}}%
+\newcommand{\xmark}{\ding{55}}%
+\newcommand{\done}{\rlap{$\square$}{\raisebox{2pt}{\large\hspace{1pt}\cmark}}%
+\hspace{-2.5pt}}
+\newcommand{\wontfix}{\rlap{$\square$}{\large\hspace{1pt}\xmark}}
+
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.9}
+
+\usepackage{amsopn}
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator*{\argmin}{arg\,min}
+
+
+\newcommand{\GoldbergTarjan}{\textsc{GoldbergTarjan}}
+\newcommand{\EdmondKarp}{\textsc{EdmondKarp}}
+\newcommand{\BoykovKolmogorov}{\textsc{BoykovKolmogorov}}
+\newcommand{\IBFS}{\textsc{Ibfs}}
+
+\title{Concept - Presentation \\ High Quality Hypergraph Partitioning \\ via Max-Flow-Min-Cut Computations}
+
+\author{
+    Tobias Heuer
+}
+
+\institute{%
+Karlsruhe Institute of Technology (KIT), Karlsruhe, Germany.
+}
+
+\begin{document}
+\maketitle
+
+\section{Introduction}
+
+\begin{todolist}
+\item[\done] Problem/Task Description (high-level) and Main Contributions
+    \begin{todolist}
+    \item[\done] e.g. \emph{Integration of a framework based on Max-Flow-Min-Cut
+          computations to improve a balanced $k$-way partition into the n-level
+          hypergraph partitioner KaHyPar}
+    \end{todolist}
+\item[\done] Introduce \emph{hypergrapgs}
+\item[\done] Define the $\epsilon$-balanced $k$-way hypergraph partitioning Problem
+\item[\done] Applications
+\item[\done] Introduce \emph{multilevel paradigm} 
+\item Motivation: Disadvantages of \emph{FM} algorithm and why \emph{flow}-based
+      approaches solve these problems
+    \begin{todolist}
+    \item[\done] \emph{Move}-based and only incorparates \emph{local} informations
+    \item[\done] \emph{Zero}-Gain Moves
+    \item Flow-based approaches are not move-based and finding the global minimum cut 
+          separating two vertices $s$ and $t$
+    \end{todolist}
+\end{todolist}
+
+\section{Preliminaries}
+
+\begin{todolist}
+\item Introduce most important notations
+\item[\done] Define Flow Problems + Terminology
+\end{todolist}
+
+\section{Framework}
+
+\begin{todolist}
+\item High-level overview of framework (Mixed with related work)
+    \begin{todolist}
+    \item \emph{Active Block Scheduling}
+    \item Build region around cut + \emph{Adaptive Flow Iterations}
+    \item Solve flow problem on a hypergraph flow network
+    \item \emph{Most Balanced Minimum Cut}
+    \end{todolist}
+\item[\done] Flow Networks
+    \begin{todolist}
+    \item[\done] Vertex Separator Analogy 
+    \item[\done] Lawler Network
+    \item[\done] Wong Network
+    \item[\done] Heuer Network
+    \item[\done] Hybrid Network
+    \end{todolist}
+\item Flow Problem Configuration 
+    \begin{todolist}
+    \item Modeling of Sanders and Schulz
+    \item Optimized modeling approach
+    \end{todolist}
+\item Flow Algorithms
+    \begin{todolist}
+    \item \EdmondKarp
+    \item \GoldbergTarjan
+    \item \BoykovKolmogorov
+    \item \IBFS
+    \end{todolist}
+\item MBMC on hypergraphs
+\item Integration into \emph{KaHyPar}
+    \begin{todolist}
+    \item Flow Execution Policy
+    \item Gain-Cache 
+    \item Speed-Up Heuristics
+    \end{todolist}
+\end{todolist}
+
+\section{Experiments}
+
+\section{Conclusion}
+
+\end{document}

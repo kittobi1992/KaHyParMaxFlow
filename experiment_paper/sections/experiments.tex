@@ -74,7 +74,7 @@ $|V'|$ &  $t[ms]$ & $t[\%]$ & $t[\%]$ & $t[\%]$
                     *{2}{S[table-number-alignment = center]|}|
                     *{2}{S[table-number-alignment = center]|}}
 \toprule
- & \multicolumn{8}{|c|}{\textsc{M2} - \IBFS~without \textsc{HE} $1$ removal} \\
+ & \multicolumn{8}{|c|}{\textsc{M2} - \IBFS~with \textsc{HE} $1$ removal (bug fix)} \\
  \cmidrule{2-9}
  Config. & \multicolumn{2}{c||}{\FlowVariant{+}{-}{-}} & \multicolumn{2}{c||}{\FlowVariant{+}{+}{-}}  & \multicolumn{2}{c||}{\FlowVariant{+}{+}{+}} & \multicolumn{2}{c|}{\Constant{128}} \\
 \midrule
@@ -349,7 +349,7 @@ Variant & \multicolumn{1}{c}{Avg $[\%]$} & \multicolumn{1}{c}{Min $[\%]$} & \mul
 \midrule%
 \csname @@input\endcsname experiments/final_flow/final_flow_km1_per_k_m1_gt.tex 
 \bottomrule
-\end{tabular} 
+\end{tabular}
 \caption{Comparison of average $(\lambda - 1)$ metric of \KaHyPar{MF} with \KaHyPar{CA} and
          other partitioners for different values of $k$. The results are in percentage 
          relative to \KaHyPar{MF}.}
