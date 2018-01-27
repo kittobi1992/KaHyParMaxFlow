@@ -56,4 +56,11 @@
 <color name="KITseablue50" value="0.598 0.656 0.774"/>
 <color name="KITseablue30" value="0.758 0.794 0.864"/>
 <color name="KITseablue15" value="0.879 0.897 0.932"/>
+<color name="KITseablue15" value="0.879 0.897 0.932"/>
+<color name="KaHyPar-CA" value="0.214 0.492 0.719"/>
+<color name="KaHyPar-MF" value="0.89 0.101 0.109"/>
+<color name="hMetis-R" value="0.3 0.683 0.289"/>
+<color name="hMetis-K" value="0.593 0.304 0.636"/>
+<color name="PaToH-Q" value="0.648 0.336 0.156"/>
+<color name="PaToH-D" value="1.0 0.498 0.0"/>
 </ipestyle>

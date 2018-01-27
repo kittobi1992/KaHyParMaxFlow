@@ -1,10 +1,10 @@
 setwd("/home/theuer/Dropbox/Studium Informatik/10. Semester/KaHyParMaxFlow/experiments")
 source("plot_functions.R")
 
-dbs <- c( "flow_alpha_experiment/db_bk/flow.db",
-          "flow_alpha_experiment/db_bk/flow_mbmc.db",
-          "flow_alpha_experiment/db_bk/flow_fm.db",
-          "flow_alpha_experiment/db_bk/constant.db",
+dbs <- c( "flow_alpha_experiment/db_ibfs2/flow.db",
+          "flow_alpha_experiment/db_ibfs2/flow_mbmc.db",
+          "flow_alpha_experiment/db_ibfs2/flow_fm.db",
+          "flow_alpha_experiment/db_ibfs2/constant.db",
           "flow_alpha_experiment/db_gt/flow.db",
           "flow_alpha_experiment/db_gt/flow_mbmc.db",
           "flow_alpha_experiment/db_gt/flow_fm.db",

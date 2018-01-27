@@ -5,7 +5,7 @@ source("plot_functions.R")
 paper <- "experiment_paper"
 experiment <- "final_flow"
 modeling <- "m2"
-flow_algo <- "bk"
+flow_algo <- "ibfs"
 
 library(gridExtra)
 library(grid)
@@ -126,6 +126,22 @@ fullset_file <- output_file(paper,experiment,"fullset_type",modeling,flow_algo)
 tikz(fullset_file, width=7, height=9, pointsize=12)
 grid.arrange(type_plots[[1]],type_plots[[2]],type_plots[[3]],type_plots[[4]],type_plots[[5]],type_plots[[6]],type_plots[[7]],get_legend_as_seperate_plot(type_plots[[1]]),ncol=2)
 dev.off()
+
+filter <- "*"
+plot <- cuberootplot(createRatioDFsFilter(filter = filter,
+                                          avg_obj = "avg_km1", min_obj = "min_km1",
+                                          UsePenalty = TRUE,
+                                          kahypar = kahypar_ca,
+                                          kahypar_mf = kahypar_mf,
+                                          hmetis_r = hmetis_r,
+                                          hmetis_k = hmetis_k,
+                                          patoh_q = patoh_q,
+                                          patoh_d = patoh_d)$min_ratios, 
+                     "", 
+                     xbreaks=c(1,10,25,50,100,250,500,750,1000,1500,2000,2500,3000,3500),
+                     showLegend = FALSE,
+                     sizes=c(10,10,12,5,2.5))
+print(plot)
 
 ####################### Performance Plots per k ####################### 
 

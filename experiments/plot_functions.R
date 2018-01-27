@@ -151,12 +151,12 @@ ids_trans = function() trans_new('ids',
 # kahypar-R = #a65628
 # kahypar-r* = #999999
 
-cuberootplot = function(data, title, xbreaks,yexpand=c(0.0,0.1), legendPos=c(0.285,0.2), colors = c("#377eb8","#e41a1c","#4daf4a", "#984ea3","#a65628","#ff7f00"), showLegend = FALSE) {
+cuberootplot = function(data, title, xbreaks,yexpand=c(0.0,0.1), legendPos=c(0.285,0.2), colors = c("#377eb8","#e41a1c","#4daf4a", "#984ea3","#a65628","#ff7f00"), showLegend = FALSE,   sizes=c(10,5,8,2,0.75)) {
   fntsize = 11
   return(ggplot(data, aes(x=x, y=1-ratio, color=algo)) +
-           geom_point( size=0.75 ) + 
+           geom_point( size=sizes[5] ) + 
            geom_hline(yintercept = 1) +
-           annotate("text", Inf,Inf,  label="infeasible solutions", size=2, hjust = 1.05, vjust = 1.5)+
+           annotate("text", Inf,Inf,  label="infeasible solutions", size=sizes[4], hjust = 1.05, vjust = 1.5)+
            xlab("\\# Instances") +
            ggtitle(title) +
            ylab(paste("1-(Best/Algorithm)")) +
@@ -167,17 +167,17 @@ cuberootplot = function(data, title, xbreaks,yexpand=c(0.0,0.1), legendPos=c(0.2
            theme(aspect.ratio = 2/(1+sqrt(5)),
                  legend.position = if(showLegend) legendPos else "none",
                  legend.background = element_blank(),
-                 legend.title = element_text(face="bold",size=10),
-                 legend.text=element_text(size=10),
+                 legend.title = element_text(face="bold",size=sizes[1]),
+                 legend.text=element_text(size=sizes[1]),
                  legend.key=element_blank(),
                  panel.grid.major = element_line(linetype="dotted",size = 0.5, color = "grey"),
                  panel.grid.minor = element_line(),
                  panel.border = element_rect(colour = "black"),
-                 axis.text=element_text(size = 5),
+                 axis.text=element_text(size = sizes[2]),
                  axis.text.x=element_text(angle = 50,hjust = 1),
                  axis.line = element_line(size = 0.2, color = "black"),
-                 axis.title.y = element_text(vjust=1.5, margin = margin(10,10,10,10), size = 8),
-                 axis.title.x = element_text(vjust=1, size = 8),
+                 axis.title.y = element_text(vjust=1.5, margin = margin(10,10,10,10), size = sizes[3]),
+                 axis.title.x = element_text(vjust=1, size = sizes[3]),
                  plot.title = element_text(size=12, vjust=.5)) +
                  guides(colour = guide_legend(title="Algorithm", override.aes = list(size=2), ncol = 1, byrow = F, keywidth = .5, keyheight = 0.85, legend.margin =-.5)))
   

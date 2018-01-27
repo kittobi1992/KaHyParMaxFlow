@@ -74,21 +74,21 @@ $|V'|$ &  $t[ms]$ & $t[\%]$ & $t[\%]$ & $t[\%]$
                     *{2}{S[table-number-alignment = center]|}|
                     *{2}{S[table-number-alignment = center]|}}
 \toprule
- & \multicolumn{8}{|c|}{\textsc{M2} - \IBFS~with \textsc{HE} $1$ removal (bug fix)} \\
+ & \multicolumn{8}{|c|}{\textsc{M2} - \IBFS~with Multilevel Flow Execution Policy} \\
+ \cmidrule{2-9}
+ Config. & \multicolumn{2}{c||}{\FlowVariant{+}{-}{-}} & \multicolumn{2}{c||}{\FlowVariant{+}{+}{-}}  & \multicolumn{2}{c||}{\FlowVariant{+}{+}{+}} & \multicolumn{2}{c|}{\Constant{128}} \\
+\midrule
+$\alpha'$ & Avg $[\%]$ & $t[s]$ & Avg $[\%]$ & $t[s]$ & Avg $[\%]$ & $t[s]$ & Avg $[\%]$ & $t[s]$ \\
+\midrule%
+\csname @@input\endcsname experiments/flow_alpha/flow_alpha_table_m2_ibfs3.tex 
+\bottomrule 
+ & \multicolumn{8}{|c|}{\textsc{M2} - \IBFS~with Exponential Flow Execution Policy} \\
  \cmidrule{2-9}
  Config. & \multicolumn{2}{c||}{\FlowVariant{+}{-}{-}} & \multicolumn{2}{c||}{\FlowVariant{+}{+}{-}}  & \multicolumn{2}{c||}{\FlowVariant{+}{+}{+}} & \multicolumn{2}{c|}{\Constant{128}} \\
 \midrule
 $\alpha'$ & Avg $[\%]$ & $t[s]$ & Avg $[\%]$ & $t[s]$ & Avg $[\%]$ & $t[s]$ & Avg $[\%]$ & $t[s]$ \\
 \midrule%
 \csname @@input\endcsname experiments/flow_alpha/flow_alpha_table_m2_ibfs2.tex 
-\bottomrule 
- & \multicolumn{8}{|c|}{\textsc{M2} - \IBFS~with \textsc{HE} $1$ removal} \\
- \cmidrule{2-9}
- Config. & \multicolumn{2}{c||}{\FlowVariant{+}{-}{-}} & \multicolumn{2}{c||}{\FlowVariant{+}{+}{-}}  & \multicolumn{2}{c||}{\FlowVariant{+}{+}{+}} & \multicolumn{2}{c|}{\Constant{128}} \\
-\midrule
-$\alpha'$ & Avg $[\%]$ & $t[s]$ & Avg $[\%]$ & $t[s]$ & Avg $[\%]$ & $t[s]$ & Avg $[\%]$ & $t[s]$ \\
-\midrule%
-\csname @@input\endcsname experiments/flow_alpha/flow_alpha_table_m2_ibfs.tex 
 \bottomrule 
  & \multicolumn{8}{|c|}{\textsc{M2} - \BoykovKolmogorov~without \textsc{HE} $1$ removal} \\
  \cmidrule{2-9}
@@ -102,7 +102,7 @@ $\alpha'$ & Avg $[\%]$ & $t[s]$ & Avg $[\%]$ & $t[s]$ & Avg $[\%]$ & $t[s]$ & Av
 \caption{ Table contains results for different configurations of our flow-based refinement
           framework for increasing $\alpha'$. The quality in column \emph{Avg.} is relative
           to our baseline configuration \FlowVariant{-}{-}{+}. }
-\label{tbl:alpha_exp}
+\label{tbl:alpha_exp} 
 \end{table}
 
 \begin{table}
@@ -123,7 +123,29 @@ $\alpha'$ & \footnotesize{\textsc{M1} - Avg $[\%]$} & \footnotesize{\textsc{M2} 
           modeling approaches. \textsc{M1} represents the approach of Sanders and Schulz
           and \textsc{M2} is our new variant.  }
 \label{tbl:alpha_comparison_exp}
+\end{table} 
+
+\begin{table}
+\renewcommand{\arraystretch}{1.15}
+\centering
+\begin{tabular}{r|*{2}{S[table-number-alignment = center,table-column-width=1cm]}
+                       S[table-number-alignment = center]|
+                  *{2}{S[table-number-alignment = center,table-column-width=1cm]}
+                       S[table-number-alignment = center]}
+\toprule
+ Config. & \multicolumn{3}{c|}{$\varepsilon = 1\%$} & \multicolumn{3}{c}{$\varepsilon = 3\%$} \\
+\midrule
+$\alpha'$ & \footnotesize{KaFFPa} & \footnotesize{Our} & \footnotesize{Improv. $[\%]$} & \footnotesize{KaFFPa} & \footnotesize{Our} & \footnotesize{Improv. $[\%]$}  \\
+\midrule%
+\csname @@input\endcsname experiments/flow_alpha/flow_alpha_modeling_comparison_epsilon_table.tex
+\bottomrule
+\end{tabular}
+\caption{ Comparison on quality of configuration \FlowVariant{+}{-}{-} with the
+          flow problem modeling approach of \emph{KaFFPa} and \emph{KaHyPar} and 
+          $\varepsilon \in \{0.01,0.03\}$.   }
+\label{tbl:alpha_comparison_eps_exp}
 \end{table}
+
 
 
 \begin{table}[ht]
@@ -133,6 +155,14 @@ $\alpha'$ & \footnotesize{\textsc{M1} - Avg $[\%]$} & \footnotesize{\textsc{M2} 
                    S[table-number-alignment = center]|
                    S[table-number-alignment = center]|}
 \toprule
+ & \multicolumn{3}{c|}{\textsc{M2} - \IBFS~with Exponential Flow Execution Policy} \\
+ \cmidrule{2-4}
+ Config. &  \multicolumn{1}{c|}{\FlowVariant{+}{-}{-}} &  \multicolumn{1}{|c}{\FlowVariant{+}{+}{-}}  &  \multicolumn{1}{|c|}{\FlowVariant{+}{+}{+}} \\
+\midrule
+$\alpha'$ & Avg $[\%]$ & Avg $[\%]$ & Avg $[\%]$ \\
+\midrule%
+\csname @@input\endcsname experiments/flow_alpha/flow_alpha_effectiveness_table_m2_ibfs2.tex 
+\bottomrule
  & \multicolumn{3}{c|}{\textsc{M2} - \BoykovKolmogorov} \\
  \cmidrule{2-4}
  Config. &  \multicolumn{1}{c|}{\FlowVariant{+}{-}{-}} &  \multicolumn{1}{|c}{\FlowVariant{+}{+}{-}}  &  \multicolumn{1}{|c|}{\FlowVariant{+}{+}{+}} \\
@@ -258,6 +288,13 @@ Variant & \multicolumn{1}{c}{Avg $[\%]$} & \multicolumn{1}{c}{Min $[\%]$} & \mul
 \centering
 \begin{tabular}{c|*{7}{S[table-number-alignment = center,table-column-width=1.45cm]}}
 \toprule
+ & \multicolumn{7}{c}{\textsc{M2} - \IBFS} \\
+\multirow{2}{*}{Partitioner} & \multicolumn{7}{c}{Running Time $t[s]$} \\
+\cmidrule{2-8}
+ & \multicolumn{1}{c}{\ALL} & \multicolumn{1}{c}{\DAC} & \multicolumn{1}{c}{\ISPD} & \multicolumn{1}{c}{\Primal} & \multicolumn{1}{c}{\Literal} & \multicolumn{1}{c}{\Dual} & \multicolumn{1}{c}{\SPM}  \\
+\midrule%
+\csname @@input\endcsname experiments/final_flow/final_flow_running_time_m2_ibfs.tex 
+\bottomrule
  & \multicolumn{7}{c}{\textsc{M2} - \BoykovKolmogorov} \\
 \multirow{2}{*}{Partitioner} & \multicolumn{7}{c}{Running Time $t[s]$} \\
 \cmidrule{2-8}
@@ -284,6 +321,13 @@ Variant & \multicolumn{1}{c}{Avg $[\%]$} & \multicolumn{1}{c}{Min $[\%]$} & \mul
 \centering
 \begin{tabular}{l|*{7}{S[table-number-alignment = center,table-column-width=1.45cm]}}
 \toprule
+ & \multicolumn{7}{c}{\textsc{M2} - \IBFS} \\
+\multirow{2}{*}{Partitioner} & \multicolumn{7}{c}{Average $\lambda - 1$} \\
+\cmidrule{2-8}
+& \multicolumn{1}{c}{\ALL} & \multicolumn{1}{c}{\DAC} & \multicolumn{1}{c}{\ISPD} & \multicolumn{1}{c}{\Primal} & \multicolumn{1}{c}{\Literal} & \multicolumn{1}{c}{\Dual} & \multicolumn{1}{c}{\SPM} \\
+\midrule%
+\csname @@input\endcsname experiments/final_flow/final_flow_km1_per_instance_m2_ibfs.tex 
+\bottomrule
  & \multicolumn{7}{c}{\textsc{M2} - \BoykovKolmogorov} \\
 \multirow{2}{*}{Partitioner} & \multicolumn{7}{c}{Average $\lambda - 1$} \\
 \cmidrule{2-8}
@@ -310,6 +354,13 @@ Variant & \multicolumn{1}{c}{Avg $[\%]$} & \multicolumn{1}{c}{Min $[\%]$} & \mul
 \centering
 \begin{tabular}{l|*{7}{S[table-number-alignment = center,table-column-width=1.45cm]}}
 \toprule
+ & \multicolumn{7}{c}{\textsc{M2} - \IBFS} \\
+\multirow{2}{*}{Partitioner} & \multicolumn{7}{c}{Running Time $t[s]$} \\
+\cmidrule{2-8}
+ & \multicolumn{1}{c}{$k = 2$} & \multicolumn{1}{c}{$k = 4$} & \multicolumn{1}{c}{$k = 8$} & \multicolumn{1}{c}{$k = 16$} & \multicolumn{1}{c}{$k = 32$} & \multicolumn{1}{c}{$k = 64$} & \multicolumn{1}{c}{$k = 128$} \\
+\midrule%
+\csname @@input\endcsname experiments/final_flow/final_flow_running_time_per_k_m2_ibfs.tex
+\bottomrule
  & \multicolumn{7}{c}{\textsc{M2} - \BoykovKolmogorov} \\
 \multirow{2}{*}{Partitioner} & \multicolumn{7}{c}{Running Time $t[s]$} \\
 \cmidrule{2-8}
@@ -335,6 +386,13 @@ Variant & \multicolumn{1}{c}{Avg $[\%]$} & \multicolumn{1}{c}{Min $[\%]$} & \mul
 \centering
 \begin{tabular}{l|*{7}{S[table-number-alignment = center,table-column-width=1.45cm]}}
 \toprule
+ & \multicolumn{7}{c}{\textsc{M2} - \IBFS} \\
+\multirow{2}{*}{Partitioner} & \multicolumn{7}{c}{Average $\lambda - 1$} \\
+\cmidrule{2-8}
+ & \multicolumn{1}{c}{$k = 2$} & \multicolumn{1}{c}{$k = 4$} & \multicolumn{1}{c}{$k = 8$} & \multicolumn{1}{c}{$k = 16$} & \multicolumn{1}{c}{$k = 32$} & \multicolumn{1}{c}{$k = 64$} & \multicolumn{1}{c}{$k = 128$}\\
+\midrule%
+\csname @@input\endcsname experiments/final_flow/final_flow_km1_per_k_m2_ibfs.tex 
+\bottomrule
  & \multicolumn{7}{c}{\textsc{M2} - \BoykovKolmogorov} \\
 \multirow{2}{*}{Partitioner} & \multicolumn{7}{c}{Average $\lambda - 1$} \\
 \cmidrule{2-8}
@@ -360,6 +418,14 @@ Variant & \multicolumn{1}{c}{Avg $[\%]$} & \multicolumn{1}{c}{Min $[\%]$} & \mul
 
 \begin{figure}
 \centering
+\input{experiments/final_flow/fullset_type_m2_ibfs.tex} %
+\caption{Min-Cut performance plots comparing \KaHyPar{MF} with \KaHyPar{CA} and
+         other partitioners. \textsc{M2} - \IBFS}
+\label{fig:final_flow}
+\end{figure} 
+
+\begin{figure}
+\centering
 \input{experiments/final_flow/fullset_type_m2_bk.tex} %
 \caption{Min-Cut performance plots comparing \KaHyPar{MF} with \KaHyPar{CA} and
          other partitioners. \textsc{M2} - \BoykovKolmogorov}
@@ -373,6 +439,14 @@ Variant & \multicolumn{1}{c}{Avg $[\%]$} & \multicolumn{1}{c}{Min $[\%]$} & \mul
          other partitioners. \textsc{M1} - \GoldbergTarjan}
 \label{fig:final_flow}
 \end{figure} 
+
+\begin{figure}
+\centering
+\input{experiments/final_flow/fullset_k_m2_ibfs.tex} %
+\caption{Min-Cut performance plots comparing \KaHyPar{MF} with \KaHyPar{CA} and
+         other partitioners for different values of $k$. \textsc{M2} - \IBFS}
+\label{fig:final_flow_k}
+\end{figure}
 
 \begin{figure}
 \centering

@@ -1,9 +1,9 @@
 setwd("/home/theuer/Dropbox/Studium Informatik/10. Semester/KaHyParMaxFlow/experiments")
 source("plot_functions.R")
 
-dbs <- c( "flow_alpha_experiment/db/flow.db",
-          "flow_alpha_experiment/db/flow_mbmc.db",
-          "flow_alpha_experiment/db/flow_fm.db")
+dbs <- c( "flow_alpha_experiment/db_ibfs3/flow.db",
+          "flow_alpha_experiment/db_ibfs3/flow_mbmc.db",
+          "flow_alpha_experiment/db_ibfs3/flow_fm.db")
 
 algo <- c( "flow","flow_mbmc","flow_fm")
 
@@ -25,7 +25,7 @@ aggreg = function(df) data.frame(min_km1=min(df$km1),
                                  avg_time=mean(df$totalPartitionTime),
                                  cnt=length(df$seed))
 
-kahypar_sea <- ddply(dbGetQuery(dbConnect(SQLite(), dbname="flow_alpha_experiment/db/kahypar_sea.db"),
+kahypar_sea <- ddply(dbGetQuery(dbConnect(SQLite(), dbname="flow_alpha_experiment/db_ibfs2/kahypar_sea.db"),
                                 select_soed), c("graph","k","seed"), aggreg)
 
 flow_dbs <- list()
