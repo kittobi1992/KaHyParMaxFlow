@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE ipe SYSTEM "ipe.dtd">
 <ipe version="70206" creator="Ipe 7.2.7">
-<info created="D:20090429144355" modified="D:20180127124857" title="Improving Coarsening Schemes for Hypergraph Partitioning by Exploiting Community Structure" author="Sebastian Schlag" subject="SEA&apos;17"/>
+<info created="D:20090429144355" modified="D:20180129095534" title="Improving Coarsening Schemes for Hypergraph Partitioning by Exploiting Community Structure" author="Sebastian Schlag" subject="SEA&apos;17"/>
 <preamble>\usepackage[utf8]{inputenc}
 \usepackage{amsmath,amssymb,commath}
 \renewcommand{\vec}[1]{\mathaccent&quot;017E {#1}}
@@ -4210,8 +4210,8 @@ h
 <view layers="alpha pagenumbers_page" active="alpha"/>
 <view layers="alpha pagenumbers_page beta" active="beta"/>
 <text layer="alpha" matrix="1 0 0 1 0 -16" transformations="translations" pos="0 416" stroke="black" type="label" width="59.2557" height="19.2938" depth="0.2695" valign="baseline" size="largebf">Task</text>
-<text layer="beta" matrix="1 0 0 1 0 -144" transformations="translations" pos="0 416" stroke="black" type="label" width="176.096" height="19.9749" depth="0.49" valign="baseline" size="largebf">Contributions</text>
-<text matrix="1.27312 0 0 1 -20.3699 -100.7" transformations="translations" pos="16 352" stroke="KITblack" type="minipage" width="700" height="98.9236" depth="86.9015" valign="top">\begin{itemize}
+<text layer="beta" matrix="1 0 0 1 0 -160" transformations="translations" pos="0 416" stroke="black" type="label" width="176.096" height="19.9749" depth="0.49" valign="baseline" size="largebf">Contributions</text>
+<text matrix="1.27312 0 0 1 -36.3699 -116.7" transformations="translations" pos="16 352" stroke="KITblack" type="minipage" width="750" height="49.225" depth="38.324" valign="top" size="small">\begin{itemize}
 \item Outperforms $5$ different systems on $\mathbf{73\%}$ of $3216$ benchmark instances
 \item Improve quality of \emph{KaHyPar} by $\mathbf{2.5\%}$, while only incurring a slowdon by a factor of $\mathbf{1.8}$
 \item Comparable running time to \emph{hMetis} and outperforms it on $\mathbf{84\%}$ of the instances
@@ -6394,10 +6394,10 @@ of the \\ \emph{FM} algorithm
 220 360
 184 336 c
 </path>
-<text layer="FlowDefinition" transformations="translations" pos="0 112" stroke="black" type="minipage" width="368" height="61.424" depth="50.578" valign="top" size="small">\textbf{Flow function} $f: E \rightarrow \mathbb{R_+}$
+<text layer="FlowDefinition" transformations="translations" pos="0 112" stroke="black" type="minipage" width="700" height="49.3922" depth="38.5" valign="top" size="small">\textbf{Flow function} $f: E \rightarrow \mathbb{R_+}$
 \begin{itemize}
 \item $\forall (v,w) \in E: f(v,w) \le u(v,w)$
-\item $\forall v \in V \setminus \{s,t\}:$\\$ \sum_{(w,v) \in E} f(w,v) = \sum_{(v,w) \in E} f(v,w)$
+\item $\forall v \in V \setminus \{s,t\}:$$ \sum_{(w,v) \in E} f(w,v) = \sum_{(v,w) \in E} f(v,w)$
 \end{itemize}</text>
 <path stroke="black" arrow="normal/normal">
 130 114 m
@@ -12078,6 +12078,12 @@ T = \{e&apos;&apos;\ |\ e \in I(S_2)\}
 <text matrix="1 0 0 1 54 -110" transformations="translations" pos="616 278" stroke="KITblack" type="label" width="25.4433" height="18.3456" depth="6.125" valign="baseline" style="math">e_2&apos;&apos;</text>
 <text layer="pagenumbers_page" matrix="1 0 0 1 0.5 5.358" transformations="translations" pos="-13 -39" stroke="black" type="label" width="11.7208" height="7.5578" depth="0.184" halign="center" valign="top" size="verytiny">{\bf 18}</text>
 </page>
+<page title="Flow Algorithms">
+<layer name="alpha"/>
+<layer name="pagenumbers_page" edit="no"/>
+<view layers="alpha pagenumbers_page" active="alpha"/>
+<text layer="pagenumbers_page" matrix="1 0 0 1 0.5 5.358" transformations="translations" pos="-13 -39" stroke="black" type="label" width="11.7208" height="7.5578" depth="0.184" halign="center" valign="top" size="verytiny">{\bf 19}</text>
+</page>
 <page title="Our Flow-Based Refinement Framework">
 <layer name="alpha"/>
 <layer name="pagenumbers_page" edit="no"/>
@@ -12822,7 +12828,7 @@ h
 736 224 l
 h
 </path>
-<text layer="pagenumbers_page" matrix="1 0 0 1 0.5 5.358" transformations="translations" pos="-13 -39" stroke="black" type="label" width="11.7208" height="7.5578" depth="0.184" halign="center" valign="top" size="verytiny">{\bf 19}</text>
+<text layer="pagenumbers_page" matrix="1 0 0 1 0.5 5.358" transformations="translations" pos="-13 -39" stroke="black" type="label" width="11.7208" height="7.5578" depth="0.184" halign="center" valign="top" size="verytiny">{\bf 20}</text>
 </page>
 <page title="Most Balanced Minimum Cut">
 <layer name="Graph"/>
@@ -13152,7 +13158,7 @@ minimum $(s,t)$-cuts</text>
 48 112
 48 112 c
 </path>
-<text layer="pagenumbers_page" matrix="1 0 0 1 0.5 5.358" transformations="translations" pos="-13 -39" stroke="black" type="label" width="11.7208" height="7.5578" depth="0.184" halign="center" valign="top" size="verytiny">{\bf 20}</text>
+<text layer="pagenumbers_page" matrix="1 0 0 1 0.5 5.358" transformations="translations" pos="-13 -39" stroke="black" type="label" width="11.7208" height="7.5463" depth="0" halign="center" valign="top" size="verytiny">{\bf 21}</text>
 </page>
 <page title="Integration into KaHyPar">
 <layer name="alpha"/>
@@ -13207,7 +13213,7 @@ minimum $(s,t)$-cuts</text>
 <text matrix="1 0 0 1 504 -136" transformations="translations" pos="76 210" stroke="black" type="label" width="24.9898" height="13.112" depth="0" valign="baseline" size="small">\textsc{Fm}</text>
 <text matrix="1 0 0 1 568 -136" transformations="translations" pos="76 210" stroke="black" type="label" width="24.9898" height="13.112" depth="0" valign="baseline" size="small">\textsc{Fm}</text>
 <text layer="delta" matrix="1 0 0 1 -16 64" transformations="translations" pos="48 256" stroke="black" type="label" width="254.376" height="16.3856" depth="0.2205" valign="baseline">\textbf{Flow Execution Policies}</text>
-<text matrix="1 0 0 1 -16 16" transformations="translations" pos="48 256" stroke="black" type="label" width="680.596" height="17.1204" depth="3.784" valign="baseline" size="small">\textbf{Multilevel}: Execute \emph{Max-Flow-Min-Cut} computations (\textsc{Mf}) on each level $i$ with
+<text matrix="1 0 0 1 -16 16" transformations="translations" pos="48 256" stroke="black" type="label" width="701.032" height="17.1358" depth="3.806" valign="baseline" size="small">\textbf{Exponential}: Execute \emph{Max-Flow-Min-Cut} computations (\textsc{Mf}) on each level $i$ with
 $i = 2^j$ </text>
 <text matrix="1 0 0 1 -16 -112" transformations="translations" pos="48 256" stroke="black" type="label" width="695.193" height="13.6378" depth="3.784" valign="baseline" size="small">\textbf{Constant}: Execute \emph{Max-Flow-Min-Cut} computations (\textsc{Mf}) on each level $i$ with
 $i = \beta \cdot j$ </text>
@@ -13518,7 +13524,7 @@ h
 <text matrix="1 0 0 1 536 -136" transformations="translations" pos="76 210" stroke="black" type="label" width="25.7884" height="13.112" depth="0" valign="baseline" size="small">\textsc{Mf}</text>
 <text matrix="1 0 0 1 600 -136" transformations="translations" pos="76 210" stroke="black" type="label" width="25.7884" height="13.112" depth="0" valign="baseline" size="small">\textsc{Mf}</text>
 <text matrix="1 0 0 1 376 -136" transformations="translations" pos="76 210" stroke="black" type="label" width="25.7884" height="13.112" depth="0" valign="baseline" size="small">\textsc{Mf}</text>
-<text layer="pagenumbers_page" matrix="1 0 0 1 0.5 5.358" transformations="translations" pos="-13 -39" stroke="black" type="label" width="11.7208" height="7.5463" depth="0" halign="center" valign="top" size="verytiny">{\bf 21}</text>
+<text layer="pagenumbers_page" matrix="1 0 0 1 0.5 5.358" transformations="translations" pos="-13 -39" stroke="black" type="label" width="11.7208" height="7.5463" depth="0" halign="center" valign="top" size="verytiny">{\bf 22}</text>
 </page>
 <page title="Speed-Up Heuristics">
 <layer name="alpha"/>
@@ -14109,7 +14115,13 @@ if previous computations lead to an improvement (except in first round)
 <text matrix="1 0 0 1 376 0" transformations="translations" pos="0 224" stroke="KITblack" type="minipage" width="350" height="38.5264" depth="27.632" valign="top" size="small">\begin{itemize}
 \item[(R3)] If no hypernode change its block after \emph{Max-Flow-Min-Cut} computation, then break
 \end{itemize}</text>
-<text layer="pagenumbers_page" matrix="1 0 0 1 0.5 5.358" transformations="translations" pos="-13 -39" stroke="black" type="label" width="11.7208" height="7.5463" depth="0" halign="center" valign="top" size="verytiny">{\bf 22}</text>
+<text layer="pagenumbers_page" matrix="1 0 0 1 0.5 5.358" transformations="translations" pos="-13 -39" stroke="black" type="label" width="11.7208" height="7.5578" depth="0.184" halign="center" valign="top" size="verytiny">{\bf 23}</text>
+</page>
+<page title="Flow Networks">
+<layer name="alpha"/>
+<layer name="pagenumbers_page" edit="no"/>
+<view layers="alpha pagenumbers_page" active="alpha"/>
+<text layer="pagenumbers_page" matrix="1 0 0 1 0.5 5.358" transformations="translations" pos="-13 -39" stroke="black" type="label" width="11.7208" height="7.5463" depth="0" halign="center" valign="top" size="verytiny">{\bf 24}</text>
 </page>
 <page title="Flow Configuration">
 <layer name="alpha"/>
@@ -14117,10 +14129,138 @@ if previous computations lead to an improvement (except in first round)
 <layer name="FlowAlphaTable"/>
 <layer name="gamma"/>
 <layer name="ModelingComparisonTable"/>
-<layer name="beta"/>
+<layer name="FlowModeling1"/>
+<layer name="FlowvsMBMC"/>
+<layer name="MBMCvsFM"/>
+<layer name="FMvsConstant"/>
+<layer name="FlowModeling2"/>
 <view layers="alpha pagenumbers_page FlowAlphaTable" active="FlowAlphaTable"/>
-<view layers="alpha pagenumbers_page FlowAlphaTable gamma" active="gamma"/>
-<view layers="pagenumbers_page ModelingComparisonTable" active="beta"/>
+<view layers="pagenumbers_page FlowAlphaTable FlowvsMBMC" active="FlowvsMBMC"/>
+<view layers="pagenumbers_page FlowAlphaTable MBMCvsFM" active="MBMCvsFM"/>
+<view layers="pagenumbers_page FlowAlphaTable FMvsConstant" active="FMvsConstant"/>
+<view layers="pagenumbers_page FlowAlphaTable gamma" active="gamma"/>
+<view layers="pagenumbers_page ModelingComparisonTable" active="FlowModeling1"/>
+<view layers="pagenumbers_page ModelingComparisonTable FlowModeling1" active="FlowModeling1"/>
+<view layers="pagenumbers_page ModelingComparisonTable FlowModeling2" active="FlowModeling2"/>
+<path layer="FlowModeling2" matrix="0.903561 0 0 2.05598 516.749 -4.06598" fill="KITpalegreen70">
+0 96 m
+0 72 l
+84 72 l
+84 96 l
+h
+</path>
+<path matrix="1.06658 0 0 2.05598 428.023 -4.06598" fill="KITpalegreen">
+0 96 m
+0 72 l
+84 72 l
+84 96 l
+h
+</path>
+<path matrix="0.891711 0 0 2.05598 352.749 -4.06598" fill="KITpalegreen70">
+0 96 m
+0 72 l
+84 72 l
+84 96 l
+h
+</path>
+<path matrix="1.09083 0 0 2.05598 262.023 -4.06598" fill="KITpalegreen">
+0 96 m
+0 72 l
+84 72 l
+84 96 l
+h
+</path>
+<path layer="FlowModeling1" matrix="0.897149 0 0 3.20997 517 -37.1559" fill="KITpalegreen70">
+0 96 m
+0 72 l
+84 72 l
+84 96 l
+h
+</path>
+<path matrix="1.0792 0 0 3.20997 427 -37.1559" fill="KITpalegreen">
+0 96 m
+0 72 l
+84 72 l
+84 96 l
+h
+</path>
+<path matrix="0.885187 0 0 3.20997 353 -37.1559" fill="KITpalegreen70">
+0 96 m
+0 72 l
+84 72 l
+84 96 l
+h
+</path>
+<path matrix="1.09083 0 0 3.20997 262.023 -37.1559" fill="KITpalegreen">
+0 96 m
+0 72 l
+84 72 l
+84 96 l
+h
+</path>
+<path layer="FMvsConstant" matrix="0.960084 0 0 5.02691 655.787 -290.973" fill="KITred50">
+0 96 m
+0 72 l
+84 72 l
+84 96 l
+h
+</path>
+<path matrix="1.01993 0 0 5.02691 570.787 -290.973" fill="KITpalegreen">
+0 96 m
+0 72 l
+84 72 l
+84 96 l
+h
+</path>
+<path matrix="1.01993 0 0 5.02691 409.787 -290.973" fill="KITpalegreen">
+0 96 m
+0 72 l
+84 72 l
+84 96 l
+h
+</path>
+<path layer="MBMCvsFM" matrix="0.867896 0 0 2.11303 496.787 -81.1743" fill="KITpalegreen">
+0 96 m
+0 72 l
+84 72 l
+84 96 l
+h
+</path>
+<path matrix="0.867896 0 0 2.0432 336.787 -76.1469" fill="KITpalegreen">
+0 96 m
+0 72 l
+84 72 l
+84 96 l
+h
+</path>
+<path layer="FlowvsMBMC" matrix="1.10345 0 0 1.97471 84 1.79626" fill="KITpalegreen50">
+0 96 m
+0 72 l
+84 72 l
+84 96 l
+h
+</path>
+<path matrix="1.10345 0 0 2.06319 245 -7.69743" fill="KITpalegreen50">
+0 96 m
+0 72 l
+84 72 l
+84 96 l
+h
+</path>
+<path matrix="1.10345 0 0 3.04322 245 -148.148" fill="KITpalegreen">
+0 96 m
+0 72 l
+84 72 l
+84 96 l
+h
+</path>
+<path matrix="1.10345 0 0 3.04321 84 -148.148" fill="KITpalegreen">
+0 96 m
+0 72 l
+84 72 l
+84 96 l
+h
+</path>
 <path layer="gamma" fill="KITpalegreen">
 0 96 m
 0 72 l
@@ -14163,31 +14303,77 @@ $4$ &amp; $-1.82$ &amp; $20.37$ &amp; $-0.19$ &amp; $21.88$ &amp; $1.21$ &amp; $
 $8$ &amp; $-0.85$ &amp; $28.49$ &amp; $0.98$ &amp; $30.67$ &amp; $1.71$ &amp; $30.23$ &amp; $2.16$ &amp; $257.41$ \\ 
 $16$ &amp; $-0.19$ &amp; $43.32$ &amp; $1.75$ &amp; $46.66$ &amp; $2.21$ &amp; $43.53$ &amp; $2.69$ &amp; $498.29$ \\ 
 \cmidrule{1-9}% 
-Ref. &amp; \multicolumn{2}{c|}{\FlowVariant{-}{-}{+}} &amp; $6373.88$ &amp; $13.73$ &amp; \multicolumn{2}{c|}{} &amp; \multicolumn{2}{c}{} \\ 
+Ref. &amp; \multicolumn{2}{c|}{\KaHyPar{CA}} &amp; $6373.88$ &amp; $13.73$ &amp; \multicolumn{2}{c|}{} &amp; \multicolumn{2}{c}{} \\ 
 \bottomrule 
 \end{tabular}</text>
-<text layer="ModelingComparisonTable" matrix="1 0 0 1 0 -72" transformations="translations" pos="0 404" stroke="KITblack" type="minipage" width="736" height="119.293" depth="108.57" valign="top" size="small" style="center">
+<text layer="ModelingComparisonTable" matrix="1 0 0 1 0 -72" transformations="translations" pos="0 404" stroke="KITblack" type="minipage" width="736" height="119.511" depth="108.79" valign="top" size="small" style="center">
 \begin{tabular}{r|*{2}{r}|
-                    *{2}{r}|
                     *{2}{r}}
 \toprule
-\multirow{2}{*}{\diagbox[width=1.9cm]{$\alpha&apos;$}{Config.}} &amp; \multicolumn{2}{c|}{\FlowVariant{+}{-}{-} Avg $[\%]$}  &amp; \multicolumn{2}{c|}{\FlowVariant{+}{+}{-} Avg $[\%]$}  &amp; \multicolumn{2}{c}{\FlowVariant{+}{+}{+} Avg $[\%]$} \\
- &amp;  \scriptsize KaFFPa &amp; \scriptsize Our &amp;  \scriptsize KaFFPa  &amp;  \scriptsize Our &amp;   \scriptsize KaFFPa  &amp; \scriptsize Our  \\
+\multirow{2}{*}{\diagbox[width=1.9cm]{$\alpha&apos;$}{Config.}} &amp; \multicolumn{2}{c|}{\FlowVariant{+}{-}{-}}  &amp; \multicolumn{2}{c}{\FlowVariant{+}{+}{-}}   \\
+ &amp;  \scriptsize KaFFPa &amp; \scriptsize Our &amp;  \scriptsize KaFFPa  &amp;  \scriptsize Our \\
 \midrule%
-$1$ &amp; $-15.48$ &amp; $-6.10$ &amp; $-15.26$ &amp; $-5.62$ &amp; $0.14$ &amp; $0.23$ \\ 
-$2$ &amp; $-10.50$ &amp; $-3.20$ &amp; $-10.12$ &amp; $-2.08$ &amp; $0.36$ &amp; $0.74$ \\ 
-$4$ &amp; $-5.98$ &amp; $-1.82$ &amp; $-5.08$ &amp; $-0.20$ &amp; $0.67$ &amp; $1.21$ \\ 
-$8$ &amp; $-3.22$ &amp; $-0.85$ &amp; $-1.64$ &amp; $0.98$ &amp; $1.25$ &amp; $1.71$ \\ 
-$16$ &amp; $-1.52$ &amp; $-0.20$ &amp; $0.51$ &amp; $1.75$ &amp; $1.87$ &amp; $2.21$ \\ 
-\cmidrule{1-7}% 
-Ref. &amp; \multicolumn{2}{c|}{\FlowVariant{-}{-}{+}} &amp; \multicolumn{2}{c|}{$6373.88$} &amp; \multicolumn{2}{c}{} \\ 
+$1$ &amp; $-15.48$ &amp; $-6.10$ &amp; $-15.26$ &amp; $-5.62$  \\ 
+$2$ &amp; $-10.50$ &amp; $-3.20$ &amp; $-10.12$ &amp; $-2.08$ \\ 
+$4$ &amp; $-5.98$ &amp; $-1.82$ &amp; $-5.08$ &amp; $-0.20$  \\ 
+$8$ &amp; $-3.22$ &amp; $-0.85$ &amp; $-1.64$ &amp; $0.98$  \\ 
+$16$ &amp; $-1.52$ &amp; $-0.20$ &amp; $0.51$ &amp; $1.75$  \\ 
+\midrule% 
+Ref. &amp; \multicolumn{2}{c|}{\KaHyPar{CA}} &amp; \multicolumn{2}{c}{$6373.88$}  \\ 
 \bottomrule
 \end{tabular}</text>
-<text layer="beta" matrix="1 0 0 1 0 -64" transformations="translations" pos="0 416" stroke="KITblack" type="minipage" width="736" height="32.7316" depth="21.824" valign="top" size="small">\begin{itemize}
-\item \textsc{M1} $=$ Modeling approach of \emph{KaFFPa}
-\item \textsc{M2} $=$ Modeling approach of \emph{KaHyPar}
+<path layer="FlowvsMBMC" matrix="1.47059 0 0 -1.08108 -415.059 399.784" stroke="KITblack" pen="heavier" arrow="normal/small">
+406 244 m
+432 244
+432 88 c
+</path>
+<path matrix="1.47059 0 0 -1.08108 -255.059 399.784" stroke="KITblack" pen="heavier" arrow="normal/small">
+406 244 m
+432 244
+432 88 c
+</path>
+<text matrix="1 0 0 1 72 -4" transformations="translations" pos="0 400" stroke="black" type="minipage" width="550" height="48.6178" depth="37.752" valign="top" size="small">Improvement of \textbf{MBMC} more significantly for large $\alpha&apos;$:
+\begin{itemize}
+\item $\alpha&apos; \in \{1,2\}$: Improvement  $0.5\%$ to $1.12\%$
+\item $\alpha&apos; \in \{4,8,16\}$: Improvement  $1.63\%$ to $1.94\%$
 \end{itemize}</text>
-<text layer="pagenumbers_page" matrix="1 0 0 1 0.5 5.358" transformations="translations" pos="-13 -39" stroke="black" type="label" width="11.7208" height="7.5578" depth="0.184" halign="center" valign="top" size="verytiny">{\bf 23}</text>
+<path layer="MBMCvsFM" matrix="1.33053 0 0 -1.28023 -126.195 404.376" stroke="KITblack" pen="heavier" arrow="normal/small">
+406 244 m
+432 244
+432 88 c
+</path>
+<path matrix="1.33053 0 0 -1.28023 33.805 404.376" stroke="KITblack" pen="heavier" arrow="normal/small">
+406 244 m
+432 244
+432 88 c
+</path>
+<text matrix="1 0 0 1 248 -52" transformations="translations" pos="16 352" stroke="black" type="label" width="464.781" height="15.697" depth="4.026" valign="baseline" size="small">Flows with FM are faster than flows on its own for large $\alpha&apos;$</text>
+<path layer="FMvsConstant" matrix="-1.78166 0 0 -1.1466 1130.35 403.884" stroke="KITblack" pen="heavier" arrow="normal/small">
+406 244 m
+432 244
+432 88 c
+</path>
+<path matrix="-1.78166 0 0 -1.1466 1292.35 403.884" stroke="KITblack" pen="heavier" arrow="normal/small">
+406 244 m
+432 244
+432 88 c
+</path>
+<text matrix="1 0 0 1 93 -41" transformations="translations" pos="16 352" stroke="black" type="label" width="590.033" height="13.387" depth="4.026" valign="baseline" size="small">Quality improvement around $0.3\%$ to $0.5\%$, but running time is impractical</text>
+<path layer="FlowModeling1" stroke="KITblack" pen="heavier" arrow="normal/small">
+596 228 m
+636 228
+636 332
+592 368 c
+</path>
+<text matrix="1 0 0 1 -56 0" transformations="translations" pos="224 368" stroke="black" type="label" width="417.017" height="15.697" depth="3.872" valign="baseline" size="small">Quality improvement around $5\%$ to $10\%$ for small $\alpha&apos;$</text>
+<path layer="FlowModeling2" stroke="KITblack" pen="heavier" arrow="normal/small">
+596 164 m
+636 164
+636 332
+592 368 c
+</path>
+<text matrix="1 0 0 1 -68 0" transformations="translations" pos="224 368" stroke="black" type="label" width="435.2" height="15.697" depth="4.026" valign="baseline" size="small">Quality improvement around $1.5\%$ to $2.5\%$ for large $\alpha&apos;$</text>
+<text layer="pagenumbers_page" matrix="1 0 0 1 0.5 5.358" transformations="translations" pos="-13 -39" stroke="black" type="label" width="11.7208" height="7.5578" depth="0.184" halign="center" valign="top" size="verytiny">{\bf 25}</text>
 </page>
 <page title="Speed-Up Heuristics">
 <layer name="SpeedUpHeuristicTable"/>
@@ -14285,7 +14471,36 @@ Algorithm &amp; \multicolumn{1}{c}{Avg $[\%]$} &amp; \multicolumn{1}{c}{Min $[\%
 432 88 c
 </path>
 <text matrix="1 0 0 1 -55 -14" transformations="translations" pos="240 80" stroke="KITblack" type="label" width="540.188" height="16.5522" depth="4.802" valign="baseline">Slow-down compared to \KaHyPar{CA} by factor of $1.72$</text>
-<text layer="pagenumbers_page" matrix="1 0 0 1 0.5 5.358" transformations="translations" pos="-13 -39" stroke="black" type="label" width="11.7208" height="7.5463" depth="0" halign="center" valign="top" size="verytiny">{\bf 24}</text>
+<text layer="pagenumbers_page" matrix="1 0 0 1 0.5 5.358" transformations="translations" pos="-13 -39" stroke="black" type="label" width="11.7208" height="7.5578" depth="0.184" halign="center" valign="top" size="verytiny">{\bf 26}</text>
+</page>
+<page title="Quality - Full Benchmark Set">
+<layer name="alpha"/>
+<layer name="pagenumbers_page" edit="no"/>
+<layer name="beta"/>
+<view layers="alpha pagenumbers_page beta" active="beta"/>
+<text layer="alpha" matrix="0.869565 0 0 1 0 96" transformations="translations" pos="0 384" stroke="black" type="minipage" width="736" height="261.729" depth="250.121" valign="top" style="center">\includegraphics[width=0.9\textwidth]{img/full_benchmark_set_type_ca.pdf}</text>
+<path layer="beta" matrix="1.19371 0 0 1.19371 32.1784 -128.816" fill="KaHyPar-CA">
+6.32456 0 0 6.32456 88 256 e
+</path>
+<text matrix="1 0 0 1 52 -84" transformations="translations" pos="98 256" stroke="black" type="label" width="83.34" height="10.806" depth="3.14" valign="baseline" size="footnote">\KaHyPar{CA}</text>
+<path matrix="1.19371 0 0 1.19371 32.1784 -148.816" fill="hMetis-R">
+6.32456 0 0 6.32456 88 256 e
+</path>
+<text matrix="1 0 0 1 52 -104" transformations="translations" pos="98 256" stroke="black" type="label" width="58.66" height="10.598" depth="0.24" valign="baseline" size="footnote">\hMetis{R}</text>
+<path matrix="1.19371 0 0 1.19371 32.1784 -168.816" fill="hMetis-K">
+6.32456 0 0 6.32456 88 256 e
+</path>
+<text matrix="1 0 0 1 52 -124" transformations="translations" pos="98 256" stroke="black" type="label" width="57.852" height="10.598" depth="0.24" valign="baseline" size="footnote">\hMetis{K}</text>
+<path matrix="1.19371 0 0 1.19371 32.1784 -188.816" fill="PaToH-Q">
+6.32456 0 0 6.32456 88 256 e
+</path>
+<text matrix="1 0 0 1 52 -144" transformations="translations" pos="98 256" stroke="black" type="label" width="59.584" height="10.81" depth="0.82" valign="baseline" size="footnote">\PaToH{Q}</text>
+<path matrix="1.19371 0 0 1.19371 32.1784 -208.816" fill="PaToH-D">
+6.32456 0 0 6.32456 88 256 e
+</path>
+<text matrix="1 0 0 1 52 -164" transformations="translations" pos="98 256" stroke="black" type="label" width="58.762" height="10.598" depth="0.24" valign="baseline" size="footnote">\PaToH{D}</text>
+<text matrix="1 0 0 1 32 -64" transformations="translations" pos="98 256" stroke="black" type="label" width="69.248" height="10.7" depth="3.18" valign="baseline" size="footnote">\textbf{Algorithm}</text>
+<text layer="pagenumbers_page" matrix="1 0 0 1 0.5 5.358" transformations="translations" pos="-13 -39" stroke="black" type="label" width="11.7208" height="7.5463" depth="0" halign="center" valign="top" size="verytiny">{\bf 27}</text>
 </page>
 <page title="Quality - Full Benchmark Set">
 <layer name="alpha"/>
@@ -14318,7 +14533,7 @@ Algorithm &amp; \multicolumn{1}{c}{Avg $[\%]$} &amp; \multicolumn{1}{c}{Min $[\%
 </path>
 <text matrix="1 0 0 1 52 -184" transformations="translations" pos="98 256" stroke="black" type="label" width="58.762" height="10.598" depth="0.24" valign="baseline" size="footnote">\PaToH{D}</text>
 <text matrix="1 0 0 1 32 -64" transformations="translations" pos="98 256" stroke="black" type="label" width="69.248" height="10.7" depth="3.18" valign="baseline" size="footnote">\textbf{Algorithm}</text>
-<text layer="pagenumbers_page" matrix="1 0 0 1 0.5 5.358" transformations="translations" pos="-13 -39" stroke="black" type="label" width="11.7208" height="7.5578" depth="0.184" halign="center" valign="top" size="verytiny">{\bf 25}</text>
+<text layer="pagenumbers_page" matrix="1 0 0 1 0.5 5.358" transformations="translations" pos="-13 -39" stroke="black" type="label" width="11.7208" height="7.5578" depth="0.184" halign="center" valign="top" size="verytiny">{\bf 28}</text>
 </page>
 <page title="Running Time - Full Benchmark Set">
 <layer name="RunningTimeTable"/>
@@ -14558,20 +14773,20 @@ h
 588 114 c
 </path>
 <text matrix="1 0 0 1 118 12" transformations="translations" pos="240 80" stroke="KITblack" type="label" width="237.607" height="13.387" depth="3.872" valign="baseline" size="small">Slow-down by a factor of $1.85$</text>
-<text layer="pagenumbers_page" matrix="1 0 0 1 0.5 5.358" transformations="translations" pos="-13 -39" stroke="black" type="label" width="11.7208" height="7.5578" depth="0.184" halign="center" valign="top" size="verytiny">{\bf 26}</text>
+<text layer="pagenumbers_page" matrix="1 0 0 1 0.5 5.358" transformations="translations" pos="-13 -39" stroke="black" type="label" width="11.7208" height="7.5578" depth="0.184" halign="center" valign="top" size="verytiny">{\bf 29}</text>
 </page>
 <page title="Conclusion">
 <layer name="alpha"/>
 <layer name="pagenumbers_page" edit="no"/>
 <view layers="alpha pagenumbers_page" active="alpha"/>
-<text layer="pagenumbers_page" matrix="1 0 0 1 0.5 5.358" transformations="translations" pos="-13 -39" stroke="black" type="label" width="11.7208" height="7.5463" depth="0" halign="center" valign="top" size="verytiny">{\bf 27}</text>
+<text layer="pagenumbers_page" matrix="1 0 0 1 0.5 5.358" transformations="translations" pos="-13 -39" stroke="black" type="label" width="11.7208" height="7.5578" depth="0.184" halign="center" valign="top" size="verytiny">{\bf 30}</text>
 </page>
 <page>
 <layer name="alpha"/>
 <layer name="pagenumbers_page" edit="no"/>
 <view layers="alpha pagenumbers_page" active="alpha"/>
 <text layer="alpha" matrix="1 0 0 1 -64 -4" transformations="translations" pos="98 216" stroke="black" type="label" width="228.569" height="36.5992" depth="10.56" valign="baseline" size="Huge">\textbf{Appendix}</text>
-<text layer="pagenumbers_page" matrix="1 0 0 1 0.5 5.358" transformations="translations" pos="-13 -39" stroke="black" type="label" width="11.7208" height="7.5578" depth="0.184" halign="center" valign="top" size="verytiny">{\bf 28}</text>
+<text layer="pagenumbers_page" matrix="1 0 0 1 0.5 5.358" transformations="translations" pos="-13 -39" stroke="black" type="label" width="11.7208" height="7.5578" depth="0.184" halign="center" valign="top" size="verytiny">{\bf 31}</text>
 </page>
 <page title="Hypergraph Flow Network - Graph Edges">
 <layer name="alpha"/>
@@ -14876,7 +15091,7 @@ h
 </path>
 <text matrix="1 0 0 1 -104 -234" transformations="translations" pos="476 384" stroke="KITred" type="label" width="8.154" height="10.332" depth="0" valign="baseline" size="footnote" style="math">1</text>
 <text matrix="1 0 0 1 -104 -276" transformations="translations" pos="476 384" stroke="KITred" type="label" width="8.154" height="10.332" depth="0" valign="baseline" size="footnote" style="math">1</text>
-<text layer="pagenumbers_page" matrix="1 0 0 1 0.5 5.358" transformations="translations" pos="-13 -39" stroke="black" type="label" width="11.7208" height="7.5578" depth="0.184" halign="center" valign="top" size="verytiny">{\bf 29}</text>
+<text layer="pagenumbers_page" matrix="1 0 0 1 0.5 5.358" transformations="translations" pos="-13 -39" stroke="black" type="label" width="11.7208" height="7.5578" depth="0.184" halign="center" valign="top" size="verytiny">{\bf 32}</text>
 </page>
 <page title="Removing Source and Sink Vertices">
 <layer name="alpha"/>
@@ -15039,7 +15254,7 @@ h
 <text matrix="1 0 0 1 240 28" transformations="translations" pos="232 240" stroke="KITblack" type="label" width="22.4445" height="18.3603" depth="6.37" valign="baseline" style="math">e_3&apos;</text>
 <text matrix="1 0 0 1 236 -72" transformations="translations" pos="232 240" stroke="KITblack" type="label" width="25.4433" height="18.3603" depth="6.37" valign="baseline" style="math">e_3&apos;&apos;</text>
 <text layer="epsilon" transformations="translations" pos="0 416" stroke="KITblack" type="minipage" width="736" height="32.2053" depth="20.0165" valign="top" style="center">Corresponds to \emph{Multi-Source Multi-Sink} problem with \\ $S = \{e_1&apos;,e_2&apos;\}$ and $T = \{e_3&apos;&apos;\}$</text>
-<text layer="pagenumbers_page" matrix="1 0 0 1 0.5 5.358" transformations="translations" pos="-13 -39" stroke="black" type="label" width="11.7208" height="7.5578" depth="0.184" halign="center" valign="top" size="verytiny">{\bf 30}</text>
+<text layer="pagenumbers_page" matrix="1 0 0 1 0.5 5.358" transformations="translations" pos="-13 -39" stroke="black" type="label" width="11.7208" height="7.5578" depth="0.184" halign="center" valign="top" size="verytiny">{\bf 33}</text>
 </page>
 <page title="Minimum $(s,t)$-Bipartition">
 <layer name="alpha"/>
@@ -15454,6 +15669,6 @@ h
 444 150 c
 </path>
 <text matrix="1.70968 0 0 2.66667 -653.806 -757.333" transformations="translations" pos="476 384" stroke="KITblack" type="label" width="15.594" height="4.9335" depth="0" valign="baseline" size="verytiny" style="math">\infty</text>
-<text layer="pagenumbers_page" matrix="1 0 0 1 0.5 5.358" transformations="translations" pos="-13 -39" stroke="black" type="label" width="11.7208" height="7.5578" depth="0.184" halign="center" valign="top" size="verytiny">{\bf 31}</text>
+<text layer="pagenumbers_page" matrix="1 0 0 1 0.5 5.358" transformations="translations" pos="-13 -39" stroke="black" type="label" width="11.7208" height="7.5578" depth="0.184" halign="center" valign="top" size="verytiny">{\bf 34}</text>
 </page>
 </ipe>
