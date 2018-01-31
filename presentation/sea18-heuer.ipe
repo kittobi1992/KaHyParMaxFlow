@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE ipe SYSTEM "ipe.dtd">
 <ipe version="70206" creator="Ipe 7.2.7">
-<info created="D:20090429144355" modified="D:20180129095534" title="Improving Coarsening Schemes for Hypergraph Partitioning by Exploiting Community Structure" author="Sebastian Schlag" subject="SEA&apos;17"/>
+<info created="D:20090429144355" modified="D:20180131133021" title="Improving Coarsening Schemes for Hypergraph Partitioning by Exploiting Community Structure" author="Sebastian Schlag" subject="SEA&apos;17"/>
 <preamble>\usepackage[utf8]{inputenc}
 \usepackage{amsmath,amssymb,commath}
 \renewcommand{\vec}[1]{\mathaccent&quot;017E {#1}}
@@ -12078,12 +12078,6 @@ T = \{e&apos;&apos;\ |\ e \in I(S_2)\}
 <text matrix="1 0 0 1 54 -110" transformations="translations" pos="616 278" stroke="KITblack" type="label" width="25.4433" height="18.3456" depth="6.125" valign="baseline" style="math">e_2&apos;&apos;</text>
 <text layer="pagenumbers_page" matrix="1 0 0 1 0.5 5.358" transformations="translations" pos="-13 -39" stroke="black" type="label" width="11.7208" height="7.5578" depth="0.184" halign="center" valign="top" size="verytiny">{\bf 18}</text>
 </page>
-<page title="Flow Algorithms">
-<layer name="alpha"/>
-<layer name="pagenumbers_page" edit="no"/>
-<view layers="alpha pagenumbers_page" active="alpha"/>
-<text layer="pagenumbers_page" matrix="1 0 0 1 0.5 5.358" transformations="translations" pos="-13 -39" stroke="black" type="label" width="11.7208" height="7.5578" depth="0.184" halign="center" valign="top" size="verytiny">{\bf 19}</text>
-</page>
 <page title="Our Flow-Based Refinement Framework">
 <layer name="alpha"/>
 <layer name="pagenumbers_page" edit="no"/>
@@ -12828,7 +12822,7 @@ h
 736 224 l
 h
 </path>
-<text layer="pagenumbers_page" matrix="1 0 0 1 0.5 5.358" transformations="translations" pos="-13 -39" stroke="black" type="label" width="11.7208" height="7.5578" depth="0.184" halign="center" valign="top" size="verytiny">{\bf 20}</text>
+<text layer="pagenumbers_page" matrix="1 0 0 1 0.5 5.358" transformations="translations" pos="-13 -39" stroke="black" type="label" width="11.7208" height="7.5578" depth="0.184" halign="center" valign="top" size="verytiny">{\bf 19}</text>
 </page>
 <page title="Most Balanced Minimum Cut">
 <layer name="Graph"/>
@@ -13158,7 +13152,7 @@ minimum $(s,t)$-cuts</text>
 48 112
 48 112 c
 </path>
-<text layer="pagenumbers_page" matrix="1 0 0 1 0.5 5.358" transformations="translations" pos="-13 -39" stroke="black" type="label" width="11.7208" height="7.5463" depth="0" halign="center" valign="top" size="verytiny">{\bf 21}</text>
+<text layer="pagenumbers_page" matrix="1 0 0 1 0.5 5.358" transformations="translations" pos="-13 -39" stroke="black" type="label" width="11.7208" height="7.5578" depth="0.184" halign="center" valign="top" size="verytiny">{\bf 20}</text>
 </page>
 <page title="Integration into KaHyPar">
 <layer name="alpha"/>
@@ -13524,7 +13518,7 @@ h
 <text matrix="1 0 0 1 536 -136" transformations="translations" pos="76 210" stroke="black" type="label" width="25.7884" height="13.112" depth="0" valign="baseline" size="small">\textsc{Mf}</text>
 <text matrix="1 0 0 1 600 -136" transformations="translations" pos="76 210" stroke="black" type="label" width="25.7884" height="13.112" depth="0" valign="baseline" size="small">\textsc{Mf}</text>
 <text matrix="1 0 0 1 376 -136" transformations="translations" pos="76 210" stroke="black" type="label" width="25.7884" height="13.112" depth="0" valign="baseline" size="small">\textsc{Mf}</text>
-<text layer="pagenumbers_page" matrix="1 0 0 1 0.5 5.358" transformations="translations" pos="-13 -39" stroke="black" type="label" width="11.7208" height="7.5463" depth="0" halign="center" valign="top" size="verytiny">{\bf 22}</text>
+<text layer="pagenumbers_page" matrix="1 0 0 1 0.5 5.358" transformations="translations" pos="-13 -39" stroke="black" type="label" width="11.7208" height="7.5463" depth="0" halign="center" valign="top" size="verytiny">{\bf 21}</text>
 </page>
 <page title="Speed-Up Heuristics">
 <layer name="alpha"/>
@@ -14115,13 +14109,108 @@ if previous computations lead to an improvement (except in first round)
 <text matrix="1 0 0 1 376 0" transformations="translations" pos="0 224" stroke="KITblack" type="minipage" width="350" height="38.5264" depth="27.632" valign="top" size="small">\begin{itemize}
 \item[(R3)] If no hypernode change its block after \emph{Max-Flow-Min-Cut} computation, then break
 \end{itemize}</text>
+<text layer="pagenumbers_page" matrix="1 0 0 1 0.5 5.358" transformations="translations" pos="-13 -39" stroke="black" type="label" width="11.7208" height="7.5463" depth="0" halign="center" valign="top" size="verytiny">{\bf 22}</text>
+</page>
+<page title="Experimental Setup">
+<layer name="alpha"/>
+<layer name="pagenumbers_page" edit="no"/>
+<layer name="beta"/>
+<view layers="alpha pagenumbers_page" active="alpha"/>
+<view layers="alpha pagenumbers_page beta" active="beta"/>
+<text layer="alpha" transformations="translations" pos="0 416" stroke="black" type="minipage" width="736" height="110.186" depth="98.196" valign="top">\textbf{System}
+\begin{itemize}
+\item Intel Xeon E$5$-$2670$ Octa-Core ($2.6$ GHz)
+\item $64$ GB Main Memory
+\item $20$ MB L$3$-Cache, $8 \times 256$ KB L$2$-Cache
+\item \textbf{Compiler}: g++-$5.2$ 
+\item \textbf{Flags}: \emph{-O3 -mtune=nactive -march=native}
+\end{itemize}</text>
+<text matrix="1 0 0 1 0 -240" transformations="translations" pos="0 416" stroke="black" type="minipage" width="736" height="91.1106" depth="79.086" valign="top">\textbf{Flow Algorithms}
+\begin{itemize}
+\item \EdmondKarp
+\item \GoldbergTarjan
+\item \BoykovKolmogorov
+\item \underline{\IBFS} (fastest in our experiments)
+\end{itemize}</text>
+<path layer="beta" matrix="1 0 0 1 0 -80" stroke="KITred" pen="fat">
+0 152 m
+0 80 l
+732 80 l
+732 152 l
+h
+</path>
+<path stroke="KITblue" pen="fat">
+0 152 m
+0 80 l
+732 80 l
+732 152 l
+h
+</path>
+<text matrix="1 0 0 1 20 76" transformations="translations" pos="400 32" stroke="KITblue" type="label" width="217.144" height="16.5522" depth="4.6795" valign="baseline">Own Implementations</text>
+<text matrix="1 0 0 1 20 -4" transformations="translations" pos="400 32" stroke="KITred" type="label" width="282.017" height="16.2264" depth="4.802" valign="baseline">Third-Party Implementations</text>
 <text layer="pagenumbers_page" matrix="1 0 0 1 0.5 5.358" transformations="translations" pos="-13 -39" stroke="black" type="label" width="11.7208" height="7.5578" depth="0.184" halign="center" valign="top" size="verytiny">{\bf 23}</text>
+</page>
+<page title="Experimental Setup">
+<layer name="alpha"/>
+<layer name="pagenumbers_page" edit="no"/>
+<layer name="beta"/>
+<layer name="gamma"/>
+<view layers="alpha pagenumbers_page" active="alpha"/>
+<view layers="alpha pagenumbers_page beta" active="beta"/>
+<view layers="alpha pagenumbers_page gamma" active="gamma"/>
+<text layer="alpha" transformations="translations" pos="0 416" stroke="black" type="minipage" width="736" height="71.7434" depth="59.6575" valign="top">\textbf{Benchmarks}
+\begin{itemize}
+\item Parameter Tuning Benchmark Set ($25$ Hypergraphs)
+\item Benchmark Subset ($165$ Hypergraphs)
+\item Full Benchmark Set ($488$ Hypergraphs)
+\end{itemize}</text>
+<text matrix="1 0 0 1 0 -172" transformations="translations" pos="0 416" stroke="black" type="minipage" width="736" height="107.717" depth="95.7215" valign="top">\textbf{Benchmark Type}
+\begin{itemize}
+\item \normalsize{\DAC}~\scriptsize{($10$ Hypergraphs)}
+\item \normalsize{\ISPD}~\scriptsize{($18$ Hypergraphs)}
+\item \normalsize{\Primal}~\scriptsize{($92$ Hypergraphs)}
+\item \normalsize{\Literal}~\scriptsize{($92$ Hypergraphs)}
+\item \normalsize{\Dual}~\scriptsize{($92$ Hypergraphs)}
+\item \normalsize{\SPM}~\scriptsize{($184$ Hypergraphs)}
+\end{itemize}</text>
+<path layer="beta" matrix="1 0 0 0.777778 0 101.778" stroke="KITorange" pen="fat">
+0 152 m
+0 80 l
+732 80 l
+732 152 l
+h
+</path>
+<text matrix="1 0 0 1 32 152" transformations="translations" pos="400 32" stroke="KITorange" type="label" width="124.808" height="16.5473" depth="4.998" valign="baseline">VLSI Design</text>
+<path matrix="1 0 0 1.22222 0 -25.7773" stroke="KITcyanblue" pen="fat">
+0 152 m
+0 80 l
+732 80 l
+732 152 l
+h
+</path>
+<path matrix="1 0 0 0.444445 0 0.444509" stroke="KITpalegreen" pen="fat">
+0 152 m
+0 80 l
+732 80 l
+732 152 l
+h
+</path>
+<text matrix="1 0 0 1 32 76" transformations="translations" pos="400 32" stroke="KITcyanblue" type="label" width="140.459" height="16.5522" depth="0.3675" valign="baseline">SAT Formulas</text>
+<text matrix="1 0 0 1 32 12" transformations="translations" pos="400 32" stroke="KITpalegreen" type="label" width="162.555" height="16.5522" depth="4.6795" valign="baseline">Sparse Matrices</text>
+<text layer="gamma" matrix="1 0 0 1 388 -172" transformations="translations" pos="0 416" stroke="black" type="minipage" width="350" height="69.4208" depth="57.3545" valign="top">\textbf{Methodology}
+\begin{itemize}
+\item $\varepsilon = 3\%$
+\item $k \in \{2,4,8,16,32,64,128\}$
+\item $10$ seeds
+\end{itemize}</text>
+<text layer="pagenumbers_page" matrix="1 0 0 1 0.5 5.358" transformations="translations" pos="-13 -39" stroke="black" type="label" width="11.7208" height="7.5463" depth="0" halign="center" valign="top" size="verytiny">{\bf 24}</text>
 </page>
 <page title="Flow Networks">
 <layer name="alpha"/>
 <layer name="pagenumbers_page" edit="no"/>
 <view layers="alpha pagenumbers_page" active="alpha"/>
-<text layer="pagenumbers_page" matrix="1 0 0 1 0.5 5.358" transformations="translations" pos="-13 -39" stroke="black" type="label" width="11.7208" height="7.5463" depth="0" halign="center" valign="top" size="verytiny">{\bf 24}</text>
+<text layer="alpha" matrix="0.869565 0 0 1 0 64" transformations="translations" pos="0 384" stroke="black" type="minipage" width="736" height="233.321" depth="221.652" valign="top" style="center">\includegraphics[width=0.8\textwidth]{img/speed_up_ibfs.pdf}</text>
+<text layer="pagenumbers_page" matrix="1 0 0 1 0.5 5.358" transformations="translations" pos="-13 -39" stroke="black" type="label" width="11.7208" height="7.5578" depth="0.184" halign="center" valign="top" size="verytiny">{\bf 25}</text>
 </page>
 <page title="Flow Configuration">
 <layer name="alpha"/>
@@ -14373,7 +14462,7 @@ Ref. &amp; \multicolumn{2}{c|}{\KaHyPar{CA}} &amp; \multicolumn{2}{c}{$6373.88$}
 592 368 c
 </path>
 <text matrix="1 0 0 1 -68 0" transformations="translations" pos="224 368" stroke="black" type="label" width="435.2" height="15.697" depth="4.026" valign="baseline" size="small">Quality improvement around $1.5\%$ to $2.5\%$ for large $\alpha&apos;$</text>
-<text layer="pagenumbers_page" matrix="1 0 0 1 0.5 5.358" transformations="translations" pos="-13 -39" stroke="black" type="label" width="11.7208" height="7.5578" depth="0.184" halign="center" valign="top" size="verytiny">{\bf 25}</text>
+<text layer="pagenumbers_page" matrix="1 0 0 1 0.5 5.358" transformations="translations" pos="-13 -39" stroke="black" type="label" width="11.7208" height="7.5578" depth="0.184" halign="center" valign="top" size="verytiny">{\bf 26}</text>
 </page>
 <page title="Speed-Up Heuristics">
 <layer name="SpeedUpHeuristicTable"/>
@@ -14471,35 +14560,6 @@ Algorithm &amp; \multicolumn{1}{c}{Avg $[\%]$} &amp; \multicolumn{1}{c}{Min $[\%
 432 88 c
 </path>
 <text matrix="1 0 0 1 -55 -14" transformations="translations" pos="240 80" stroke="KITblack" type="label" width="540.188" height="16.5522" depth="4.802" valign="baseline">Slow-down compared to \KaHyPar{CA} by factor of $1.72$</text>
-<text layer="pagenumbers_page" matrix="1 0 0 1 0.5 5.358" transformations="translations" pos="-13 -39" stroke="black" type="label" width="11.7208" height="7.5578" depth="0.184" halign="center" valign="top" size="verytiny">{\bf 26}</text>
-</page>
-<page title="Quality - Full Benchmark Set">
-<layer name="alpha"/>
-<layer name="pagenumbers_page" edit="no"/>
-<layer name="beta"/>
-<view layers="alpha pagenumbers_page beta" active="beta"/>
-<text layer="alpha" matrix="0.869565 0 0 1 0 96" transformations="translations" pos="0 384" stroke="black" type="minipage" width="736" height="261.729" depth="250.121" valign="top" style="center">\includegraphics[width=0.9\textwidth]{img/full_benchmark_set_type_ca.pdf}</text>
-<path layer="beta" matrix="1.19371 0 0 1.19371 32.1784 -128.816" fill="KaHyPar-CA">
-6.32456 0 0 6.32456 88 256 e
-</path>
-<text matrix="1 0 0 1 52 -84" transformations="translations" pos="98 256" stroke="black" type="label" width="83.34" height="10.806" depth="3.14" valign="baseline" size="footnote">\KaHyPar{CA}</text>
-<path matrix="1.19371 0 0 1.19371 32.1784 -148.816" fill="hMetis-R">
-6.32456 0 0 6.32456 88 256 e
-</path>
-<text matrix="1 0 0 1 52 -104" transformations="translations" pos="98 256" stroke="black" type="label" width="58.66" height="10.598" depth="0.24" valign="baseline" size="footnote">\hMetis{R}</text>
-<path matrix="1.19371 0 0 1.19371 32.1784 -168.816" fill="hMetis-K">
-6.32456 0 0 6.32456 88 256 e
-</path>
-<text matrix="1 0 0 1 52 -124" transformations="translations" pos="98 256" stroke="black" type="label" width="57.852" height="10.598" depth="0.24" valign="baseline" size="footnote">\hMetis{K}</text>
-<path matrix="1.19371 0 0 1.19371 32.1784 -188.816" fill="PaToH-Q">
-6.32456 0 0 6.32456 88 256 e
-</path>
-<text matrix="1 0 0 1 52 -144" transformations="translations" pos="98 256" stroke="black" type="label" width="59.584" height="10.81" depth="0.82" valign="baseline" size="footnote">\PaToH{Q}</text>
-<path matrix="1.19371 0 0 1.19371 32.1784 -208.816" fill="PaToH-D">
-6.32456 0 0 6.32456 88 256 e
-</path>
-<text matrix="1 0 0 1 52 -164" transformations="translations" pos="98 256" stroke="black" type="label" width="58.762" height="10.598" depth="0.24" valign="baseline" size="footnote">\PaToH{D}</text>
-<text matrix="1 0 0 1 32 -64" transformations="translations" pos="98 256" stroke="black" type="label" width="69.248" height="10.7" depth="3.18" valign="baseline" size="footnote">\textbf{Algorithm}</text>
 <text layer="pagenumbers_page" matrix="1 0 0 1 0.5 5.358" transformations="translations" pos="-13 -39" stroke="black" type="label" width="11.7208" height="7.5463" depth="0" halign="center" valign="top" size="verytiny">{\bf 27}</text>
 </page>
 <page title="Quality - Full Benchmark Set">
