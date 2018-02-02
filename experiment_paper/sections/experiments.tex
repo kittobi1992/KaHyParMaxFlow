@@ -128,21 +128,23 @@ $\alpha'$ & \footnotesize{\textsc{M1} - Avg $[\%]$} & \footnotesize{\textsc{M2} 
 \begin{table}
 \renewcommand{\arraystretch}{1.15}
 \centering
-\begin{tabular}{r|*{2}{S[table-number-alignment = center,table-column-width=1cm]}
+\begin{tabular}{r|*{2}{S[table-number-alignment = center,table-column-width=0.5cm]}
                        S[table-number-alignment = center]|
-                  *{2}{S[table-number-alignment = center,table-column-width=1cm]}
+                  *{2}{S[table-number-alignment = center,table-column-width=0.5cm]}
+                       S[table-number-alignment = center]|
+                  *{2}{S[table-number-alignment = center,table-column-width=0.5cm]}
                        S[table-number-alignment = center]}
 \toprule
- Config. & \multicolumn{3}{c|}{$\varepsilon = 1\%$} & \multicolumn{3}{c}{$\varepsilon = 3\%$} \\
+ Config. & \multicolumn{3}{c|}{$\varepsilon = 1\%$} & \multicolumn{3}{c|}{$\varepsilon = 3\%$} & \multicolumn{3}{c}{$\varepsilon = 5\%$}\\
 \midrule
-$\alpha'$ & \footnotesize{KaFFPa} & \footnotesize{Our} & \footnotesize{Improv. $[\%]$} & \footnotesize{KaFFPa} & \footnotesize{Our} & \footnotesize{Improv. $[\%]$}  \\
+$\alpha'$ & \footnotesize{KaFFPa} & \footnotesize{Our} & \footnotesize{Improv. $[\%]$} & \footnotesize{KaFFPa} & \footnotesize{Our} & \footnotesize{Improv. $[\%]$} & \footnotesize{KaFFPa} & \footnotesize{Our} & \footnotesize{Improv. $[\%]$}  \\
 \midrule%
 \csname @@input\endcsname experiments/flow_alpha/flow_alpha_modeling_comparison_epsilon_table.tex
 \bottomrule
 \end{tabular}
 \caption{ Comparison on quality of configuration \FlowVariant{+}{-}{-} with the
           flow problem modeling approach of \emph{KaFFPa} and \emph{KaHyPar} and 
-          $\varepsilon \in \{0.01,0.03\}$.   }
+          $\varepsilon \in \{0.01,0.03,0.05\}$.   }
 \label{tbl:alpha_comparison_eps_exp}
 \end{table}
 
@@ -155,6 +157,14 @@ $\alpha'$ & \footnotesize{KaFFPa} & \footnotesize{Our} & \footnotesize{Improv. $
                    S[table-number-alignment = center]|
                    S[table-number-alignment = center]|}
 \toprule
+ & \multicolumn{3}{c|}{\textsc{M2} - \IBFS~with Multilevel Flow Execution Policy} \\
+ \cmidrule{2-4}
+ Config. &  \multicolumn{1}{c|}{\FlowVariant{+}{-}{-}} &  \multicolumn{1}{|c}{\FlowVariant{+}{+}{-}}  &  \multicolumn{1}{|c|}{\FlowVariant{+}{+}{+}} \\
+\midrule
+$\alpha'$ & Avg $[\%]$ & Avg $[\%]$ & Avg $[\%]$ \\
+\midrule%
+\csname @@input\endcsname experiments/flow_alpha/flow_alpha_effectiveness_table_m2_ibfs3.tex 
+\bottomrule
  & \multicolumn{3}{c|}{\textsc{M2} - \IBFS~with Exponential Flow Execution Policy} \\
  \cmidrule{2-4}
  Config. &  \multicolumn{1}{c|}{\FlowVariant{+}{-}{-}} &  \multicolumn{1}{|c}{\FlowVariant{+}{+}{-}}  &  \multicolumn{1}{|c|}{\FlowVariant{+}{+}{+}} \\
@@ -170,14 +180,6 @@ $\alpha'$ & Avg $[\%]$ & Avg $[\%]$ & Avg $[\%]$ \\
 $\alpha'$ & Avg $[\%]$ & Avg $[\%]$ & Avg $[\%]$ \\
 \midrule%
 \csname @@input\endcsname experiments/flow_alpha/flow_alpha_effectiveness_table_m2_bk.tex 
-\bottomrule
- & \multicolumn{3}{c|}{\textsc{M1} - \GoldbergTarjan} \\
- \cmidrule{2-4}
- Config. &  \multicolumn{1}{c|}{\FlowVariant{+}{-}{-}} &  \multicolumn{1}{|c}{\FlowVariant{+}{+}{-}}  &  \multicolumn{1}{|c|}{\FlowVariant{+}{+}{+}} \\
-\midrule
-$\alpha'$ & Avg $[\%]$ & Avg $[\%]$ & Avg $[\%]$ \\
-\midrule%
-\csname @@input\endcsname experiments/flow_alpha/flow_alpha_effectiveness_table_m1_gt.tex 
 \bottomrule
 \end{tabular}
 \caption{ Table contains results of the effectiveness test 

@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE ipe SYSTEM "ipe.dtd">
 <ipe version="70206" creator="Ipe 7.2.7">
-<info created="D:20090429144355" modified="D:20180131133021" title="Improving Coarsening Schemes for Hypergraph Partitioning by Exploiting Community Structure" author="Sebastian Schlag" subject="SEA&apos;17"/>
+<info created="D:20090429144355" modified="D:20180201164134" title="High Quality Hypergraph Partitioning via Max-Flow-Min-Cut Computations" author="Tobias Heuer" subject="Master Thesis"/>
 <preamble>\usepackage[utf8]{inputenc}
 \usepackage{amsmath,amssymb,commath}
 \renewcommand{\vec}[1]{\mathaccent&quot;017E {#1}}
