@@ -1,4 +1,5 @@
-setwd("/home/theuer/Dropbox/Studium Informatik/10. Semester/KaHyParMaxFlow/experiments")
+#setwd("/home/theuer/Dropbox/Studium Informatik/10. Semester/KaHyParMaxFlow/experiments")
+setwd("C:\\Users\\tobia\\Dropbox\\Studium Informatik\\10. Semester\\KaHyParMaxFlow\\experiments")
 source("plot_functions.R")
 
 paper <- "experiment_paper"
@@ -8,13 +9,23 @@ flow_algo <- "ibfs2"
 
 dbs <- c( paste("flow_alpha_experiment/db_",flow_algo,"/flow.db",sep=""),
           paste("flow_alpha_experiment/db_",flow_algo,"/flow_mbmc.db",sep=""),
+          paste("flow_alpha_experiment/db_",flow_algo,"/flow_no_mbmc_fm.db",sep=""),
           paste("flow_alpha_experiment/db_",flow_algo,"/flow_fm.db",sep=""),
           paste("flow_alpha_experiment/db_",flow_algo,"/constant.db",sep=""),
           paste("flow_alpha_experiment/db_",flow_algo,"/flow_eff.db",sep=""),
           paste("flow_alpha_experiment/db_",flow_algo,"/flow_mbmc_eff.db",sep=""),
+          paste("flow_alpha_experiment/db_",flow_algo,"/flow_no_mbmc_fm_eff.db",sep=""),
           paste("flow_alpha_experiment/db_",flow_algo,"/flow_fm_eff.db",sep=""))
 
-algo <- c( "flow","flow_mbmc","flow_fm","constant","flow_eff","flow_mbmc_eff","flow_fm_eff")
+algo <- c( "flow",
+           "flow_mbmc",
+           "flow_no_mbmc_fm",
+           "flow_fm",
+           "constant",
+           "flow_eff",
+           "flow_mbmc_eff",
+           "flow_no_mbmc_eff",
+           "flow_fm_eff")
 
 select_km1_soed = 'select graph,k,epsilon,flow_region_size_alpha AS alpha, seed,km1,soed,imbalance,coarseningTime,uncoarseningRefinementTime, totalPartitionTime from experiments'
 select_km1 = 'select graph,k,epsilon,flow_region_size_alpha AS alpha,seed,1 AS soed, kMinusOne AS km1, imbalance,coarseningTime,uncoarseningRefinementTime, totalPartitionTime from experiments'
@@ -59,11 +70,13 @@ for(i in 1:length(dbs)) {
 
  flow <- flow_dbs[[1]]
  flow_mbmc <- flow_dbs[[2]]
- flow_fm <- flow_dbs[[3]]
- constant <- flow_dbs[[4]]
- flow_eff <- flow_dbs[[5]]
- flow_mbmc_eff <- flow_dbs[[6]]
- flow_fm_eff <- flow_dbs[[7]]
+ flow_no_mbmc_fm <- flow_dbs[[3]]
+ flow_fm <- flow_dbs[[4]]
+ constant <- flow_dbs[[5]]
+ flow_eff <- flow_dbs[[6]]
+ flow_mbmc_eff <- flow_dbs[[7]]
+ flow_no_mbmc_fm_eff <- flow_dbs[[8]]
+ flow_fm_eff <- flow_dbs[[9]]
  
  missing_instances <- function(db, complete_db) {
    K <- c(2,4,8,16,32,64,128)
@@ -84,6 +97,7 @@ for(i in 1:length(dbs)) {
  
  flow_eff <- missing_instances(flow_eff, flow)
  flow_mbmc_eff <- missing_instances(flow_mbmc_eff, flow_mbmc)
+ flow_no_mbmc_fm_eff <- missing_instances(flow_no_mbmc_fm_eff, flow_no_mbmc_fm)
  flow_fm_eff <- missing_instances(flow_fm_eff, flow_fm)
 
 
@@ -103,11 +117,10 @@ for(i in 1:length(dbs)) {
    aggreg = function(df) data.frame(gmean_km1=gm_mean(df$avg_km1),   
                                     gmean_time=gm_mean(df$avg_time))
    ref <- ddply(kahypar,c(),aggreg)
-   ref_vec <- c("Ref.", "\\multicolumn{2}{c||}{\\FlowVariant{-}{-}{+}}", 
+   ref_vec <- c("Ref.", "\\multicolumn{2}{c}{\\FlowVariant{-}{-}{+}}", 
                          formatC(ref$gmean_km1[1], digits=2,format='f'), 
                          formatC(ref$gmean_time[1],digits=2,format='f'),
-                         "\\multicolumn{2}{c||}{}",
-                         "\\multicolumn{2}{c|}{}")
+                         "\\multicolumn{6}{c}{}")
 
    alpha_vec <- list(c(1),c(2),c(4),c(8),c(16))
    for(df in dataframes) {
@@ -135,8 +148,8 @@ for(i in 1:length(dbs)) {
    
    aggreg = function(df) data.frame(gmean_km1=gm_mean(df$avg_km1))
    ref <- ddply(kahypar,c(),aggreg)
-   ref_vec <- c("Ref.", " \\multicolumn{1}{|c|}{\\FlowVariant{-}{-}{+}}", 
-                format(ref$gmean_km1[1]), "")
+   ref_vec <- c("Ref.", " \\multicolumn{1}{c}{\\FlowVariant{-}{-}{+}}", 
+                format(ref$gmean_km1[1]), "", "")
    
    alpha_vec <- list(c(1),c(2),c(4),c(8),c(16))
    for(df in dataframes) {
@@ -159,10 +172,10 @@ for(i in 1:length(dbs)) {
  }
  
  sink(output_file(paper,experiment,"flow_alpha_table",modeling,flow_algo))
- flow_alpha_table(kahypar_sea, flow, flow_mbmc, flow_fm, constant)
+ flow_alpha_table(kahypar_sea, flow, flow_mbmc, flow_no_mbmc_fm, flow_fm, constant)
  sink()
  
  sink(output_file(paper,experiment,"flow_alpha_effectiveness_table",modeling,flow_algo))
- flow_alpha_effectiveness_table(kahypar_ca, flow_eff, flow_mbmc_eff, flow_fm_eff)
+ flow_alpha_effectiveness_table(kahypar_ca, flow_eff, flow_mbmc_eff, flow_no_mbmc_fm_eff, flow_fm_eff)
  sink()
  

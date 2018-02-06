@@ -1,5 +1,5 @@
-setwd("/home/theuer/Dropbox/Studium Informatik/10. Semester/KaHyParMaxFlow/experiments")
-#setwd("C:\\Users\\tobia\\Dropbox\\Studium Informatik\\10. Semester\\KaHyParMaxFlow")
+setwd("/home/heuer/Dropbox/Studium Informatik/10. Semester/KaHyParMaxFlow/experiments")
+#setwd("C:\\Users\\tobia\\Dropbox\\Studium Informatik\\10. Semester\\KaHyParMaxFlow\\experiments")
 source("plot_functions.R")
 
 paper <- "experiment_paper"
@@ -33,12 +33,11 @@ hmetis_r <- read.csv("common_dbs/hmetis_r_detailed.csv")
 hmetis_k <- read.csv("common_dbs/hmetis_k_detailed.csv")
 patoh_q <- read.csv("common_dbs/patoh_q_detailed.csv")
 patoh_d <- read.csv("common_dbs/patoh_d_detailed.csv")
+full_instance_stats <- read.csv("instances/full_benchmark_set.csv")
 
 kahypar_mf = ddply(dbGetQuery(dbConnect(SQLite(), dbname=paste("final_flow/db/kahypar_mf_",flow_algo,".db",sep="")),
                             select_soed), c("graph","k"), aggreg)
 
-full_instance_stats = dbGetQuery(dbConnect(SQLite(), dbname="common_dbs/hgr_stats.db"),
-                                 "Select * from experiments")
 
 
 
@@ -73,12 +72,12 @@ hmetis_k$algorithm = "\\hMetis{K}"
 patoh_q$algorithm = "\\PaToH{Q}"
 patoh_d$algorithm = "\\PaToH{D}"
 
-#kahypar_ca = merge(kahypar_ca,full_instance_stats,by='graph')
-#kahypar_mf = merge(kahypar_mf,full_instance_stats,by='graph')
-#hmetis_r = merge(hmetis_r,full_instance_stats,by='graph')
-#hmetis_k = merge(hmetis_k,full_instance_stats,by='graph')
-#patoh_q = merge(patoh_q,full_instance_stats,by='graph')
-#patoh_d = merge(patoh_d,full_instance_stats,by='graph')
+kahypar_ca = merge(kahypar_ca,full_instance_stats,by='graph')
+kahypar_mf = merge(kahypar_mf,full_instance_stats,by='graph')
+hmetis_r = merge(hmetis_r,full_instance_stats,by='graph')
+hmetis_k = merge(hmetis_k,full_instance_stats,by='graph')
+patoh_q = merge(patoh_q,full_instance_stats,by='graph')
+patoh_d = merge(patoh_d,full_instance_stats,by='graph')
 
 
 get_legend_as_seperate_plot <- function(plot) {
@@ -173,6 +172,38 @@ for(k in K) {
 fullset_k_file <- output_file(paper,experiment,"fullset_k",modeling,flow_algo)
 tikz(fullset_k_file, width=7, height=9, pointsize=12)
 grid.arrange(k_plots[[1]],k_plots[[2]],k_plots[[3]],k_plots[[4]],k_plots[[5]],k_plots[[6]],k_plots[[7]],get_legend_as_seperate_plot(k_plots[[1]]),ncol=2)
+dev.off()
+
+####################### Performance Plots for median HE size ####################### 
+source("plot_functions.R")
+median_plot <- list()
+median <- c(0,3,1000000)
+breaks <- list(c(1,10,25,50,100,200,300,400,600,800,1000,1200),
+               c(1,10,25,50,100,200,300,400,600,800,1000,1300,1700,2100),
+               c(1,10,25,50,75,125,200,275,350))
+plot_title <- c("Median $|e| < 3$", "Median $|e| \\ge 3$")
+for(i in c(1:(length(median)-1))) {
+  filter <- "*"
+  plot <- cuberootplot(createRatioDFsFilter(filter = filter,
+                                            avg_obj = "avg_km1", min_obj = "min_km1",
+                                            UsePenalty = TRUE,
+                                            kahypar = kahypar_ca[kahypar_ca$medHEsize >= median[i] & kahypar_ca$medHEsize < median[i+1],],
+                                            kahypar_mf = kahypar_mf[kahypar_mf$medHEsize >= median[i] & kahypar_mf$medHEsize < median[i+1],],
+                                            hmetis_r = hmetis_r[hmetis_r$medHEsize >= median[i] & hmetis_r$medHEsize < median[i+1],],
+                                            hmetis_k = hmetis_k[hmetis_k$medHEsize >= median[i] & hmetis_k$medHEsize < median[i+1],],
+                                            patoh_q = patoh_q[patoh_q$medHEsize >= median[i] & patoh_q$medHEsize < median[i+1],],
+                                            patoh_d = patoh_d[patoh_d$medHEsize >= median[i] & patoh_d$medHEsize < median[i+1],])$min_ratios, 
+                       title=plot_title[i],
+                       legendPos=c(0.185,0.25),
+                       xbreaks=breaks[[i]],
+                       showLegend=if(i == 1) TRUE else FALSE,
+                       sizes=c(8,5,8,2,0.75))
+  median_plot[[i]] <- plot
+}
+
+median_he_file <- output_file(paper,experiment,"median_he_size",modeling,flow_algo)
+tikz(median_he_file, width=7, height=4.5, pointsize=12)
+grid.arrange(median_plot[[1]],median_plot[[2]],ncol=2)
 dev.off()
 
 ####################### Running Time per Instance Type ####################### 
@@ -307,6 +338,80 @@ for( algo in partitioner) {
 }
 sink()
 
+####################### Min Gmean Km1 per Instance Type ####################### 
+
+kahypar_mf <- kahypar_mf[c("graph", "type", "k", "min_km1", "avg_km1", "avg_imbalance", "avg_time", "algorithm")]
+kahypar_ca <- kahypar_ca[c("graph", "type", "k", "min_km1", "avg_km1", "avg_imbalance", "avg_time", "algorithm")]
+hmetis_r <- hmetis_r[c("graph", "type", "k", "min_km1", "avg_km1", "avg_imbalance", "avg_time", "algorithm")]
+hmetis_k <- hmetis_k[c("graph", "type", "k", "min_km1", "avg_km1", "avg_imbalance", "avg_time", "algorithm")]
+patoh_q <- patoh_q[c("graph", "type", "k", "min_km1", "avg_km1", "avg_imbalance", "avg_time", "algorithm")]
+patoh_d <- patoh_d[c("graph", "type", "k", "min_km1", "avg_km1", "avg_imbalance", "avg_time", "algorithm")]
+
+calculateGmeanMinKm1 <- function(..., type="ALL") {
+  df <- rbind(...)
+  df$algorithm <- factor(df$algorithm, levels = levels(factor(df$algorithm))[c(4,3,2,1,6,5)])
+  if(type != "ALL") {
+    df <- df[df$type == type,]
+  }
+  aggreg = function(df) data.frame(km1=gm_mean(df$min_km1))
+  df <- ddply(df, c("algorithm"), aggreg)
+  df$km1[2:6] <- format((df$km1[2:6]/df$km1[1] - 1.0)*100.0)
+  df$km1[1] <- format(as.numeric(df$km1[1]))
+  return(df)
+}
+
+instance_classes <- c("DAC","ISPD","Primal","Literal","Dual","SPM")
+km1_table <- calculateGmeanMinKm1(kahypar_mf, kahypar_ca, hmetis_r, hmetis_k, patoh_q, patoh_d, type="ALL")
+for(type in instance_classes) {
+  km1_table <- cbind(km1_table, calculateGmeanMinKm1(kahypar_mf, kahypar_ca, hmetis_r, hmetis_k, patoh_q, patoh_d, type=type)["km1"])
+}
+
+km1_table$algorithm <- as.character(km1_table$algorithm)
+partitioner <- c("\\KaHyPar{MF}","\\KaHyPar{CA}","\\hMetis{R}","\\hMetis{K}","\\PaToH{Q}","\\PaToH{D}")
+
+table_file <-  output_file(paper,experiment,"final_flow_min_km1_per_instance",modeling,flow_algo)
+sink(table_file)
+for( algo in partitioner) {
+  algo_df <- km1_table[km1_table$algorithm == algo,]
+  names(algo_df) <- NULL
+  cat(paste(unlist(c(algo_df)), collapse=" & "))
+  cat("\\\\ \n")
+}
+sink()
+
+####################### Gmean Km1 per k ####################### 
+
+kahypar_mf <- kahypar_mf[c("graph", "type", "k", "min_km1", "avg_km1", "avg_imbalance", "avg_time", "algorithm")]
+
+calculateGmeanMinKm1PerK <- function(..., k) {
+  df <- rbind(...)
+  df$algorithm <- factor(df$algorithm, levels = levels(factor(df$algorithm))[c(4,3,2,1,6,5)])
+  df <- df[df$k == k,]
+  aggreg = function(df) data.frame(km1=gm_mean(df$min_km1))
+  df <- ddply(df, c("algorithm"), aggreg)
+  df$km1[2:6] <- format((df$km1[2:6]/df$km1[1] - 1.0)*100.0)
+  df$km1[1] <- format(as.numeric(df$km1[1]))
+  return(df)
+}
+
+K <- c(4,8,16,32,64,128)
+km1_table <- calculateGmeanMinKm1PerK(kahypar_mf, kahypar_ca, hmetis_r, hmetis_k, patoh_q, patoh_d, k=2)
+for(k in K) {
+  km1_table <- cbind(km1_table, calculateGmeanMinKm1PerK(kahypar_mf, kahypar_ca, hmetis_r, hmetis_k, patoh_q, patoh_d, k = k)["km1"])
+}
+
+km1_table$algorithm <- as.character(km1_table$algorithm)
+partitioner <- c("\\KaHyPar{MF}","\\KaHyPar{CA}","\\hMetis{R}","\\hMetis{K}","\\PaToH{Q}","\\PaToH{D}")
+
+table_file <-  output_file(paper,experiment,"final_flow_min_km1_per_k",modeling,flow_algo)
+sink(table_file)
+for( algo in partitioner) {
+  algo_df <- km1_table[km1_table$algorithm == algo,]
+  names(algo_df) <- NULL
+  cat(paste(unlist(c(algo_df)), collapse=" & "))
+  cat("\\\\ \n")
+}
+sink()
 
 
 ####################### Number of Best Instance ####################### 

@@ -1,12 +1,26 @@
-setwd("/home/theuer/Dropbox/Studium Informatik/10. Semester/KaHyParMaxFlow/experiments")
+#setwd("/home/theuer/Dropbox/Studium Informatik/10. Semester/KaHyParMaxFlow/experiments")
+setwd("C:\\Users\\tobia\\Dropbox\\Studium Informatik\\10. Semester\\KaHyParMaxFlow\\experiments")
 source("plot_functions.R")
 
 dbs <- c( "flow_modeling/hypergraph_ibfs/flow_m1_eps1.db",
           "flow_modeling/hypergraph_ibfs/flow_m2_eps1.db",
           "flow_modeling/hypergraph_ibfs/flow_m1_eps3.db",
-          "flow_modeling/hypergraph_ibfs/flow_m2_eps3.db")
+          "flow_modeling/hypergraph_ibfs/flow_m2_eps3.db",
+          "flow_modeling/hypergraph_ibfs/flow_m1_eps5.db",
+          "flow_modeling/hypergraph_ibfs/flow_m2_eps5.db",
+          "flow_modeling/graph_ibfs/flow_m1_eps1.db",
+          "flow_modeling/graph_ibfs/flow_m2_eps1.db",
+          "flow_modeling/graph_ibfs/flow_m1_eps3.db",
+          "flow_modeling/graph_ibfs/flow_m2_eps3.db",
+          "flow_modeling/graph_ibfs/flow_m1_eps5.db",
+          "flow_modeling/graph_ibfs/flow_m2_eps5.db")
 
-algo <- c( "flow","flow_mbmc","flow_fm","constant","flow_old", "flow_mbmc_old", "flow_fm_old","constant_old")
+algo <- c( "flow_m1_eps1_hg","flow_m2_eps1_hg",
+           "flow_m1_eps3_hg","flow_m2_eps3_hg",
+           "flow_m1_eps5_hg","flow_m2_eps5_hg",
+           "flow_m1_eps1_graph","flow_m2_eps1_graph",
+           "flow_m1_eps3_graph","flow_m2_eps3_graph",
+           "flow_m1_eps5_graph","flow_m2_eps5_graph")
 
 select_km1_soed = 'select graph,k,epsilon,flow_region_size_alpha AS alpha, seed,km1,soed,imbalance,coarseningTime,uncoarseningRefinementTime, totalPartitionTime from experiments'
 select_km1 = 'select graph,k,epsilon,flow_region_size_alpha AS alpha,seed,1 AS soed, kMinusOne AS km1, imbalance,coarseningTime,uncoarseningRefinementTime, totalPartitionTime from experiments'
@@ -47,10 +61,18 @@ for(i in 1:length(dbs)) {
   flow_dbs[[i]]$algorithm <- algo[i]
 }
 
- flow_m1_eps1 <- flow_dbs[[1]]
- flow_m2_eps1 <- flow_dbs[[2]]
- flow_m1_eps3 <- flow_dbs[[3]]
- flow_m2_eps3 <- flow_dbs[[4]]
+ flow_m1_eps1_hg <- flow_dbs[[1]]
+ flow_m2_eps1_hg <- flow_dbs[[2]]
+ flow_m1_eps3_hg <- flow_dbs[[3]]
+ flow_m2_eps3_hg <- flow_dbs[[4]]
+ flow_m1_eps5_hg <- flow_dbs[[5]]
+ flow_m2_eps5_hg <- flow_dbs[[6]]
+ flow_m1_eps1_graph <- flow_dbs[[7]]
+ flow_m2_eps1_graph <- flow_dbs[[8]]
+ flow_m1_eps3_graph <- flow_dbs[[9]]
+ flow_m2_eps3_graph <- flow_dbs[[10]]
+ flow_m1_eps5_graph <- flow_dbs[[11]]
+ flow_m2_eps5_graph <- flow_dbs[[12]]
  
 
  ############################################################################################
@@ -72,11 +94,11 @@ for(i in 1:length(dbs)) {
      alpha_m1 <- ddply(dataframes[[2*i-1]], c("alpha"), aggreg)
      alpha_m2 <- ddply(dataframes[[2*i]], c("alpha"), aggreg)
      improvement <-  (alpha_m1$gmean_km1 / alpha_m2$gmean_km1 - 1.0) * 100
-     alpha_vec[[1]] <- c(alpha_vec[[1]], format(alpha_m1$gmean_km1[1]),format(alpha_m2$gmean_km1[1]),format(improvement[1]))
-     alpha_vec[[2]] <- c(alpha_vec[[2]], format(alpha_m1$gmean_km1[2]),format(alpha_m2$gmean_km1[2]),format(improvement[2]))
-     alpha_vec[[3]] <- c(alpha_vec[[3]], format(alpha_m1$gmean_km1[3]),format(alpha_m2$gmean_km1[3]),format(improvement[3]))
-     alpha_vec[[4]] <- c(alpha_vec[[4]], format(alpha_m1$gmean_km1[4]),format(alpha_m2$gmean_km1[4]),format(improvement[4]))
-     alpha_vec[[5]] <- c(alpha_vec[[5]], format(alpha_m1$gmean_km1[5]),format(alpha_m2$gmean_km1[5]),format(improvement[5]))
+     alpha_vec[[1]] <- c(alpha_vec[[1]], format(improvement[1]))
+     alpha_vec[[2]] <- c(alpha_vec[[2]], format(improvement[2]))
+     alpha_vec[[3]] <- c(alpha_vec[[3]], format(improvement[3]))
+     alpha_vec[[4]] <- c(alpha_vec[[4]], format(improvement[4]))
+     alpha_vec[[5]] <- c(alpha_vec[[5]], format(improvement[5]))
    }
    for(vec in alpha_vec) {
      vec[1] <- to_latex_math_mode(vec[1])
@@ -86,7 +108,13 @@ for(i in 1:length(dbs)) {
  }
  
  sink("../experiment_paper/experiments/flow_alpha/flow_alpha_modeling_comparison_epsilon_table.tex")
- flow_alpha_table(kahypar_sea, flow_m1_eps1, flow_m2_eps1, flow_m1_eps3, flow_m2_eps3)
+ flow_alpha_table(kahypar_sea, 
+                  flow_m1_eps1_hg, flow_m2_eps1_hg, 
+                  flow_m1_eps3_hg, flow_m2_eps3_hg, 
+                  flow_m1_eps5_hg, flow_m2_eps5_hg,
+                  flow_m1_eps1_graph, flow_m2_eps1_graph,
+                  flow_m1_eps3_graph, flow_m2_eps3_graph,
+                  flow_m1_eps5_graph, flow_m2_eps5_graph)
  sink()
  
  

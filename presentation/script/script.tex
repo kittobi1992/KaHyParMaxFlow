@@ -23,6 +23,32 @@
 \newcommand{\todo}[1]{{\color{red}\textbf{TODO \the\value{todocount}:}
         \emph{#1} \addtocounter{todocount}{1}}}
 
+
+%Flow Algorithms
+\newcommand{\GoldbergTarjan}{\textsc{GoldbergTarjan}}
+\newcommand{\EdmondKarp}{\textsc{EdmondKarp}}
+\newcommand{\BoykovKolmogorov}{\textsc{BoykovKolmogorov}}
+\newcommand{\IBFS}{\textsc{Ibfs}}
+
+%Benchmark Instances
+\newcommand{\ALL}{\textsc{All}}
+\newcommand{\Dual}{\textsc{Dual}}
+\newcommand{\Primal}{\textsc{Primal}}
+\newcommand{\ISPD}{\textsc{Ispd98}}
+\newcommand{\Literal}{\textsc{Literal}}
+\newcommand{\SPM}{\textsc{Spm}}
+\newcommand{\DAC}{\textsc{Dac}}
+
+%Flow Variants
+\newcommand{\FlowVariant}[3]{(#1\text{F},#2\text{M},#3\text{FM})}
+\newcommand{\Constant}[1]{\textsc{Constant#1}}
+
+%Partitioner Variants
+\newcommand{\KaHyPar}[1]{KaHyPar-#1}
+\newcommand{\KaHyParConfig}[2]{KaHyPar-#1$_\text{(#2)}$}
+\newcommand{\hMetis}[1]{hMetis-#1}
+\newcommand{\PaToH}[1]{PaToH-#1}
+
 \newcommand{\fakepar}[1]{\medskip\par\textbf{#1}\ } 
 \newcommand{\fakesubsub}[1]{\par\medskip\noindent\textbf{#1 }} 
 \newcommand{\fakesubsubC}[1]{\par\noindent\textbf{#1 }}
@@ -43,49 +69,38 @@ Karlsruhe Institute of Technology (KIT), Karlsruhe, Germany.
 \fakepar{Slide 1} Hello and welcome, I am Tobias Heuer and today I am here to talk
 about my master thesis with the topic \emph{High Quality Hypergraph Partitioning via
 Max-Flow-Min-Cut Computations}.
-
-\fakepar{Slide 2} More precisely, my task was to develop a refinement algorithm to improve
+More precisely, my task was to develop a refinement algorithm to improve
 partitions of hypergraphs based on flow computations and integrate it into the $n$-level hypergraph 
 partitioner \emph{KaHyPar}. The well known \emph{Max-Flow-Min-Cut} theorem establish an analogy
 between the minimum cut separating two vertices in a network and the maximum flow between
 them. Algorithms to solve the maximum flow problem are usually computationally expensive. 
 A major goal of my work was to outperform the latest version of \emph{KaHyPar} on most
 of our benchmark instances and simultaneously ensure that the running time remaining 
-competitive.\\
-As a motivation for my talk I will present right at the beginning our main contributions
-resp. our main experimental results.
-\begin{itemize}
-\item Our new approach outperform $5$ different modern hypergraph partitioners on $73\%$ of our
-      large benchmark set.
-\item We imrpoved the quality of \emph{KaHyPar} by $2.5\%$, while only incurring a slowdown by
-      by a factor of $1.8$.
-\item Our new version of \emph{KaHyPar} has a comparable running time to \emph{hMetis} and outperforms
-      it on $84\%$ of the instances.
-\end{itemize}
-Before we start to describe our framework, which leads to the presented results we need some
-fundamental definitions and related work.
+competitive.
 
-\fakepar{Slide 3} Hypergraphs are generalizations of graphs where each hyperedge can connect
+\fakepar{Slide 2} Hypergraphs are generalizations of graphs where each hyperedge can connect
 more than two hypernodes. A hypergraph consists of a set of vertices, a set of hyperedges, where
 each hyperedge is a subset of the vertex set and a node and edge weight function. A hyperedge is also
 called net and vertex inside a net is called pin. The number of pins is the sum of the sizes of each
 net or the sum of the degree of each vertex.
 
-\fakepar{Slide 4} The hypergraph partitioning problem is to partition the vertices of a hypergraph
+\fakepar{Slide 3} The hypergraph partitioning problem is to partition the vertices of a hypergraph
 into $k$ non-empty disjoint blocks such that each block is smaller than $1 + \epsilon$ times the
 average block size. Simulaneously we want to minimize an objective function. In this talk we focus
 on the connectivity metric. Each hyperedge contributes $(\lambda-1)$ times the edge weight to that
 function, where $\lambda$ is the number of blocks connected by net $e$. Consequently, the goal is
 to minimize the number of blocks inside a net $e$.
-\todo{replace $\lambda$ with $\lambda(e)$ in slide}
 
-\fakepar{Slide 5} Applications of hypergraph partitioning can be found in the area of VLSI Design.
+\fakepar{Slide 4} Applications of hypergraph partitioning can be found in the area of VLSI Design.
 The goal in VLSI design is to partition a circuit into smaller units such that the wires between the
 gates are as short as possible. A wire can connect more than two gates, therefore a hypergraph models
-a circuit more accurately than a graph.
-\todo{Ask Sebastian about the meaning of different applications}
+a circuit more accurately than a graph. \\
+Another application can be found in the parallization of the sparse matrix-vector multiplication.
+We can interprete a sparse matrix as a hypergraph. The goal is to partition the sparse matrix
+into equal sized parts such that the communication during parallel computation of the 
+multiplication is minimized.
 
-\fakepar{Slide 6} The hypergraph partitioning problem is NP-hard. The most common
+\fakepar{Slide 5} The hypergraph partitioning problem is NP-hard. The most common
 heuristic used in all modern hypergraph partitioners is the \emph{multilevel paradigm}.
 First, a sequence of smaller hypergraphs is generated by contracting matchings or clusterings
 between vertices. If the hypergraph is small enough, expensive heuristics are used
@@ -96,15 +111,14 @@ an \emph{local search} algorithm is used to improve the hypergraph partition. Ou
 \emph{Max-Flow-Min-Cut} framework will work as a local search algorithm in this multilevel
 context.
 
-\fakepar{Slide 7} All modern hypergraph partitioners implements varations of the \emph{FM}
+\fakepar{Slide 6} All modern hypergraph partitioners implements varations of the \emph{FM}
 algorithm as local search algorithm. In general, this is a move-based heuristic that greedily move vertices between blocks
 based on local informations of incident nets. In this example we want to move the red hypernode 
 from block $4$ to block $3$. The move reduces the cut of the partition by $1$, because the light
 blue net is removed from cut. The reduction of the objective function when moving a node is also
 called gain. The \emph{FM} heuristics moves a vertex with maximum gain in each step.
-\todo{Move text \emph{All modern hypergraph...} to the top}
 
-\fakepar{Slide 8} The \emph{FM} heuristics is often critized, because it only incorparates local
+\fakepar{Slide 7} The \emph{FM} heuristics is often critized, because it only incorparates local
 informations about the problem structure. If we want to move the red node in this example only
 the state of the colored nets is considered in the gain calculation. The quality of the final partition
 therefore heavily depends on the initial partition. In the multilevel context this problem is 
@@ -116,7 +130,7 @@ the quality of the partition mainly depends on random choices made within the al
 The motivation behind the usage of flow computations is that such an approach considers the global
 structure of the problem by finding a minimum-cut separating two vertices.
 
-\fakepar{Slide 9} Before we finally start with our main work, we need some basic terminology about
+\fakepar{Slide 8} Before we finally start with our main work, we need some basic terminology about
 network flows. Given a graph with a node and edge set and a capacity function $u$ and two vertices
 $s$ and $t$ which are also called source and sink. A flow is a function $f$ which satisfy 
 the following two constraints:
@@ -133,13 +147,11 @@ of flow which we can send over an edge. On the reverse edge we say that the resi
 is equal with the flow on the forward edge. An augmenting path is a path from $s$ to $t$
 in the residual graph. One can show that $f$ is a maximum flow, if there exists no augmenting path.
 
-\fakepar{Slide 10} We can calculate the corresponding minimum bipartition separating $s$ and $t$
+\fakepar{Slide 9} We can calculate the corresponding minimum bipartition separating $s$ and $t$
 by assinging each node reachable from the source $s$ in the residual graph to block $1$ and all 
 remaining to block $2$.
 
-\todo{add reference for KaFFPa}
-
-\fakepar{Slide 11} Our flow-based reinfement framework is motivated by the results of
+\fakepar{Slide 10} Our flow-based reinfement framework is motivated by the results of
 Sanders and Schulz, who successfully integrate such an approach in their multilevel 
 graph partitioner \emph{KaFFPa}. We generalize many results of their work such that they
 applicable to hypergraph partitioning. In the following, we explain their basic ideas and
@@ -157,7 +169,7 @@ to our balanced constraints. One can show that one maximum flow computation has 
 to enumerate all minimum-capacity cutsets. \\
 We will now start to explain more in detail our block selection strategy.
 
-\fakepar{Slide 12} Our block selection strategy is called \emph{active block scheduling}.
+\fakepar{Slide 11} Our block selection strategy is called \emph{active block scheduling}.
 Each block of the partition has a state \emph{active} or \emph{inactive}. Initially all blocks
 are \emph{active}. The algorithm works in rounds and starts by building the quotient graph
 of the $k$-way partition, which contains an edge between each adjacent pair of blocks.
@@ -171,10 +183,10 @@ where one of the two blocks is \emph{active}. In this example, no refinement yie
 in the second round. Consequently, all blocks become \emph{inactive} and the algorithm
 terminates.
 
-\fakepar{Slide 13} Once we select two adjacent blocks, we have to build a flow problem, which
+\fakepar{Slide 12} Once we select two adjacent blocks, we have to build a flow problem, which
 we use to improve the corresponding bipartition.
 
-\fakepar{Slide 14} Our flow problem is build around the cut of the bipartition induced by
+\fakepar{Slide 13} Our flow problem is build around the cut of the bipartition induced by
 the two selected blocks. We start a BFS, initialized with all vertices of a cut net of block $1$.
 The BFS stops if the weight of the nodes would exceed a predefined upper bound. The upper bound
 is chosen in such a way that if all hypernodes of $B_1$ are assigned to block $2$ the bipartition is
@@ -229,9 +241,123 @@ computation. We suggest an other flow problem modeling approach such that all ve
 in the flow problem are moveable. Therefore, we extend the flow problem with all vertices contained
 in a border hyperedge and add those vertices to the source resp. sink. Now all vertices of our original
 flow problem are moveable, but the corresponding flow problem is significantly larger. Let us take a
-deeper look at the structure of our modeling approach. All incoming and outgoing edges of a source vertex
+closer look at the structure of our modeling approach. All incoming and outgoing edges of a source vertex
 have a capacity equal to infinity. Therefore, we can remove all previously added vertices and add
 all incident incoming hyperedge nodes to the source. We can do the same for the sink nodes and
 add all incident outgoing hyperedge nodes to the sink.
+
+\fakepar{Slide 19} In the last building block of our framework we try to find a feasible solution
+according to our balanced constraint by enumerating all minimum-cutsets.
+
+\fakepar{Slide 20} This heuristic is called \emph{most balanced minimum cut} and also
+used in \emph{KaFFPa}. Picard and Queryanne showed that one maximum flow $f$ has enough
+information to enumerate all minimum $(s,t)$-cuts. In the example, we have a flow graph
+on the left side and the residual graph of a maximum flow of that network on the right side.
+The algorithm works as follows: First we contract all \emph{strongly connected components}.
+Afterwards, we find a topological order of the so called Picard-Queryanne \emph{directed
+acyclic graph} and afterwards we sweep through the reverse topological order. The key
+observation is that each bisection of the topological order induce a minimum-cutset in
+the flow network with the same weight. Thus, we can use this algorithm to balance the bipartition
+according to our balanced constraints.
+
+\fakepar{Slide 21} We use this framework as \emph{local search} algorithm in one level
+of the multilevel hierarchy in \emph{KaHyPar}. \emph{KaHyPar} is a $n$-level hypergraph partitioner
+taking the multilevel paradigm to its extreme by contracting only a single vertex in each level.
+Consequently, during uncontraction $n$ local searches are instantiated. Executing our flow-based
+refinement in each level would be too expensive. Therefore we introduce flow execution policies.
+One is to execute flows in each level $i$ where $i$ is a power of $2$ or in each level which is
+multiple of $\beta$. Note, regardless of the policy we use flow-based refinement on the
+last level. In each level where no flow is executed we can use the classical \emph{FM} algorithm.
+
+\fakepar{Slide 22} Additionally, we implement several speed-up heuristics. During active block scheduling we
+only execute flow-based refinement between two adjacent block, if the cut has a weight greater than 
+10 except on the last level. Furthermore, we incorporate the improvement history of previous
+flow computations. The first round of active block scheduling works as before. In all remaining rounds
+we only use a pairwise flow-based refinment if a previous flow computation on the corresponding
+blocks yield an improvement. Finally, if no hypernode changed its block after a flow computation,
+we break the adaptive flow iteration strategy.
+
+\fakepar{Slide 23} The last part of the presentation is the experimental evaluation. Our experiments
+a executed on the following system compiled with \emph{g++ 5.2}. We integrated several maximum
+flow algorithms. We use two own and two third-party implementations. The fastest in our experiments 
+was the \IBFS~algorithm of Goldberg et al. Therefore, all presented experiments use the \IBFS~maximum
+flow algorithm in the following. We use $3$ different bechmark sets to evaluate our partitioner.
+The first consist of $25$ hypergraphs and is used if we have to evaluate the performance of a large number
+of different configurations. If only a few configurations remain, we use our benchmark subset with
+$165$ hypergraphs. If we compare our final configuration against other hypergraph partitioner we use
+our full benchmark set with $488$ hypergraphs. The benchmarks can be splitted into $6$ different benchmark
+types from $3$ different application areas. More precisely, we have benchmarks from VLSI Design, SAT Solving
+and Sparse Matrices. In our general experiments, we partition a hypergraph instance into $7$ different
+types of $k$ with an imbalance of $3\%$ and $10$ different seeds.
+
+\fakepar{Slide 24} We evaluate the impact of our sparsification techniques on our benchmark subset.
+In this plot we can see the speed-up of the \IBFS~maximum flow algorithm on the Wong and Hybrid Network
+relative to the execution on the Lawler Network on the different benchmark types. Remember, in the Wong 
+Network we model each hyperedge of size $2$ as graph edge and the Hybrid Network is a combination of 
+the Wong and our network where we remove each hypernode with a degree smaller than $3$. We observe 
+that the \IBFS~algorithm is up to factor between $1.5$ and $2$ faster on the Wong Network than on the
+Lawler Network except on the \Dual~and \SPM~instances. The \Dual~instances are low degree hypergraphs.
+Therefore, our Hybrid Network is up to factor of $1.7$ faster. Our Hybrid Network performs at least as
+good as the Wong Network. Therefore, we choose the Hybrid Network for further experiments.
+
+\fakepar{Slide 25} In the next experiment we evaluate the quality of different configurations
+of our framework. A configuration is denoted with a triple, which indicate the heuristics enabled or
+disabled. We have three different heuristics: Flows, \emph{Most Balanced Minimum Cut} and the FM heuristic.
+All configurations are executed with the exponential flow execution policy except \Constant{128} which uses
+the constant flow execution policy on each $128$-th level with all heuristics enabled. This configuration
+should give us a lower bound on the quality achievable with \emph{Max-Flow-Min-Cut} computations.
+Each configuration is executed for different values of $\alpha'$ which determine the maximum flow
+problem size. All values are relative to the lastest configuration of \emph{KaHyPar}. First, we observe that
+flow on its own are not strong enough to outperform our baseline configuration. Using the most balanced
+minimum cut heuristic gives us a configuration which significantly outperform the baseline configuration
+for large $\alpha'$. The improvement is more significant for large $\alpha$, because the larger the
+flow problem the larger is the number of minimum cuts. Enabling the FM heuristic improves the quality
+of our strongest configuration by $0.5\%$ and also speed-ups the whole framework, because more work 
+is transferred to the FM heuristic and therefore, the flow computations converge faster. Comparing
+the FM configuration with \Constant{128}, we observe that the quality is only improved between $0.3\%$
+and $0.5\%$ with the drawback of an impractical running time. As our final configuration we choose 
+the one with all heuristics enabled and $\alpha' = 16$.\\
+
+\fakepar{Slide 26} We implemented several speed-up heuristics which might prevent unpromosing
+flow executions during our flow-based refinement. You don't have to remember exactly what the heuristics
+do. The take away message from this experiment is that enabling all speed-up heuristics produce comparable
+running time and speed-up the flow computations by a factor of $2$. Finally, the slow-down compared to 
+\KaHyPar{CA} is $1.72$. 
+
+\fakepar{Slide 27} Finally, we compare the quality of our final configuration against other
+hypergraph partitioner on our full benchmark set. To do so, we use performance plots which represents
+the quality ratios of an partitioner for an instance compared to best quality achieved for 
+that instance by a partitioner. On the x-axis, we have the instances and on the y-axis 
+we have the quality ratio which is  $1$ minus the quality of the best partition produced 
+by an partitioner divided by the quality produced by an specific partitioner. 
+Before, we draw the points into the grid we sort the quality ratio of each partitioner 
+in decreasing order. A value of zero means that the partitioner produces the
+best quality for an specific instance. A value greater than one means that the partitioner produces
+an infeasible solution according to our balanced constraints. The faster a partitioner intersects the zero
+line the better is the quality achieved by that partitioner in comparison. \\
+Our new configuration \KaHyPar{MF} significantly outperforms all other hypergraph partitioner.
+It produces on $73\%$ of the benchmarks the best partitions and improves
+the quality of \KaHyPar{CA} by $2.5\%$. 
+
+\fakepar{Slide 28} Comparing the running time of the different partitioner, we observe that the
+overall running time of \KaHyPar{MF} is only slower by a factor of $1.8$ than \KaHyPar{CA} and the running
+time is comparable to the running time of the direct $k$-way version of \emph{hMetis}. Moreover, the performance
+slow-down is less significantly on small flow network instances like \DAC~or \Dual, than on instances which
+induce large flow networks like \Primal~or \Literal.
+
+\fakepar{Slide 29} To sum up the presentation I want to outline our main contributions and
+experimental results. Our framework is based on the ideas of Sanders and Schulz generalized 
+to the hypergraph partitioning context. We develop techniques to sparsify the hypergraph
+flow network which results in a speedup of maximum flow algorithms up to a factor of $2$
+on some instances. We propose an optimized flow problem modeling approach which significantly
+improves the solution quality. Finally, we integrate speedup heuristics in our framework which
+ensure comparable quality and a speedup of the framework by a factor of $2$.\\
+Our main result is that we outperform $5$ different state-of-the-art hypergraph partitioner
+on $73\%$ of the benchmark instances. We improve the quality of \emph{KaHyPar} by $2.5\%$, while
+only incurring a slowdown by a factor of $1.8$. Additionally, our new version of \emph{KaHyPar}
+has a comparable running time to \emph{hMetis} and outperforms it on $84\%$ of the benchmark 
+instances.
+
+\fakepar{Appendix} \todo{Add all experiments in Appendix}
 
 \end{document}

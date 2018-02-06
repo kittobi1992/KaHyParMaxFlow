@@ -7,7 +7,7 @@ if ( !exists( "tikzDeviceLoaded" ) ) {
                                 , "\\usepackage{preview} "
                                 , "\\usepackage{latexsym,amsmath,amssymb,mathtools,textcomp}"
                                 , "\\usepackage{xcolor}"
-                                ,paste("\\input{/home/theuer/macros.tex}",sep="")
+                                ,paste("\\input{/home/heuer/macros.tex}",sep="")
   )
   )
   tikzDeviceLoaded = T
