@@ -2,6 +2,7 @@ working_dir="/home/theuer/Dropbox/Studium Informatik/10. Semester/KaHyParMaxFlow
 #working_dir="C:\\Users\\tobia\\Dropbox\\Studium Informatik\\10. Semester\\KaHyParMaxFlow\\experiments"
 setwd(working_dir)
 source(paste(working_dir, "experiments/flow_network_functions.R", sep="/"))
+source(paste(working_dir, "experiments/plot_functions.R", sep="/"))
 
 
 aggreg = function(df) data.frame(avg_hn_degree=mean(df$avgHypernodeDegree),
@@ -15,8 +16,14 @@ aggreg = function(df) data.frame(avg_hn_degree=mean(df$avgHypernodeDegree),
                                  min_max_flow_time=min(df$min_max_flow_time), 
                                  avg_max_flow_time=mean(df$avg_max_flow_time))
 
+aggreg2 = function(df) data.frame(min_network_build_time=min(df$min_network_build_time), 
+                                  avg_network_build_time=gm_mean(df$avg_network_build_time), 
+                                  min_max_flow_time=min(df$min_max_flow_time), 
+                                  avg_max_flow_time=gm_mean(df$avg_max_flow_time))
+
 db_name=paste(working_dir,"experiments/flow_network_experiment/flow_network_test.db",sep="/")
 flow_network_db = dbGetQuery(dbConnect(SQLite(), dbname=db_name), "select * from experiments")
+flow_network_db <- flow_network_db[flow_network_db$flow_network != "node_degree",]
 flow_network_db <- flow_network_db[flow_network_db$num_hypernodes != 0,]
 flow_network_db$num_hypernodes <- ifelse(flow_network_db$num_hypernodes > 10000, 25000, flow_network_db$num_hypernodes)
 flow_network_db$num_hypernodes <- ifelse(flow_network_db$num_hypernodes > 5000 & flow_network_db$num_hypernodes <= 10000, 10000, flow_network_db$num_hypernodes)
@@ -38,8 +45,63 @@ flow_network_db$type <- factor(flow_network_db$type)
 flow_network_db$flow_network <- factor(flow_network_db$flow_network)
 flow_network_db$flow_algorithm <- factor(flow_network_db$flow_algorithm)
 flow_network_db$type <- factor(flow_network_db$type, levels = levels(factor(flow_network_db$type))[c(1,3,2,5,4,6)])
-flow_network_db$flow_network <- factor(flow_network_db$flow_network, levels = levels(flow_network_db$flow_network)[c(2,1,4,3)])
+flow_network_db$flow_network <- factor(flow_network_db$flow_network, levels = levels(flow_network_db$flow_network)[c(3,1,2)])
 flow_network_db$flow_algorithm <- factor(flow_network_db$flow_algorithm, levels = levels(flow_network_db$flow_algorithm)[c(2,3,1,4)])
+
+##############################################################################################################################
+
+
+library(gridExtra)
+library(grid)
+
+flow_network_running_time <- function(db, title="") {
+  df <- ddply(db, c("flow_algorithm","num_hypernodes"), aggreg2)
+  plot <- ggplot(df, aes( x= as.numeric(as.character(num_hypernodes)), y = avg_max_flow_time, color = flow_algorithm)) + 
+    geom_line(size=1) +
+    geom_point(size=3, alpha=0.8) +
+    ggtitle(title) +
+    ylab("Time [ms]") +
+    xlab("Num Hypernodes") +
+    scale_y_continuous(trans=log10_trans()) +
+    theme_complete_bw()
+  return(plot)
+}
+
+flow_network_db_hybrid <- flow_network_db[flow_network_db$flow_network == "hybrid",]
+plot <- flow_network_running_time(flow_network_db_hybrid)
+print(plot)
+
+speed_up_plot <- function(db, title="") {
+  speed_up_db <- speedup_relative_to_lawler(db)
+  #speed_up_db <- speed_up_db[speed_up_db$flow_network != "lawler"]
+  speed_up_db <- revalue_columns_to_latex(speed_up_db)
+  print(speed_up_db)
+  speed_up_db <- speed_up_db[speed_up_db$flow_network != "$\\ExpLawler$",]
+  
+  speed_up_db$speedup1 <- 1.0
+  speed_up_db$speedup2 <- 2.0
+  speed_up_db$speedup3 <- 3.0
+  
+  plot <- ggplot(speed_up_db, aes( x= flow_network, y = avg_max_flow_time)) + 
+    geom_bar(aes(fill = flow_algorithm), stat = "identity", position="dodge") +
+    geom_hline(aes(yintercept = speedup1), color="red", linetype="dashed") +
+    geom_hline(aes(yintercept = speedup2), color="blue", linetype="dashed") +
+    facet_grid(~ num_hypernodes) +
+    ggtitle(title) +
+    ylab("Speed up relative to $\\ExpLawler$") +
+    xlab("Flow Network") +
+    theme_complete_bw()
+  
+  return(plot)
+}
+
+degree_thres <- 3.5
+num_hn_thres <- 25000
+flow_network_db_low_degree <- flow_network_db[flow_network_db$avg_hn_degree <= degree_thres,]
+flow_network_db_high_degree <- flow_network_db[flow_network_db$avg_hn_degree > degree_thres,]
+plot1 <- speed_up_plot(flow_network_db_low_degree, title="Avg. d(v) <= 3.5")
+plot2 <- speed_up_plot(flow_network_db_high_degree, title="Avg. d(v) > 3.5")
+grid.arrange(plot1,plot2,ncol=1)
 
 ##############################################################################################################################
 
@@ -69,6 +131,38 @@ tikz(node_edge_file, width=6.5, height=4.5, pointsize = 12)
 source(paste(working_dir, "experiments/flow_network_functions.R", sep="/"))
 plot(node_edge_distribution_plot2(flow_network_subset_db) )
 dev.off()
+
+flow_network_lawler <- flow_network_subset_db[flow_network_subset_db$flow_network == "lawler",]
+flow_network_edge_size <- flow_network_subset_db[flow_network_subset_db$flow_network == "edge_size",]
+flow_network_hybrid <- flow_network_subset_db[flow_network_subset_db$flow_network == "hybrid",]
+
+flow_network_hybrid$ratio <- flow_network_edge_size$avg_num_edges / flow_network_hybrid$avg_num_edges
+flow_network_hybrid_2 <- flow_network_hybrid[flow_network_hybrid$ratio >= 1.25,]
+
+# Total instances 159
+# 61 == 1.0
+# 69 >= 1.01
+# Rest 29
+
+filter <- "*"
+plot <- cuberootplot(createRatioDFsFilter(filter = filter,
+                                          avg_obj = "avg_num_edges", min_obj = "avg_num_edges",
+                                          UsePenalty = FALSE,
+                                          kahypar = flow_network_lawler,
+                                          flow_network_edge_size = flow_network_edge_size,
+                                          flow_network_hybrid = flow_network_hybrid
+                                          )$avg_ratios, 
+                     title="", 
+                     xbreaks=pretty_breaks(5),
+                     showLegend = TRUE)
+
+createRatioDFsFilter(filter = filter,
+                     avg_obj = "avg_num_edges", min_obj = "avg_num_edges",
+                     UsePenalty = FALSE,
+                     kahypar = flow_network_lawler,
+                     flow_network_edge_size = flow_network_edge_size,
+                     flow_network_hybrid = flow_network_hybrid
+)$avg_ratios
 
 ##############################################################################################################################
 

@@ -1,4 +1,4 @@
-setwd("/home/theuer/Dropbox/Studium Informatik/10. Semester/KaHyParMaxFlow/experiments")
+setwd("/home/heuer/Dropbox/Studium Informatik/10. Semester/KaHyParMaxFlow/experiments")
 #setwd("C:\\Users\\tobia\\Dropbox\\Studium Informatik\\10. Semester\\KaHyParMaxFlow\\experiments")
 source("plot_functions.R")
 
@@ -8,7 +8,7 @@ library(grid)
 paper <- "experiment_paper"
 experiment <- "speed_up_heuristics"
 modeling <- "m2"
-flow_algo <- "ibfs"
+flow_algo <- "ibfs_multilevel"
 
 dbs <- c( paste("flow_speed_up_heuristics/db_",flow_algo,"/flow-000.db",sep=""),
           paste("flow_speed_up_heuristics/db_",flow_algo,"/flow-001.db",sep=""),

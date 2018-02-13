@@ -1,5 +1,5 @@
-#setwd("/home/theuer/Dropbox/Studium Informatik/10. Semester/KaHyParMaxFlow/experiments")
-setwd("C:\\Users\\tobia\\Dropbox\\Studium Informatik\\10. Semester\\KaHyParMaxFlow\\experiments")
+setwd("/home/heuer/Dropbox/Studium Informatik/10. Semester/KaHyParMaxFlow/experiments")
+#setwd("C:\\Users\\tobia\\Dropbox\\Studium Informatik\\10. Semester\\KaHyParMaxFlow\\experiments")
 source("plot_functions.R")
 
 dbs <- c( "flow_modeling/hypergraph_ibfs/flow_m1_eps1.db",
@@ -93,7 +93,7 @@ for(i in 1:length(dbs)) {
    for(i in c(1:(n/2))) {
      alpha_m1 <- ddply(dataframes[[2*i-1]], c("alpha"), aggreg)
      alpha_m2 <- ddply(dataframes[[2*i]], c("alpha"), aggreg)
-     improvement <-  (alpha_m1$gmean_km1 / alpha_m2$gmean_km1 - 1.0) * 100
+     improvement <-  (1.0 - alpha_m2$gmean_km1 / alpha_m1$gmean_km1) * 100
      alpha_vec[[1]] <- c(alpha_vec[[1]], format(improvement[1]))
      alpha_vec[[2]] <- c(alpha_vec[[2]], format(improvement[2]))
      alpha_vec[[3]] <- c(alpha_vec[[3]], format(improvement[3]))

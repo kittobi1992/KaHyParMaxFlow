@@ -1,5 +1,5 @@
-#setwd("/home/theuer/Dropbox/Studium Informatik/10. Semester/KaHyParMaxFlow/experiments")
-setwd("C:\\Users\\tobia\\Dropbox\\Studium Informatik\\10. Semester\\KaHyParMaxFlow\\experiments")
+setwd("/home/heuer/Dropbox/Studium Informatik/10. Semester/KaHyParMaxFlow/experiments")
+#setwd("C:\\Users\\tobia\\Dropbox\\Studium Informatik\\10. Semester\\KaHyParMaxFlow\\experiments")
 source("plot_functions.R")
 
 paper <- "experiment_paper"
@@ -125,13 +125,13 @@ for(i in 1:length(dbs)) {
    alpha_vec <- list(c(1),c(2),c(4),c(8),c(16))
    for(df in dataframes) {
      alpha_df <- ddply(df, c("alpha"), aggreg)
-     alpha_df$gmean_km1 <-  (alpha_df$gmean_km1 / ref$gmean_km1 - 1.0) * 100
+     alpha_df$gmean_km1 <-  (1.0 - alpha_df$gmean_km1 / ref$gmean_km1 ) * 100
      alpha_df$gmean_time <- alpha_df$gmean_time
-     alpha_vec[[1]] <- c(alpha_vec[[1]], format(-alpha_df$gmean_km1[1]), format(alpha_df$gmean_time[1]))
-     alpha_vec[[2]] <- c(alpha_vec[[2]], format(-alpha_df$gmean_km1[2]), format(alpha_df$gmean_time[2]))
-     alpha_vec[[3]] <- c(alpha_vec[[3]], format(-alpha_df$gmean_km1[3]), format(alpha_df$gmean_time[3]))
-     alpha_vec[[4]] <- c(alpha_vec[[4]], format(-alpha_df$gmean_km1[4]), format(alpha_df$gmean_time[4]))
-     alpha_vec[[5]] <- c(alpha_vec[[5]], format(-alpha_df$gmean_km1[5]), format(alpha_df$gmean_time[5]))
+     alpha_vec[[1]] <- c(alpha_vec[[1]], format(alpha_df$gmean_km1[1]), format(alpha_df$gmean_time[1]))
+     alpha_vec[[2]] <- c(alpha_vec[[2]], format(alpha_df$gmean_km1[2]), format(alpha_df$gmean_time[2]))
+     alpha_vec[[3]] <- c(alpha_vec[[3]], format(alpha_df$gmean_km1[3]), format(alpha_df$gmean_time[3]))
+     alpha_vec[[4]] <- c(alpha_vec[[4]], format(alpha_df$gmean_km1[4]), format(alpha_df$gmean_time[4]))
+     alpha_vec[[5]] <- c(alpha_vec[[5]], format(alpha_df$gmean_km1[5]), format(alpha_df$gmean_time[5]))
    }
    for(vec in alpha_vec) {
      vec[1] <- to_latex_math_mode(vec[1])
@@ -154,12 +154,12 @@ for(i in 1:length(dbs)) {
    alpha_vec <- list(c(1),c(2),c(4),c(8),c(16))
    for(df in dataframes) {
      alpha_df <- ddply(df, c("alpha"), aggreg)
-     alpha_df$gmean_km1 <-  (alpha_df$gmean_km1 / ref$gmean_km1 - 1.0) * 100
-     alpha_vec[[1]] <- c(alpha_vec[[1]], format(-alpha_df$gmean_km1[1]))
-     alpha_vec[[2]] <- c(alpha_vec[[2]], format(-alpha_df$gmean_km1[2]))
-     alpha_vec[[3]] <- c(alpha_vec[[3]], format(-alpha_df$gmean_km1[3]))
-     alpha_vec[[4]] <- c(alpha_vec[[4]], format(-alpha_df$gmean_km1[4]))
-     alpha_vec[[5]] <- c(alpha_vec[[5]], format(-alpha_df$gmean_km1[5]))
+     alpha_df$gmean_km1 <-  (1.0 - alpha_df$gmean_km1 / ref$gmean_km1) * 100
+     alpha_vec[[1]] <- c(alpha_vec[[1]], format(alpha_df$gmean_km1[1]))
+     alpha_vec[[2]] <- c(alpha_vec[[2]], format(alpha_df$gmean_km1[2]))
+     alpha_vec[[3]] <- c(alpha_vec[[3]], format(alpha_df$gmean_km1[3]))
+     alpha_vec[[4]] <- c(alpha_vec[[4]], format(alpha_df$gmean_km1[4]))
+     alpha_vec[[5]] <- c(alpha_vec[[5]], format(alpha_df$gmean_km1[5]))
    }
    for(vec in alpha_vec) {
      vec[1] <- to_latex_math_mode(vec[1])
