@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE ipe SYSTEM "ipe.dtd">
 <ipe version="70206" creator="Ipe 7.2.7">
-<info created="D:20090429144355" modified="D:20180211121107" title="High Quality Hypergraph Partitioning via Max-Flow-Min-Cut Computations" author="Tobias Heuer" subject="Master Thesis"/>
+<info created="D:20090429144355" modified="D:20180215131542" title="High Quality Hypergraph Partitioning via Max-Flow-Min-Cut Computations" author="Tobias Heuer" subject="Master Thesis"/>
 <preamble>\usepackage[utf8]{inputenc}
 \usepackage{amsmath,amssymb,commath}
 \renewcommand{\vec}[1]{\mathaccent&quot;017E {#1}}
@@ -6307,9 +6307,9 @@ h
 <layer name="gamma"/>
 <layer name="zeta"/>
 <view layers="alpha pagenumbers_page beta gamma zeta" active="beta"/>
-<text layer="beta" matrix="0.710143 0 0 0.829393 -226.062 196.335" transformations="translations" pos="416 192" stroke="KITblack" type="label" width="31.6734" height="20.9836" depth="4.73" valign="baseline" size="Large" style="math">V_1</text>
-<text matrix="0.710143 0 0 0.829393 -194.183 29.7149" transformations="translations" pos="416 192" stroke="KITblack" type="label" width="31.6734" height="20.9836" depth="4.73" valign="baseline" size="Large" style="math">V_4</text>
-<path matrix="0.710143 0 0 0.829393 -182.643 175.752" stroke="black" fill="KITred50" pen="heavier">
+<text layer="beta" matrix="0.710143 0 0 0.829393 -226.062 180.335" transformations="translations" pos="416 192" stroke="KITblack" type="label" width="31.6734" height="20.9836" depth="4.73" valign="baseline" size="Large" style="math">V_1</text>
+<text matrix="0.710143 0 0 0.829393 -194.183 13.7149" transformations="translations" pos="416 192" stroke="KITblack" type="label" width="31.6734" height="20.9836" depth="4.73" valign="baseline" size="Large" style="math">V_4</text>
+<path matrix="0.710143 0 0 0.829393 -182.643 159.752" stroke="black" fill="KITred50" pen="heavier">
 512 208
 448 240
 384 192
@@ -6318,7 +6318,7 @@ h
 487.741 104
 479.562 124 u
 </path>
-<path matrix="0.710143 0 0 0.829393 -182.643 175.752" stroke="black" fill="KITcyanblue50" pen="heavier">
+<path matrix="0.710143 0 0 0.829393 -182.643 159.752" stroke="black" fill="KITcyanblue50" pen="heavier">
 704 80
 675.143 33.2858
 601.6 16
@@ -6333,7 +6333,7 @@ h
 704 192
 704 160 u
 </path>
-<path matrix="0.710143 0 0 0.829393 -182.643 175.752" stroke="black" fill="KITyellow50" pen="heavier">
+<path matrix="0.710143 0 0 0.829393 -182.643 159.752" stroke="black" fill="KITyellow50" pen="heavier">
 624 144
 608 192
 496 192
@@ -6341,14 +6341,14 @@ h
 560 71.0763
 624 80 u
 </path>
-<path matrix="0.710143 0 0 0.829393 -182.643 175.752" stroke="black" fill="KITorange70" pen="heavier" opacity="90%">
+<path matrix="0.710143 0 0 0.829393 -182.643 159.752" stroke="black" fill="KITorange70" pen="heavier" opacity="90%">
 464 240
 432 208
 529.252 128
 560 166.765 u
 </path>
-<use matrix="-1.94054 0 0 2.2664 364.202 -1301.67" name="mark/fdisk(sfx)" pos="112 728" size="15" stroke="black" fill="white"/>
-<path matrix="0.710143 0 0 0.829393 -182.643 175.752" stroke="black" fill="KITblue" pen="heavier" opacity="90%">
+<use matrix="-1.94054 0 0 2.2664 364.202 -1317.67" name="mark/fdisk(sfx)" pos="112 728" size="15" stroke="black" fill="white"/>
+<path matrix="0.710143 0 0 0.829393 -182.643 159.752" stroke="black" fill="KITblue" pen="heavier" opacity="90%">
 624 256
 608 224
 560 166.765
@@ -6356,30 +6356,30 @@ h
 640.194 155.004
 720 160 u
 </path>
-<path matrix="0.710143 0 0 0.829393 -182.643 175.752" stroke="black" dash="dense dotted" pen="heavier">
+<path matrix="0.710143 0 0 0.829393 -182.643 159.752" stroke="black" dash="dense dotted" pen="heavier">
 560 256 m
 560 0 l
 </path>
-<path matrix="0.710143 0 0 0.829393 -182.643 175.752" stroke="black" dash="dense dotted" pen="heavier">
+<path matrix="0.710143 0 0 0.829393 -182.643 159.752" stroke="black" dash="dense dotted" pen="heavier">
 384 128 m
 736 128 l
 </path>
-<use matrix="-1.94054 0 0 2.2664 556.012 -1359.61" name="mark/fdisk(sfx)" pos="164 736" size="15" stroke="black" fill="white"/>
-<use matrix="-1.94054 0 0 2.2664 510.563 -1359.61" name="mark/fdisk(sfx)" pos="164 736" size="15" stroke="black" fill="white"/>
-<use matrix="-1.94054 0 0 2.2664 556.254 -1413.45" name="mark/fdisk(sfx)" pos="164 736" size="15" stroke="black" fill="white"/>
-<use matrix="-1.94054 0 0 2.2664 510.689 -1413.45" name="mark/fdisk(sfx)" pos="164 736" size="15" stroke="black" fill="white"/>
-<use matrix="-1.94054 0 0 2.2664 578.737 -1318.32" name="mark/fdisk(sfx)" pos="164 736" size="15" stroke="black" fill="white"/>
-<use matrix="-1.94054 0 0 2.2664 612.823 -1346.34" name="mark/fdisk(sfx)" pos="164 736" size="15" stroke="black" fill="white"/>
-<use matrix="-1.94054 0 0 2.2664 511.912 -1407.83" name="mark/fdisk(sfx)" pos="112 728" size="15" stroke="black" fill="white"/>
-<use matrix="-1.94054 0 0 2.2664 467.067 -1443.08" name="mark/fdisk(sfx)" pos="112 728" size="15" stroke="black" fill="white"/>
-<use matrix="-1.60382 1.27591 -1.09245 -1.87314 1370.78 1374.46" name="mark/fdisk(sfx)" pos="240 768" size="15" stroke="black" fill="white"/>
-<use matrix="-1.60382 1.27591 -1.09245 -1.87314 1340.13 1452.72" name="mark/fdisk(sfx)" pos="240 768" size="15" stroke="black" fill="white"/>
-<use matrix="-1.60382 1.27591 -1.09245 -1.87314 1359.42 1427.54" name="mark/fdisk(sfx)" pos="240 768" size="15" stroke="black" fill="white"/>
-<text matrix="0.710143 0 0 0.829393 10.3388 190.438" transformations="translations" pos="416 192" stroke="KITblack" type="label" width="31.6734" height="20.9836" depth="4.73" valign="baseline" size="Large" style="math">V_2</text>
-<text matrix="0.710143 0 0 0.829393 10.1179 20.8877" transformations="translations" pos="416 192" stroke="KITblack" type="label" width="31.6734" height="20.9858" depth="5.06" valign="baseline" size="Large" style="math">V_3</text>
-<text matrix="0.710143 0 0 0.829393 85.2157 196.335" transformations="translations" pos="416 192" stroke="KITblack" type="label" width="31.6734" height="20.9836" depth="4.73" valign="baseline" size="Large" style="math">V_1</text>
-<text matrix="0.710143 0 0 0.829393 117.095 29.7149" transformations="translations" pos="416 192" stroke="KITblack" type="label" width="31.6734" height="20.9836" depth="4.73" valign="baseline" size="Large" style="math">V_4</text>
-<path matrix="0.710143 0 0 0.829393 128.635 175.752" stroke="black" fill="KITred50" pen="heavier">
+<use matrix="-1.94054 0 0 2.2664 556.012 -1375.61" name="mark/fdisk(sfx)" pos="164 736" size="15" stroke="black" fill="white"/>
+<use matrix="-1.94054 0 0 2.2664 510.563 -1375.61" name="mark/fdisk(sfx)" pos="164 736" size="15" stroke="black" fill="white"/>
+<use matrix="-1.94054 0 0 2.2664 556.254 -1429.45" name="mark/fdisk(sfx)" pos="164 736" size="15" stroke="black" fill="white"/>
+<use matrix="-1.94054 0 0 2.2664 510.689 -1429.45" name="mark/fdisk(sfx)" pos="164 736" size="15" stroke="black" fill="white"/>
+<use matrix="-1.94054 0 0 2.2664 578.737 -1334.32" name="mark/fdisk(sfx)" pos="164 736" size="15" stroke="black" fill="white"/>
+<use matrix="-1.94054 0 0 2.2664 612.823 -1362.34" name="mark/fdisk(sfx)" pos="164 736" size="15" stroke="black" fill="white"/>
+<use matrix="-1.94054 0 0 2.2664 511.912 -1423.83" name="mark/fdisk(sfx)" pos="112 728" size="15" stroke="black" fill="white"/>
+<use matrix="-1.94054 0 0 2.2664 467.067 -1459.08" name="mark/fdisk(sfx)" pos="112 728" size="15" stroke="black" fill="white"/>
+<use matrix="-1.60382 1.27591 -1.09245 -1.87314 1370.78 1358.46" name="mark/fdisk(sfx)" pos="240 768" size="15" stroke="black" fill="white"/>
+<use matrix="-1.60382 1.27591 -1.09245 -1.87314 1340.13 1436.72" name="mark/fdisk(sfx)" pos="240 768" size="15" stroke="black" fill="white"/>
+<use matrix="-1.60382 1.27591 -1.09245 -1.87314 1359.42 1411.54" name="mark/fdisk(sfx)" pos="240 768" size="15" stroke="black" fill="white"/>
+<text matrix="0.710143 0 0 0.829393 10.3388 174.438" transformations="translations" pos="416 192" stroke="KITblack" type="label" width="31.6734" height="20.9836" depth="4.73" valign="baseline" size="Large" style="math">V_2</text>
+<text matrix="0.710143 0 0 0.829393 10.1179 4.8877" transformations="translations" pos="416 192" stroke="KITblack" type="label" width="31.6734" height="20.9858" depth="5.06" valign="baseline" size="Large" style="math">V_3</text>
+<text matrix="0.710143 0 0 0.829393 85.2157 180.335" transformations="translations" pos="416 192" stroke="KITblack" type="label" width="31.6734" height="20.9836" depth="4.73" valign="baseline" size="Large" style="math">V_1</text>
+<text matrix="0.710143 0 0 0.829393 117.095 13.7149" transformations="translations" pos="416 192" stroke="KITblack" type="label" width="31.6734" height="20.9836" depth="4.73" valign="baseline" size="Large" style="math">V_4</text>
+<path matrix="0.710143 0 0 0.829393 128.635 159.752" stroke="black" fill="KITred50" pen="heavier">
 512 208
 448 240
 384 192
@@ -6388,7 +6388,7 @@ h
 487.741 104
 479.562 124 u
 </path>
-<path matrix="0.710143 0 0 0.829393 128.635 175.752" stroke="black" fill="KITcyanblue50" pen="heavier">
+<path matrix="0.710143 0 0 0.829393 128.635 159.752" stroke="black" fill="KITcyanblue50" pen="heavier">
 704 80
 675.143 33.2858
 601.6 16
@@ -6403,7 +6403,7 @@ h
 704 192
 704 160 u
 </path>
-<path matrix="0.710143 0 0 0.829393 128.635 175.752" stroke="black" fill="KITyellow50" pen="heavier">
+<path matrix="0.710143 0 0 0.829393 128.635 159.752" stroke="black" fill="KITyellow50" pen="heavier">
 624 144
 608 192
 496 192
@@ -6411,14 +6411,14 @@ h
 560 71.0763
 624 80 u
 </path>
-<path matrix="0.710143 0 0 0.829393 128.635 175.752" stroke="black" fill="KITorange70" pen="heavier" opacity="90%">
+<path matrix="0.710143 0 0 0.829393 128.635 159.752" stroke="black" fill="KITorange70" pen="heavier" opacity="90%">
 464 240
 432 208
 529.252 128
 560 166.765 u
 </path>
-<use matrix="-1.94054 0 0 2.2664 675.48 -1301.67" name="mark/fdisk(sfx)" pos="112 728" size="15" stroke="black" fill="white"/>
-<path matrix="0.710143 0 0 0.829393 128.635 175.752" stroke="black" fill="KITblue" pen="heavier" opacity="90%">
+<use matrix="-1.94054 0 0 2.2664 675.48 -1317.67" name="mark/fdisk(sfx)" pos="112 728" size="15" stroke="black" fill="white"/>
+<path matrix="0.710143 0 0 0.829393 128.635 159.752" stroke="black" fill="KITblue" pen="heavier" opacity="90%">
 624 256
 608 224
 560 166.765
@@ -6426,25 +6426,25 @@ h
 640.194 155.004
 720 160 u
 </path>
-<path matrix="0.710143 0 0 0.829393 128.635 175.752" stroke="black" dash="dense dotted" pen="heavier">
+<path matrix="0.710143 0 0 0.829393 128.635 159.752" stroke="black" dash="dense dotted" pen="heavier">
 384 128 m
 736 128 l
 </path>
-<use matrix="-1.94054 0 0 2.2664 867.29 -1359.61" name="mark/fdisk(sfx)" pos="164 736" size="15" stroke="black" fill="white"/>
-<use matrix="-1.94054 0 0 2.2664 821.84 -1359.61" name="mark/fdisk(sfx)" pos="164 736" size="15" stroke="black" fill="white"/>
-<use matrix="-1.94054 0 0 2.2664 867.532 -1413.45" name="mark/fdisk(sfx)" pos="164 736" size="15" stroke="black" fill="white"/>
-<use matrix="-1.94054 0 0 2.2664 821.967 -1413.45" name="mark/fdisk(sfx)" pos="164 736" size="15" stroke="black" fill="white"/>
-<use matrix="-1.94054 0 0 2.2664 890.014 -1318.32" name="mark/fdisk(sfx)" pos="164 736" size="15" stroke="black" fill="white"/>
-<use matrix="-1.94054 0 0 2.2664 924.101 -1346.34" name="mark/fdisk(sfx)" pos="164 736" size="15" stroke="black" fill="white"/>
-<use matrix="-1.94054 0 0 2.2664 823.19 -1407.83" name="mark/fdisk(sfx)" pos="112 728" size="15" stroke="black" fill="white"/>
-<use matrix="-1.94054 0 0 2.2664 698.262 -1443.08" name="mark/fdisk(sfx)" pos="112 728" size="15" stroke="black" fill="KITred"/>
-<use matrix="-1.94054 0 0 2.2664 778.345 -1443.08" name="mark/fdisk(sfx)" pos="112 728" size="15" stroke="black" fill="white"/>
-<use matrix="-1.60382 1.27591 -1.09245 -1.87314 1682.06 1374.46" name="mark/fdisk(sfx)" pos="240 768" size="15" stroke="black" fill="white"/>
-<use matrix="-1.60382 1.27591 -1.09245 -1.87314 1651.4 1452.72" name="mark/fdisk(sfx)" pos="240 768" size="15" stroke="black" fill="white"/>
-<use matrix="-1.60382 1.27591 -1.09245 -1.87314 1670.7 1427.54" name="mark/fdisk(sfx)" pos="240 768" size="15" stroke="black" fill="white"/>
-<text matrix="0.710143 0 0 0.829393 321.617 190.438" transformations="translations" pos="416 192" stroke="KITblack" type="label" width="31.6734" height="20.9836" depth="4.73" valign="baseline" size="Large" style="math">V_2</text>
-<text matrix="0.710143 0 0 0.829393 321.396 20.8877" transformations="translations" pos="416 192" stroke="KITblack" type="label" width="31.6734" height="20.9858" depth="5.06" valign="baseline" size="Large" style="math">V_3</text>
-<path matrix="1.38963 0 0 1.47414 -27.0238 -125.036" stroke="KITblack" dash="dense dotted" pen="heavier">
+<use matrix="-1.94054 0 0 2.2664 867.29 -1375.61" name="mark/fdisk(sfx)" pos="164 736" size="15" stroke="black" fill="white"/>
+<use matrix="-1.94054 0 0 2.2664 821.84 -1375.61" name="mark/fdisk(sfx)" pos="164 736" size="15" stroke="black" fill="white"/>
+<use matrix="-1.94054 0 0 2.2664 867.532 -1429.45" name="mark/fdisk(sfx)" pos="164 736" size="15" stroke="black" fill="white"/>
+<use matrix="-1.94054 0 0 2.2664 821.967 -1429.45" name="mark/fdisk(sfx)" pos="164 736" size="15" stroke="black" fill="white"/>
+<use matrix="-1.94054 0 0 2.2664 890.014 -1334.32" name="mark/fdisk(sfx)" pos="164 736" size="15" stroke="black" fill="white"/>
+<use matrix="-1.94054 0 0 2.2664 924.101 -1362.34" name="mark/fdisk(sfx)" pos="164 736" size="15" stroke="black" fill="white"/>
+<use matrix="-1.94054 0 0 2.2664 823.19 -1423.83" name="mark/fdisk(sfx)" pos="112 728" size="15" stroke="black" fill="white"/>
+<use matrix="-1.94054 0 0 2.2664 698.262 -1459.08" name="mark/fdisk(sfx)" pos="112 728" size="15" stroke="black" fill="KITred"/>
+<use matrix="-1.94054 0 0 2.2664 778.345 -1459.08" name="mark/fdisk(sfx)" pos="112 728" size="15" stroke="black" fill="white"/>
+<use matrix="-1.60382 1.27591 -1.09245 -1.87314 1682.06 1358.46" name="mark/fdisk(sfx)" pos="240 768" size="15" stroke="black" fill="white"/>
+<use matrix="-1.60382 1.27591 -1.09245 -1.87314 1651.4 1436.72" name="mark/fdisk(sfx)" pos="240 768" size="15" stroke="black" fill="white"/>
+<use matrix="-1.60382 1.27591 -1.09245 -1.87314 1670.7 1411.54" name="mark/fdisk(sfx)" pos="240 768" size="15" stroke="black" fill="white"/>
+<text matrix="0.710143 0 0 0.829393 321.617 174.438" transformations="translations" pos="416 192" stroke="KITblack" type="label" width="31.6734" height="20.9836" depth="4.73" valign="baseline" size="Large" style="math">V_2</text>
+<text matrix="0.710143 0 0 0.829393 321.396 4.8877" transformations="translations" pos="416 192" stroke="KITblack" type="label" width="31.6734" height="20.9858" depth="5.06" valign="baseline" size="Large" style="math">V_3</text>
+<path matrix="1.38963 0 0 1.47414 -27.0238 -141.036" stroke="KITblack" dash="dense dotted" pen="heavier">
 400 208 m
 348 208
 348 232
@@ -6454,23 +6454,23 @@ h
 400 348
 400 348 c
 </path>
-<path matrix="1.38963 0 0 1.47414 -27.0238 -125.036" stroke="KITblack" pen="heavier" arrow="normal/tiny">
+<path matrix="1.38963 0 0 1.47414 -27.0238 -141.036" stroke="KITblack" pen="heavier" arrow="normal/tiny">
 144 220 m
 164 192
 208 192
 244 208 c
 </path>
-<use matrix="-1.94054 0 0 2.2664 386.984 -1443.08" name="mark/fdisk(sfx)" pos="112 728" size="15" stroke="black" fill="KITred"/>
-<text matrix="1 0 0 1 -332 -204" transformations="translations" pos="512 352" stroke="KITblack" type="minipage" width="400" height="16.8193" depth="4.5815" valign="top">Moving \quad from $V_4$ to $V_3$
+<use matrix="-1.94054 0 0 2.2664 386.984 -1459.08" name="mark/fdisk(sfx)" pos="112 728" size="15" stroke="black" fill="KITred"/>
+<text matrix="1 0 0 1 -332 -220" transformations="translations" pos="512 352" stroke="KITblack" type="minipage" width="400" height="16.8193" depth="4.5815" valign="top">Moving \quad from $V_4$ to $V_3$
 reduces cut by $1$</text>
-<use matrix="-1.39644 0 0 1.53744 421.926 -978.114" name="mark/fdisk(sfx)" pos="112 728" size="15" stroke="black" fill="KITred"/>
-<path layer="zeta" matrix="1 0 0 1 -132 -120" stroke="KITgreen" pen="heavier" arrow="normal/tiny">
+<use matrix="-1.39644 0 0 1.53744 421.926 -994.114" name="mark/fdisk(sfx)" pos="112 728" size="15" stroke="black" fill="KITred"/>
+<path layer="zeta" matrix="1 0 0 1 -132 -136" stroke="KITgreen" pen="heavier" arrow="normal/tiny">
 624 224 m
 672 224
 692 236
 704 248 c
 </path>
-<text matrix="1 0 0 1 -112 -132" transformations="translations" pos="560 232" stroke="KITgreen" type="label" width="42.4414" height="16.2215" depth="4.998" valign="baseline">gain</text>
+<text matrix="1 0 0 1 -112 -148" transformations="translations" pos="560 232" stroke="KITgreen" type="label" width="42.4414" height="16.2215" depth="4.998" valign="baseline">gain</text>
 <text layer="beta" matrix="1 0 0 1 4 -12" transformations="translations" pos="-4 464" stroke="black" type="label" width="205.394" height="13.123" depth="3.872" valign="baseline" size="small">\Citation{Fiduccia, Mattheyses 88}</text>
 <text layer="pagenumbers_page" matrix="1 0 0 1 0.5 5.358" transformations="translations" pos="-13 -39" stroke="black" type="label" width="5.8604" height="7.3692" depth="0.184" halign="center" valign="top" size="verytiny">{\bf 5}</text>
 </page>
@@ -8230,8 +8230,8 @@ h
 572 344
 454 344 c
 </path>
-<text layer="Alpha1" matrix="1 0 0 1 0 -32" transformations="translations" pos="0 432" stroke="KITblack" type="minipage" width="736" height="15.2372" depth="4.268" valign="top" size="small" style="center">$\alpha = 1 \Rightarrow$ \textbf{Improvement Found} $\Rightarrow \alpha = \max(2\alpha, \alpha&apos;) = 2$</text>
-<text layer="Alpha2" matrix="1 0 0 1 0 -32" transformations="translations" pos="0 432" stroke="KITblack" type="minipage" width="736" height="15.8906" depth="4.928" valign="top" size="small" style="center">$\alpha = 2 \Rightarrow$ \textbf{No Improvement} $\Rightarrow \alpha = \min(\frac{\alpha}{2}, 1) = 1$</text>
+<text layer="Alpha1" matrix="1 0 0 1 0 -32" transformations="translations" pos="0 432" stroke="KITblack" type="minipage" width="736" height="15.2372" depth="4.268" valign="top" size="small" style="center">$\alpha = 1 \Rightarrow$ \textbf{Improvement Found} $\Rightarrow \alpha = \min(2\alpha, \alpha&apos;) = 2$</text>
+<text layer="Alpha2" matrix="1 0 0 1 0 -32" transformations="translations" pos="0 432" stroke="KITblack" type="minipage" width="736" height="15.8906" depth="4.928" valign="top" size="small" style="center">$\alpha = 2 \Rightarrow$ \textbf{No Improvement} $\Rightarrow \alpha = \max(\frac{\alpha}{2}, 1) = 1$</text>
 <path stroke="KITblack" dash="dense dotted" pen="heavier">
 212 114 m
 216 130
@@ -13034,7 +13034,6 @@ h
 <view layers="alpha pagenumbers_page FlowAlphaTable" active="FlowAlphaTable"/>
 <view layers="alpha pagenumbers_page FlowAlphaTable Flows" active="Flows"/>
 <view layers="alpha pagenumbers_page FlowAlphaTable MBMC" active="MBMC"/>
-<view layers="alpha pagenumbers_page FlowAlphaTable MBMCvsFM" active="MBMCvsFM"/>
 <view layers="alpha FlowAlphaTable gamma" active="gamma"/>
 <path layer="MBMC" matrix="1.10345 0 0 1.86174 332 -15.0819" fill="KITpalegreen">
 0 96 m
@@ -15658,244 +15657,256 @@ h
 <text matrix="1 0 0 1 376 -136" transformations="translations" pos="76 210" stroke="black" type="label" width="25.7884" height="13.112" depth="0" valign="baseline" size="small">\textsc{Mf}</text>
 <text layer="pagenumbers_page" matrix="1 0 0 1 0.5 5.358" transformations="translations" pos="-13 -39" stroke="black" type="label" width="11.7208" height="7.5578" depth="0.184" halign="center" valign="top" size="verytiny">{\bf 35}</text>
 </page>
+<page title="Statistics Benchmark Subset">
+<layer name="alpha"/>
+<layer name="pagenumbers_page" edit="no"/>
+<view layers="alpha pagenumbers_page" active="alpha"/>
+<text layer="alpha" transformations="translations" pos="0 320" stroke="black" type="minipage" width="736" height="124.881" depth="112.945" valign="top" style="center">\begin{tabular}{lrrrrr}
+  \toprule
+  Type    &amp; \# &amp; \multicolumn{1}{c}{$\overline{d(v)}$} &amp;  \multicolumn{1}{c}{$\widetilde{d(v)}$} &amp;  \multicolumn{1}{c}{$\overline{|e|}$} &amp;  \multicolumn{1}{c}{$\widetilde{|e|}$}  \\
+  \midrule
+\DAC     &amp; 5  &amp; 3.32          &amp; 3.28           &amp; 3.37         &amp; 3.35  \\
+\ISPD    &amp; 10 &amp; 4.20          &amp; 4.24           &amp; 3.89         &amp; 3.90  \\
+\Primal  &amp; 30 &amp; 16.29         &amp; 9.97           &amp; 2.63         &amp; 2.39  \\
+\Literal &amp; 30 &amp; 8.21          &amp; 4.99           &amp; 2.63         &amp; 2.39  \\
+\Dual    &amp; 30 &amp; 2.63          &amp; 2.38           &amp; 16.29        &amp; 9.97  \\
+\SPM     &amp; 60 &amp; 24.78         &amp; 14.15          &amp; 26.58        &amp; 15.01 \\
+\bottomrule
+\end{tabular}</text>
+<text transformations="translations" pos="128 400" stroke="black" type="minipage" width="496" height="35.9391" depth="23.765" valign="top">\begin{itemize}
+\item $\overline{x} =$ mean
+\item $\widetilde{x} = $ median
+\end{itemize}</text>
+<text layer="pagenumbers_page" matrix="1 0 0 1 0.5 5.358" transformations="translations" pos="-13 -39" stroke="black" type="label" width="11.7208" height="7.5578" depth="0.184" halign="center" valign="top" size="verytiny">{\bf 36}</text>
+</page>
+<page title="Flow Networks - Number of Nodes">
+<layer name="alpha"/>
+<layer name="pagenumbers_page" edit="no"/>
+<view layers="alpha pagenumbers_page" active="alpha"/>
+<text layer="alpha" matrix="0.869565 0 0 1 0 64" transformations="translations" pos="0 384" stroke="black" type="minipage" width="736" height="233.321" depth="221.652" valign="top" style="center">\includegraphics[width=0.8\textwidth]{img/flow_network_nodes.pdf}</text>
+<text layer="pagenumbers_page" matrix="1 0 0 1 0.5 5.358" transformations="translations" pos="-13 -39" stroke="black" type="label" width="11.7208" height="7.5578" depth="0.184" halign="center" valign="top" size="verytiny">{\bf 37}</text>
+</page>
+<page title="Flow Networks - Number of Edges">
+<layer name="alpha"/>
+<layer name="pagenumbers_page" edit="no"/>
+<view layers="alpha pagenumbers_page" active="alpha"/>
+<text layer="alpha" matrix="0.869565 0 0 1 0 64" transformations="translations" pos="0 384" stroke="black" type="minipage" width="736" height="233.321" depth="221.652" valign="top" style="center">\includegraphics[width=0.8\textwidth]{img/flow_network_edges.pdf}</text>
+<text layer="pagenumbers_page" matrix="1 0 0 1 0.5 5.358" transformations="translations" pos="-13 -39" stroke="black" type="label" width="11.7208" height="7.5578" depth="0.184" halign="center" valign="top" size="verytiny">{\bf 38}</text>
+</page>
+<page title="Flow Configuration">
+<layer name="alpha"/>
+<layer name="pagenumbers_page" edit="no"/>
+<view layers="alpha pagenumbers_page" active="alpha"/>
+<text layer="alpha" matrix="1 0 0 1 0 -148" transformations="translations" pos="0 404" stroke="KITblack" type="minipage" width="736" height="96.696" depth="86.94" valign="top" size="footnote" style="center">\begin{tabular}{r*{2}{r}
+                    *{10}{r}}
+\toprule
+ &amp; \multicolumn{2}{c}{\FlowVariant{+}{-}{-}} &amp; \multicolumn{2}{c}{\FlowVariant{+}{+}{-}}  &amp; \multicolumn{2}{c}{\FlowVariant{+}{-}{+}} &amp; \multicolumn{2}{c}{\FlowVariant{+}{+}{+}} &amp; \multicolumn{2}{c}{\Constant{128}} \\
+$\alpha&apos;$ &amp; Avg $[\%]$ &amp; $t[s]$ &amp; Avg $[\%]$ &amp; $t[s]$ &amp; Avg $[\%]$ &amp; $t[s]$ &amp; Avg $[\%]$ &amp; $t[s]$ &amp; Avg $[\%]$ &amp; $t[s]$ \\
+\midrule%
+$1$  &amp; $-6.09$  &amp; $12.9$   &amp;  $-5.60$ &amp; $13.4$ &amp; $0.25$ &amp; $15.0$ &amp; $0.23$ &amp; $15.2$ &amp; $0.54$ &amp; $67.9$  \\ 
+$2$  &amp; $-3.19$ &amp;  $15.8$   &amp;  $-2.07$ &amp; $16.7$ &amp; $0.59$ &amp; $17.0$ &amp; $0.73$ &amp; $17.5$ &amp; $1.11$ &amp; $140.2$ \\ 
+$4$  &amp; $-1.82$ &amp;  $20.4$   &amp;  $-0.19$ &amp; $21.9$ &amp; $0.90$ &amp; $20.4$ &amp; $1.21$ &amp; $21.5$ &amp; $1.66$ &amp; $269.6$ \\ 
+$8$  &amp; $-0.85$  &amp; $28.5$   &amp;  $0.98$  &amp; $30.7$ &amp; $1.24$ &amp; $26.5$ &amp; $1.71$ &amp; $28.7$ &amp; $2.20$ &amp; $512.1$ \\ 
+$16$ &amp; $-0.19$ &amp; $43.3$   &amp;  $1.75$  &amp; $46.7$ &amp; $1.60$ &amp; $37.5$ &amp; $2.21$ &amp; $41.3$ &amp; $2.76$ &amp; $973.9$ \\ 
+\midrule%
+Ref. &amp; \multicolumn{2}{c}{\FlowVariant{-}{-}{+}} &amp; $6373.88$ &amp; $13.73$ &amp; \multicolumn{2}{c}{} \\ 
+\bottomrule 
+\end{tabular}</text>
+<text matrix="1 0 0 1 24 -24" transformations="translations" pos="0 416" stroke="KITblack" type="minipage" width="700" height="66.2728" depth="55.418" valign="top" size="small">\begin{itemize}
+\item $+/-$ F $=$ Flow-based refinement
+\item $+/-$ M $=$ Most Balanced Minimum Cut
+\item $+/-$ FM $=$ FM Heuristic
+\item \Constant{128} $= \FlowVariant{+}{+}{+}$ with constant flow execution policy ($\beta = 128$) 
+\end{itemize}</text>
+<text layer="pagenumbers_page" matrix="1 0 0 1 0.5 5.358" transformations="translations" pos="-13 -39" stroke="black" type="label" width="11.7208" height="7.5578" depth="0.184" halign="center" valign="top" size="verytiny">{\bf 39}</text>
+</page>
+<page title="Effectiveness Tests">
+<layer name="alpha"/>
+<layer name="pagenumbers_page" edit="no"/>
+<view layers="alpha pagenumbers_page" active="alpha"/>
+<text layer="alpha" matrix="1 0 0 1 0 -116" transformations="translations" pos="0 404" stroke="KITblack" type="minipage" width="736" height="119.293" depth="108.57" valign="top" size="small" style="center">\begin{tabular}{r*{1}{r}
+                    *{4}{r}}
+\toprule
+Config &amp;  \multicolumn{1}{c}{\FlowVariant{+}{-}{-}} &amp;  \multicolumn{1}{c}{\FlowVariant{+}{+}{-}}  &amp;  \multicolumn{1}{c}{\FlowVariant{+}{-}{+}}  &amp;  \multicolumn{1}{c}{\FlowVariant{+}{+}{+}} \\
+$\alpha&apos;$ &amp; Avg $[\%]$ &amp; Avg $[\%]$ &amp; Avg $[\%]$ &amp; Avg $[\%]$ \\
+\midrule%
+$1$ &amp;   $-6.06$ &amp; $-5.52$ &amp; $0.23$ &amp; $0.24$ \\ 
+$2$ &amp;   $-3.15$ &amp; $-2.06$ &amp; $0.55$ &amp; $0.73$ \\ 
+$4$ &amp;   $-1.89$ &amp; $-0.19$ &amp; $0.86$ &amp; $1.20$ \\ 
+$8$ &amp;   $-0.87$ &amp; $0.96$ &amp;  $1.20$ &amp; $1.69$ \\ 
+$16$ &amp; $-0.29$ &amp; $1.66$ &amp;  $1.52$ &amp; $2.17$ \\ 
+\cmidrule{1-5}% 
+Ref. &amp;  \multicolumn{1}{c}{\FlowVariant{-}{-}{+}} &amp; $6377.15$ &amp;  &amp;  \\ 
+
+\bottomrule 
+\end{tabular}</text>
+<text matrix="1 0 0 1 56 -24" transformations="translations" pos="0 416" stroke="KITblack" type="minipage" width="500" height="50.3734" depth="39.49" valign="top" size="small">\begin{itemize}
+\item $+/-$ F $=$ Flow-based refinement
+\item $+/-$ M $=$ Most Balanced Minimum Cut
+\item $+/-$ FM $=$ FM Heuristic
+\end{itemize}</text>
+<text layer="pagenumbers_page" matrix="1 0 0 1 0.5 5.358" transformations="translations" pos="-13 -39" stroke="black" type="label" width="11.7208" height="7.5578" depth="0.184" halign="center" valign="top" size="verytiny">{\bf 40}</text>
+</page>
+<page title="Quality - Full Benchmark Set">
+<layer name="alpha"/>
+<layer name="pagenumbers_page" edit="no"/>
+<view layers="alpha pagenumbers_page" active="alpha"/>
+<text layer="alpha" matrix="1 0 0 1 -32 64" transformations="translations" pos="0 352" stroke="black" type="minipage" width="800" height="207.86" depth="197.362" valign="top" size="small" style="center">\begin{tabular}{c|*{4}{r}}
+\multirow{2}{*}{Algorithm} &amp; \multicolumn{4}{c}{Min. $(\lambda - 1)$} \\
+\cmidrule{2-5}
+ &amp; \multicolumn{1}{c}{\ALL} &amp; \multicolumn{1}{c}{\DAC} &amp; \multicolumn{1}{c}{\ISPD} &amp; \multicolumn{1}{c}{\Primal} \\
+\midrule%
+\KaHyPar{MF} &amp; $7542.88$ &amp; $16828.15$ &amp; $5511.40$ &amp; $15236.13$ \\ 
+\KaHyPar{CA} &amp; $2.22$ &amp;       $2.80$ &amp;         $1.92$ &amp;       $1.85$ \\ 
+\hMetis{R} &amp;      $14.40$ &amp;      $4.75$ &amp;         $2.76$ &amp;      $3.88$ \\ 
+\hMetis{K} &amp;      $12.92$ &amp;      $7.77$ &amp;         $2.17$ &amp;      $4.78$ \\ 
+\PaToH{Q} &amp;      $11.48$ &amp;      $15.24$ &amp;       $9.53$ &amp;       $14.36$ \\ 
+\PaToH{D} &amp;      $12.06$ &amp;      $15.57$ &amp;       $10.90$ &amp;     $12.47$ \\ 
+\midrule%
+ &amp; \multicolumn{1}{c}{\Literal} &amp; \multicolumn{1}{c}{\Dual} &amp; \multicolumn{1}{c}{\SPM} &amp; \multicolumn{1}{c}{\textsc{WebSoc}}  \\
+\midrule%
+\KaHyPar{MF} &amp; $15197.60$ &amp; $2927.42$ &amp; $6010.05$ &amp; $7478.06$\\ 
+\KaHyPar{CA} &amp; $2.46$ &amp;         $3.33$ &amp;       $1.74$ &amp;       $3.91$ \\ 
+\hMetis{R} &amp;       $4.17$ &amp;         $31.20$ &amp;     $16.37$ &amp;    $41.92$\\ 
+\hMetis{K} &amp;       $6.91$ &amp;         $21.51$ &amp;     $16.23$ &amp;    $40.45$ \\ 
+\PaToH{Q} &amp;        $14.98$ &amp;      $11.44$ &amp;      $8.36$ &amp;     $18.45$ \\ 
+\PaToH{D} &amp;        $15.17$ &amp;      $13.64$ &amp;      $9.45$ &amp;     $23.04$ \\ 
+\end{tabular}</text>
+<text layer="pagenumbers_page" matrix="1 0 0 1 0.5 5.358" transformations="translations" pos="-13 -39" stroke="black" type="label" width="11.7208" height="7.5463" depth="0" halign="center" valign="top" size="verytiny">{\bf 41}</text>
+</page>
+<page title="Quality - Full Benchmark Set">
+<layer name="alpha"/>
+<layer name="pagenumbers_page" edit="no"/>
+<view layers="alpha pagenumbers_page" active="alpha"/>
+<text layer="alpha" matrix="1 0 0 1 -32 64" transformations="translations" pos="0 352" stroke="black" type="minipage" width="800" height="207.86" depth="197.362" valign="top" size="small" style="center">\begin{tabular}{c|*{4}{r}}
+\multirow{2}{*}{Algorithm} &amp; \multicolumn{4}{c}{Avg. $(\lambda - 1)$} \\
+\cmidrule{2-5}
+ &amp; \multicolumn{1}{c}{\ALL} &amp; \multicolumn{1}{c}{\DAC} &amp; \multicolumn{1}{c}{\ISPD} &amp; \multicolumn{1}{c}{\Primal} \\
+\midrule%
+\KaHyPar{MF} &amp; 7782.51 &amp; 17476.91 &amp; 5643.99 &amp; 15863.75\\ 
+\KaHyPar{CA} &amp; 2.44 &amp; 3.04 &amp; 2.16 &amp; 2.03 \\ 
+\hMetis{R} &amp; 13.61 &amp; 3.53 &amp; 1.60 &amp; 2.03 \\ 
+\hMetis{K} &amp; 13.23 &amp; 7.82 &amp; 1.37 &amp; 3.89 \\ 
+\PaToH{Q} &amp; 8.67 &amp; 11.97 &amp; 7.35 &amp; 10.83 \\ 
+\PaToH{D} &amp; 14.35 &amp; 19.21 &amp; 13.11 &amp; 15.45 \\ 
+\midrule%
+ &amp; \multicolumn{1}{c}{\Literal} &amp; \multicolumn{1}{c}{\Dual} &amp; \multicolumn{1}{c}{\SPM} &amp; \multicolumn{1}{c}{\textsc{WebSoc}}  \\
+\midrule%
+\KaHyPar{MF}  &amp; 15770.06 &amp; 3038.55 &amp; 6143.73 &amp; 7783.87\\ 
+\KaHyPar{CA} &amp; 2.66 &amp; 3.39 &amp; 2.07 &amp; 3.84 \\ 
+\hMetis{R}  &amp; 2.72 &amp; 30.28 &amp; 16.42 &amp; 41.32\\ 
+\hMetis{K} &amp; 8.49 &amp; 22.26 &amp; 16.33 &amp; 40.14 \\ 
+\PaToH{Q}  &amp; 11.78 &amp; 8.08 &amp; 6.33 &amp; 15.12 \\ 
+\PaToH{D}  &amp; 17.72 &amp; 15.47 &amp; 11.43 &amp; 24.18\\ 
+\end{tabular}</text>
+<text layer="pagenumbers_page" matrix="1 0 0 1 0.5 5.358" transformations="translations" pos="-13 -39" stroke="black" type="label" width="11.7208" height="7.5463" depth="0" halign="center" valign="top" size="verytiny">{\bf 42}</text>
+</page>
 <page title="Running Time - Full Benchmark Set" section="Experimental Results" subsection="">
 <layer name="RunningTimeTable"/>
 <layer name="pagenumbers_page" edit="no"/>
-<layer name="OverallRunningTime"/>
-<layer name="MFvsCA"/>
-<layer name="MFvshMetis"/>
-<layer name="SmallFlowNetworkInstances"/>
-<layer name="LargeFlowNetworkInstances"/>
 <view layers="RunningTimeTable pagenumbers_page" active="RunningTimeTable"/>
-<view layers="RunningTimeTable pagenumbers_page OverallRunningTime MFvsCA" active="OverallRunningTime"/>
-<view layers="RunningTimeTable pagenumbers_page OverallRunningTime MFvshMetis" active="MFvshMetis"/>
-<view layers="RunningTimeTable pagenumbers_page SmallFlowNetworkInstances" active="SmallFlowNetworkInstances"/>
-<view layers="RunningTimeTable pagenumbers_page LargeFlowNetworkInstances" active="LargeFlowNetworkInstances"/>
-<path layer="LargeFlowNetworkInstances" matrix="1 0 0 1 340 0" fill="KITpalegreen70">
-146 260 m
-146 234 l
-216 234 l
-216 260 l
-h
-</path>
-<path matrix="1 0 0 1 340 0" fill="KITpalegreen70">
-146 289 m
-146 260 l
-216 260 l
-216 289 l
-h
-</path>
-<path matrix="1 0 0 1 250 0" fill="KITpalegreen70">
-146 260 m
-146 234 l
-216 234 l
-216 260 l
-h
-</path>
-<path matrix="1 0 0 1 250 0" fill="KITpalegreen70">
-146 289 m
-146 260 l
-216 260 l
-216 289 l
-h
-</path>
-<path matrix="1 0 0 1 340 0" fill="KITpalegreen">
-146 324 m
-146 288 l
-216 288 l
-216 324 l
-h
-</path>
-<path matrix="1 0 0 1 250 0" fill="KITpalegreen">
-146 324 m
-146 288 l
-216 288 l
-216 324 l
-h
-</path>
-<path layer="SmallFlowNetworkInstances" matrix="1 0 0 1 428 0" fill="KITpalegreen70">
-146 260 m
-146 234 l
-216 234 l
-216 260 l
-h
-</path>
-<path matrix="1 0 0 1 428 0" fill="KITpalegreen70">
-146 289 m
-146 260 l
-216 260 l
-216 289 l
-h
-</path>
-<path matrix="1 0 0 1 78 0" fill="KITpalegreen70">
-146 260 m
-146 234 l
-216 234 l
-216 260 l
-h
-</path>
-<path matrix="1 0 0 1 78 0" fill="KITpalegreen70">
-146 289 m
-146 260 l
-216 260 l
-216 289 l
-h
-</path>
-<path matrix="1 0 0 1 428 0" fill="KITpalegreen">
-146 324 m
-146 288 l
-216 288 l
-216 324 l
-h
-</path>
-<path matrix="1 0 0 1 78 0" fill="KITpalegreen">
-146 324 m
-146 288 l
-216 288 l
-216 324 l
-h
-</path>
-<path layer="MFvshMetis" matrix="1 0 0 1 0 -48" fill="KITpalegreen70">
-146 260 m
-146 234 l
-216 234 l
-216 260 l
-h
-</path>
-<path fill="KITpalegreen70">
-146 289 m
-146 260 l
-216 260 l
-216 289 l
-h
-</path>
-<path layer="MFvsCA" fill="KITpalegreen70">
-146 260 m
-146 234 l
-216 234 l
-216 260 l
-h
-</path>
-<path fill="KITpalegreen70">
-146 289 m
-146 260 l
-216 260 l
-216 289 l
-h
-</path>
-<path layer="OverallRunningTime" fill="KITpalegreen">
-146 324 m
-146 288 l
-216 288 l
-216 324 l
-h
-</path>
-<text layer="RunningTimeTable" transformations="translations" pos="0 352" stroke="black" type="minipage" width="736" height="112.587" depth="101.86" valign="top" size="small" style="center">\begin{tabular}{c|*{7}{r}}
-\multirow{2}{*}{Algorithm} &amp; \multicolumn{7}{c}{Running Time $t[s]$} \\
-\cmidrule{2-8}
- &amp; \multicolumn{1}{c}{\ALL} &amp; \multicolumn{1}{c}{\DAC} &amp; \multicolumn{1}{c}{\ISPD} &amp; \multicolumn{1}{c}{\Primal} &amp; \multicolumn{1}{c}{\Literal} &amp; \multicolumn{1}{c}{\Dual} &amp; \multicolumn{1}{c}{\SPM}  \\
+<text layer="RunningTimeTable" matrix="1 0 0 1 0 64" transformations="translations" pos="0 352" stroke="black" type="minipage" width="736" height="207.86" depth="197.362" valign="top" size="small" style="center">\begin{tabular}{c|*{4}{r}}
+\multirow{2}{*}{Algorithm} &amp; \multicolumn{4}{c}{Running Time $t[s]$} \\
+\cmidrule{2-5}
+ &amp; \multicolumn{1}{c}{\ALL} &amp; \multicolumn{1}{c}{\DAC} &amp; \multicolumn{1}{c}{\ISPD} &amp; \multicolumn{1}{c}{\Primal} \\
 \midrule%
-\KaHyPar{MF} &amp; $55.67$ &amp; $504.27$ &amp; $20.83$ &amp; $61.78$ &amp; $119.51$ &amp; $97.22$ &amp; $27.40$\\ 
-\KaHyPar{CA} &amp; $31.05$ &amp; $368.97$ &amp; $12.35$ &amp; $32.91$ &amp; $64.65$ &amp; $68.27$ &amp; $13.91$\\ 
-\hMetis{R} &amp; $79.23$ &amp; $446.36$ &amp; $29.03$ &amp; $66.25$ &amp; $142.12$ &amp; $200.36$ &amp; $41.79$\\ 
-\hMetis{K} &amp; $57.86$ &amp; $240.92$ &amp; $23.18$ &amp; $44.23$ &amp; $94.89$ &amp; $125.55$ &amp; $35.95$\\ 
-\PaToH{Q} &amp; $5.89$ &amp; $28.34$ &amp; $1.89$ &amp; $6.90$ &amp; $9.24$ &amp; $10.57$ &amp; $3.42$\\ 
-\PaToH{D} &amp; $1.22$ &amp; $6.45$ &amp; $0.35$ &amp; $1.12$ &amp; $1.58$ &amp; $2.87$ &amp; $0.77$\\ 
+\KaHyPar{MF} &amp; $55.67$ &amp; $504.27$ &amp; $20.83$ &amp; $61.78$ \\ 
+\KaHyPar{CA} &amp; $31.05$ &amp; $368.97$ &amp; $12.35$ &amp; $32.91$ \\ 
+\hMetis{R} &amp;      $79.23$ &amp; $446.36$ &amp; $29.03$ &amp; $66.25$ \\ 
+\hMetis{K} &amp;     $57.86$ &amp; $240.92$ &amp; $23.18$ &amp; $44.23$ \\ 
+\PaToH{Q} &amp;      $5.89$ &amp; $28.34$ &amp; $1.89$ &amp; $6.90$  \\ 
+\PaToH{D} &amp;      $1.22$ &amp; $6.45$ &amp; $0.35$ &amp; $1.12$ \\ 
+\midrule%
+ &amp; \multicolumn{1}{c}{\Literal} &amp; \multicolumn{1}{c}{\Dual} &amp; \multicolumn{1}{c}{\SPM} &amp; \multicolumn{1}{c}{\textsc{WebSoc}}  \\
+\midrule%
+\KaHyPar{MF} &amp; $119.51$ &amp; $97.22$ &amp; $27.40$ &amp; $110.15$ \\ 
+\KaHyPar{CA} &amp; $64.65$ &amp; $68.27$ &amp; $13.91$ &amp; $67.14$ \\ 
+\hMetis{R} &amp;      $142.12$ &amp; $200.36$ &amp; $41.79$ &amp; $89.69$ \\ 
+\hMetis{K} &amp;       $94.89$ &amp; $125.55$ &amp; $35.95$ &amp; $111.95$ \\ 
+\PaToH{Q} &amp;       $9.24$ &amp; $10.57$ &amp; $3.42$ &amp; $4.71$ \\ 
+\PaToH{D} &amp;       $1.58$ &amp; $2.87$ &amp; $0.77$  &amp; $0.88$ \\ 
 \end{tabular}</text>
-<text layer="OverallRunningTime" matrix="1 0 0 1 48 -12" transformations="translations" pos="164 400" stroke="black" type="label" width="174.834" height="13.387" depth="4.026" valign="baseline" size="small">Overall Running Time</text>
-<path stroke="black" pen="heavier" arrow="normal/normal">
-208 392 m
-184 392
-184 328 c
-</path>
-<path layer="MFvsCA" matrix="1 0 0 1 -186 28" stroke="KITblack" pen="heavier" arrow="normal/small">
-406 244 m
-432 244
-432 88 c
-</path>
-<path stroke="KITblack" pen="heavier">
-220 248 m
-246 248
-246 122 c
-</path>
-<text matrix="1 0 0 1 -102 18" transformations="translations" pos="240 80" stroke="KITblack" type="label" width="227.517" height="13.387" depth="3.872" valign="baseline" size="small">Slow-down by a factor of $1.8$</text>
-<path layer="MFvshMetis" stroke="KITblack" pen="heavier">
-218 196 m
-246 196
-246 122 c
-</path>
-<path matrix="1 0 0 1 -186 28" stroke="KITblack" pen="heavier" arrow="normal/small">
-406 244 m
-432 244
-432 88 c
-</path>
-<text matrix="1 0 0 1 -142 18" transformations="translations" pos="240 80" stroke="KITblack" type="label" width="300.271" height="13.387" depth="4.026" valign="baseline" size="small">Comparable running time to \hMetis{K}</text>
-<text layer="SmallFlowNetworkInstances" matrix="1 0 0 1 152 -12" transformations="translations" pos="164 400" stroke="black" type="label" width="242.851" height="13.3892" depth="0.286" valign="baseline" size="small">Small Flow Network Instances</text>
-<path stroke="black" pen="heavier" arrow="normal/normal">
-314 394 m
-260 394
-260 326 c
-</path>
-<path stroke="black" pen="heavier" arrow="normal/normal">
-562 394 m
-608 394
-608 326 c
-</path>
-<text matrix="1 0 0 1 78 20" transformations="translations" pos="240 80" stroke="KITblack" type="label" width="227.517" height="13.387" depth="3.872" valign="baseline" size="small">Slow-down by a factor of $1.4$</text>
-<path stroke="KITblack" pen="heavier" arrow="normal/small">
-298 274 m
-354 274
-354 118 c
-</path>
-<path stroke="KITblack" pen="heavier">
-296 246 m
-352 246
-354 122 c
-</path>
-<path matrix="-1.04545 0 0 1 883.545 0" stroke="KITblack" pen="heavier" arrow="normal/small">
-298 274 m
-354 274
-354 118 c
-</path>
-<path matrix="-1 0 0 1 868 2" stroke="KITblack" pen="heavier">
-296 246 m
-352 246
-354 122 c
-</path>
-<text layer="LargeFlowNetworkInstances" matrix="1 0 0 1 152 -12" transformations="translations" pos="164 400" stroke="black" type="label" width="243.885" height="13.123" depth="4.026" valign="baseline" size="small">Large Flow Network Instances</text>
-<path stroke="black" pen="heavier" arrow="normal/normal">
-314 392 m
-265.4 392
-266 308
-394 308 c
-</path>
-<path stroke="black" pen="heavier" arrow="normal/normal">
-562 394 m
-606 394
-608 306
-558 306 c
-</path>
-<path stroke="KITblack" pen="heavier" arrow="normal/small">
-394.001 274 m
-335.456 274
-364 108 c
-</path>
-<path stroke="KITblack" pen="heavier">
-394 256 m
-338 256
-364 110 c
-</path>
-<path stroke="KITblack" pen="heavier" arrow="normal/small">
-560 274 m
-616 274
-588 110 c
-</path>
-<path stroke="KITblack" pen="heavier">
-558 246 m
-614 246
-588 114 c
-</path>
-<text matrix="1 0 0 1 118 12" transformations="translations" pos="240 80" stroke="KITblack" type="label" width="237.607" height="13.387" depth="3.872" valign="baseline" size="small">Slow-down by a factor of $1.85$</text>
-<text layer="pagenumbers_page" matrix="1 0 0 1 0.5 5.358" transformations="translations" pos="-13 -39" stroke="black" type="label" width="11.7208" height="7.5578" depth="0.184" halign="center" valign="top" size="verytiny">{\bf 36}</text>
+<text layer="pagenumbers_page" matrix="1 0 0 1 0.5 5.358" transformations="translations" pos="-13 -39" stroke="black" type="label" width="11.7208" height="7.5578" depth="0.184" halign="center" valign="top" size="verytiny">{\bf 43}</text>
+</page>
+<page title="Quality per $k$ - Full Benchmark Set">
+<layer name="alpha"/>
+<layer name="pagenumbers_page" edit="no"/>
+<view layers="alpha pagenumbers_page" active="alpha"/>
+<text layer="alpha" matrix="1 0 0 1 -32 64" transformations="translations" pos="0 352" stroke="black" type="minipage" width="800" height="207.86" depth="197.362" valign="top" size="small" style="center">\begin{tabular}{c|*{4}{r}}
+\multirow{2}{*}{Algorithm} &amp; \multicolumn{4}{c}{Min. $(\lambda - 1)$} \\
+\cmidrule{2-5}
+ &amp; \multicolumn{1}{c}{\ALL} &amp; \multicolumn{1}{c}{$k=2$} &amp; \multicolumn{1}{c}{$k=4$} &amp; \multicolumn{1}{c}{$k=8$} \\
+\midrule%
+\KaHyPar{MF} &amp; 7542.88 &amp; 1005.76 &amp; 2985.22 &amp; 5805.19 \\ 
+\KaHyPar{CA} &amp; 2.22 &amp;       1.71 &amp; 2.16 &amp; 2.51 \\ 
+\hMetis{R} &amp;      14.40 &amp;    22.25 &amp; 17.62 &amp; 15.63 \\ 
+\hMetis{K} &amp;      12.92 &amp;      21.82 &amp; 13.66 &amp; 12.76  \\ 
+\PaToH{Q} &amp;      11.48 &amp;   14.92 &amp; 12.60 &amp; 11.81\\ 
+\PaToH{D} &amp;      12.06 &amp;    8.54 &amp; 10.41 &amp; 13.64 \\ 
+\midrule%
+ &amp; \multicolumn{1}{c}{$k=16$} &amp; \multicolumn{1}{c}{$k=32$} &amp; \multicolumn{1}{c}{$k=64$} &amp; \multicolumn{1}{c}{$k = 128$}  \\
+\midrule%
+\KaHyPar{MF} &amp; 9097.31 &amp; 14352.34 &amp; 21537.33 &amp; 31312.48\\ 
+\KaHyPar{CA} &amp; 2.51 &amp; 2.45 &amp; 2.16 &amp; 2.05 \\ 
+\hMetis{R} &amp;     14.29 &amp; 11.94 &amp; 9.80 &amp; 8.01\\ 
+\hMetis{K} &amp;      13.49 &amp; 10.62 &amp; 9.18 &amp; 7.81 \\ 
+\PaToH{Q} &amp;     11.66 &amp; 10.66 &amp; 9.77 &amp; 8.63 \\ 
+\PaToH{D} &amp; 14.50 &amp; 12.70 &amp; 12.66 &amp; 11.89\\ 
+\end{tabular}</text>
+<text layer="pagenumbers_page" matrix="1 0 0 1 0.5 5.358" transformations="translations" pos="-13 -39" stroke="black" type="label" width="11.7208" height="7.5463" depth="0" halign="center" valign="top" size="verytiny">{\bf 44}</text>
+</page>
+<page title="Quality per $k$ - Full Benchmark Set">
+<layer name="alpha"/>
+<layer name="pagenumbers_page" edit="no"/>
+<view layers="alpha pagenumbers_page" active="alpha"/>
+<text layer="alpha" matrix="1 0 0 1 -32 64" transformations="translations" pos="0 352" stroke="black" type="minipage" width="800" height="207.86" depth="197.362" valign="top" size="small" style="center">\begin{tabular}{c|*{4}{r}}
+\multirow{2}{*}{Algorithm} &amp; \multicolumn{4}{c}{Avg. $(\lambda - 1)$} \\
+\cmidrule{2-5}
+ &amp; \multicolumn{1}{c}{\ALL} &amp; \multicolumn{1}{c}{$k=2$} &amp; \multicolumn{1}{c}{$k=4$} &amp; \multicolumn{1}{c}{$k=8$} \\
+\midrule%
+\KaHyPar{MF} &amp; 7782.51 &amp; 1057.93 &amp; 3130.20 &amp; 6032.58  \\ 
+\KaHyPar{CA} &amp; 2.44 &amp; 2.27 &amp; 2.57 &amp; 2.80  \\ 
+\hMetis{R} &amp; 13.61 &amp; 21.38 &amp; 15.92 &amp; 14.47  \\ 
+\hMetis{K} &amp; 13.23 &amp; 21.63 &amp; 15.15 &amp; 13.61 \\ 
+\PaToH{Q} &amp; 8.67 &amp; 10.51 &amp; 8.36 &amp; 8.35  \\ 
+\PaToH{D} &amp; 14.35 &amp; 13.26 &amp; 14.24 &amp; 16.07 \\ 
+\midrule%
+ &amp; \multicolumn{1}{c}{$k=16$} &amp; \multicolumn{1}{c}{$k=32$} &amp; \multicolumn{1}{c}{$k=64$} &amp; \multicolumn{1}{c}{$k = 128$}  \\
+\midrule%
+\KaHyPar{MF}&amp; 9362.55 &amp; 14693.96 &amp; 21893.59 &amp; 31706.57 \\ 
+\KaHyPar{CA} &amp; 2.68 &amp; 2.48 &amp; 2.24 &amp; 2.05 \\ 
+\hMetis{R} &amp; 13.63 &amp; 11.35 &amp; 9.63 &amp; 7.80 \\ 
+\hMetis{K} &amp; 13.49 &amp; 10.52 &amp; 9.30 &amp; 7.83  \\ 
+\PaToH{Q} &amp; 9.09 &amp; 8.54 &amp; 8.27 &amp; 7.48 \\ 
+\PaToH{D} &amp; 16.59 &amp; 13.87 &amp; 13.61 &amp; 12.66 \\ 
+\end{tabular}</text>
+<text layer="pagenumbers_page" matrix="1 0 0 1 0.5 5.358" transformations="translations" pos="-13 -39" stroke="black" type="label" width="11.7208" height="7.5578" depth="0.184" halign="center" valign="top" size="verytiny">{\bf 45}</text>
+</page>
+<page title="Running Time per $k$ - Full Benchmark Set">
+<layer name="alpha"/>
+<layer name="pagenumbers_page" edit="no"/>
+<view layers="alpha pagenumbers_page" active="alpha"/>
+<text layer="alpha" matrix="1 0 0 1 0 64" transformations="translations" pos="0 352" stroke="black" type="minipage" width="736" height="207.86" depth="197.362" valign="top" size="small" style="center">\begin{tabular}{c|*{4}{r}}
+\multirow{2}{*}{Algorithm} &amp; \multicolumn{4}{c}{Running Time $t[s]$} \\
+\cmidrule{2-5}
+ &amp; \multicolumn{1}{c}{\ALL} &amp; \multicolumn{1}{c}{$k=2$} &amp; \multicolumn{1}{c}{$k=4$} &amp; \multicolumn{1}{c}{$k=8$} \\
+\midrule%
+\KaHyPar{MF} &amp; 55.67 &amp; 19.75 &amp; 32.89 &amp; 47.52  \\ 
+\KaHyPar{CA} &amp; 31.05 &amp; 12.68 &amp; 17.16 &amp; 23.88 \\ 
+\hMetis{R} &amp;      79.23 &amp; 27.87 &amp; 51.59 &amp; 74.74 \\ 
+\hMetis{K} &amp;     57.86 &amp; 25.47 &amp; 32.27 &amp; 42.50 \\ 
+\PaToH{Q} &amp;      5.89 &amp; 1.93 &amp; 3.61 &amp; 5.44   \\ 
+\PaToH{D} &amp;      1.22 &amp; 0.43 &amp; 0.77 &amp; 1.12 \\ 
+\midrule%
+ &amp; \multicolumn{1}{c}{$k=16$} &amp; \multicolumn{1}{c}{$k=32$} &amp; \multicolumn{1}{c}{$k=64$} &amp; \multicolumn{1}{c}{$k=128$}  \\
+\midrule%
+\KaHyPar{MF} &amp; 60.38 &amp; 78.51 &amp; 100.34 &amp; 119.15 \\ 
+\KaHyPar{CA} &amp; 31.01 &amp; 41.69 &amp; 57.35 &amp; 76.61 \\ 
+\hMetis{R} &amp;     91.09 &amp; 109.13 &amp; 128.66 &amp; 149.34 \\ 
+\hMetis{K} &amp;    53.41 &amp; 74.00 &amp; 109.12 &amp; 152.92 \\ 
+\PaToH{Q} &amp;     7.01 &amp; 8.40 &amp; 10.06 &amp; 11.44 \\ 
+\PaToH{D} &amp;      1.42 &amp; 1.71 &amp; 2.02 &amp; 2.29 \\ 
+\end{tabular}</text>
+<text layer="pagenumbers_page" matrix="1 0 0 1 0.5 5.358" transformations="translations" pos="-13 -39" stroke="black" type="label" width="11.7208" height="7.5578" depth="0.184" halign="center" valign="top" size="verytiny">{\bf 46}</text>
 </page>
 </ipe>
