@@ -37,6 +37,8 @@ full_instance_stats <- read.csv("instances/full_benchmark_set.csv")
 
 kahypar_mf = ddply(dbGetQuery(dbConnect(SQLite(), dbname=paste("final_flow/db/kahypar_mf_",flow_algo,".db",sep="")),
                             select_soed), c("graph","k"), aggreg)
+kahypar_mf_multi = ddply(dbGetQuery(dbConnect(SQLite(), dbname=paste("final_flow/db/kahypar_mf_","multi",".db",sep="")),
+                              select_soed), c("graph","k"), aggreg)
 
 
 
@@ -44,6 +46,7 @@ kahypar_mf = ddply(dbGetQuery(dbConnect(SQLite(), dbname=paste("final_flow/db/ka
 #extract graph classes from graph names
 kahypar_ca$type <- as.factor(apply(kahypar_ca, 1, function(x) graphclass(x)))
 kahypar_mf$type <- as.factor(apply(kahypar_mf, 1, function(x) graphclass(x)))
+kahypar_mf_multi$type <- as.factor(apply(kahypar_mf_multi, 1, function(x) graphclass(x)))
 hmetis_r$type <- as.factor(apply(hmetis_r, 1, function(x) graphclass(x)))
 hmetis_k$type <- as.factor(apply(hmetis_k, 1, function(x) graphclass(x)))
 patoh_q$type <- as.factor(apply(patoh_q, 1, function(x) graphclass(x)))
@@ -51,6 +54,7 @@ patoh_d$type <- as.factor(apply(patoh_d, 1, function(x) graphclass(x)))
 
 # restrict benchmark set to all instances for which we currently have results
 semi_join_filter = semi_join(kahypar_ca, kahypar_mf, by=c('graph','k'))
+semi_join_filter = semi_join(semi_join_filter, kahypar_mf_multi, by=c('graph','k'))
 semi_join_filter = semi_join(semi_join_filter, hmetis_r, by=c('graph','k'))
 semi_join_filter = semi_join(semi_join_filter, hmetis_k, by=c('graph','k'))
 semi_join_filter = semi_join(semi_join_filter, patoh_q, by=c('graph','k'))
@@ -59,6 +63,7 @@ semi_join_filter = semi_join(semi_join_filter, patoh_d, by=c('graph','k'))
 # apply the semi_join_filter to all data frames
 kahypar_ca = semi_join(kahypar_ca, semi_join_filter, by=c('graph','k'))
 kahypar_mf = semi_join(kahypar_mf, semi_join_filter, by=c('graph','k'))
+kahypar_mf_multi = semi_join(kahypar_mf_multi, semi_join_filter, by=c('graph','k'))
 hmetis_r = semi_join(hmetis_r, semi_join_filter, by=c('graph','k'))
 hmetis_k = semi_join(hmetis_k, semi_join_filter, by=c('graph','k'))
 patoh_q = semi_join(patoh_q, semi_join_filter, by=c('graph','k'))
@@ -67,6 +72,7 @@ patoh_d = semi_join(patoh_d, semi_join_filter, by=c('graph','k'))
 # give each DF a name to identify the algorithm
 kahypar_ca$algorithm = "\\KaHyPar{CA}"
 kahypar_mf$algorithm = "\\KaHyPar{MF}"
+kahypar_mf_multi$algorithm = "\\KaHyPar{MF-M}"
 hmetis_r$algorithm = "\\hMetis{R}"
 hmetis_k$algorithm = "\\hMetis{K}"
 patoh_q$algorithm = "\\PaToH{Q}"
@@ -74,10 +80,19 @@ patoh_d$algorithm = "\\PaToH{D}"
 
 kahypar_ca = merge(kahypar_ca,full_instance_stats,by='graph')
 kahypar_mf = merge(kahypar_mf,full_instance_stats,by='graph')
+kahypar_mf_multi = merge(kahypar_mf_multi,full_instance_stats,by='graph')
 hmetis_r = merge(hmetis_r,full_instance_stats,by='graph')
 hmetis_k = merge(hmetis_k,full_instance_stats,by='graph')
 patoh_q = merge(patoh_q,full_instance_stats,by='graph')
 patoh_d = merge(patoh_d,full_instance_stats,by='graph')
+
+web_soc_kahypar_ca = kahypar_ca[grepl("*as-22july06*|*as-caida*|*astro-ph*|*HEP-th*|*Oregon-1*|*Reuters911*|*webbase-1M*|*ca-CondMat*|*soc-sign-epinions*|*PGPgiantcompo*|*NotreDame_www*|*NotreDame_actors*|*wb-edu*|*IMDB*|*p2p-Gnutella25*|*Stanford*|*cnr-2000*", kahypar_ca['graph']$graph),]
+web_soc_kahypar_mf = kahypar_mf[grepl("*as-22july06*|*as-caida*|*astro-ph*|*HEP-th*|*Oregon-1*|*Reuters911*|*webbase-1M*|*ca-CondMat*|*soc-sign-epinions*|*PGPgiantcompo*|*NotreDame_www*|*NotreDame_actors*|*wb-edu*|*IMDB*|*p2p-Gnutella25*|*Stanford*|*cnr-2000*", kahypar_mf['graph']$graph),]
+web_soc_kahypar_mf_multi = kahypar_mf_multi[grepl("*as-22july06*|*as-caida*|*astro-ph*|*HEP-th*|*Oregon-1*|*Reuters911*|*webbase-1M*|*ca-CondMat*|*soc-sign-epinions*|*PGPgiantcompo*|*NotreDame_www*|*NotreDame_actors*|*wb-edu*|*IMDB*|*p2p-Gnutella25*|*Stanford*|*cnr-2000*", kahypar_mf_multi['graph']$graph),]
+web_soc_hmetis_r = hmetis_r[grepl("*as-22july06*|*as-caida*|*astro-ph*|*HEP-th*|*Oregon-1*|*Reuters911*|*webbase-1M*|*ca-CondMat*|*soc-sign-epinions*|*PGPgiantcompo*|*NotreDame_www*|*NotreDame_actors*|*wb-edu*|*IMDB*|*p2p-Gnutella25*|*Stanford*|*cnr-2000*", hmetis_r['graph']$graph),]
+web_soc_hmetis_k = hmetis_k[grepl("*as-22july06*|*as-caida*|*astro-ph*|*HEP-th*|*Oregon-1*|*Reuters911*|*webbase-1M*|*ca-CondMat*|*soc-sign-epinions*|*PGPgiantcompo*|*NotreDame_www*|*NotreDame_actors*|*wb-edu*|*IMDB*|*p2p-Gnutella25*|*Stanford*|*cnr-2000*", hmetis_k['graph']$graph),]
+web_soc_patoh_q = patoh_q[grepl("*as-22july06*|*as-caida*|*astro-ph*|*HEP-th*|*Oregon-1*|*Reuters911*|*webbase-1M*|*ca-CondMat*|*soc-sign-epinions*|*PGPgiantcompo*|*NotreDame_www*|*NotreDame_actors*|*wb-edu*|*IMDB*|*p2p-Gnutella25*|*Stanford*|*cnr-2000*", patoh_q['graph']$graph),]
+web_soc_patoh_d = patoh_d[grepl("*as-22july06*|*as-caida*|*astro-ph*|*HEP-th*|*Oregon-1*|*Reuters911*|*webbase-1M*|*ca-CondMat*|*soc-sign-epinions*|*PGPgiantcompo*|*NotreDame_www*|*NotreDame_actors*|*wb-edu*|*IMDB*|*p2p-Gnutella25*|*Stanford*|*cnr-2000*", patoh_d['graph']$graph),]
 
 
 get_legend_as_seperate_plot <- function(plot) {
@@ -90,6 +105,7 @@ get_legend_as_seperate_plot <- function(plot) {
 format <- function(x) {
   return(formatC(x, digits=2, format='f'))
 }
+
 
 ####################### Performance Plots for instance types ####################### 
 instance_classes <- c("*","DAC","ISPD","Primal","Dual","Literal","SPM")
@@ -110,6 +126,7 @@ for(type in instance_classes) {
                                             UsePenalty = TRUE,
                                             kahypar = kahypar_ca,
                                             kahypar_mf = kahypar_mf,
+                                            kahypar_mf_multi = kahypar_mf_multi,
                                             hmetis_r = hmetis_r,
                                             hmetis_k = hmetis_k,
                                             patoh_q = patoh_q,
@@ -130,15 +147,16 @@ filter <- "*"
 plot <- cuberootplot(createRatioDFsFilter(filter = filter,
                                           avg_obj = "avg_km1", min_obj = "min_km1",
                                           UsePenalty = TRUE,
-                                          kahypar = kahypar_ca,
-                                          kahypar_mf = kahypar_mf,
-                                          hmetis_r = hmetis_r,
-                                          hmetis_k = hmetis_k,
-                                          patoh_q = patoh_q,
-                                          patoh_d = patoh_d)$min_ratios, 
+                                          kahypar = kahypar_mf,
+                                          #kahypar_mf = kahypar_mf,
+                                          kahypar_mf_multi = kahypar_mf_multi)$min_ratios, 
+                                          #hmetis_r = hmetis_r,
+                                          #hmetis_k = hmetis_k,
+                                          #patoh_q = patoh_q,
+                                          #patoh_d = patoh_d)$min_ratios, 
                      "", 
                      xbreaks=c(1,10,25,50,100,250,500,750,1000,1500,2000,2500,3000,3500),
-                     showLegend = FALSE,
+                     showLegend = T,
                      sizes=c(10,10,12,5,2.5))
 print(plot)
 
@@ -208,7 +226,13 @@ dev.off()
 
 ####################### Running Time per Instance Type ####################### 
 
+kahypar_ca <- kahypar_ca[c("graph", "type", "k", "min_km1", "avg_km1", "avg_imbalance", "avg_time", "algorithm")]
 kahypar_mf <- kahypar_mf[c("graph", "type", "k", "min_km1", "avg_km1", "avg_imbalance", "avg_time", "algorithm")]
+kahypar_mf_multi <- kahypar_mf_multi[c("graph", "type", "k", "min_km1", "avg_km1", "avg_imbalance", "avg_time", "algorithm")]
+hmetis_r <- hmetis_r[c("graph", "type", "k", "min_km1", "avg_km1", "avg_imbalance", "avg_time", "algorithm")]
+hmetis_k <- hmetis_k[c("graph", "type", "k", "min_km1", "avg_km1", "avg_imbalance", "avg_time", "algorithm")]
+patoh_q <- patoh_q[c("graph", "type", "k", "min_km1", "avg_km1", "avg_imbalance", "avg_time", "algorithm")]
+patoh_d <- patoh_d[c("graph", "type", "k", "min_km1", "avg_km1", "avg_imbalance", "avg_time", "algorithm")]
 
 to_latex_math_mode <- function(x) {
   return(paste("$",x,"$", sep=""))
@@ -216,7 +240,7 @@ to_latex_math_mode <- function(x) {
 
 calculateGmeanRunningTime <- function(..., type="ALL") {
   df <- rbind(...)
-  df$algorithm <- factor(df$algorithm, levels = levels(factor(df$algorithm))[c(4,3,2,1,6,5)])
+  df$algorithm <- factor(df$algorithm, levels = levels(factor(df$algorithm))[c(4,5,3,2,1,6,7)])
   if(type != "ALL") {
     df <- df[df$type == type,]
   }
@@ -225,9 +249,9 @@ calculateGmeanRunningTime <- function(..., type="ALL") {
 }
 
 instance_classes <- c("DAC","ISPD","Primal","Literal","Dual","SPM")
-running_time <- calculateGmeanRunningTime(kahypar_mf, kahypar_ca, hmetis_r, hmetis_k, patoh_q, patoh_d, type="ALL")
+running_time <- calculateGmeanRunningTime(kahypar_mf, kahypar_mf_multi, kahypar_ca, hmetis_r, hmetis_k, patoh_q, patoh_d, type="ALL")
 for(type in instance_classes) {
-  running_time <- cbind(running_time, calculateGmeanRunningTime(kahypar_mf, kahypar_ca, hmetis_r, hmetis_k, patoh_q, patoh_d, type=type)["time"])
+  running_time <- cbind(running_time, calculateGmeanRunningTime(kahypar_mf, kahypar_mf_multi, kahypar_ca, hmetis_r, hmetis_k, patoh_q, patoh_d, type=type)["time"])
 }
 
 table_file <- output_file(paper,experiment,"final_flow_running_time",modeling,flow_algo)
@@ -246,16 +270,16 @@ kahypar_mf <- kahypar_mf[c("graph", "type", "k", "min_km1", "avg_km1", "avg_imba
 
 calculateGmeanRunningTimePerK <- function(..., k) {
   df <- rbind(...)
-  df$algorithm <- factor(df$algorithm, levels = levels(factor(df$algorithm))[c(4,3,2,1,6,5)])
+  df$algorithm <- factor(df$algorithm, levels = levels(factor(df$algorithm))[c(4,5,3,2,1,6,7)])
   df <- df[df$k == k,]
   aggreg = function(df) data.frame(time=format(gm_mean(df$avg_time)))
   df <- ddply(df, c("algorithm"), aggreg)
 }
 
 K <- c(4,8,16,32,64,128)
-running_time <- calculateGmeanRunningTimePerK(kahypar_mf, kahypar_ca, hmetis_r, hmetis_k, patoh_q, patoh_d, k=2)
+running_time <- calculateGmeanRunningTimePerK(kahypar_mf, kahypar_mf_multi, kahypar_ca, hmetis_r, hmetis_k, patoh_q, patoh_d, k=2)
 for(k in K) {
-  running_time <- cbind(running_time, calculateGmeanRunningTimePerK(kahypar_mf, kahypar_ca, hmetis_r, hmetis_k, patoh_q, patoh_d, k=k)["time"])
+  running_time <- cbind(running_time, calculateGmeanRunningTimePerK(kahypar_mf, kahypar_mf_multi, kahypar_ca, hmetis_r, hmetis_k, patoh_q, patoh_d, k=k)["time"])
 }
 
 table_file <- output_file(paper,experiment,"final_flow_running_time_per_k",modeling,flow_algo)
@@ -271,25 +295,31 @@ sink()
 ####################### Gmean Km1 per Instance Type ####################### 
 
 kahypar_mf <- kahypar_mf[c("graph", "type", "k", "min_km1", "avg_km1", "avg_imbalance", "avg_time", "algorithm")]
+kahypar_ca <- kahypar_ca[c("graph", "type", "k", "min_km1", "avg_km1", "avg_imbalance", "avg_time", "algorithm")]
+hmetis_r <- hmetis_r[c("graph", "type", "k", "min_km1", "avg_km1", "avg_imbalance", "avg_time", "algorithm")]
+hmetis_k <- hmetis_k[c("graph", "type", "k", "min_km1", "avg_km1", "avg_imbalance", "avg_time", "algorithm")]
+patoh_q <- patoh_q[c("graph", "type", "k", "min_km1", "avg_km1", "avg_imbalance", "avg_time", "algorithm")]
+patoh_d <- patoh_d[c("graph", "type", "k", "min_km1", "avg_km1", "avg_imbalance", "avg_time", "algorithm")]
 
 calculateGmeanAvgKm1 <- function(..., type="ALL") {
   df <- rbind(...)
-  df$algorithm <- factor(df$algorithm, levels = levels(factor(df$algorithm))[c(4,3,2,1,6,5)])
+  df$algorithm <- factor(df$algorithm, levels = levels(factor(df$algorithm))[c(4,5,3,2,1,6,7)])
   if(type != "ALL") {
     df <- df[df$type == type,]
   }
   aggreg = function(df) data.frame(km1=gm_mean(df$avg_km1))
   df <- ddply(df, c("algorithm"), aggreg)
-  df$km1[2:6] <- format((df$km1[2:6]/df$km1[1] - 1.0)*100.0)
+  df$km1[2:7] <- format((1.0 - df$km1[1]/df$km1[2:7])*100.0)
   df$km1[1] <- format(as.numeric(df$km1[1]))
   return(df)
 }
 
 instance_classes <- c("DAC","ISPD","Primal","Literal","Dual","SPM")
-km1_table <- calculateGmeanAvgKm1(kahypar_mf, kahypar_ca, hmetis_r, hmetis_k, patoh_q, patoh_d, type="ALL")
+km1_table <- calculateGmeanAvgKm1(kahypar_mf, kahypar_mf_multi,  kahypar_ca, hmetis_r, hmetis_k, patoh_q, patoh_d, type="ALL")
 for(type in instance_classes) {
-  km1_table <- cbind(km1_table, calculateGmeanAvgKm1(kahypar_mf, kahypar_ca, hmetis_r, hmetis_k, patoh_q, patoh_d, type=type)["km1"])
+  km1_table <- cbind(km1_table, calculateGmeanAvgKm1(kahypar_mf, kahypar_mf_multi, kahypar_ca, hmetis_r, hmetis_k, patoh_q, patoh_d, type=type)["km1"])
 }
+km1_table <- cbind(km1_table, calculateGmeanAvgKm1(web_soc_kahypar_mf, web_soc_kahypar_ca, web_soc_hmetis_r, web_soc_hmetis_k, web_soc_patoh_q, web_soc_patoh_d, type="ALL")["km1"])
 
 km1_table$algorithm <- as.character(km1_table$algorithm)
 partitioner <- c("\\KaHyPar{MF}","\\KaHyPar{CA}","\\hMetis{R}","\\hMetis{K}","\\PaToH{Q}","\\PaToH{D}")
@@ -307,6 +337,11 @@ sink()
 ####################### Gmean Km1 per k ####################### 
 
 kahypar_mf <- kahypar_mf[c("graph", "type", "k", "min_km1", "avg_km1", "avg_imbalance", "avg_time", "algorithm")]
+kahypar_ca <- kahypar_ca[c("graph", "type", "k", "min_km1", "avg_km1", "avg_imbalance", "avg_time", "algorithm")]
+hmetis_r <- hmetis_r[c("graph", "type", "k", "min_km1", "avg_km1", "avg_imbalance", "avg_time", "algorithm")]
+hmetis_k <- hmetis_k[c("graph", "type", "k", "min_km1", "avg_km1", "avg_imbalance", "avg_time", "algorithm")]
+patoh_q <- patoh_q[c("graph", "type", "k", "min_km1", "avg_km1", "avg_imbalance", "avg_time", "algorithm")]
+patoh_d <- patoh_d[c("graph", "type", "k", "min_km1", "avg_km1", "avg_imbalance", "avg_time", "algorithm")]
 
 calculateGmeanAvgKm1PerK <- function(..., k) {
   df <- rbind(...)
@@ -314,7 +349,7 @@ calculateGmeanAvgKm1PerK <- function(..., k) {
   df <- df[df$k == k,]
   aggreg = function(df) data.frame(km1=gm_mean(df$avg_km1))
   df <- ddply(df, c("algorithm"), aggreg)
-  df$km1[2:6] <- format((df$km1[2:6]/df$km1[1] - 1.0)*100.0)
+  df$km1[2:6] <- format((1.0 - df$km1[1]/df$km1[2:6])*100.0)
   df$km1[1] <- format(as.numeric(df$km1[1]))
   return(df)
 }
@@ -355,7 +390,7 @@ calculateGmeanMinKm1 <- function(..., type="ALL") {
   }
   aggreg = function(df) data.frame(km1=gm_mean(df$min_km1))
   df <- ddply(df, c("algorithm"), aggreg)
-  df$km1[2:6] <- format((df$km1[2:6]/df$km1[1] - 1.0)*100.0)
+  df$km1[2:6] <- format((1.0 - df$km1[1]/df$km1[2:6])*100.0)
   df$km1[1] <- format(as.numeric(df$km1[1]))
   return(df)
 }
@@ -365,6 +400,7 @@ km1_table <- calculateGmeanMinKm1(kahypar_mf, kahypar_ca, hmetis_r, hmetis_k, pa
 for(type in instance_classes) {
   km1_table <- cbind(km1_table, calculateGmeanMinKm1(kahypar_mf, kahypar_ca, hmetis_r, hmetis_k, patoh_q, patoh_d, type=type)["km1"])
 }
+km1_table <- cbind(km1_table, calculateGmeanMinKm1(web_soc_kahypar_mf, web_soc_kahypar_ca, web_soc_hmetis_r, web_soc_hmetis_k, web_soc_patoh_q, web_soc_patoh_d, type="ALL")["km1"])
 
 km1_table$algorithm <- as.character(km1_table$algorithm)
 partitioner <- c("\\KaHyPar{MF}","\\KaHyPar{CA}","\\hMetis{R}","\\hMetis{K}","\\PaToH{Q}","\\PaToH{D}")
@@ -379,9 +415,14 @@ for( algo in partitioner) {
 }
 sink()
 
-####################### Gmean Km1 per k ####################### 
+####################### Min Gmean Km1 per k ####################### 
 
 kahypar_mf <- kahypar_mf[c("graph", "type", "k", "min_km1", "avg_km1", "avg_imbalance", "avg_time", "algorithm")]
+kahypar_ca <- kahypar_ca[c("graph", "type", "k", "min_km1", "avg_km1", "avg_imbalance", "avg_time", "algorithm")]
+hmetis_r <- hmetis_r[c("graph", "type", "k", "min_km1", "avg_km1", "avg_imbalance", "avg_time", "algorithm")]
+hmetis_k <- hmetis_k[c("graph", "type", "k", "min_km1", "avg_km1", "avg_imbalance", "avg_time", "algorithm")]
+patoh_q <- patoh_q[c("graph", "type", "k", "min_km1", "avg_km1", "avg_imbalance", "avg_time", "algorithm")]
+patoh_d <- patoh_d[c("graph", "type", "k", "min_km1", "avg_km1", "avg_imbalance", "avg_time", "algorithm")]
 
 calculateGmeanMinKm1PerK <- function(..., k) {
   df <- rbind(...)
@@ -389,7 +430,7 @@ calculateGmeanMinKm1PerK <- function(..., k) {
   df <- df[df$k == k,]
   aggreg = function(df) data.frame(km1=gm_mean(df$min_km1))
   df <- ddply(df, c("algorithm"), aggreg)
-  df$km1[2:6] <- format((df$km1[2:6]/df$km1[1] - 1.0)*100.0)
+  df$km1[2:6] <- format((1.0 - df$km1[1]/df$km1[2:6])*100.0)
   df$km1[1] <- format(as.numeric(df$km1[1]))
   return(df)
 }
